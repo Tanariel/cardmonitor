@@ -23,4 +23,20 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('api', 'Apis\ApiController');
 
+    Route::resource('item', 'Items\ItemController');
+
+    Route::resource('transaction', 'Items\Transactions\TransactionController')->except([
+        'index',
+        'store',
+    ]);
+    Route::get('item/{item}/transaction', 'Items\Transactions\TransactionController@index')->name('transaction.index');
+    Route::post('item/{item}/transaction', 'Items\Transactions\TransactionController@store')->name('transaction.store');
+
+    Route::resource('quantity', 'Items\QuantityController')->except([
+        'index',
+        'store',
+    ]);
+    Route::get('item/{item}/quantity', 'Items\QuantityController@index')->name('quantity.index');
+    Route::post('item/{item}/quantity', 'Items\QuantityController@store')->name('quantity.store');
+
 });

@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Models\Apis\Api;
+use App\Models\Items\Item;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -42,6 +43,11 @@ class User extends Authenticatable
 
     public function apis() : HasMany
     {
-        return $this->hasMAny(Api::class);
+        return $this->hasMany(Api::class);
+    }
+
+    public function items() : HasMany
+    {
+        return $this->hasMany(Item::class);
     }
 }

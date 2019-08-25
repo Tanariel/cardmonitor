@@ -110,9 +110,7 @@ abstract class TestCase extends BaseTestCase
     {
         $this->signIn();
 
-        $response = $this->json('get', route($this->baseRouteName . '.index', $parameters), [
-            'perPage' => 25,
-        ]);
+        $response = $this->json('get', route($this->baseRouteName . '.index', $parameters), []);
 
         $response->assertStatus(Response::HTTP_OK)
             ->assertJsonStructure([
@@ -144,5 +142,12 @@ abstract class TestCase extends BaseTestCase
         ]);
 
         return $response;
+    }
+
+    protected function createModel() : Model
+    {
+        return factory($this->className)->create([
+            'user_id' => $this->user->id,
+        ])->fresh();
     }
 }

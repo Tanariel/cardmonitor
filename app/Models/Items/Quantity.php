@@ -1,0 +1,76 @@
+<?php
+
+namespace App\Models\Items;
+
+use App\Models\Items\Card;
+use App\Models\Items\Transactions\Sale;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
+
+class Quantity extends Model
+{
+    const DECIMALS = 6;
+
+    protected $guarded = [
+        'id',
+    ];
+
+    protected $casts = [
+        'quantity' => 'decimal:' . self::DECIMALS,
+        'start' => 'decimal:' . self::DECIMALS,
+        'end' => 'decimal:' . self::DECIMALS,
+    ];
+
+    protected $dates = [
+        'effective_from',
+    ];
+
+    /**
+     * The booting method of the model.
+     *
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function($model)
+        {
+            if (! $model->user_id) {
+                $model->user_id = auth()->user()->id;
+            }
+
+            return true;
+        });
+    }
+
+    public function isDeletable()
+    {
+        return true;
+    }
+
+    public function setEffectiveFromFormattedAttribute($value)
+    {
+        $this->attributes['effective_from'] = Carbon::createFromFormat('d.m.Y H:i', $value);
+        Arr::forget($this->attributes, 'effectiv_from_formatted');
+    }
+
+    public function setQuantityFormattedAttribute($value)
+    {
+        $this->attributes['quantity'] = number_format(str_replace(',', '.', $value), self::DECIMALS, '.', '');
+        Arr::forget($this->attributes, 'quantity_formatted');
+    }
+
+    public function setStartFormattedAttribute($value)
+    {
+        $this->attributes['start'] = number_format(str_replace(',', '.', $value), self::DECIMALS, '.', '');
+        Arr::forget($this->attributes, 'start_formatted');
+    }
+
+    public function setEndFormattedAttribute($value)
+    {
+        $this->attributes['end'] = is_null($value) ? null : number_format(str_replace(',', '.', $value), self::DECIMALS, '.', '');
+        Arr::forget($this->attributes, 'end_formatted');
+    }
+}

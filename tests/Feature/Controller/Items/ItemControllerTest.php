@@ -1,20 +1,19 @@
 <?php
 
-namespace Tests\Feature\Controller\Apis;
+namespace Tests\Feature\Controller\Items;
 
-use App\Models\Apis\Api;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Items\Custom;
+use App\Models\Items\Item;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
-use Illuminate\Support\Str;
 use Tests\TestCase;
 
-class ApiControllerTest extends TestCase
+class ItemControllerTest extends TestCase
 {
-    protected $baseRouteName = 'api';
-    protected $baseViewPath = 'api';
-    protected $className = Api::class;
+    protected $baseRouteName = 'item';
+    protected $baseViewPath = 'item';
+    protected $className = Item::class;
 
     /**
      * @test
@@ -26,10 +25,10 @@ class ApiControllerTest extends TestCase
         $actions = [
             'index' => [],
             'store' => [],
-            'show' => ['api' => $id],
-            'edit' => ['api' => $id],
-            'update' => ['api' => $id],
-            'destroy' => ['api' => $id],
+            'show' => ['item' => $id],
+            'edit' => ['item' => $id],
+            'update' => ['item' => $id],
+            'destroy' => ['item' => $id],
         ];
         $this->guestsCanNotAccess($actions);
     }
@@ -46,15 +45,26 @@ class ApiControllerTest extends TestCase
     /**
      * @test
      */
+    public function a_user_can_get_a_collection_of_models()
+    {
+        $models = factory($this->className, 3)->create([
+            'user_id' => $this->user->id,
+        ]);
+
+        $this->getCollection();
+    }
+
+    /**
+     * @test
+     */
     public function a_user_can_create_a_model()
     {
+        $this->withoutExceptionHandling();
+
         $this->signIn();
 
         $data = [
-            'app_token' => Str::random(),
-            'app_secret' => Str::random(),
-            'access_token' => Str::random(),
-            'access_token_secret' => Str::random(),
+            'name' => 'New Model',
         ];
 
         $this->post(route($this->baseRouteName . '.store'), $data)
@@ -62,8 +72,8 @@ class ApiControllerTest extends TestCase
 
         $this->assertDatabaseHas((new $this->className)->getTable(), [
             'user_id' => $this->user->id,
-            'accessdata' => json_encode($data),
-        ]);
+            'type' => Custom::class,
+        ] + $data);
     }
 
     /**
@@ -75,7 +85,9 @@ class ApiControllerTest extends TestCase
 
         $model = $this->createModel();
 
-        $this->getShowViewResponse(['api' => $model->id]);
+        $this->getShowViewResponse(['item' => $model->id])
+            ->assertViewIs($this->baseViewPath . '.show')
+            ->assertViewHas('model');
     }
 
     /**
@@ -85,7 +97,7 @@ class ApiControllerTest extends TestCase
     {
         $model = $this->createModel();
 
-        $this->getEditViewResponse(['api' => $model->id])
+        $this->getEditViewResponse(['item' => $model->id])
             ->assertViewIs($this->baseViewPath . '.edit')
             ->assertViewHas('model');
     }
@@ -102,20 +114,16 @@ class ApiControllerTest extends TestCase
         $this->signIn($this->user);
 
         $data = [
-            'app_token' => Str::random(),
-            'app_secret' => Str::random(),
-            'access_token' => Str::random(),
-            'access_token_secret' => Str::random(),
+            'name' => 'Updated Model',
         ];
 
-        $response = $this->put(route($this->baseRouteName . '.update', ['api' => $model->id]), $data)
+        $response = $this->put(route($this->baseRouteName . '.update', ['item' => $model->id]), $data)
             ->assertStatus(Response::HTTP_OK)
             ->assertSessionHasNoErrors();
 
         $this->assertDatabaseHas($model->getTable(), [
             'id' => $model->id,
-            'accessdata' => json_encode($data),
-        ]);
+        ] + $data);
     }
 
     /**
@@ -125,7 +133,28 @@ class ApiControllerTest extends TestCase
     {
         $model = $this->createModel();
 
-        $this->deleteModel($model, ['api' => $model->id])
+        $this->deleteModel($model, ['item' => $model->id])
             ->assertRedirect();
+    }
+
+    /**
+     * @test
+     */
+    public function a_user_can_not_delete_special_models()
+    {
+        $table = 'items';
+        Item::setup($this->user);
+
+        $this->signIn();
+
+        foreach ($this->user->items as $key => $model) {
+            $this->assertFalse($model->isDeletable());
+            $response = $this->delete(route($this->baseRouteName . '.destroy', ['item' => $model->id]))
+                ->assertStatus(Response::HTTP_FOUND);
+
+            $this->assertDatabaseHas($table, [
+                'id' => $model->id
+            ]);
+        }
     }
 }
