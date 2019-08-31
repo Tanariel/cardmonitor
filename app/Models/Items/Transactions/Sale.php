@@ -9,4 +9,6 @@ use Tightenco\Parental\HasChildren;
 class Sale extends Transaction
 {
     use HasChildren;
+
+    protected $table = 'transactions';
 }

@@ -18,6 +18,7 @@ class CreateTransactionsTable extends Migration
             $table->string('type');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('item_id');
+            $table->unsignedBigInteger('order_id')->nullable();
             $table->decimal('quantity', 15, 6)->default(0);
             $table->decimal('unit_cost', 15, 6)->default(0);
             $table->dateTime('at');
@@ -25,6 +26,7 @@ class CreateTransactionsTable extends Migration
 
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('item_id')->references('id')->on('items');
+            $table->foreign('order_id')->references('id')->on('orders');
         });
     }
 

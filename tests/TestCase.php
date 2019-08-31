@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use App\Models\Localizations\Language;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -20,6 +21,10 @@ abstract class TestCase extends BaseTestCase
         parent::setUp();
 
         $this->user = factory(User::class)->create();
+        $this->defaultLanguage = factory(Language::class)->create([
+            'id' => Language::DEFAULT_ID,
+            'name' => Language::DEFAULT_NAME,
+        ]);
     }
 
     public function signIn(User $user = null)

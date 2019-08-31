@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\App;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,6 +14,10 @@
 */
 
 Route::get('/', function () {
+
+    $api = App::make('CardmarketApi');
+    dd($api->account->get());
+
     return view('welcome');
 });
 
@@ -22,6 +28,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::middleware(['auth'])->group(function () {
 
     Route::resource('api', 'Apis\ApiController');
+
+    Route::resource('article', 'Articles\ArticleController');
 
     Route::resource('item', 'Items\ItemController');
 

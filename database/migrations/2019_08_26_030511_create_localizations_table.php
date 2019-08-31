@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateItemsTable extends Migration
+class CreateLocalizationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,16 @@ class CreateItemsTable extends Migration
      */
     public function up()
     {
-        Schema::create('items', function (Blueprint $table) {
+        Schema::create('localizations', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('type');
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('unit_id');
+            $table->unsignedTinyInteger('language_id');
+
+            $table->morphs('localizationable');
+
             $table->string('name');
-            $table->decimal('unit_cost', 15, 6)->default(0);
-            $table->decimal('stock', 15, 6)->default(0);
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('language_id')->references('id')->on('languages');
         });
     }
 
@@ -34,6 +33,6 @@ class CreateItemsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('items');
+        Schema::dropIfExists('localizations');
     }
 }

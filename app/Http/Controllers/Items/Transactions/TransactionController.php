@@ -86,8 +86,8 @@ class TransactionController extends Controller
     {
         $transaction->update($request->validate([
             'at_formatted' => 'required|date_format:"d.m.Y H:i"',
-            'quantity_formatted' => ' required|formated_number',
-            'unit_cost_formatted' => ' required|formated_number',
+            'quantity_formatted' => 'required|formated_number',
+            'unit_cost_formatted' => 'required|formated_number',
         ]));
 
         return $transaction;

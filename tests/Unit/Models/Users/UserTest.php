@@ -3,6 +3,7 @@
 namespace Tests\Unit\Models\Users;
 
 use App\Models\Apis\Api;
+use App\Models\Articles\Article;
 use App\Models\Items\Item;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -38,5 +39,18 @@ class UserTest extends TestCase
         ]);
 
         $this->assertHasMany($model, $related, 'items');
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_many_articles()
+    {
+        $model = factory(User::class)->create();
+        $related = factory(Article::class)->create([
+            'user_id' => $model->id,
+        ]);
+
+        $this->assertHasMany($model, $related, 'articles');
     }
 }

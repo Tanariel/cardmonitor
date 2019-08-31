@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateItemsTable extends Migration
+class CreateExpansionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,15 @@ class CreateItemsTable extends Migration
      */
     public function up()
     {
-        Schema::create('items', function (Blueprint $table) {
+        Schema::create('expansions', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('type');
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('unit_id');
+            $table->unsignedBigInteger('cardmarket_expansion_id');
             $table->string('name');
-            $table->decimal('unit_cost', 15, 6)->default(0);
-            $table->decimal('stock', 15, 6)->default(0);
+            $table->string('abbreviation');
+            $table->unsignedInteger('icon');
+            $table->date('released_at')->nullable();
+            $table->boolean('is_released')->default(false);
             $table->timestamps();
-
-            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
@@ -34,6 +32,6 @@ class CreateItemsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('items');
+        Schema::dropIfExists('expansions');
     }
 }

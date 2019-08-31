@@ -5,6 +5,9 @@ namespace App\Models\Items;
 use App\Models\Items\Card;
 use App\Models\Items\Quantity;
 use App\Models\Items\Transactions\Transaction;
+use App\Models\Orders\Order;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Tightenco\Parental\HasChildren;
@@ -45,9 +48,32 @@ class Item extends Model
         return false;
     }
 
-    public function quantity($order) : float
+    public function quantity(Order $order) : float
     {
-        return 1;
+        return $this->quantities()
+            ->where(function (Builder $query) use ($order) {
+                return $query->whereRaw('? BETWEEN start AND end', [$order->cards_count])
+                    ->orWhere(function (Builder $query) use ($order) {
+                        return $query->whereNull('end')
+                            ->where('start', '<=', $order->cards_count);
+                    });
+            })
+        ->orderBy('start', 'DESC')
+        ->first()->quantity ?? 0;
+    }
+
+    public function addQuantities(array $quantities, Carbon $effective_from = null)
+    {
+        $effective_from = $effective_from ?? new Carbon('1970-01-01 00:00:00', 'UTC');
+        foreach ($quantities as $quantity => $steps) {
+            $this->quantities()->create([
+                'effective_from' => $effective_from,
+                'end' => $steps['end'],
+                'quantity' => $quantity,
+                'start' => $steps['start'],
+                'user_id' => $this->user_id,
+            ]);
+        }
     }
 
     public function transactions() : HasMany
