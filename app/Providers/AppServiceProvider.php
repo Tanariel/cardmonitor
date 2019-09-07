@@ -15,15 +15,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('CardmarketApi', function ($app) {
-            $access = [
-                'app_token' => 'Z03Nl7LJhatTiahP',
-                'app_secret' => '9fGXiRe2xwTjFhsNBF2skO7SaxosBgHq',
-                'access_token' => 'TSHjoKXWUPv2jRlv6zEtpGY0uc9Kq8BA',
-                'access_token_secret' => 'BlHQiYHmdL6v4cuGSMlwsvqv1XCrGtA6',
-            ];
-
-            return new Api($access, Api::URL_SANDBOX);
+        $this->app->bind('CardmarketApi', function ($app, array $parameters) {
+            return new Api($parameters['api']->accessdata);
         });
     }
 

@@ -16,4 +16,21 @@ class Language extends Model
         'name',
     ];
 
+    public static function setup()
+    {
+        $languages = [
+            1 => 'English',
+            2 => 'French',
+            3 => 'German',
+            4 => 'Spanish',
+            5 => 'Italian',
+        ];
+        foreach ($languages as $id => $name) {
+            $language = self::create([
+                'id' => $id,
+                'name' => $name,
+            ]);
+        }
+    }
+
 }

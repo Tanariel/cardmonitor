@@ -19,7 +19,8 @@ window.Vue = require('vue');
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('item-table', require('./components/item/table.vue').default);
+Vue.component('item-quantity-table', require('./components/item/quantity/table.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -29,4 +30,16 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 
 const app = new Vue({
     el: '#app',
+});
+
+$('#menu-toggle').click(function() {
+    $('#nav, #content-container').toggleClass('active');
+    $('.collapse.in').toggleClass('in');
+    $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+});
+
+$('.collapse', 'nav#nav').on('show.bs.collapse', function(){
+    $('a[data-target="#' + $(this).attr('id') +'"] i.fas', 'nav#nav').toggleClass("fa-caret-right fa-caret-down");
+}).on('hide.bs.collapse', function(){
+    $('a[data-target="#' + $(this).attr('id') +'"] i.fas', 'nav#nav').toggleClass("fa-caret-down fa-caret-right");
 });

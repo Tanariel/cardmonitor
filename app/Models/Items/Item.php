@@ -16,6 +16,10 @@ class Item extends Model
 {
     use HasChildren;
 
+    protected $appends = [
+        'path',
+    ];
+
     protected $guarded = [
         'id',
     ];
@@ -41,6 +45,18 @@ class Item extends Model
 
             return true;
         });
+
+        static::deleting(function($model)
+        {
+            $model->quantities()->delete();
+
+            return true;
+        });
+    }
+
+    public function getPathAttribute()
+    {
+        return '/item/' . $this->id;
     }
 
     public function isDeletable() : bool
@@ -52,10 +68,10 @@ class Item extends Model
     {
         return $this->quantities()
             ->where(function (Builder $query) use ($order) {
-                return $query->whereRaw('? BETWEEN start AND end', [$order->cards_count])
+                return $query->whereRaw('? BETWEEN start AND end', [$order->articles_count])
                     ->orWhere(function (Builder $query) use ($order) {
                         return $query->whereNull('end')
-                            ->where('start', '<=', $order->cards_count);
+                            ->where('start', '<=', $order->articles_count);
                     });
             })
         ->orderBy('start', 'DESC')
@@ -86,16 +102,31 @@ class Item extends Model
         return $this->hasMany(Quantity::class);
     }
 
+    public function scopeSearch($query, $searchtext)
+    {
+        if ($searchtext == '') {
+            return $query;
+        }
+
+        return $query->where('name', 'LIKE', '%' . $searchtext . '%');
+    }
+
     public static function setup(Model $user)
     {
-        $user->items()->create([
-            'type' => Card::class,
-            'name' => 'Karte',
-        ]);
-
-        $user->items()->create([
-            'type' => Mailing::class,
-            'name' => 'Versandkosten',
-        ]);
+        $cards = [
+            'Land' => 0.02,
+            'Common' => 0.02,
+            'Uncommon' => 0.1,
+            'Rare' => 0.5,
+            'Mystic' => 1,
+            'Special' => 0.02,
+        ];
+        foreach ($cards as $rarity => $unit_cost) {
+            Card::create([
+                'name' => $rarity,
+                'unit_cost' => $unit_cost,
+                'user_id' => $user->id,
+            ]);
+        }
     }
 }

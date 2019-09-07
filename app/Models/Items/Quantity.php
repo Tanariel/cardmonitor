@@ -12,14 +12,21 @@ class Quantity extends Model
 {
     const DECIMALS = 6;
 
+    protected $appends = [
+        'effective_from_formatted',
+        'end_formatted',
+        'quantity_formatted',
+        'start_formatted',
+    ];
+
     protected $guarded = [
         'id',
     ];
 
     protected $casts = [
         'quantity' => 'decimal:' . self::DECIMALS,
-        'start' => 'decimal:' . self::DECIMALS,
-        'end' => 'decimal:' . self::DECIMALS,
+        'start' => 'integer',
+        'end' => 'integer',
     ];
 
     protected $dates = [
@@ -48,6 +55,26 @@ class Quantity extends Model
     public function isDeletable()
     {
         return true;
+    }
+
+    public function getEffectiveFromFormattedAttribute()
+    {
+        return $this->effective_from->format('d.m.Y H:i');
+    }
+
+    public function getQuantityFormattedAttribute()
+    {
+        return number_format($this->quantity, 2, ',', '');
+    }
+
+    public function getStartFormattedAttribute()
+    {
+        return number_format($this->start, 0, ',', '');
+    }
+
+    public function getEndFormattedAttribute()
+    {
+        return is_null($this->end) ? '-' : number_format($this->end, 0, ',', '');
     }
 
     public function setEffectiveFromFormattedAttribute($value)

@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use App\Models\Items\Item;
 use App\Models\Localizations\Language;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
@@ -21,10 +22,24 @@ abstract class TestCase extends BaseTestCase
         parent::setUp();
 
         $this->user = factory(User::class)->create();
-        $this->defaultLanguage = factory(Language::class)->create([
-            'id' => Language::DEFAULT_ID,
-            'name' => Language::DEFAULT_NAME,
-        ]);
+        $languages = [
+            1 => 'English',
+            2 => 'French',
+            3 => 'German',
+            4 => 'Spanish',
+            5 => 'Italian',
+        ];
+        foreach ($languages as $id => $name) {
+            $language = Language::create([
+                'id' => $id,
+                'name' => $name,
+            ]);
+            if ($id == Language::DEFAULT_ID) {
+                $this->defaultLanguage = $language;
+            }
+        }
+
+        Item::setup($this->user);
     }
 
     public function signIn(User $user = null)

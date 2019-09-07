@@ -19,7 +19,10 @@ class ItemController extends Controller
     public function index(Request $request)
     {
         if ($request->wantsJson()) {
-            return auth()->user()->items;
+            return auth()->user()
+                ->items()
+                ->search($request->input('searchtext'))
+                ->get();
         }
 
         return view($this->baseViewPath . '.index');
@@ -57,7 +60,7 @@ class ItemController extends Controller
     public function show(Item $item)
     {
         return view($this->baseViewPath . '.show')
-            ->with('model', $item);
+            ->with('model', $item->load(['quantities']));
     }
 
     /**
@@ -107,6 +110,6 @@ class ItemController extends Controller
             ];
         }
 
-        return back();
+        return redirect(route($this->baseViewPath . '.index'));
     }
 }

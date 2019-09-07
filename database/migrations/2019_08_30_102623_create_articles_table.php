@@ -19,7 +19,8 @@ class CreateArticlesTable extends Migration
             $table->unsignedBigInteger('card_id');
             $table->unsignedBigInteger('order_id')->nullable();
             $table->unsignedTinyInteger('language_id');
-            $table->unsignedBigInteger('cardmarket_article_id')->index();
+            $table->unsignedBigInteger('cardmarket_article_id')->nullable()->index();
+            $table->dateTime('cardmarket_last_edited')->nullable();
             $table->string('condition');
             $table->decimal('unit_cost', 15, 6)->default(0);
             $table->decimal('unit_price', 15, 6)->default(0);

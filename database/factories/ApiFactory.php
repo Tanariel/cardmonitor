@@ -10,11 +10,11 @@ use Illuminate\Support\Str;
 $factory->define(Api::class, function (Faker $faker) {
     return [
         'user_id' => factory(User::class),
-        'accessdata' => json_encode([
+        'accessdata' => [
             'app_token' => Str::random(),
             'app_secret' => Str::random(),
             'access_token' => Str::random(),
             'access_token_secret' => Str::random(),
-        ]),
+        ],
     ];
 });

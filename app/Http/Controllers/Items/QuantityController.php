@@ -43,12 +43,7 @@ class QuantityController extends Controller
      */
     public function store(Request $request, Item $item)
     {
-        return $item->quantities()->create($request->validate([
-            'effective_from_formatted' => 'required|date_format:"d.m.Y H:i"',
-            'end_formatted' => 'nullable|formated_number',
-            'quantity_formatted' => 'required|formated_number',
-            'start_formatted' => 'required|formated_number',
-        ]));
+        return $item->quantities()->create($this->validateRequest($request));
     }
 
     /**
@@ -84,12 +79,7 @@ class QuantityController extends Controller
      */
     public function update(Request $request, Quantity $quantity)
     {
-        $quantity->update($request->validate([
-            'effective_from_formatted' => 'required|date_format:"d.m.Y H:i"',
-            'end_formatted' => 'nullable|formated_number',
-            'quantity_formatted' => 'required|formated_number',
-            'start_formatted' => 'required|formated_number',
-        ]));
+        $quantity->update($this->validateRequest($request));
 
         return $quantity;
     }
@@ -114,5 +104,15 @@ class QuantityController extends Controller
         }
 
         return back();
+    }
+
+    protected function validateRequest(Request $request) : array
+    {
+        return $request->validate([
+            'effective_from_formatted' => 'required|date_format:"d.m.Y H:i"',
+            'end' => 'integer|gt:start|between:1,9999',
+            'quantity_formatted' => 'required|formated_number',
+            'start' => 'required|integer|between:0,9998',
+        ]);
     }
 }

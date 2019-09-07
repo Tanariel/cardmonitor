@@ -84,4 +84,36 @@ class ArticleTest extends TestCase
 
         $this->assertEquals($card->localizations()->where('language_id', Language::DEFAULT_ID)->first()->name, $model->localName);
     }
+
+    /**
+     * @test
+     */
+    public function it_calculates_its_provision()
+    {
+        $model = new Article();
+        $model->unit_price = 1;
+        $this->assertEquals(0.05, $model->provision);
+
+        $model->unit_price = 0.02;
+        $this->assertEquals(0.01, $model->provision);
+
+        $model->unit_price_formatted = 1;
+        $this->assertEquals(0.05, $model->provision);
+    }
+
+    /**
+     * @test
+     */
+    public function it_()
+    {
+        $card = factory(Card::class)->create();
+
+        $collection = factory(Article::class, 3)->create([
+            'card_id' => $card->id,
+            'language_id' => Language::DEFAULT_ID,
+        ]);
+
+        $collection->hash = 'test';
+        dump($collection);
+    }
 }

@@ -15,6 +15,9 @@ class Article extends Model
     const DEFAULT_CONDITION = 'EX';
     const DEFAULT_LANGUAGE = 1;
 
+    const PROVISION = 0.05;
+    const MIN_UNIT_PRICE = 0.02;
+
     protected $casts = [
         'unit_cost' => 'decimal:' . self::DECIMALS,
         'unit_price' => 'decimal:' . self::DECIMALS,
@@ -63,6 +66,13 @@ class Article extends Model
         return true;
     }
 
+    protected function calculateProvision() : float
+    {
+        $this->attributes['provision'] = max(0.01, self::PROVISION * $this->unit_price);
+
+        return $this->attributes['provision'];
+    }
+
     public function setBoughtAtFormattedAttribute($value)
     {
         $this->attributes['bought_at'] = Carbon::createFromFormat('d.m.Y H:i', $value);
@@ -77,14 +87,21 @@ class Article extends Model
 
     public function setUnitCostFormattedAttribute($value)
     {
-        $this->attributes['unit_cost'] = number_format(str_replace(',', '.', $value), self::DECIMALS, '.', '');
+        $this->unit_cost = number_format(str_replace(',', '.', $value), self::DECIMALS, '.', '');
         Arr::forget($this->attributes, 'unit_cost_formatted');
     }
 
     public function setUnitPriceFormattedAttribute($value)
     {
-        $this->attributes['unit_price'] = number_format(str_replace(',', '.', $value), self::DECIMALS, '.', '');
+        $this->unit_price = number_format(str_replace(',', '.', $value), self::DECIMALS, '.', '');
         Arr::forget($this->attributes, 'unit_price_formatted');
+    }
+
+    public function setUnitPriceAttribute($value)
+    {
+        $this->attributes['unit_price'] = $value;
+
+        $this->calculateProvision();
     }
 
     public function setProvisionFormattedAttribute($value)

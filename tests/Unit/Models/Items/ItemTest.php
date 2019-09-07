@@ -30,18 +30,13 @@ class ItemTest extends TestCase
 
         Item::setup($user);
 
-        $this->assertCount(2, $user->fresh()->items);
+        $this->assertCount(5, $user->fresh()->items);
 
         $this->assertDatabaseHas('items', [
             'user_id' => $user->id,
             'type' => Card::class,
-            'name' => 'Karte',
-        ]);
-
-        $this->assertDatabaseHas('items', [
-            'user_id' => $user->id,
-            'type' => Mailing::class,
-            'name' => 'Versandkosten',
+            'name' => 'Common',
+            'unit_cost' => 0.02,
         ]);
     }
 

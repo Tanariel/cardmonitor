@@ -16,5 +16,18 @@ class LanguagesTableSeeder extends Seeder
             'id' => Language::DEFAULT_ID,
             'name' => Language::DEFAULT_NAME,
         ]);
+
+        $languages = [
+            2 => 'French',
+            3 => 'German',
+            4 => 'Spanish',
+            5 => 'Italian',
+        ];
+        foreach ($languages as $id => $name) {
+            Language::create([
+                'id' => $id,
+                'name' => $name,
+            ]);
+        }
     }
 }

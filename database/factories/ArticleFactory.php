@@ -14,6 +14,7 @@ $factory->define(Article::class, function (Faker $faker) {
         'user_id' => factory(User::class),
         'language_id' => factory(Language::class),
         'cardmarket_article_id' => $faker->randomNumber,
+        'cardmarket_last_edited' => $faker->dateTime,
         'condition' => $faker->randomElement(['M', 'NM', 'EX', 'GD']),
         'unit_cost' => $faker->randomFloat(6),
         'unit_price' => $faker->randomFloat(6),

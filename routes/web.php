@@ -14,10 +14,6 @@ use Illuminate\Support\Facades\App;
 */
 
 Route::get('/', function () {
-
-    $api = App::make('CardmarketApi');
-    dd($api->account->get());
-
     return view('welcome');
 });
 

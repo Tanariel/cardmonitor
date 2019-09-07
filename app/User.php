@@ -42,6 +42,15 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function setup() : void {
+        Item::setup($this);
+    }
+
+    public function api()
+    {
+        return $this->apis()->first();
+    }
+
     public function apis() : HasMany
     {
         return $this->hasMany(Api::class);

@@ -15,6 +15,7 @@ class CreateExpansionsTable extends Migration
     {
         Schema::create('expansions', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedTinyInteger('game_id');
             $table->unsignedBigInteger('cardmarket_expansion_id');
             $table->string('name');
             $table->string('abbreviation');
