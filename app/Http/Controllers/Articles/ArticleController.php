@@ -84,16 +84,19 @@ class ArticleController extends Controller
     public function update(Request $request, Article $article)
     {
         $article->update($request->validate([
-            'language_id' => 'required|integer',
-            'condition' => 'required|string',
-            'bought_at_formatted' => 'required|date_format:"d.m.Y H:i"',
-            'sold_at_formatted' => 'required|date_format:"d.m.Y H:i"',
-            'unit_price_formatted' => 'required|formated_number',
+            // 'language_id' => 'required|integer',
+            // 'condition' => 'required|string',
+            // 'bought_at_formatted' => 'required|date_format:"d.m.Y H:i"',
+            // 'sold_at_formatted' => 'required|date_format:"d.m.Y H:i"',
+            // 'unit_price_formatted' => 'required|formated_number',
             'unit_cost_formatted' => 'required|formated_number',
             'provision_formatted' => 'required|formated_number',
         ]));
 
-        return $article;
+        return $article->load([
+            'card.expansion',
+            'card.localizations',
+        ]);
     }
 
     /**

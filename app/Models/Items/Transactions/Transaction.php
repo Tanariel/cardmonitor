@@ -2,8 +2,10 @@
 
 namespace App\Models\Items\Transactions;
 
+use App\Models\Items\Item;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Arr;
 use Tightenco\Parental\HasChildren;
 
@@ -65,5 +67,10 @@ class Transaction extends Model
     {
         $this->attributes['unit_cost'] = number_format(str_replace(',', '.', $value), self::DECIMALS, '.', '');
         Arr::forget($this->attributes, 'unit_cost_formatted');
+    }
+
+    public function item() : BelongsTo
+    {
+        return $this->belongsTo(Item::class, 'item_id');
     }
 }

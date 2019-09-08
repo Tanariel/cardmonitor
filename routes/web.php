@@ -27,7 +27,15 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('article', 'Articles\ArticleController');
 
+    Route::resource('card', 'Cards\CardController');
+
     Route::resource('item', 'Items\ItemController');
+
+    Route::resource('order', 'Orders\OrderController')->except([
+        'create',
+        'store',
+        'delete',
+    ]);
 
     Route::resource('transaction', 'Items\Transactions\TransactionController')->except([
         'index',

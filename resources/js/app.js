@@ -21,6 +21,8 @@ window.Vue = require('vue');
 
 Vue.component('item-table', require('./components/item/table.vue').default);
 Vue.component('item-quantity-table', require('./components/item/quantity/table.vue').default);
+Vue.component('order-table', require('./components/order/table.vue').default);
+Vue.component('order-article-table', require('./components/order/article/table.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

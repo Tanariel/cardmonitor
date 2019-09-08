@@ -8,14 +8,23 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
+    protected $baseViewPath = 'order';
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if ($request->wantsJson()) {
+            return auth()->user()
+                ->orders()
+                ->orderBy('paid_at', 'DESC')
+                ->paginate();
+        }
+
+        return view($this->baseViewPath . '.index');
     }
 
     /**
@@ -47,7 +56,11 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        //
+        return view($this->baseViewPath . '.show')
+            ->with('model', $order->load([
+                'articles',
+                'sales.item'
+            ]));
     }
 
     /**

@@ -45,6 +45,17 @@ class CardTest extends TestCase
     /**
      * @test
      */
+    public function it_belongs_to_an_expansion()
+    {
+        $related = factory(Expansion::class)->create();
+        $model = factory(Card::class)->create();
+
+        $this->assertBelongsTo($model, $related, 'expansion');
+    }
+
+    /**
+     * @test
+     */
     public function it_can_be_created_from_cardmarket()
     {
         $expansion = factory(Expansion::class)->create([

@@ -30,7 +30,7 @@ class ItemTest extends TestCase
 
         Item::setup($user);
 
-        $this->assertCount(5, $user->fresh()->items);
+        $this->assertCount(10, $user->fresh()->items);
 
         $this->assertDatabaseHas('items', [
             'user_id' => $user->id,

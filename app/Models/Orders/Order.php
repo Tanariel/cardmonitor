@@ -25,6 +25,10 @@ class Order extends Model
         'Grossbrief International' => 0.5,
     ];
 
+    protected $appends = [
+        'path',
+    ];
+
     protected $dates = [
         'bought_at',
         'canceled_at',
@@ -154,6 +158,10 @@ class Order extends Model
             ->where('articles.language_id', $cardmarketArticle['language']['idLanguage'])
             ->where('articles.condition', $cardmarketArticle['condition'])
             ->where('articles.unit_price', $cardmarketArticle['price'])
+            ->where('is_foil', $cardmarketArticle['isFoil'])
+            ->where('is_signed', $cardmarketArticle['isSigned'])
+            ->where('is_altered', $cardmarketArticle['isAltered'])
+            ->where('is_playset', $cardmarketArticle['isPlayset'])
             ->limit($articles_left_count)
             ->update([
                 'articles.order_id' => $this->id,
@@ -171,6 +179,10 @@ class Order extends Model
             ->where('articles.language_id', $cardmarketArticle['language']['idLanguage'])
             ->where('articles.condition', $cardmarketArticle['condition'])
             ->where('articles.unit_price', $cardmarketArticle['price'])
+            ->where('is_foil', $cardmarketArticle['isFoil'])
+            ->where('is_signed', $cardmarketArticle['isSigned'])
+            ->where('is_altered', $cardmarketArticle['isAltered'])
+            ->where('is_playset', $cardmarketArticle['isPlayset'])
             ->limit($articles_left_count)
             ->update([
                 'articles.order_id' => $this->id,
@@ -190,7 +202,13 @@ class Order extends Model
             'condition' => $cardmarketArticle['condition'],
             'unit_price' => $cardmarketArticle['price'],
             'unit_cost' => $this->cardDefaultPrices[$cardmarketArticle['product']['rarity']], // Berechnen
-            'sold_at' => $this->paid_at // "2019-08-30T10:59:53+0200"
+            'sold_at' => $this->paid_at, // "2019-08-30T10:59:53+0200"
+            'is_in_shoppingcard' => $cardmarketArticle['inShoppingCart'] ?? false,
+            'is_foil' => $cardmarketArticle['isFoil'] ?? false,
+            'is_signed' => $cardmarketArticle['isSigned'] ?? false,
+            'is_altered' => $cardmarketArticle['isAltered'] ?? false,
+            'is_playset' => $cardmarketArticle['isPlayset'] ?? false,
+            'comments' => $cardmarketArticle['comments'] ?: null,
         ];
         foreach (range($articles_count, ($articles_left_count - 1)) as $value) {
             $this->articles()->create($attributes);
@@ -242,6 +260,11 @@ class Order extends Model
         return $this->attributes['shipment_profit'];
     }
 
+    public function getPathAttribute()
+    {
+        return '/order/' . $this->id;
+    }
+
     public function sales() : HasMany
     {
         return $this->hasMany(Sale::class, 'order_id');
@@ -249,6 +272,9 @@ class Order extends Model
 
     public function articles() : HasMany
     {
-        return $this->hasMany(Article::class, 'order_id');
+        return $this->hasMany(Article::class, 'order_id')->with([
+            'card.localizations',
+            'card.expansion',
+        ]);
     }
 }

@@ -61,7 +61,7 @@ class DevCommand extends Command
         ]);
         $this->user->setup();
 
-        // create Expansions & Cards
+        // create Sandbox API
         $api = Api::create([
             'user_id' => $this->user->id,
             'accessdata' => [
@@ -72,10 +72,6 @@ class DevCommand extends Command
                 'url' => CardmarketApi::URL_SANDBOX,
             ],
         ]);
-
-        // $CardmarketApi = App::make('CardmarketApi', [
-        //     'api' => $api,
-        // ]);
 
         // Create Crads from CSV
         $row = 0;
@@ -107,6 +103,9 @@ class DevCommand extends Command
         fclose($cardsFile);
 
         // Create Cards from API
+        // $CardmarketApi = App::make('CardmarketApi', [
+        //     'api' => $api,
+        // ]);
         // $cardmarketExpansions = $CardmarketApi->expansion->find(1);
         // foreach ($cardmarketExpansions['expansion'] as $cardmarketExpansion) {
         //     $expansion = Expansion::createFromCardmarket($cardmarketExpansion);

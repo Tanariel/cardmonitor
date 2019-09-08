@@ -5,6 +5,7 @@ namespace App;
 use App\Models\Apis\Api;
 use App\Models\Articles\Article;
 use App\Models\Items\Item;
+use App\Models\Orders\Order;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -64,5 +65,10 @@ class User extends Authenticatable
     public function items() : HasMany
     {
         return $this->hasMany(Item::class);
+    }
+
+    public function orders() : HasMany
+    {
+        return $this->hasMany(Order::class);
     }
 }

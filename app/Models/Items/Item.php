@@ -3,6 +3,7 @@
 namespace App\Models\Items;
 
 use App\Models\Items\Card;
+use App\Models\Items\Custom;
 use App\Models\Items\Quantity;
 use App\Models\Items\Transactions\Transaction;
 use App\Models\Orders\Order;
@@ -128,5 +129,69 @@ class Item extends Model
                 'user_id' => $user->id,
             ]);
         }
+
+        $item = Custom::create([
+            'name' => 'Postkarte',
+            'unit_cost' => 0.02,
+            'user_id' => $user->id,
+        ]);
+        $item->quantities()->delete();
+        $item->addQuantities([
+            1 => [
+                'start' => 1,
+                'end' => 16,
+            ],
+        ]);
+
+        $item = Custom::create([
+            'name' => 'Hülle',
+            'unit_cost' => 0.02,
+            'user_id' => $user->id,
+        ]);
+        $item->quantities()->delete();
+        $item->addQuantities([
+            1 => [
+                'start' => 1,
+                'end' => 4,
+            ],
+            2 => [
+                'start' => 5,
+                'end' => 8,
+            ],
+            3 => [
+                'start' => 9,
+                'end' => 12,
+            ],
+            4 => [
+                'start' => 13,
+                'end' => 16,
+            ],
+        ]);
+
+        $item = Custom::create([
+            'name' => 'Briefumschlag Din C6',
+            'unit_cost' => 0.0179,
+            'user_id' => $user->id,
+        ]);
+        $item->quantities()->delete();
+        $item->addQuantities([
+            1 => [
+                'start' => 1,
+                'end' => 49
+            ],
+        ]);
+
+        $item = Custom::create([
+            'name' => 'Briefumschlag Din C4',
+            'unit_cost' => 0.199,
+            'user_id' => $user->id,
+        ]);
+        $item->quantities()->delete();
+        $item->addQuantities([
+            1 => [
+                'start' => 50,
+                'end' => 500,
+            ],
+        ]);
     }
 }

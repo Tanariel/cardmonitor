@@ -70,9 +70,9 @@ class SyncCommandTest extends TestCase
             'articles',
             'sales',
         ])->first();
-        dump($order);
+
         $this->assertCount(3, $order->articles);
-        $this->assertEquals(0.75, $order->articles_cost);
+        $this->assertEquals(0.3, $order->articles_cost);
 
         $this->assertCount(2, $order->sales);
         $this->assertEquals(2, $order->items_cost);

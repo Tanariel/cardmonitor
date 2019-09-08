@@ -2,13 +2,19 @@
 
 namespace App\Models\Cards;
 
+use App\Models\Expansions\Expansion;
 use App\Traits\HasLocalizations;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Arr;
 
 class Card extends Model
 {
     use HasLocalizations;
+
+    protected $appends = [
+        'imagePath',
+    ];
 
     protected $guarded = [
         'id',
@@ -81,5 +87,15 @@ class Card extends Model
         }
 
         return $model;
+    }
+
+    public function getImagePathAttribute()
+    {
+        return 'https://static.cardmarket.com/' . substr($this->attributes['image'], 2);
+    }
+
+    public function expansion() : BelongsTo
+    {
+        return $this->belongsTo(Expansion::class, 'expansion_id');
     }
 }

@@ -14,6 +14,6 @@ $factory->define(Order::class, function (Faker $faker) {
         'cardmarket_buyer_id' => $faker->randomNumber(),
         'state' => 'paid',
         'shippingmethod' => 'Standardbrief',
-        'cards_count' => $faker->numberBetween(1, 123),
+        'articles_count' => $faker->numberBetween(1, 123),
     ];
 });

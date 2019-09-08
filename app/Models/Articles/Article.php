@@ -18,6 +18,12 @@ class Article extends Model
     const PROVISION = 0.05;
     const MIN_UNIT_PRICE = 0.02;
 
+    protected $appends = [
+        'localName',
+        'provision_formatted',
+        'unit_cost_formatted',
+    ];
+
     protected $casts = [
         'unit_cost' => 'decimal:' . self::DECIMALS,
         'unit_price' => 'decimal:' . self::DECIMALS,
@@ -113,6 +119,16 @@ class Article extends Model
     public function getLocalNameAttribute() : string
     {
         return $this->card->localizations()->where('language_id', $this->language_id)->first()->name;
+    }
+
+    public function getProvisionFormattedAttribute()
+    {
+        return number_format($this->provision, 2, ',', '');
+    }
+
+    public function getUnitCostFormattedAttribute()
+    {
+        return number_format($this->unit_cost, 2, ',', '');
     }
 
     public function card() : BelongsTo

@@ -5,6 +5,7 @@ namespace Tests\Unit\Models\Users;
 use App\Models\Apis\Api;
 use App\Models\Articles\Article;
 use App\Models\Items\Item;
+use App\Models\Orders\Order;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -31,6 +32,19 @@ class UserTest extends TestCase
     /**
      * @test
      */
+    public function it_has_many_articles()
+    {
+        $model = factory(User::class)->create();
+        $related = factory(Article::class)->create([
+            'user_id' => $model->id,
+        ]);
+
+        $this->assertHasMany($model, $related, 'articles');
+    }
+
+    /**
+     * @test
+     */
     public function it_has_many_items()
     {
         $model = factory(User::class)->create();
@@ -44,13 +58,13 @@ class UserTest extends TestCase
     /**
      * @test
      */
-    public function it_has_many_articles()
+    public function it_has_many_orders()
     {
         $model = factory(User::class)->create();
-        $related = factory(Article::class)->create([
+        $related = factory(Order::class)->create([
             'user_id' => $model->id,
         ]);
 
-        $this->assertHasMany($model, $related, 'articles');
+        $this->assertHasMany($model, $related, 'orders');
     }
 }

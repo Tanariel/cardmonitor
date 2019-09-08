@@ -22,6 +22,12 @@ class CreateArticlesTable extends Migration
             $table->unsignedBigInteger('cardmarket_article_id')->nullable()->index();
             $table->dateTime('cardmarket_last_edited')->nullable();
             $table->string('condition');
+            $table->string('comments')->nullable();
+            $table->boolean('is_in_shoppingcard')->default(false);
+            $table->boolean('is_foil')->default(false);
+            $table->boolean('is_signed')->default(false);
+            $table->boolean('is_altered')->default(false);
+            $table->boolean('is_playset')->default(false);
             $table->decimal('unit_cost', 15, 6)->default(0);
             $table->decimal('unit_price', 15, 6)->default(0);
             $table->decimal('provision', 15, 6)->default(0);

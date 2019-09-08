@@ -1,12 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Cards;
 
+use App\Http\Controllers\Controller;
 use App\Models\Cards\Card;
 use Illuminate\Http\Request;
 
 class CardController extends Controller
 {
+    protected $baseViewPath = 'card';
+
     /**
      * Display a listing of the resource.
      *
@@ -46,7 +49,8 @@ class CardController extends Controller
      */
     public function show(Card $card)
     {
-        //
+        return view($this->baseViewPath . '.show')
+            ->with('model', $card);
     }
 
     /**
