@@ -22,6 +22,14 @@
                                 <div class="col-md-8">{{ $model->cardmarket_order_id }}</div>
                             </div>
                             <div class="row">
+                                <div class="col-md-4"><b>Käufer</b></div>
+                                <div class="col-md-8">{{ $model->buyer->username }}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4"><b>Verkäufer</b></div>
+                                <div class="col-md-8">{{ $model->seller->username }}</div>
+                            </div>
+                            <div class="row">
                                 <div class="col-md-4"><b>Karten</b></div>
                                 <div class="col-md-8">{{ $model->articles_count }}</div>
                             </div>
