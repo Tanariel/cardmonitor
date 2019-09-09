@@ -76,6 +76,8 @@
             </div>
 
         </div>
+
+        <flash-message :initial-message="{{ session('status') ? json_encode($status) : 'null' }}"></flash-message>
     </div>
 </body>
 </html>

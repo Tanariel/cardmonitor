@@ -11,6 +11,7 @@
     <div class="row">
 
         <div class="col-md-6">
+
             <div class="card mb-3">
                 <div class="card-header">{{ $model->cardmarket_order_id }}</div>
                 <div class="card-body">
@@ -28,6 +29,14 @@
                     </div>
                 </div>
             </div>
+
+            <div class="card mb-3">
+                <div class="card-header">Versandadresse</div>
+                <div class="card-body">
+                    {!! nl2br($model->shippingAddressText) !!}
+                </div>
+            </div>
+
         </div>
 
         <div class="col-md-6">

@@ -63,8 +63,15 @@ class Order extends Model
         $values = [
             'shipping_method_id' => $cardmarketOrder['shippingMethod']['idShippingMethod'],
             'cardmarket_buyer_id' => $cardmarketOrder['buyer']['idUser'],
+            'cardmarket_seller_id' => $cardmarketOrder['seller']['idUser'],
             'state' => $cardmarketOrder['state']['state'],
             'shippingmethod' => $cardmarketOrder['shippingMethod']['name'],
+            'shipping_name' => $cardmarketOrder['shippingAddress']['name'],
+            'shipping_extra' => $cardmarketOrder['shippingAddress']['extra'],
+            'shipping_street' => $cardmarketOrder['shippingAddress']['street'],
+            'shipping_zip' => $cardmarketOrder['shippingAddress']['zip'],
+            'shipping_city' => $cardmarketOrder['shippingAddress']['city'],
+            'shipping_country' => $cardmarketOrder['shippingAddress']['country'],
             'shipment_revenue' => $cardmarketOrder['shippingMethod']['price'],
             'articles_count' => $cardmarketOrder['articleCount'],
             'articles_revenue' => $cardmarketOrder['articleValue'],
@@ -263,6 +270,11 @@ class Order extends Model
     public function getPathAttribute()
     {
         return '/order/' . $this->id;
+    }
+
+    public function getShippingAddressTextAttribute() : string
+    {
+        return $this->shipping_name . "\n" . ($this->shipping_extra ? $this->shipping_extra . "\n" : '') . $this->shipping_street . "\n" . $this->shipping_zip . ' ' . $this->shipping_city . "\n" . $this->shipping_country;
     }
 
     public function sales() : HasMany

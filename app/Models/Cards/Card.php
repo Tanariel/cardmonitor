@@ -18,6 +18,7 @@ class Card extends Model
 
     protected $guarded = [
         'id',
+        'imagePath',
     ];
 
     /**

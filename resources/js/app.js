@@ -7,6 +7,11 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+window.Bus = new Vue();
+
+import Flash from './plugins/flash.js';
+
+Vue.use(Flash);
 
 /**
  * The following block of code may be used to automatically register your
@@ -18,6 +23,8 @@ window.Vue = require('vue');
 
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
+
+Vue.component('flash-message', require('./components/partials/flashmessage.vue').default);
 
 Vue.component('item-table', require('./components/item/table.vue').default);
 Vue.component('item-quantity-table', require('./components/item/quantity/table.vue').default);

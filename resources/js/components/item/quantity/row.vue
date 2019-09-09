@@ -60,10 +60,10 @@
                     .then(function (response) {
                         if (response.data.deleted) {
                             component.$emit("deleted", component.id);
-                            // Vue.success('Kosten wurden gelöscht.');
+                            Vue.success('Kosten wurden gelöscht.');
                         }
                         else {
-                            // Vue.error('Kosten konnten nicht gelöscht werden.');
+                            Vue.error('Kosten konnten nicht gelöscht werden.');
                         }
                 });
             },
@@ -74,9 +74,11 @@
                         component.errors = {};
                         component.isEditing = false;
                         component.$emit('updated', response.data);
+                        Vue.success('Staffel gespeichert.');
                     })
                     .catch(function (error) {
                         component.errors = error.response.data.errors;
+                        Vue.error('Staffel konnten nicht gespeichert werden.');
                 });
             },
         },

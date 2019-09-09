@@ -20,6 +20,7 @@ class CreateOrdersTable extends Migration
 
             $table->unsignedBigInteger('cardmarket_order_id');
             $table->unsignedBigInteger('cardmarket_buyer_id');
+            $table->unsignedBigInteger('cardmarket_seller_id');
 
             $table->string('state');
             $table->dateTime('bought_at')->nullable();
@@ -29,6 +30,13 @@ class CreateOrdersTable extends Migration
             $table->dateTime('canceled_at')->nullable();
             $table->string('canceled_reason')->nullable();
             $table->string('shippingmethod');
+
+            $table->string('shipping_name');
+            $table->string('shipping_extra')->nullable();
+            $table->string('shipping_street');
+            $table->string('shipping_zip');
+            $table->string('shipping_city');
+            $table->string('shipping_country');
 
             $table->unsignedTinyInteger('evaluation_grade')->nullable();
             $table->unsignedTinyInteger('evaluation_item_description')->nullable();

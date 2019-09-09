@@ -60,6 +60,7 @@ class SyncCommand extends Command
 
         $cardmarketOrders = $CardmarketApi->order->find(\Cardmonitor\Cardmarket\Order::ACTOR_SELLER, \Cardmonitor\Cardmarket\ORDER::STATE_RECEIVED);
         foreach ($cardmarketOrders['order'] as $cardmarketOrder) {
+            // dd($cardmarketOrder);
             // TODO: nur aktuelle aktualisieren ($cardmarketOrder['state']['dateReceived'] ?)
             $order = Order::updateOrCreateFromCardmarket($userId, $cardmarketOrder);
 

@@ -36,7 +36,7 @@
             </table>
         </div>
         <div class="alert alert-dark mt-3" v-else><center>Keine Artikel vorhanden</center></div>
-        <div id="imgbox" style="position: absolute; left: 125px;" :style="{ top: imgbox.top}">
+        <div id="imgbox" style="position: absolute; left: 125px;" :style="{ top: imgbox.top }">
             <img :src="imgbox.src" v-show="imgbox.show">
         </div>
     </div>
@@ -83,7 +83,7 @@
             },
             remove(index) {
                 this.items.splice(index, 1);
-                // Vue.success('Interaktion gelöscht.');
+                Vue.success('Interaktion gelöscht.');
             },
             showImgbox({src, top}) {
                 this.imgbox.src = src;

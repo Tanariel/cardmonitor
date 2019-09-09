@@ -41,6 +41,10 @@ class SyncCommandTest extends TestCase
             'cardmarket_product_id' => 265535,
         ])->toArray());
 
+        $expansion->cards()->create(factory(Card::class)->create([
+            'cardmarket_product_id' => 360083,
+        ])->toArray());
+
         $item = factory(Item::class)->create([
             'user_id' => $api->user_id,
             'unit_cost' => 1,
@@ -69,12 +73,13 @@ class SyncCommandTest extends TestCase
         $order = Order::with([
             'articles',
             'sales',
-        ])->first();
+        ])->orderBy('id', 'DESC')
+        ->first();
 
         $this->assertCount(3, $order->articles);
         $this->assertEquals(0.3, $order->articles_cost);
 
-        $this->assertCount(2, $order->sales);
-        $this->assertEquals(2, $order->items_cost);
+        $this->assertCount(5, $order->sales);
+        $this->assertEquals(2.0579, $order->items_cost);
     }
 }

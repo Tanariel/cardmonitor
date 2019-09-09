@@ -96,7 +96,7 @@
                     })
                     .catch( function (error) {
                         component.errors = error.response.data.errors;
-                        // Vue.error('Interaktion konnte nicht erstellt werden!');
+                        Vue.error('Staffel konnte nicht erstellt werden!');
                 });
             },
             fetch() {
@@ -110,7 +110,7 @@
                         component.isLoading = false;
                     })
                     .catch(function (error) {
-                        // Vue.error('Interaktionen konnten nicht geladen werden!');
+                        Vue.error('Staffeln konnten nicht geladen werden!');
                         console.log(error);
                     });
             },
@@ -119,7 +119,7 @@
             },
             remove(index) {
                 this.items.splice(index, 1);
-                // Vue.success('Interaktion gelöscht.');
+                Vue.success('Staffel gelöscht.');
             },
         },
     };
