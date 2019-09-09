@@ -3,7 +3,7 @@
 @section('content')
 
     <div class="d-flex mb-3">
-        <h2 class="col"><a class="text-body" href="/order">Bestellung</a> > {{ $model->cardmarket_order_id }}</h2>
+        <h2 class="col"><a class="text-body" href="/order">Bestellung</a> > {{ $model->cardmarket_order_id }} - {{ $model->stateFormatted }}</h2>
         <div class="d-flex align-items-center">
             <a href="{{ url('/item') }}" class="btn btn-secondary ml-1">Übersicht</a>
         </div>

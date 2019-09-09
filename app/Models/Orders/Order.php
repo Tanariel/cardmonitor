@@ -25,6 +25,16 @@ class Order extends Model
         'Grossbrief International' => 0.5,
     ];
 
+    const STATES = [
+        'bought' => 'Unbezahlt',
+        'paid' => 'Bezahlt',
+        'sent' => 'Versandt',
+        'received' => 'Angekommen',
+        'evaluated' => 'Bewertet',
+        'lost' => 'Nicht Angekommen',
+        'cancelled' => 'Storniert',
+    ];
+
     protected $appends = [
         'path',
     ];
@@ -275,6 +285,11 @@ class Order extends Model
     public function getShippingAddressTextAttribute() : string
     {
         return $this->shipping_name . "\n" . ($this->shipping_extra ? $this->shipping_extra . "\n" : '') . $this->shipping_street . "\n" . $this->shipping_zip . ' ' . $this->shipping_city . "\n" . $this->shipping_country;
+    }
+
+    public function getStateFormattedAttribute() : string
+    {
+        return Arr::get(self::STATES, $this->state, '');
     }
 
     public function sales() : HasMany

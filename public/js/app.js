@@ -2381,8 +2381,10 @@ __webpack_require__.r(__webpack_exports__);
         component.errors = {};
         component.isEditing = false;
         component.$emit('updated', response.data);
+        Vue.success('Artikel gespeichert.');
       })["catch"](function (error) {
         component.errors = error.response.data.errors;
+        Vue.error('Artikel konnte nicht gespeichert werden.');
       });
     }
   }
