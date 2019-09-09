@@ -38,7 +38,7 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row mb-3">
                 <div class="col-md-6">
                     <div class="card h-100 mb-3">
                         <div class="card-header">Versandadresse</div>
@@ -57,8 +57,6 @@
 
                 </div>
             </div>
-
-
 
         </div>
 
