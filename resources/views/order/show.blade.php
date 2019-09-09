@@ -38,12 +38,27 @@
                 </div>
             </div>
 
-            <div class="card mb-3">
-                <div class="card-header">Versandadresse</div>
-                <div class="card-body">
-                    {!! nl2br($model->shippingAddressText) !!}
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card h-100 mb-3">
+                        <div class="card-header">Versandadresse</div>
+                        <div class="card-body">
+                            {!! nl2br($model->shippingAddressText) !!}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card h-100 mb-3">
+                        <div class="card-header">Bilder</div>
+                        <div class="card-body">
+                            <imageable-table :model="{{ json_encode($model) }}" token="{{ csrf_token() }}"></imageable-table>
+                        </div>
+                    </div>
+
                 </div>
             </div>
+
+
 
         </div>
 

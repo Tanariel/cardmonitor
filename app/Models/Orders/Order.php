@@ -4,6 +4,7 @@ namespace App\Models\Orders;
 
 use App\Models\Articles\Article;
 use App\Models\Cards\Card;
+use App\Models\Images\Image;
 use App\Models\Items\Item;
 use App\Models\Items\Transactions\Sale;
 use App\Models\Items\Transactions\Transaction;
@@ -14,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Arr;
 
 class Order extends Model
@@ -310,6 +312,11 @@ class Order extends Model
     public function buyer() : BelongsTo
     {
         return $this->belongsTo(CardmarketUser::class, 'buyer_id');
+    }
+
+    public function images() : MorphMany
+    {
+        return $this->morphMany(Image::class, 'imageable');
     }
 
     public function sales() : HasMany

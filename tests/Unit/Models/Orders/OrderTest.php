@@ -3,6 +3,7 @@
 namespace Tests\Unit\Models\Orders;
 
 use App\Models\Articles\Article;
+use App\Models\Images\Image;
 use App\Models\Items\Item;
 use App\Models\Orders\Order;
 use App\Models\Users\CardmarketUser;
@@ -54,6 +55,16 @@ class OrderTest extends TestCase
         ]);
 
         $this->assertBelongsTo($model, $cardmarketUser, 'seller');
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_many_images()
+    {
+        $model = factory(Order::class)->create();
+
+        $this->assertMorphMany($model, Image::class, 'images');
     }
 
     /**

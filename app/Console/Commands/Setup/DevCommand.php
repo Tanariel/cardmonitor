@@ -102,6 +102,8 @@ class DevCommand extends Command
         }
         fclose($cardsFile);
 
+        $this->call('order:sync');
+
         // Create Cards from API
         // $CardmarketApi = App::make('CardmarketApi', [
         //     'api' => $api,

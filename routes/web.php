@@ -31,6 +31,15 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('item', 'Items\ItemController');
 
+    Route::resource('image', 'Images\ImageController')->only([
+        'index',
+        'destroy',
+    ]);
+
+    Route::resource('order/{order}/images', 'Images\ImageableController', [
+        'as' => 'order',
+    ]);
+
     Route::resource('order', 'Orders\OrderController')->except([
         'create',
         'store',
