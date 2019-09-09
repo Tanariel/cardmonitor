@@ -286,6 +286,33 @@ class Order extends Model
         return $this->attributes['shipment_profit'];
     }
 
+    public function updateFromCardmarket(array $cardmarketOrder)
+    {
+        $this->update([
+
+        ]);
+    }
+
+    public function getPreparedMessageAttribute() : string
+    {
+        $images_count = count($this->images);
+        $message = "Hallo " . $this->buyer->firstname . ",\nvielen Dank für deine Bestellung.\n\n";
+
+        if ($images_count) {
+            if ($images_count == 1) {
+                $message .= "Hier ist schon mal ein Bild deiner " . ($this->articles_count == 1 ? 'Karte' : 'Karten') . "\n";
+            }
+            elseif ($images_count > 1){
+                $message .= "Hier sind schon mal Bilder deiner " . ($this->articles_count == 1 ? 'Karte' : 'Karten') . "\n";
+            }
+            $message .= url($this->path . '/images') . "\n\n";
+        }
+
+        $message .= "Viele Grüße\n" . $this->seller->firstname;
+
+        return $message;
+    }
+
     public function getPathAttribute()
     {
         return '/order/' . $this->id;

@@ -5,6 +5,14 @@
     <div class="d-flex mb-3">
         <h2 class="col"><a class="text-body" href="/order">Bestellung</a> > {{ $model->cardmarket_order_id }} - {{ $model->stateFormatted }}</h2>
         <div class="d-flex align-items-center">
+            @if ($model->state == 'paid')
+                <button class="btn btn-secondary ml-1" data-toggle="modal" data-target="#message-create" data-model-id="{{ $model->id }}"><i class="fas fa-envelope"></i></button>
+                <form action="{{ $model->path . '/send' }}" class="ml-1" method="POST">
+                    @csrf
+
+                    <button type="submit" class="btn btn-primary" title="Versenden">Versenden</button>
+                </form>
+            @endif
             <a href="{{ url('/item') }}" class="btn btn-secondary ml-1">Übersicht</a>
         </div>
     </div>
@@ -152,5 +160,31 @@
         </div>
     </div>
 
+    <div class="modal fade" tabindex="-1" role="dialog" id="message-create">
+        <div class="modal-dialog" role="document">
+            <form action="/order/{{ $model->id }}/message" method="POST">
+                @csrf
+
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Nachricht an {{ $model->buyer->username }} versenden</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="message-text">Nachricht</label>
+                            <textarea class="form-control" id="message-text" name="message-text" rows="10"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Versenden</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 
 @endsection

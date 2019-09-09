@@ -46,6 +46,10 @@ Route::middleware(['auth'])->group(function () {
         'delete',
     ]);
 
+    Route::post('order/{order}/send', 'Cardmarket\Orders\SendController@store')->name('order.send.store');
+    Route::get('order/{order}/message/create', 'Cardmarket\Orders\MessageController@create')->name('order.message.create');
+    Route::post('order/{order}/message', 'Cardmarket\Orders\MessageController@store')->name('order.message.store');
+
     Route::resource('transaction', 'Items\Transactions\TransactionController')->except([
         'index',
         'store',

@@ -54,3 +54,10 @@ $('.collapse', 'nav#nav').on('show.bs.collapse', function(){
 }).on('hide.bs.collapse', function(){
     $('a[data-target="#' + $(this).attr('id') +'"] i.fas', 'nav#nav').toggleClass("fa-caret-down fa-caret-right");
 });
+
+$('#message-create').on('show.bs.modal', function (e) {
+    axios.get('/order/' + $(e.relatedTarget).attr('data-model-id') + '/message/create')
+        .then(function (response) {
+            $('#message-text', '#message-create').val(response.data.body);
+    });
+});

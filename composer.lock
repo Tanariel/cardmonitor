@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Cardmonitor/cardmarket-api.git",
-                "reference": "8ebfbd9bc1ca1503f173f2630cf8d925073fd170"
+                "reference": "f798a987477cae506a8734bba76fb4100c0a55d9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Cardmonitor/cardmarket-api/zipball/8ebfbd9bc1ca1503f173f2630cf8d925073fd170",
-                "reference": "8ebfbd9bc1ca1503f173f2630cf8d925073fd170",
+                "url": "https://api.github.com/repos/Cardmonitor/cardmarket-api/zipball/f798a987477cae506a8734bba76fb4100c0a55d9",
+                "reference": "f798a987477cae506a8734bba76fb4100c0a55d9",
                 "shasum": ""
             },
             "require": {
@@ -46,7 +46,7 @@
                 }
             ],
             "description": "PHP Cardmarket API",
-            "time": "2019-09-05T03:28:40+00:00"
+            "time": "2019-09-09T11:03:39+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -1045,16 +1045,16 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "1.24.0",
+            "version": "1.25.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "bfc9ebb28f97e7a24c45bdc3f0ff482e47bb0266"
+                "reference": "70e65a5470a42cfec1a7da00d30edb6e617e8dcf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/bfc9ebb28f97e7a24c45bdc3f0ff482e47bb0266",
-                "reference": "bfc9ebb28f97e7a24c45bdc3f0ff482e47bb0266",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/70e65a5470a42cfec1a7da00d30edb6e617e8dcf",
+                "reference": "70e65a5470a42cfec1a7da00d30edb6e617e8dcf",
                 "shasum": ""
             },
             "require": {
@@ -1119,7 +1119,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2018-11-05T09:00:11+00:00"
+            "time": "2019-09-06T13:49:17+00:00"
         },
         {
             "name": "nesbot/carbon",
