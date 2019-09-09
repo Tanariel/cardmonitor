@@ -19,8 +19,8 @@ class CreateOrdersTable extends Migration
             $table->unsignedBigInteger('shipping_method_id');
 
             $table->unsignedBigInteger('cardmarket_order_id');
-            $table->unsignedBigInteger('cardmarket_buyer_id');
-            $table->unsignedBigInteger('cardmarket_seller_id');
+            $table->unsignedBigInteger('buyer_id');
+            $table->unsignedBigInteger('seller_id');
 
             $table->string('state');
             $table->dateTime('bought_at')->nullable();
@@ -63,6 +63,8 @@ class CreateOrdersTable extends Migration
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('buyer_id')->references('id')->on('cardmarket_users');
+            $table->foreign('seller_id')->references('id')->on('cardmarket_users');
         });
     }
 

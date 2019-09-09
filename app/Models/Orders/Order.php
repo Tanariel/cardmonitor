@@ -7,9 +7,11 @@ use App\Models\Cards\Card;
 use App\Models\Items\Item;
 use App\Models\Items\Transactions\Sale;
 use App\Models\Items\Transactions\Transaction;
+use App\Models\Users\CardmarketUser;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Arr;
@@ -70,10 +72,13 @@ class Order extends Model
 
     public static function updateOrCreateFromCardmarket(int $userId, array $cardmarketOrder) : self
     {
+        $buyer = CardmarketUser::updateOrCreateFromCardmarket($cardmarketOrder['buyer']);
+        $seller = CardmarketUser::updateOrCreateFromCardmarket($cardmarketOrder['seller']);
+
         $values = [
+            'buyer_id' => $buyer->id,
+            'seller_id' => $seller->id,
             'shipping_method_id' => $cardmarketOrder['shippingMethod']['idShippingMethod'],
-            'cardmarket_buyer_id' => $cardmarketOrder['buyer']['idUser'],
-            'cardmarket_seller_id' => $cardmarketOrder['seller']['idUser'],
             'state' => $cardmarketOrder['state']['state'],
             'shippingmethod' => $cardmarketOrder['shippingMethod']['name'],
             'shipping_name' => $cardmarketOrder['shippingAddress']['name'],
@@ -107,6 +112,8 @@ class Order extends Model
         }
         $order->calculateProfits()
             ->save();
+
+
 
         return $order;
     }
@@ -292,11 +299,6 @@ class Order extends Model
         return Arr::get(self::STATES, $this->state, '');
     }
 
-    public function sales() : HasMany
-    {
-        return $this->hasMany(Sale::class, 'order_id');
-    }
-
     public function articles() : HasMany
     {
         return $this->hasMany(Article::class, 'order_id')->with([
@@ -304,4 +306,20 @@ class Order extends Model
             'card.expansion',
         ]);
     }
+
+    public function buyer() : BelongsTo
+    {
+        return $this->belongsTo(CardmarketUser::class, 'buyer_id');
+    }
+
+    public function sales() : HasMany
+    {
+        return $this->hasMany(Sale::class, 'order_id');
+    }
+
+    public function seller() : BelongsTo
+    {
+        return $this->belongsTo(CardmarketUser::class, 'seller_id');
+    }
+
 }

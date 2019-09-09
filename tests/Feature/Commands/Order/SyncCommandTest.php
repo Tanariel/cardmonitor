@@ -8,6 +8,7 @@ use App\Models\Cards\Card;
 use App\Models\Expansions\Expansion;
 use App\Models\Items\Item;
 use App\Models\Orders\Order;
+use App\Models\Users\CardmarketUser;
 use Carbon\Carbon;
 use Cardmonitor\Cardmarket\Api as CardmarketApi;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -81,5 +82,7 @@ class SyncCommandTest extends TestCase
 
         $this->assertCount(5, $order->sales);
         $this->assertEquals(2.0579, $order->items_cost);
+
+        $this->assertCount(2, CardmarketUser::all());
     }
 }

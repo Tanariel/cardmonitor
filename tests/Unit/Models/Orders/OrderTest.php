@@ -5,6 +5,7 @@ namespace Tests\Unit\Models\Orders;
 use App\Models\Articles\Article;
 use App\Models\Items\Item;
 use App\Models\Orders\Order;
+use App\Models\Users\CardmarketUser;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -25,6 +26,34 @@ class OrderTest extends TestCase
         ]);
 
         $this->assertHasMany($model, $related, 'articles');
+    }
+
+    /**
+     * @test
+     */
+    public function it_belongs_to_a_buyer()
+    {
+        $cardmarketUser = factory(CardmarketUser::class)->create();
+
+        $model = factory(Order::class)->create([
+            'buyer_id' => $cardmarketUser->id
+        ]);
+
+        $this->assertBelongsTo($model, $cardmarketUser, 'buyer');
+    }
+
+    /**
+     * @test
+     */
+    public function it_belongs_to_a_seller()
+    {
+        $cardmarketUser = factory(CardmarketUser::class)->create();
+
+        $model = factory(Order::class)->create([
+            'seller_id' => $cardmarketUser->id
+        ]);
+
+        $this->assertBelongsTo($model, $cardmarketUser, 'seller');
     }
 
     /**
