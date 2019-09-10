@@ -18,12 +18,11 @@ use Tests\TestCase;
 
 class SyncCommandTest extends TestCase
 {
-    /**
-     * @test
-     */
-    public function it_syncs_orders()
+    protected function setUp() : void
     {
-        $api = factory(Api::class)->create([
+        parent::setUp();
+
+        $this->api = factory(Api::class)->create([
             'user_id' => $this->user->id,
             'accessdata' => [
                 'app_token' => '8Ts9QDnOCD7gukTV',
@@ -34,42 +33,70 @@ class SyncCommandTest extends TestCase
             ],
         ]);
 
-        $expansion = factory(Expansion::class)->create([
+        $this->expansion = factory(Expansion::class)->create([
             'name' => 'Born of the Gods',
         ]);
 
-        $expansion->cards()->create(factory(Card::class)->create([
+        $this->expansion->cards()->create(factory(Card::class)->create([
             'cardmarket_product_id' => 265535,
         ])->toArray());
 
-        $expansion->cards()->create(factory(Card::class)->create([
+        $this->expansion->cards()->create(factory(Card::class)->create([
             'cardmarket_product_id' => 360083,
         ])->toArray());
 
-        $item = factory(Item::class)->create([
-            'user_id' => $api->user_id,
+        $this->item = factory(Item::class)->create([
+            'user_id' => $this->api->user_id,
             'unit_cost' => 1,
         ]);
-        $item->quantities()->create([
+        $this->item->quantities()->create([
             'effective_from' => '1970-00-00 02:00:00',
             'end' => 9999,
             'quantity' => 1,
             'start' => 1,
-            'user_id' => $api->user_id,
+            'user_id' => $this->api->user_id,
         ]);
-        $item = factory(Item::class)->create([
-            'user_id' => $api->user_id,
+        $this->item = factory(Item::class)->create([
+            'user_id' => $this->api->user_id,
             'unit_cost' => 0.5,
         ]);
-        $item->quantities()->create([
+        $this->item->quantities()->create([
             'effective_from' => '1970-00-00 02:00:00',
             'end' => 9999,
             'quantity' => 2,
             'start' => 1,
-            'user_id' => $api->user_id,
+            'user_id' => $this->api->user_id,
         ]);
+    }
 
+    /**
+     * @test
+     */
+    public function it_syncs_orders_seller_received()
+    {
         $this->artisan('order:sync');
+
+        $order = Order::with([
+            'articles',
+            'sales',
+        ])->orderBy('id', 'DESC')
+        ->first();
+
+        $this->assertCount(3, $order->articles);
+        $this->assertEquals(0.3, $order->articles_cost);
+
+        $this->assertCount(5, $order->sales);
+        $this->assertEquals(2.0579, $order->items_cost);
+
+        $this->assertCount(2, CardmarketUser::all());
+    }
+
+    /**
+     * @test
+     */
+    public function it_syncs_orders_seller_paid()
+    {
+        $this->artisan('order:sync --state=paid');
 
         $order = Order::with([
             'articles',

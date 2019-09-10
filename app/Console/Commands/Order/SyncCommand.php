@@ -18,7 +18,7 @@ class SyncCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'order:sync';
+    protected $signature = 'order:sync {--actor=seller}  {--state=received}';
 
     /**
      * The console command description.
@@ -58,7 +58,7 @@ class SyncCommand extends Command
             'api' => $api,
         ]);
 
-        $cardmarketOrders = $CardmarketApi->order->find(\Cardmonitor\Cardmarket\Order::ACTOR_SELLER, \Cardmonitor\Cardmarket\ORDER::STATE_RECEIVED);
+        $cardmarketOrders = $CardmarketApi->order->find($this->option('actor'), $this->option('state'));
         foreach ($cardmarketOrders['order'] as $cardmarketOrder) {
             // dump($cardmarketOrder['buyer'], $cardmarketOrder['seller']);
             // TODO: nur aktuelle aktualisieren ($cardmarketOrder['state']['dateReceived'] ?)
