@@ -2963,6 +2963,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -2980,6 +2985,28 @@ __webpack_require__.r(__webpack_exports__);
     counts: {
       required: true,
       type: Object
+    }
+  },
+  computed: {
+    sums: function sums() {
+      var profit = 0,
+          unit_price = 0,
+          unit_cost = 0,
+          provision = 0;
+
+      for (var index in this.items) {
+        profit += Number(this.items[index]['unit_price']) - Number(this.items[index]['unit_cost']) - Number(this.items[index]['provision']);
+        unit_price += Number(this.items[index]['unit_price']);
+        unit_cost += Number(this.items[index]['unit_cost']);
+        provision += Number(this.items[index]['provision']);
+      }
+
+      return {
+        profit: profit,
+        provision: provision,
+        unit_cost: unit_cost,
+        unit_price: unit_price
+      };
     }
   },
   data: function data() {
@@ -41131,7 +41158,25 @@ var render = function() {
                     _c("b", [_vm._v(_vm._s(_vm.counts.all))])
                   ]),
                   _vm._v(" "),
-                  _c("td", { attrs: { colspan: "13" } })
+                  _c("td", { attrs: { colspan: "8" } }),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right font-weight-bold" }, [
+                    _vm._v(_vm._s(_vm.sums.unit_price.toFixed(2)) + " €")
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right font-weight-bold" }, [
+                    _vm._v(_vm._s(_vm.sums.unit_cost.toFixed(2)) + " €")
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right font-weight-bold" }, [
+                    _vm._v(_vm._s(_vm.sums.provision.toFixed(2)) + " €")
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right font-weight-bold" }, [
+                    _vm._v(_vm._s(_vm.sums.profit.toFixed(2)) + " €")
+                  ]),
+                  _vm._v(" "),
+                  _c("td")
                 ])
               ])
             ]

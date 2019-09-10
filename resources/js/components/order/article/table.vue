@@ -53,7 +53,12 @@
                     <tr>
                         <td><b>Gesamt</b></td>
                         <td class="text-center"><b>{{ counts.all }}</b></td>
-                        <td colspan="13"></td>
+                        <td colspan="8"></td>
+                        <td class="text-right font-weight-bold">{{ sums.unit_price.toFixed(2) }} €</td>
+                        <td class="text-right font-weight-bold">{{ sums.unit_cost.toFixed(2) }} €</td>
+                        <td class="text-right font-weight-bold">{{ sums.provision.toFixed(2) }} €</td>
+                        <td class="text-right font-weight-bold">{{ sums.profit.toFixed(2) }} €</td>
+                        <td></td>
                     </tr>
                 </tfoot>
             </table>
@@ -86,6 +91,28 @@
             counts: {
                 required: true,
                 type: Object,
+            },
+        },
+
+        computed: {
+            sums() {
+                var profit = 0,
+                    unit_price = 0,
+                    unit_cost = 0,
+                    provision = 0;
+                for (var index in this.items) {
+                    profit += (Number(this.items[index]['unit_price']) - Number(this.items[index]['unit_cost']) - Number(this.items[index]['provision']));
+                    unit_price += Number(this.items[index]['unit_price']);
+                    unit_cost += Number(this.items[index]['unit_cost']);
+                    provision += Number(this.items[index]['provision']);
+                }
+
+                return {
+                    profit: profit,
+                    provision: provision,
+                    unit_cost: unit_cost,
+                    unit_price: unit_price,
+                };
             },
         },
 
