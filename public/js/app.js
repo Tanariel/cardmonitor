@@ -40873,13 +40873,13 @@ var render = function() {
                   [
                     _c("option", [_vm._v("Probleme?")]),
                     _vm._v(" "),
-                    _c("option", [_vm._v("nicht gefunden")]),
+                    _c("option", [_vm._v("ist nicht vorhanden")]),
                     _vm._v(" "),
                     _c("option", [
                       _vm._v("in schlechterem Zustand als angegeben")
                     ]),
                     _vm._v(" "),
-                    _c("option", [_vm._v("falsche Sprache")])
+                    _c("option", [_vm._v("in falscher Sprache")])
                   ]
                 )
               ]),

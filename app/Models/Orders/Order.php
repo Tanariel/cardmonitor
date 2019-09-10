@@ -298,6 +298,15 @@ class Order extends Model
         $images_count = count($this->images);
         $message = "Hallo " . $this->buyer->firstname . ",\nvielen Dank für deine Bestellung.\n\n";
 
+        $articlesWithStateComments = $this->articles()->with(['card.localizations'])->whereNotNull('state_comments')->get();
+        if (count($articlesWithStateComments) > 0) {
+            $message .= "Folgendes ist mir aufgefallen:\n";
+            foreach ($articlesWithStateComments as $key => $article) {
+                $message .= $article->localName . " " . $article->state_comments . "\n";
+            }
+            $message .= "\n";
+        }
+
         if ($images_count) {
             if ($images_count == 1) {
                 $message .= "Hier ist schon mal ein Bild deiner " . ($this->articles_count == 1 ? 'Karte' : 'Karten') . "\n";
