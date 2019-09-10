@@ -21,8 +21,10 @@ class CreateArticlesTable extends Migration
             $table->unsignedTinyInteger('language_id');
             $table->unsignedBigInteger('cardmarket_article_id')->nullable()->index();
             $table->dateTime('cardmarket_last_edited')->nullable();
+            $table->unsignedTinyInteger('state')->nullable();
+            $table->string('state_comments')->nullable();
             $table->string('condition');
-            $table->string('comments')->nullable();
+            $table->string('cardmarket_comments')->nullable();
             $table->boolean('is_in_shoppingcard')->default(false);
             $table->boolean('is_foil')->default(false);
             $table->boolean('is_signed')->default(false);

@@ -234,7 +234,7 @@ class Order extends Model
             'is_signed' => $cardmarketArticle['isSigned'] ?? false,
             'is_altered' => $cardmarketArticle['isAltered'] ?? false,
             'is_playset' => $cardmarketArticle['isPlayset'] ?? false,
-            'comments' => $cardmarketArticle['comments'] ?: null,
+            'cardmarket_comments' => $cardmarketArticle['comments'] ?: null,
         ];
         foreach (range($articles_count, ($articles_left_count - 1)) as $value) {
             $this->articles()->create($attributes);

@@ -21,6 +21,8 @@ class Article extends Model
     protected $appends = [
         'localName',
         'provision_formatted',
+        'state_icon',
+        'state_key',
         'unit_cost_formatted',
     ];
 
@@ -32,6 +34,8 @@ class Article extends Model
 
     protected $guarded = [
         'id',
+        'state_icon',
+        'state_key',
     ];
 
     protected $dates = [
@@ -124,6 +128,27 @@ class Article extends Model
     public function getProvisionFormattedAttribute()
     {
         return number_format($this->provision, 2, ',', '');
+    }
+
+    public function getStateIconAttribute()
+    {
+        if (is_null($this->state)) {
+            return 'fa-question text-info';
+        }
+
+        switch ($this->state) {
+            case 0:
+                return 'fa-check text-success';
+                break;
+            case 1:
+                return 'fa-exclamation text-danger';
+                break;
+        }
+    }
+
+    public function getStateKeyAttribute()
+    {
+        return $this->state ?? -1;
     }
 
     public function getUnitCostFormattedAttribute()

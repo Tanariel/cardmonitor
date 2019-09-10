@@ -1,17 +1,18 @@
 <template>
     <tr>
-        <td class="align-middle">{{ (index + 1) }}</td>
+        <td class="align-middle pointer" @click="toShow">{{ (index + 1) }}</td>
+        <td class="align-middle text-center pointer" @click="toShow"><i class="fas fa-fw" :class="item.state_icon" :title="item.state_comments"></i></td>
         <td class="align-middle"><i class="fas fa-image pointer" @mouseover="show($event)" @mouseout="$emit('hide')"></i></td>
-        <td class="align-middle">{{ item.localName }}</td>
-        <td class="align-middle text-right">{{ item.card.number }}</td>
-        <td class="align-middle ">{{ item.card.expansion.name }}</td>
-        <td class="align-middle text-center"><rarity :value="item.card.rarity"></rarity></td>
-        <td class="align-middle text-center"><condition :value="item.condition"></condition></td>
-        <td class="align-middle">
+        <td class="align-middle pointer" @click="toShow">{{ item.localName }}</td>
+        <td class="align-middle text-right pointer" @click="toShow">{{ item.card.number }}</td>
+        <td class="align-middle pointer" @click="toShow">{{ item.card.expansion.name }}</td>
+        <td class="align-middle text-center pointer" @click="toShow"><rarity :value="item.card.rarity"></rarity></td>
+        <td class="align-middle text-center pointer" @click="toShow"><condition :value="item.condition"></condition></td>
+        <td class="align-middle pointer" @click="toShow">
             <i class="fas fa-star text-warning" v-if="item.is_foil"></i>
         </td>
-        <td class="align-middle">{{ item.comments || '' }}</td>
-        <td class="align-middle text-right">{{ Number(item.unit_price).toFixed(2) }} €</td>
+        <td class="align-middle pointer" @click="toShow">{{ item.comments || '' }}</td>
+        <td class="align-middle text-right pointer" @click="toShow">{{ Number(item.unit_price).toFixed(2) }} €</td>
         <td class="align-middle text-right">
             <input class="form-control text-right" :class="'unit_cost_formatted' in errors ? 'is-invalid' : ''" type="text" v-model="form.unit_cost_formatted" @keydown.enter="update">
             <div class="invalid-feedback" v-text="'unit_cost_formatted' in errors ? errors.unit_cost_formatted[0] : ''"></div>
@@ -20,10 +21,11 @@
             <input class="form-control text-right" :class="'provision_formatted' in errors ? 'is-invalid' : ''" type="text" v-model="form.provision_formatted" @keydown.enter="update">
             <div class="invalid-feedback" v-text="'provision_formatted' in errors ? errors.provision_formatted[0] : ''"></div>
         </td>
-        <td class="align-middle text-right">{{ Number(item.unit_price - item.unit_cost - item.provision).toFixed(2) }} €</td>
+        <td class="align-middle text-right pointer" @click="toShow">{{ Number(item.unit_price - item.unit_cost - item.provision).toFixed(2) }} €</td>
         <td class="align-middle text-right">
             <div class="btn-group btn-group-sm" role="group">
-                <button type="button" class="btn btn-secondary" title="Speichern" @click="update"><i class="fas fa-save"></i></button>
+                <button type="button" class="btn btn-secondary" title="Anzeigen" @click="toShow"><i class="fas fa-fw fa-eye"></i></button>
+                <button type="button" class="btn btn-secondary" title="Speichern" @click="update"><i class="fas fa-fw fa-save"></i></button>
             </div>
         </td>
     </tr>
@@ -58,8 +60,11 @@
             show(event) {
                 this.$emit('show', {
                     src: this.item.card.imagePath,
-                    top: (event.layerY - 100) + 'px',
+                    top: (event.layerY + 325) + 'px',
                 });
+            },
+            toShow() {
+                this.$emit('toshow');
             },
             update() {
                 var component = this;

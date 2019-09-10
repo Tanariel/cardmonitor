@@ -13,7 +13,7 @@
                     <button type="submit" class="btn btn-primary" title="Versenden">Versenden</button>
                 </form>
             @endif
-            <a href="{{ url('/item') }}" class="btn btn-secondary ml-1">Übersicht</a>
+            <a href="{{ url('/order') }}" class="btn btn-secondary ml-1">Übersicht</a>
         </div>
     </div>
     <div class="row">
@@ -156,7 +156,7 @@
     <div class="card">
         <div class="card-header">Artikel</div>
         <div class="card-body">
-            <order-article-table :model="{{ json_encode($model) }}"></order-article-table>
+            <order-article-index :model="{{ json_encode($model) }}"></order-article-index>
         </div>
     </div>
 
