@@ -103,7 +103,7 @@ class DevCommand extends Command
         fclose($cardsFile);
 
         $this->call('order:sync');
-        $this->call('order:sync --state=paid');
+        $this->call('order:sync', ['--state' => 'paid']);
 
         // Create Cards from API
         // $CardmarketApi = App::make('CardmarketApi', [

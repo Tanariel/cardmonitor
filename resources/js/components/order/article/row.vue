@@ -3,7 +3,7 @@
         <td class="align-middle pointer" @click="toShow">{{ (index + 1) }}</td>
         <td class="align-middle text-center pointer" @click="toShow"><i class="fas fa-fw" :class="item.state_icon" :title="item.state_comments"></i></td>
         <td class="align-middle"><i class="fas fa-image pointer" @mouseover="show($event)" @mouseout="$emit('hide')"></i></td>
-        <td class="align-middle pointer" @click="toShow">{{ item.localName }}</td>
+        <td class="align-middle pointer" @click="toShow"><span class="flag-icon" :class="'flag-icon-' + item.language.code" :title="item.language.name"></span> {{ item.localName }}</td>
         <td class="align-middle text-right pointer" @click="toShow">{{ item.card.number }}</td>
         <td class="align-middle pointer" @click="toShow">{{ item.card.expansion.name }}</td>
         <td class="align-middle text-center pointer" @click="toShow"><rarity :value="item.card.rarity"></rarity></td>

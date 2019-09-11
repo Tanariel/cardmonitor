@@ -13,22 +13,39 @@ class Language extends Model
 
     protected $fillable = [
         'id',
+        'code',
         'name',
     ];
 
     public static function setup()
     {
         $languages = [
-            1 => 'English',
-            2 => 'French',
-            3 => 'German',
-            4 => 'Spanish',
-            5 => 'Italian',
+            1 => [
+                'code' => 'gb',
+                'name' => 'English',
+            ],
+            2 => [
+                'code' => 'fr',
+                'name' => 'French',
+            ],
+            3 => [
+                'code' => 'de',
+                'name' => 'German',
+            ],
+            4 => [
+                'code' => 'es',
+                'name' => 'Spanish',
+            ],
+            5 => [
+                'code' => 'it',
+                'name' => 'Italian',
+            ],
         ];
-        foreach ($languages as $id => $name) {
-            $language = self::create([
+        foreach ($languages as $id => $language) {
+            self::create([
                 'id' => $id,
-                'name' => $name,
+                'code' => $language['code'],
+                'name' => $language['name'],
             ]);
         }
     }

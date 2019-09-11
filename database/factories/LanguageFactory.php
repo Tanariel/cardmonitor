@@ -9,5 +9,6 @@ $factory->define(Language::class, function (Faker $faker) {
     return [
         'id' => $faker->numberBetween(2, 12),
         'name' => $faker->word,
+        'code' => $faker->languageCode,
     ];
 });

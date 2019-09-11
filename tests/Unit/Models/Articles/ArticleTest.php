@@ -61,6 +61,17 @@ class ArticleTest extends TestCase
      */
     public function it_belongs_to_a_card()
     {
+        $model = factory(Article::class)->create([
+            'language_id' => Language::DEFAULT_ID,
+        ]);
+        $this->assertEquals(BelongsTo::class, get_class($model->language()));
+    }
+
+    /**
+     * @test
+     */
+    public function it_belongs_to_a_language()
+    {
         $card = factory(Card::class)->create();
 
         $model = factory(Article::class)->create([

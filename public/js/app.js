@@ -40563,7 +40563,14 @@ var render = function() {
     _c(
       "td",
       { staticClass: "align-middle pointer", on: { click: _vm.toShow } },
-      [_vm._v(_vm._s(_vm.item.localName))]
+      [
+        _c("span", {
+          staticClass: "flag-icon",
+          class: "flag-icon-" + _vm.item.language.code,
+          attrs: { title: _vm.item.language.name }
+        }),
+        _vm._v(" " + _vm._s(_vm.item.localName))
+      ]
     ),
     _vm._v(" "),
     _c(
@@ -40845,8 +40852,13 @@ var render = function() {
                       _vm._s(_vm.item.localName) +
                       " (#" +
                       _vm._s(_vm.item.card.number) +
-                      ")"
-                  )
+                      ") "
+                  ),
+                  _c("span", {
+                    staticClass: "flag-icon",
+                    class: "flag-icon-" + _vm.item.language.code,
+                    attrs: { title: _vm.item.language.name }
+                  })
                 ])
               ]),
               _vm._v(" "),

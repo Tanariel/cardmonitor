@@ -3,6 +3,7 @@
 namespace App\Models\Articles;
 
 use App\Models\Cards\Card;
+use App\Models\Localizations\Language;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -159,5 +160,10 @@ class Article extends Model
     public function card() : BelongsTo
     {
         return $this->belongsTo(Card::class);
+    }
+
+    public function language() : BelongsTo
+    {
+        return $this->belongsTo(Language::class);
     }
 }

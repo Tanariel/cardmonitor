@@ -58,7 +58,7 @@ class OrderController extends Controller
     {
         return view($this->baseViewPath . '.show')
             ->with('model', $order->load([
-                'articles',
+                'articles.language',
                 'buyer',
                 'sales.item',
                 'seller',

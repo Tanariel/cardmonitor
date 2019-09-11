@@ -22,22 +22,8 @@ abstract class TestCase extends BaseTestCase
         parent::setUp();
 
         $this->user = factory(User::class)->create();
-        $languages = [
-            1 => 'English',
-            2 => 'French',
-            3 => 'German',
-            4 => 'Spanish',
-            5 => 'Italian',
-        ];
-        foreach ($languages as $id => $name) {
-            $language = Language::create([
-                'id' => $id,
-                'name' => $name,
-            ]);
-            if ($id == Language::DEFAULT_ID) {
-                $this->defaultLanguage = $language;
-            }
-        }
+
+        Language::setup();
 
         Item::setup($this->user);
     }
