@@ -18,17 +18,16 @@ class SendController extends Controller
 
         try {
             $cardmarketOrder = $CardmarketApi->order->send($order->cardmarket_order_id);
-            $order->updateOrCreateFromCardmarket($cardmarketOrder);
-
+            $order->updateOrCreateFromCardmarket(auth()->user()->id, $cardmarketOrder['order']);
             return back()->with('status', [
                 'type' => 'success',
-                'text' => 'Bestellung versendet marktiert.',
+                'text' => 'Bestellung als versendet markiert.',
             ]);
         }
         catch (ClientException $exc) {
             return back()->with('status', [
                 'type' => 'danger',
-                'text' => 'Bestellung konnte nicht als versendet marktiert werden.',
+                'text' => 'Bestellung konnte nicht als versendet markiert werden.',
             ]);
         }
     }

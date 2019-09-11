@@ -49,6 +49,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('order/{order}/send', 'Cardmarket\Orders\SendController@store')->name('order.send.store');
     Route::get('order/{order}/message/create', 'Cardmarket\Orders\MessageController@create')->name('order.message.create');
     Route::post('order/{order}/message', 'Cardmarket\Orders\MessageController@store')->name('order.message.store');
+    Route::put('order/{order}/sync', 'Cardmarket\Orders\OrderController@update')->name('order.sync.update');
 
     Route::resource('transaction', 'Items\Transactions\TransactionController')->except([
         'index',

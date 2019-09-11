@@ -13,6 +13,12 @@
                     <button type="submit" class="btn btn-primary" title="Versenden">Versenden</button>
                 </form>
             @endif
+            <form action="{{ $model->path . '/sync' }}" class="ml-1" method="POST">
+                @csrf
+                @method('PUT')
+
+                <button type="submit" class="btn btn-secondary" title="Aktualisieren"><i class="fas fa-fw fa-sync"></i></button>
+            </form>
             <a href="{{ url('/order') }}" class="btn btn-secondary ml-1">Übersicht</a>
         </div>
     </div>

@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Cardmonitor/cardmarket-api.git",
-                "reference": "f798a987477cae506a8734bba76fb4100c0a55d9"
+                "reference": "217c0a2635482bc49c738857c23212dda9e2c65d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Cardmonitor/cardmarket-api/zipball/f798a987477cae506a8734bba76fb4100c0a55d9",
-                "reference": "f798a987477cae506a8734bba76fb4100c0a55d9",
+                "url": "https://api.github.com/repos/Cardmonitor/cardmarket-api/zipball/217c0a2635482bc49c738857c23212dda9e2c65d",
+                "reference": "217c0a2635482bc49c738857c23212dda9e2c65d",
                 "shasum": ""
             },
             "require": {
@@ -46,7 +46,7 @@
                 }
             ],
             "description": "PHP Cardmarket API",
-            "time": "2019-09-09T11:03:39+00:00"
+            "time": "2019-09-10T12:55:40+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
