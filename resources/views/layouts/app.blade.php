@@ -26,7 +26,7 @@
                 <a class="navbar-brand" href="#">Cardmonitor</a>
             </div>
             <ul class="col">
-                <a href="{{ url('/') }}"><li>Start</li></a>
+                <a href="{{ url('/home') }}"><li>Start</li></a>
                 <a href="{{ url('/order') }}"><li>Bestellungen</li></a>
                 <a href="{{ url('/article') }}"><li>Inventar</li></a>
                 <a href="{{ url('/item') }}"><li>Kosten</li></a>
