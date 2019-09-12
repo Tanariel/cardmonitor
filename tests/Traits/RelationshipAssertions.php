@@ -4,6 +4,7 @@ namespace Tests\Traits;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -19,6 +20,13 @@ trait RelationshipAssertions
             ->save();
 
         $this->assertEquals($related->id, $model->fresh()->$relationship->id);
+    }
+
+    public function assertBelongsToMany(Model $model, Model $related, string $relationship)
+    {
+        $this->assertEquals(BelongsToMany::class, get_class($model->$relationship()));
+
+        $this->assertCount(1, $model->fresh()->$relationship);
     }
 
     public function assertHasMany(Model $model, Model $related, string $relationship)

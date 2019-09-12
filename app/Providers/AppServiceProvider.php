@@ -18,6 +18,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind('CardmarketApi', function ($app, array $parameters) {
             return new Api($parameters['api']->accessdata);
         });
+
+        $this->app->singleton('SkryfallApi', function ($app, array $parameters) {
+            return new \Cardmonitor\Skryfall\Api();
+        });
     }
 
     /**
