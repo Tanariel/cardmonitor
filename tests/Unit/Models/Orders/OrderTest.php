@@ -5,6 +5,7 @@ namespace Tests\Unit\Models\Orders;
 use App\Models\Articles\Article;
 use App\Models\Images\Image;
 use App\Models\Items\Item;
+use App\Models\Orders\Evaluation;
 use App\Models\Orders\Order;
 use App\Models\Users\CardmarketUser;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -15,6 +16,19 @@ use Tests\Traits\RelationshipAssertions;
 class OrderTest extends TestCase
 {
     use RelationshipAssertions;
+
+    /**
+     * @test
+     */
+    public function it_has_one_evaluation()
+    {
+        $model = factory(Order::class)->create();
+        $related = factory(Evaluation::class)->create([
+            'order_id' => $model->id,
+        ]);
+
+        $this->assertHasOne($model, $related, 'evaluation');
+    }
 
     /**
      * @test

@@ -47,34 +47,60 @@
                                 <div class="col-md-4"><b>Karten</b></div>
                                 <div class="col-md-8">{{ $model->articles_count }}</div>
                             </div>
+                            @if ($model->evaluation)
+                                <div class="row">
+                                    <div class="col-md-4">&nbsp;</div>
+                                    <div class="col-md-8"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4"><b>Allgemeine Bewertung</b></div>
+                                    <div class="col-md-8">{{ $model->evaluation->grade }}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4"><b>Beschreibung der Artikelzustände</b></div>
+                                    <div class="col-md-8">{{ $model->evaluation->item_description }}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4"><b>Verpackung der Bestellung</b></div>
+                                    <div class="col-md-8">{{ $model->evaluation->packaging }}</div>
+                                </div>
+                                @if ($model->evaluation->comment)
+                                    <div class="row">
+                                        <div class="col-md-4"><b>Komentar</b></div>
+                                        <div class="col-md-8">{{ $model->evaluation->comment }}</div>
+                                    </div>
+                                @endif
+                                @if (! empty($model->evaluation->complaint))
+                                    @foreach ($model->evaluation->complaint as $complaint)
+                                        <div class="row">
+                                            <div class="col-md-4"></div>
+                                            <div class="col-md-8">{{ $complaint }}</div>
+                                        </div>
+                                    @endforeach
+                                @endif
+                            @endif
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="row mb-3">
-                <div class="col-md-6">
-                    <div class="card h-100 mb-3">
-                        <div class="card-header">Versandadresse</div>
-                        <div class="card-body">
-                            {!! nl2br($model->shippingAddressText) !!}
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card h-100 mb-3">
-                        <div class="card-header">Bilder</div>
-                        <div class="card-body">
-                            <imageable-table :model="{{ json_encode($model) }}" token="{{ csrf_token() }}"></imageable-table>
-                        </div>
-                    </div>
-
+            <div class="card mb-3">
+                <div class="card-header">Bilder</div>
+                <div class="card-body">
+                    <imageable-table :model="{{ json_encode($model) }}" token="{{ csrf_token() }}"></imageable-table>
                 </div>
             </div>
 
         </div>
 
         <div class="col-md-6">
+
+            <div class="card mb-3">
+                <div class="card-header">Versandadresse</div>
+                <div class="card-body">
+                    {!! nl2br($model->shippingAddressText) !!}
+                </div>
+            </div>
 
             <div class="card mb-3">
                 <div class="card-header">Kalkulation</div>

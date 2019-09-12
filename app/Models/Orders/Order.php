@@ -8,6 +8,7 @@ use App\Models\Images\Image;
 use App\Models\Items\Item;
 use App\Models\Items\Transactions\Sale;
 use App\Models\Items\Transactions\Transaction;
+use App\Models\Orders\Evaluation;
 use App\Models\Users\CardmarketUser;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
@@ -15,6 +16,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Arr;
 
@@ -100,14 +102,11 @@ class Order extends Model
             'received_at' => (Arr::has($cardmarketOrder['state'], 'dateReceived') ? new Carbon($cardmarketOrder['state']['dateReceived']) : null),
             'sent_at' => (Arr::has($cardmarketOrder['state'], 'dateSent') ? new Carbon($cardmarketOrder['state']['dateSent']) : null),
         ];
-        if (Arr::has($cardmarketOrder, 'evaluation')) {
-            $values['evaluation_grade'] = $cardmarketOrder['evaluation']['evaluationGrade'];
-            $values['evaluation_item_description'] = $cardmarketOrder['evaluation']['itemDescription'];
-            $values['evaluation_packaging'] = $cardmarketOrder['evaluation']['packaging'];
-            $values['evaluation_comment'] = $cardmarketOrder['evaluation']['comment'];
-        }
 
         $order = self::updateOrCreate(['cardmarket_order_id' => $cardmarketOrder['idOrder']], $values);
+        if (Arr::has($cardmarketOrder, 'evaluation')) {
+            $evaluation = Evaluation::updateOrCreateFromCardmarket($order->id, $cardmarketOrder['evaluation']);
+        }
         if ($order->wasRecentlyCreated) {
             $order->findItems();
             $order->addArticlesFromCardmarket($cardmarketOrder);
@@ -348,6 +347,11 @@ class Order extends Model
     public function buyer() : BelongsTo
     {
         return $this->belongsTo(CardmarketUser::class, 'buyer_id');
+    }
+
+    public function evaluation() : HasOne
+    {
+        return $this->hasOne(Evaluation::class);
     }
 
     public function images() : MorphMany

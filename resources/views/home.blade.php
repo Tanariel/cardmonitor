@@ -32,9 +32,9 @@
 
         <div class="col">
             <div class="card">
-                <div class="card-header">Kennzahl</div>
+                <div class="card-header">Letzte Bewertungen</div>
                 <div class="card-body">
-
+                    Bewertungen in eigene Tabelle
                 </div>
             </div>
         </div>

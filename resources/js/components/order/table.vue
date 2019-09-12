@@ -55,15 +55,15 @@
         </div>
         <div class="alert alert-dark mt-3" v-else><center>Keine Bestellungen vorhanden</center></div>
         <nav aria-label="Page navigation example">
-            <ul class="pagination" v-show="paginate.lastPage > 1">
+            <ul class="pagination justify-content-center" v-show="paginate.lastPage > 1">
                 <li class="page-item" v-show="paginate.prevPageUrl">
-                    <a class="page-link" href="#" @click.prevent="page--">Previous</a>
+                    <a class="page-link" href="#" @click.prevent="filter.page--">Previous</a>
                 </li>
 
-                <li class="page-item" v-for="n in paginate.lastPage" v-bind:class="{ active: (n == page) }"><a class="page-link" href="#" @click.prevent="page = n">{{ n }}</a></li>
+                <li class="page-item" v-for="n in paginate.lastPage" v-bind:class="{ active: (n == filter.page) }"><a class="page-link" href="#" @click.prevent="filter.page = n">{{ n }}</a></li>
 
                 <li class="page-item" v-show="paginate.nextPageUrl">
-                    <a class="page-link" href="#" @click.prevent="page++">Next</a>
+                    <a class="page-link" href="#" @click.prevent="filter.page++">Next</a>
                 </li>
             </ul>
         </nav>
@@ -86,13 +86,14 @@
                 uri: '/order',
                 items: [],
                 isLoading: true,
-                page: 1,
+
                 paginate: {
                     nextPageUrl: null,
                     prevPageUrl: null,
                     lastPage: 0,
                 },
                 filter: {
+                    page: 1,
                     searchtext: '',
                 },
                 selected: [],
@@ -113,6 +114,9 @@
         },
 
         computed: {
+            page() {
+                return this.filter.page;
+            },
             selectAll: {
                 get: function () {
                     return this.items.length ? this.items.length == this.selected.length : false;
@@ -137,7 +141,7 @@
                 })
                     .then(function (response) {
                         component.items = response.data.data;
-                        component.page = response.data.current_page;
+                        component.filter.page = response.data.current_page;
                         component.paginate.nextPageUrl = response.data.next_page_url;
                         component.paginate.prevPageUrl = response.data.prev_page_url;
                         component.paginate.lastPage = response.data.last_page;

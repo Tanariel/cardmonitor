@@ -20,6 +20,9 @@ class OrderController extends Controller
         if ($request->wantsJson()) {
             return auth()->user()
                 ->orders()
+                ->with([
+                    'evaluation'
+                ])
                 ->orderBy('paid_at', 'DESC')
                 ->paginate();
         }
@@ -60,6 +63,7 @@ class OrderController extends Controller
             ->with('model', $order->load([
                 'articles.language',
                 'buyer',
+                'evaluation',
                 'sales.item',
                 'seller',
             ]));

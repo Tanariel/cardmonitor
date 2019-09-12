@@ -38,11 +38,6 @@ class CreateOrdersTable extends Migration
             $table->string('shipping_city');
             $table->string('shipping_country');
 
-            $table->unsignedTinyInteger('evaluation_grade')->nullable();
-            $table->unsignedTinyInteger('evaluation_item_description')->nullable();
-            $table->unsignedTinyInteger('evaluation_packaging')->nullable();
-            $table->string('evaluation_comment')->nullable();
-
             $table->decimal('provision', 15, 6)->default(0);
 
             $table->decimal('items_cost', 15, 6)->default(0);

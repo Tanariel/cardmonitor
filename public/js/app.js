@@ -3387,13 +3387,13 @@ __webpack_require__.r(__webpack_exports__);
       uri: '/order',
       items: [],
       isLoading: true,
-      page: 1,
       paginate: {
         nextPageUrl: null,
         prevPageUrl: null,
         lastPage: 0
       },
       filter: {
+        page: 1,
         searchtext: ''
       },
       selected: []
@@ -3408,6 +3408,9 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   computed: {
+    page: function page() {
+      return this.filter.page;
+    },
     selectAll: {
       get: function get() {
         return this.items.length ? this.items.length == this.selected.length : false;
@@ -3431,7 +3434,7 @@ __webpack_require__.r(__webpack_exports__);
         params: component.filter
       }).then(function (response) {
         component.items = response.data.data;
-        component.page = response.data.current_page;
+        component.filter.page = response.data.current_page;
         component.paginate.nextPageUrl = response.data.next_page_url;
         component.paginate.prevPageUrl = response.data.prev_page_url;
         component.paginate.lastPage = response.data.last_page;
@@ -42379,7 +42382,11 @@ var render = function() {
         attrs: { title: "Allgemeine Bewertung" },
         on: { click: _vm.link }
       },
-      [_c("evaluation", { attrs: { value: _vm.item.evaluation_grade } })],
+      [
+        _c("evaluation", {
+          attrs: { value: _vm.item.evaluation ? _vm.item.evaluation.grade : 0 }
+        })
+      ],
       1
     ),
     _vm._v(" "),
@@ -42392,7 +42399,11 @@ var render = function() {
       },
       [
         _c("evaluation", {
-          attrs: { value: _vm.item.evaluation_item_description }
+          attrs: {
+            value: _vm.item.evaluation
+              ? _vm.item.evaluation.item_description
+              : 0
+          }
         })
       ],
       1
@@ -42405,7 +42416,13 @@ var render = function() {
         attrs: { title: "Verpackung der Bestellung" },
         on: { click: _vm.link }
       },
-      [_c("evaluation", { attrs: { value: _vm.item.evaluation_packaging } })],
+      [
+        _c("evaluation", {
+          attrs: {
+            value: _vm.item.evaluation ? _vm.item.evaluation.packaging : 0
+          }
+        })
+      ],
       1
     ),
     _vm._v(" "),
@@ -42707,7 +42724,7 @@ var render = function() {
               expression: "paginate.lastPage > 1"
             }
           ],
-          staticClass: "pagination"
+          staticClass: "pagination justify-content-center"
         },
         [
           _c(
@@ -42732,7 +42749,7 @@ var render = function() {
                   on: {
                     click: function($event) {
                       $event.preventDefault()
-                      _vm.page--
+                      _vm.filter.page--
                     }
                   }
                 },
@@ -42744,7 +42761,10 @@ var render = function() {
           _vm._l(_vm.paginate.lastPage, function(n) {
             return _c(
               "li",
-              { staticClass: "page-item", class: { active: n == _vm.page } },
+              {
+                staticClass: "page-item",
+                class: { active: n == _vm.filter.page }
+              },
               [
                 _c(
                   "a",
@@ -42754,7 +42774,7 @@ var render = function() {
                     on: {
                       click: function($event) {
                         $event.preventDefault()
-                        _vm.page = n
+                        _vm.filter.page = n
                       }
                     }
                   },
@@ -42786,7 +42806,7 @@ var render = function() {
                   on: {
                     click: function($event) {
                       $event.preventDefault()
-                      _vm.page++
+                      _vm.filter.page++
                     }
                   }
                 },

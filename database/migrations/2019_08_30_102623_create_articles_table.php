@@ -39,9 +39,9 @@ class CreateArticlesTable extends Migration
             $table->text('hash')->nullable();
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('card_id')->references('id')->on('cards');
-            $table->foreign('order_id')->references('id')->on('orders');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('card_id')->references('id')->on('cards')->onDelete('cascade');
+            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
             $table->foreign('language_id')->references('id')->on('languages');
         });
     }
