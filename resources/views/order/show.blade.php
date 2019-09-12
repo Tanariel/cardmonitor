@@ -22,6 +22,43 @@
             <a href="{{ url('/order') }}" class="btn btn-secondary ml-1">Übersicht</a>
         </div>
     </div>
+
+    <div class="row mb-3">
+
+        <div class="col">
+            <div class="card font-weight-bold text-light">
+                <div class="card-body {{ (is_null($model->bought_at) ? '' : 'bg-primary') }}">
+                    Unbezahlt{{ (is_null($model->bought_at) ? '' : ' : ' . $model->bought_at->format('d.m.Y H:i'))}}
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card font-weight-bold text-light">
+                <div class="card-body {{ (is_null($model->paid_at) ? '' : 'bg-primary') }}">
+                    Bezahlt{{ (is_null($model->paid_at) ? '' : ' : ' . $model->paid_at->format('d.m.Y H:i'))}}
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card font-weight-bold text-light">
+                <div class="card-body {{ (is_null($model->sent_at) ? '' : 'bg-primary') }}">
+                    Versandt{{ (is_null($model->sent_at) ? '' : ' : ' . $model->sent_at->format('d.m.Y H:i'))}}
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card font-weight-bold text-light">
+                <div class="card-body {{ (is_null($model->received_at) ? '' : 'bg-primary') }}">
+                    Angekommen{{ (is_null($model->received_at) ? '' : ' : ' . $model->received_at->format('d.m.Y H:i'))}}
+                </div>
+            </div>
+        </div>
+
+    </div>
+
     <div class="row">
 
         <div class="col-md-6">
