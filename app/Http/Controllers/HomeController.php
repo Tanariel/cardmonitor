@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Orders\Evaluation;
+use App\Models\Orders\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -31,7 +33,14 @@ class HomeController extends Controller
             ->limit(5)
             ->get();
 
+        $orders = DB::table('orders')->select('state', DB::raw('COUNT(*) AS count'))->groupBy('state')->get();
+        $ordersByState = [];
+        foreach ($orders as $key => $order) {
+            $ordersByState[$order->state] = $order->count;
+        }
+
         return view('home')
-            ->with('evaluations', $evaluations);
+            ->with('evaluations', $evaluations)
+            ->with('ordersByState', $ordersByState);
     }
 }

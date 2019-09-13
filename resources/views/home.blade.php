@@ -1,10 +1,50 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="row mb-3">
+    <div class="row mb-3 align-items-stretch">
 
         <div class="col">
-            <div class="card">
+            <div class="card h-100">
+                <div class="card-header">Bestellungen</div>
+                <div class="card-body">
+                    <table class="table table-striped table-hover">
+                        <tbody>
+                            <tr>
+                                <td>Unbezahlt</td>
+                                <td class="text-right">{{ $ordersByState['bought'] ?? 0 }}</td>
+                            </tr>
+                            <tr>
+                                <td>Bezahlt</td>
+                                <td class="text-right">{{ $ordersByState['paid'] ?? 0 }}</td>
+                            </tr>
+                            <tr>
+                                <td>Versendet</td>
+                                <td class="text-right">{{ $ordersByState['sent'] ?? 0 }}</td>
+                            </tr>
+                            <tr>
+                                <td>Angekommen</td>
+                                <td class="text-right">{{ $ordersByState['received'] ?? 0 }}</td>
+                            </tr>
+                            <tr>
+                                <td>Bewertet</td>
+                                <td class="text-right">{{ $ordersByState['evaluated'] ?? 0 }}</td>
+                            </tr>
+                            <tr>
+                                <td>Verloren</td>
+                                <td class="text-right">{{ $ordersByState['lost'] ?? 0 }}</td>
+                            </tr>
+                            <tr>
+                                <td>Storniert</td>
+                                <td class="text-right">{{ $ordersByState['canceled'] ?? 0 }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card h-100">
                 <div class="card-header">Kennzahl</div>
                 <div class="card-body">
 
@@ -13,7 +53,7 @@
         </div>
 
         <div class="col">
-            <div class="card">
+            <div class="card h-100">
                 <div class="card-header">Kennzahl</div>
                 <div class="card-body">
 
@@ -22,16 +62,7 @@
         </div>
 
         <div class="col">
-            <div class="card">
-                <div class="card-header">Kennzahl</div>
-                <div class="card-body">
-
-                </div>
-            </div>
-        </div>
-
-        <div class="col">
-            <div class="card">
+            <div class="card h-100">
                 <div class="card-header">Letzte Bewertungen</div>
                 <div class="card-body">
                     @if (count($evaluations))

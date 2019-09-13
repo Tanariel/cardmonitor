@@ -34,7 +34,7 @@
                         <tr>
                             <th width="20%"></th>
                             <th class="text-right" width="20%">Gesamt</th>
-                            <th class="text-right" width="20%">Pro Tag</th>
+                            <th class="text-right" width="20%">Pro Monat</th>
                             <th class="text-right" width="20%">Pro Bestellung</th>
                             <th class="text-right" width="20%">Pro Karte</th>
                         </tr>

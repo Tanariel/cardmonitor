@@ -41235,7 +41235,7 @@ var staticRenderFns = [
         ]),
         _vm._v(" "),
         _c("th", { staticClass: "text-right", attrs: { width: "20%" } }, [
-          _vm._v("Pro Tag")
+          _vm._v("Pro Monat")
         ]),
         _vm._v(" "),
         _c("th", { staticClass: "text-right", attrs: { width: "20%" } }, [
