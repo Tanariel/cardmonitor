@@ -24,6 +24,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/home/order/month/{year}/{month}', 'Home\Orders\MonthController@index')->name('home.order.month');
+    Route::get('/home/order/year/{year}', 'Home\Orders\YearController@index')->name('home.order.year');
 
     Route::resource('api', 'Apis\ApiController');
 

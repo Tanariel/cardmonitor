@@ -11,6 +11,7 @@ use App\Models\Items\Transactions\Transaction;
 use App\Models\Orders\Evaluation;
 use App\Models\Users\CardmarketUser;
 use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -19,6 +20,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 
 class Order extends Model
 {
@@ -117,6 +119,223 @@ class Order extends Model
 
 
         return $order;
+    }
+
+    public static function revenuePerDay(int $userId, Carbon $start, Carbon $end)
+    {
+        $periods = new CarbonPeriod($start, '1 days', $end);
+
+        $categories = [];
+
+        $article_counts = [];
+        $revenues = [];
+        $costs = [];
+        $profits = [];
+
+        $orders_count = 0;
+        $cards_count = 0;
+        $revenue_sum = 0;
+        $cost_sum = 0;
+        $profit_sum = 0;
+
+        foreach ($periods as $date) {
+            $key = $date->format('Y-m-d');
+            $categories[$key] = $date->format('d.m.Y');
+            $article_counts[$key] = 0;
+            $revenues[$key] = 0;
+            $costs[$key] = 0;
+            $profits[$key] = 0;
+        }
+
+        $sql = "SELECT
+                    DATE(orders.received_at) AS received_at,
+                    SUM(orders.revenue) AS revenue,
+                    SUM(orders.cost) AS cost,
+                    SUM(orders.profit) AS profit,
+                    SUM(orders.articles_count) AS articles_count
+                FROM
+                    orders
+                WHERE
+                    orders.user_id = :user_id AND
+                    orders.received_at IS NOT NULL AND
+                    orders.received_at BETWEEN :start AND :end
+                GROUP BY
+                    DATE(received_at)";
+        $params = [
+            'user_id' => $userId,
+            'start' => $start,
+            'end' => $end,
+        ];
+        $orders = DB::select($sql, $params);
+        foreach ($orders as $key => $order) {
+            $key = $order->received_at;
+            $article_counts[$key] = (float) $order->articles_count;
+            $revenues[$key] = (float) $order->revenue;
+            $costs[$key] = (float) $order->cost;
+            $profits[$key] = (float) $order->profit;
+
+            $orders_count++;
+            $cards_count += $order->articles_count;
+            $revenue_sum += $order->revenue;
+            $cost_sum += $order->cost;
+            $profit_sum += $order->profit;
+        }
+
+        return [
+            'categories' => array_values($categories),
+            'series' => [
+                [
+                    'name' => 'Gewinn',
+                    'data' => array_values($profits),
+                    'color' => '#28a745',
+                    'type' => 'column',
+                    'yAxis' => 0,
+                ],
+                [
+                    'name' => 'Kosten',
+                    'data' => array_values($costs),
+                    'color' => '#dc3545',
+                    'type' => 'column',
+                    'yAxis' => 0,
+                ],
+                [
+                    'name' => 'Karten',
+                    'data' => array_values($article_counts),
+                    'type' => 'spline',
+                    'tooltip' => [
+                        'headerFormat' => '<b>{point.key}</b><br/>',
+                        'pointFormat' => '{point.y:0f} Karten'
+                    ],
+                    'yAxis' => 1,
+                ],
+            ],
+            'title' => [
+                'text' => 'Bestellungen im ' . $start->monthName
+            ],
+            'month_name' => $start->monthName,
+            'statistics' => [
+                'cards_count' => $cards_count,
+                'cost_sum' => $cost_sum,
+                'orders_count' => $orders_count,
+                'profit_sum' => $profit_sum,
+                'revenue_sum' => $revenue_sum,
+                'periods_count' => count($periods),
+            ],
+        ];
+    }
+
+    public static function revenuePerMonth(int $userId, int $year)
+    {
+        if ($year == 0) {
+            $start = now()->sub('11', 'months')->startOf('month');
+            $end = now()->endOf('month');
+        }
+        else {
+            $start = new Carbon($year . '-01-01 00:00:00');
+            $end = new Carbon($year . '-12-31 23:59:59');
+        }
+        $periods = new CarbonPeriod($start, '1 months', $end);
+
+        $categories = [];
+
+        $article_counts = [];
+        $revenues = [];
+        $costs = [];
+        $profits = [];
+
+        $orders_count = 0;
+        $cards_count = 0;
+        $revenue_sum = 0;
+        $cost_sum = 0;
+        $profit_sum = 0;
+
+        foreach ($periods as $date) {
+            $key = $date->format('Y-n');
+            $categories[$key] = $date->monthName . ' ' . $date->year;
+            $article_counts[$key] = 0;
+            $revenues[$key] = 0;
+            $costs[$key] = 0;
+            $profits[$key] = 0;
+        }
+
+        $sql = "SELECT
+                    YEAR(orders.received_at) AS year,
+                    MONTH(orders.received_at) AS month,
+                    SUM(orders.revenue) AS revenue,
+                    SUM(orders.cost) AS cost,
+                    SUM(orders.profit) AS profit,
+                    SUM(orders.articles_count) AS articles_count,
+                    COUNT(*) AS orders_count
+                FROM
+                    orders
+                WHERE
+                    orders.user_id = :user_id AND
+                    orders.received_at IS NOT NULL AND
+                    orders.received_at BETWEEN :start AND :end
+                GROUP BY
+                    year,
+                    month";
+        $params = [
+            'user_id' => $userId,
+            'start' => $start,
+            'end' => $end,
+        ];
+        $orders = DB::select($sql, $params);
+        foreach ($orders as $key => $order) {
+            $key = $order->year . '-' . $order->month;
+            $article_counts[$key] = (float) $order->articles_count;
+            $revenues[$key] = (float) $order->revenue;
+            $costs[$key] = (float) $order->cost;
+            $profits[$key] = (float) $order->profit;
+
+            $cards_count += $order->articles_count;
+            $cost_sum += $order->cost;
+            $orders_count += $order->orders_count;
+            $profit_sum += $order->profit;
+            $revenue_sum += $order->revenue;
+        }
+
+        return [
+            'categories' => array_reverse(array_values($categories)),
+            'series' => [
+                [
+                    'name' => 'Gewinn',
+                    'data' => array_reverse(array_values($profits)),
+                    'color' => '#28a745',
+                    'type' => 'column',
+                    'yAxis' => 0,
+                ],
+                [
+                    'name' => 'Kosten',
+                    'data' => array_reverse(array_values($costs)),
+                    'color' => '#dc3545',
+                    'type' => 'column',
+                    'yAxis' => 0,
+                ],
+                [
+                    'name' => 'Karten',
+                    'data' => array_reverse(array_values($article_counts)),
+                    'type' => 'spline',
+                    'tooltip' => [
+                        'headerFormat' => '<b>{point.key}</b><br/>',
+                        'pointFormat' => '{point.y:0f} Karten'
+                    ],
+                    'yAxis' => 1,
+                ],
+            ],
+            'title' => [
+                'text' => $year == 0 ? 'Bestellungen der letzten 12 Monate' : 'Bestellungen im ' . $year
+            ],
+            'month_name' => $start->monthName,
+            'statistics' => [
+                'cards_count' => $cards_count,
+                'cost_sum' => $cost_sum,
+                'orders_count' => $orders_count,
+                'profit_sum' => $profit_sum,
+                'revenue_sum' => $revenue_sum,
+                'periods_count' => count($periods),
+            ],
+        ];
     }
 
     public function findItems()

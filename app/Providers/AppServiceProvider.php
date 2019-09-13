@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Carbon\Carbon;
 use Cardmonitor\Cardmarket\Api;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
@@ -34,5 +35,7 @@ class AppServiceProvider extends ServiceProvider
         Validator::extend('formated_number', function ($attribute, $value, $parameters, $validator) {
             return preg_match('/^[0-9]+,?[0-9]*$/', $value);
         });
+
+        Carbon::setLocale('de');
     }
 }

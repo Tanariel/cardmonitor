@@ -35,48 +35,60 @@
                     Lade Daten..
                 </center>
             </div>
-            <div class="alert alert-dark mt-3" role="alert" v-else-if="statistics.orders == 0">
+            <div class="alert alert-dark mt-3" role="alert" v-else-if="statistics.orders_count == 0">
                 Keine Bestellungen im {{ month_name }} vorhanden.
             </div>
         </div>
         <div class="card-body row">
             <div class="col-md-8">
-                <highcharts :options="chartOptions" v-if="statistics.orders > 0"></highcharts>
+                <highcharts :options="chartOptions" v-if="statistics.orders_count > 0"></highcharts>
             </div>
             <div class="col-md-4">
-                <table class="table table-hover table-striped" v-if="statistics.orders > 0">
+                <table class="table table-hover table-striped" v-if="statistics.orders_count > 0">
                     <thead>
                         <tr>
-                            <th></th>
-                            <th class="text-right">Summe</th>
-                            <th class="text-right">Pro Bestellung</th>
+                            <th width="20%"></th>
+                            <th class="text-right" width="20%">Gesamt</th>
+                            <th class="text-right" width="20%">Pro Tag</th>
+                            <th class="text-right" width="20%">Pro Bestellung</th>
+                            <th class="text-right" width="20%">Pro Karte</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td>Bestellungen</td>
-                            <td class="text-right">{{ statistics.orders }}</td>
-                            <td class="text-right"></td>
+                            <td class="text-right">{{ statistics.orders_count }}</td>
+                            <td class="text-right">Ø {{ (statistics.orders_count / statistics.periods_count).format(2, ',', '.') }}</td>
+                            <td class="text-right">-</td>
+                            <td class="text-right">-</td>
                         </tr>
                         <tr>
                             <td>Karten</td>
-                            <td class="text-right">{{ statistics.cards }}</td>
-                            <td class="text-right">Ø {{ (statistics.cards / statistics.orders).toFixed(2) }}</td>
+                            <td class="text-right">{{ statistics.cards_count }}</td>
+                            <td class="text-right">Ø {{ (statistics.cards_count / statistics.periods_count).format(2, ',', '.') }}</td>
+                            <td class="text-right">Ø {{ (statistics.cards_count / statistics.orders_count).format(2, ',', '.') }}</td>
+                            <td class="text-right">-</td>
                         </tr>
                         <tr>
                             <td>Umsatz</td>
-                            <td class="text-right">{{ statistics.revenue.toFixed(2) }} €</td>
-                            <td class="text-right">Ø {{ (statistics.revenue / statistics.orders).toFixed(2) }} €</td>
+                            <td class="text-right">{{ statistics.revenue_sum.format(2, ',', '.') }} €</td>
+                            <td class="text-right">Ø {{ (statistics.revenue_sum / statistics.periods_count).format(2, ',', '.') }} €</td>
+                            <td class="text-right">Ø {{ (statistics.revenue_sum / statistics.orders_count).format(2, ',', '.') }} €</td>
+                            <td class="text-right">Ø {{ (statistics.revenue_sum / statistics.cards_count).format(2, ',', '.') }} €</td>
                         </tr>
                         <tr>
                             <td>Kosten</td>
-                            <td class="text-right">{{ statistics.cost.toFixed(2) }} €</td>
-                            <td class="text-right">Ø {{ (statistics.cost / statistics.orders).toFixed(2) }} €</td>
+                            <td class="text-right">{{ statistics.cost_sum.format(2, ',', '.') }} €</td>
+                            <td class="text-right">Ø {{ (statistics.cost_sum / statistics.periods_count).format(2, ',', '.') }} €</td>
+                            <td class="text-right">Ø {{ (statistics.cost_sum / statistics.orders_count).format(2, ',', '.') }} €</td>
+                            <td class="text-right">Ø {{ (statistics.cost_sum / statistics.cards_count).format(2, ',', '.') }} €</td>
                         </tr>
                         <tr>
                             <td>Gewinn</td>
-                            <td class="text-right">{{ statistics.profit.toFixed(2) }} €</td>
-                            <td class="text-right">Ø {{ (statistics.profit / statistics.orders).toFixed(2) }} €</td>
+                            <td class="text-right">{{ statistics.profit_sum.format(2, ',', '.') }} €</td>
+                            <td class="text-right">Ø {{ (statistics.profit_sum / statistics.periods_count).format(2, ',', '.') }} €</td>
+                            <td class="text-right">Ø {{ (statistics.profit_sum / statistics.orders_count).format(2, ',', '.') }} €</td>
+                            <td class="text-right">Ø {{ (statistics.profit_sum / statistics.cards_count).format(2, ',', '.') }} €</td>
                         </tr>
                     </tbody>
                 </table>
@@ -111,19 +123,31 @@
                     xAxis: {
                         categories: [],
                     },
-                    yAxis: {
-                        min: 0,
-                        title: {
-                            text: 'Euro (€)'
-                        },
-                        stackLabels: {
-                            enabled: true,
-                            style: {
-                                fontWeight: 'bold',
+                    yAxis: [
+                        {
+                            min: 0,
+                            title: {
+                                text: 'Euro (€)'
                             },
-                            format: '{total:,.2f}',
+                            stackLabels: {
+                                enabled: true,
+                                style: {
+                                    fontWeight: 'bold',
+                                },
+                                formatter: function () {
+                                    return (this.total ? Highcharts.numberFormat(this.total, 2) :  '');
+                                },
+                            },
                         },
-                    },
+                        {
+                            allowDecimals: false,
+                            min: 0,
+                            title: {
+                                text: 'Karten',
+                            },
+                            opposite: true,
+                        },
+                    ],
                     plotOptions: {
                         column: {
                             stacking: 'normal',
@@ -143,11 +167,12 @@
                     series: [],
                 },
                 statistics: {
-                    cards: 0,
-                    cost: 0,
-                    orders: 0,
-                    profit: 0,
-                    revenue: 0,
+                    cards_count: 0,
+                    cost_sum: 0,
+                    orders_count: 0,
+                    profit_sum: 0,
+                    periods_count: 0,
+                    revenue_sum: 0,
                 },
             };
         },

@@ -95,6 +95,9 @@ class ArticleController extends Controller
             'state_comments' => 'sometimes|nullable|string',
         ]));
 
+        $article->order->calculateProfits()
+            ->save();
+
         return $article->load([
             'card.expansion',
             'card.localizations',

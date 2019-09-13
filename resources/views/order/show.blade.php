@@ -110,7 +110,7 @@
                                 @if (! empty($model->evaluation->complaint))
                                     @foreach ($model->evaluation->complaint as $complaint)
                                         <div class="row">
-                                            <div class="col-md-4"></div>
+                                            <div class="col-md-4 font-weight-bold text-danger">{{ ($loop->first ? 'Beschwerden' : '') }}</div>
                                             <div class="col-md-8">{{ $complaint }}</div>
                                         </div>
                                     @endforeach

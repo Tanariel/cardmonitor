@@ -5,6 +5,7 @@ namespace App\Models\Orders;
 use App\Models\Orders\Order;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Arr;
 
 class Evaluation extends Model
 {
@@ -23,7 +24,7 @@ class Evaluation extends Model
             'item_description' => $cardmarketEvaluation['itemDescription'],
             'packaging' => $cardmarketEvaluation['packaging'],
             'comment' => $cardmarketEvaluation['comment'],
-            'complaint' => $cardmarketEvaluation['complaint'],
+            'complaint' => Arr::get($cardmarketEvaluation, 'complaint', []),
         ]);
     }
 
