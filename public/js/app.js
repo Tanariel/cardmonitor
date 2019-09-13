@@ -1971,6 +1971,54 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -1979,29 +2027,74 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     var date = new Date();
     return {
+      isLoading: true,
       form: {
         month: date.getMonth() + 1,
         year: date.getFullYear()
       },
-      series: [],
+      month_name: '',
       chartOptions: {
         chart: {
-          type: 'spline'
+          type: 'column'
+        },
+        xAxis: {
+          categories: []
+        },
+        yAxis: {
+          min: 0,
+          title: {
+            text: 'Euro (€)'
+          },
+          stackLabels: {
+            enabled: true,
+            style: {
+              fontWeight: 'bold'
+            },
+            format: '{total:,.2f}'
+          }
+        },
+        plotOptions: {
+          column: {
+            stacking: 'normal',
+            dataLabels: {
+              enabled: true,
+              format: '{point.y:,.2f}'
+            }
+          }
+        },
+        tooltip: {
+          headerFormat: '<b>{point.key}</b><br/>',
+          pointFormat: '{series.name}: {point.y:,.2f} €<br/>Total: {point.stackTotal:,.2f} €'
         },
         title: {
-          text: 'Sin chart'
+          text: ''
         },
-        series: [{
-          data: [10, 0, 8, 2, 6, 4, 5, 5],
-          color: '#6fcd98'
-        }]
+        series: []
+      },
+      statistics: {
+        cards: 0,
+        cost: 0,
+        orders: 0,
+        profit: 0,
+        revenue: 0
       }
     };
   },
+  mounted: function mounted() {
+    this.fetch();
+  },
   methods: {
-    update: function update() {
-      console.log('updating..');
-      this.chartOptions.series[0].data = _.shuffle([10, 0, 8, 2, 6, 4, 5, 5]);
+    fetch: function fetch() {
+      var component = this;
+      component.isLoading = true;
+      axios.get('/home/order/month/' + component.form.year + '/' + component.form.month).then(function (response) {
+        component.chartOptions.xAxis.categories = response.data.categories;
+        component.chartOptions.series = response.data.series;
+        component.chartOptions.title = response.data.title;
+        component.statistics = response.data.statistics;
+        component.month_name = response.data.month_name;
+        component.isLoading = false;
+      });
     }
   }
 });
@@ -40273,21 +40366,24 @@ var render = function() {
             ],
             staticClass: "form-control",
             on: {
-              change: function($event) {
-                var $$selectedVal = Array.prototype.filter
-                  .call($event.target.options, function(o) {
-                    return o.selected
-                  })
-                  .map(function(o) {
-                    var val = "_value" in o ? o._value : o.value
-                    return val
-                  })
-                _vm.$set(
-                  _vm.form,
-                  "month",
-                  $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-                )
-              }
+              change: [
+                function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.$set(
+                    _vm.form,
+                    "month",
+                    $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                  )
+                },
+                _vm.fetch
+              ]
             }
           },
           [
@@ -40332,22 +40428,24 @@ var render = function() {
             ],
             staticClass: "form-control",
             on: {
-              input: _vm.update,
-              change: function($event) {
-                var $$selectedVal = Array.prototype.filter
-                  .call($event.target.options, function(o) {
-                    return o.selected
-                  })
-                  .map(function(o) {
-                    var val = "_value" in o ? o._value : o.value
-                    return val
-                  })
-                _vm.$set(
-                  _vm.form,
-                  "year",
-                  $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-                )
-              }
+              change: [
+                function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.$set(
+                    _vm.form,
+                    "year",
+                    $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                  )
+                },
+                _vm.fetch
+              ]
             }
           },
           [
@@ -40361,21 +40459,166 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
+    _c("div", { staticClass: "col-md-12" }, [
+      _vm.isLoading
+        ? _c(
+            "div",
+            { staticClass: "mt-3 p-5" },
+            [
+              _c("center", [
+                _c("span", { staticStyle: { "font-size": "48px" } }, [
+                  _c("i", { staticClass: "fas fa-spinner fa-spin" }),
+                  _c("br")
+                ]),
+                _vm._v("\n                Lade Daten..\n            ")
+              ])
+            ],
+            1
+          )
+        : _vm.statistics.orders == 0
+        ? _c(
+            "div",
+            { staticClass: "alert alert-dark mt-3", attrs: { role: "alert" } },
+            [
+              _vm._v(
+                "\n            Keine Bestellungen im " +
+                  _vm._s(_vm.month_name) +
+                  " vorhanden.\n        "
+              )
+            ]
+          )
+        : _vm._e()
+    ]),
+    _vm._v(" "),
     _c("div", { staticClass: "card-body row" }, [
       _c(
         "div",
         { staticClass: "col-md-8" },
-        [_c("highcharts", { attrs: { options: _vm.chartOptions } })],
+        [
+          _vm.statistics.orders > 0
+            ? _c("highcharts", { attrs: { options: _vm.chartOptions } })
+            : _vm._e()
+        ],
         1
       ),
       _vm._v(" "),
       _c("div", { staticClass: "col-md-4" }, [
-        _vm._v("\n            Statistik\n        ")
+        _vm.statistics.orders > 0
+          ? _c("table", { staticClass: "table table-hover table-striped" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c("tbody", [
+                _c("tr", [
+                  _c("td", [_vm._v("Bestellungen")]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right" }, [
+                    _vm._v(_vm._s(_vm.statistics.orders))
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right" })
+                ]),
+                _vm._v(" "),
+                _c("tr", [
+                  _c("td", [_vm._v("Karten")]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right" }, [
+                    _vm._v(_vm._s(_vm.statistics.cards))
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right" }, [
+                    _vm._v(
+                      "Ø " +
+                        _vm._s(
+                          (
+                            _vm.statistics.cards / _vm.statistics.orders
+                          ).toFixed(2)
+                        )
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("tr", [
+                  _c("td", [_vm._v("Umsatz")]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right" }, [
+                    _vm._v(_vm._s(_vm.statistics.revenue.toFixed(2)) + " €")
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right" }, [
+                    _vm._v(
+                      "Ø " +
+                        _vm._s(
+                          (
+                            _vm.statistics.revenue / _vm.statistics.orders
+                          ).toFixed(2)
+                        ) +
+                        " €"
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("tr", [
+                  _c("td", [_vm._v("Kosten")]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right" }, [
+                    _vm._v(_vm._s(_vm.statistics.cost.toFixed(2)) + " €")
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right" }, [
+                    _vm._v(
+                      "Ø " +
+                        _vm._s(
+                          (_vm.statistics.cost / _vm.statistics.orders).toFixed(
+                            2
+                          )
+                        ) +
+                        " €"
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("tr", [
+                  _c("td", [_vm._v("Gewinn")]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right" }, [
+                    _vm._v(_vm._s(_vm.statistics.profit.toFixed(2)) + " €")
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right" }, [
+                    _vm._v(
+                      "Ø " +
+                        _vm._s(
+                          (
+                            _vm.statistics.profit / _vm.statistics.orders
+                          ).toFixed(2)
+                        ) +
+                        " €"
+                    )
+                  ])
+                ])
+              ])
+            ])
+          : _vm._e()
       ])
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th"),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-right" }, [_vm._v("Summe")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-right" }, [_vm._v("Pro Bestellung")])
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -55125,6 +55368,13 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 window.Bus = new Vue();
+window.Highcharts = __webpack_require__(/*! highcharts */ "./node_modules/highcharts/highcharts.js");
+Highcharts.setOptions({
+  lang: {
+    decimalPoint: ',',
+    thousandsSep: '.'
+  }
+});
 
 Vue.use(_plugins_flash_js__WEBPACK_IMPORTED_MODULE_0__["default"]);
 /**

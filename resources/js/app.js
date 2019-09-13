@@ -8,6 +8,14 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 window.Bus = new Vue();
+window.Highcharts = require('highcharts');
+
+Highcharts.setOptions({
+    lang: {
+        decimalPoint: ',',
+        thousandsSep: '.'
+    }
+});
 
 import Flash from './plugins/flash.js';
 
