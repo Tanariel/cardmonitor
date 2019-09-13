@@ -466,8 +466,8 @@ class Order extends Model
         $articlesProfit = $this->calculateArticlesProfit();
         $shipmentProfit = $this->calculateShipmentProfit();
 
-        $this->attributes['cost'] = $provision + $itemsCost + $this->cards_cost + $this->shipment_cost;
-        $this->attributes['profit'] = $articlesProfit + $shipmentProfit;
+        $this->attributes['cost'] = $provision + $itemsCost + $this->articles_cost + $this->shipment_cost;
+        $this->attributes['profit'] = $this->revenue - $this->attributes['cost'];
 
         return $this;
     }
@@ -491,7 +491,7 @@ class Order extends Model
     protected function calculateArticlesProfit() : float
     {
         $this->attributes['articles_cost'] = $this->articles->sum('unit_cost');
-        $this->attributes['articles_profit'] = ($this->attributes['articles_revenue'] - $this->attributes['articles_cost']);
+        $this->attributes['articles_profit'] = ($this->attributes['articles_revenue'] - $this->attributes['articles_cost'] - $this->provision - $this->items_cost);
 
         return $this->attributes['articles_profit'];
     }
