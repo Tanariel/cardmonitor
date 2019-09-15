@@ -22,6 +22,10 @@ Auth::routes();
 
 Route::middleware(['auth'])->group(function () {
 
+    Route::get('/cardmarket/create', 'Cardmarket\CallbackController@create')->name('cardmarket.callback.create');
+    Route::get('/cardmarket/callback/{request_token}', 'Cardmarket\CallbackController@update')->name('cardmarket.callback.update');
+    Route::delete('/cardmarket/callback', 'Cardmarket\CallbackController@destroy')->name('cardmarket.callback.destroy');
+
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/home/order/month/{year}/{month}', 'Home\Orders\MonthController@index')->name('home.order.month');
     Route::get('/home/order/year/{year}', 'Home\Orders\YearController@index')->name('home.order.year');

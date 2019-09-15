@@ -61,17 +61,14 @@ class DevCommand extends Command
         ]);
         $this->user->setup();
 
-        // create Sandbox API
-        $api = Api::create([
-            'user_id' => $this->user->id,
-            'accessdata' => [
-                'app_token' => '8Ts9QDnOCD7gukTV',
-                'app_secret' => 'Zy7x2e1gkVcCQat50qd8XtsyMA9qatRN',
-                'access_token' => 'LMDxSPkFfCBIYTULl3yHdswrwbYCZEzf',
-                'access_token_secret' => 'PgHYR3j8o0Itktu47AbkRRE1foccd91r',
-                'url' => CardmarketApi::URL_SANDBOX,
-            ],
-        ]);
+        // // create Sandbox API
+        // $api = Api::create([
+        //     'user_id' => $this->user->id,
+        //     'accessdata' => [
+        //         'access_token' => 'LMDxSPkFfCBIYTULl3yHdswrwbYCZEzf',
+        //         'access_token_secret' => 'PgHYR3j8o0Itktu47AbkRRE1foccd91r',
+        //     ],
+        // ]);
 
         // Create Crads from CSV
         $row = 0;
@@ -102,8 +99,8 @@ class DevCommand extends Command
         }
         fclose($cardsFile);
 
-        $this->call('order:sync');
-        $this->call('order:sync', ['--state' => 'paid']);
+        // $this->call('order:sync');
+        // $this->call('order:sync', ['--state' => 'paid']);
 
         // Create Cards from API
         // $CardmarketApi = App::make('CardmarketApi', [

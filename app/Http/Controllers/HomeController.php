@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Orders\Evaluation;
 use App\Models\Orders\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
@@ -26,6 +27,18 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $user = auth()->user();
+        $cardmarketIsConnected = $user->api->isConnected();
+        if ($cardmarketIsConnected) {
+            $cardmarketAccount = $user->cardmarketApi->account->get();
+            $cardmarketAccount = $cardmarketAccount['account'];
+            $cardmarketConnectLink = '';
+        }
+        else {
+            $cardmarketAccount = [];
+            $cardmarketConnectLink = (App::make('CardmarketApi'))->access->link();
+        }
+
         $evaluations = Evaluation::join('orders', 'orders.id', '=', 'evaluations.order_id')
             ->with('order.buyer')
             ->where('orders.user_id', auth()->user()->id)
@@ -40,6 +53,8 @@ class HomeController extends Controller
         }
 
         return view('home')
+            ->with('cardmarketAccount', $cardmarketAccount)
+            ->with('cardmarketConnectLink', $cardmarketConnectLink)
             ->with('evaluations', $evaluations)
             ->with('ordersByState', $ordersByState);
     }

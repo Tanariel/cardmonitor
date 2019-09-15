@@ -228,4 +228,9 @@ return [
 
     ],
 
+    'cardmarket_api' => [
+        'app_token' => env('CARDMARKET_APP_TOKEN'),
+        'app_secret' => env('CARDMARKET_APP_SECRET'),
+    ],
+
 ];

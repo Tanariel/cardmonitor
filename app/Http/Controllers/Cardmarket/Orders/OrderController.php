@@ -20,9 +20,7 @@ class OrderController extends Controller
      */
     public function update(Request $request, Order $order = null)
     {
-        $this->CardmarketApi = App::make('CardmarketApi', [
-            'api' => auth()->user()->apis->first(),
-        ]);
+        $this->CardmarketApi = auth()->user()->cardmarketApi;
 
         if (is_null($order)) {
             $this->syncAllOrders();

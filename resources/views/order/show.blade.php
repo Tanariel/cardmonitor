@@ -5,8 +5,8 @@
     <div class="d-flex mb-3">
         <h2 class="col"><a class="text-body" href="/order">Bestellung</a> > {{ $model->cardmarket_order_id }} - {{ $model->stateFormatted }}</h2>
         <div class="d-flex align-items-center">
+            <button class="btn btn-secondary ml-1" data-toggle="modal" data-target="#message-create" data-model-id="{{ $model->id }}"><i class="fas fa-envelope"></i></button>
             @if ($model->state == 'paid')
-                <button class="btn btn-secondary ml-1" data-toggle="modal" data-target="#message-create" data-model-id="{{ $model->id }}"><i class="fas fa-envelope"></i></button>
                 <form action="{{ $model->path . '/send' }}" class="ml-1" method="POST">
                     @csrf
 

@@ -12,9 +12,7 @@ class SendController extends Controller
 {
     public function store(Order $order)
     {
-        $CardmarketApi = App::make('CardmarketApi', [
-            'api' => auth()->user()->apis->first(),
-        ]);
+        $CardmarketApi = auth()->user()->cardmarketApi;
 
         try {
             $cardmarketOrder = $CardmarketApi->order->send($order->cardmarket_order_id);

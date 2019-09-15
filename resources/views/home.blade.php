@@ -5,6 +5,29 @@
 
         <div class="col">
             <div class="card h-100">
+                <div class="card-header">Cardmarket Konto</div>
+                <div class="card-body">
+                    @if ($cardmarketConnectLink)
+                        <a href="{{ $cardmarketConnectLink }}">Verbinde dein Cardmarket Konto mit Cardmonitor</a>
+                    @else
+                        <div>{{ $cardmarketAccount['username'] }} {{ $cardmarketAccount['reputation'] }}</div>
+                        <div>{{ number_format($cardmarketAccount['moneyDetails']['totalBalance'], 2, ',', '.') }} €</div>
+                        @if ($cardmarketAccount['unreadMessages'])
+                            <div>{{ $cardmarketAccount['unreadMessages'] }} ungelesene Nachrichten</div>
+                        @endif
+                        <form action="{{ route('cardmarket.callback.destroy') }}" class="ml-1 mt-3" method="POST">
+                            @csrf
+                            @method('DELETE')
+
+                            <button type="submit" class="btn btn-secondary" title="Aktualisieren">Konto trennen</button>
+                        </form>
+                    @endif
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card h-100">
                 <div class="card-header">Bestellungen</div>
                 <div class="card-body">
                     <table class="table table-striped table-hover">
@@ -43,20 +66,12 @@
             </div>
         </div>
 
-        <div class="col">
-            <div class="card h-100">
-                <div class="card-header">Kennzahl</div>
-                <div class="card-body">
-
-                </div>
-            </div>
-        </div>
 
         <div class="col">
             <div class="card h-100">
-                <div class="card-header">Kennzahl</div>
+                <div class="card-header">Artikel</div>
                 <div class="card-body">
-
+                    Anzahl Artikel, Kosten, Wert, Chart mit Preisentwicklung?
                 </div>
             </div>
         </div>

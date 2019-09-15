@@ -6,7 +6,9 @@ use App\Models\Apis\Api;
 use App\Models\Articles\Article;
 use App\Models\Items\Item;
 use App\Models\Orders\Order;
+use App\Support\Users\CardmarketApi;
 use App\User;
+use Cardmonitor\Cardmarket\Api as CardmarketApi;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -19,14 +21,21 @@ class UserTest extends TestCase
     /**
      * @test
      */
-    public function it_has_many_apis()
+    public function it_creates_an_api_after_it_is_created()
+    {
+        $user = factory(User::class)->create();
+
+        $this->assertCount(1, $user->apis);
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_one_api()
     {
         $model = factory(User::class)->create();
-        $related = factory(Api::class)->create([
-            'user_id' => $model->id,
-        ]);
 
-        $this->assertHasMany($model, $related, 'apis');
+        $this->assertHasOne($model, $model->api, 'api');
     }
 
     /**
@@ -66,5 +75,14 @@ class UserTest extends TestCase
         ]);
 
         $this->assertHasMany($model, $related, 'orders');
+    }
+
+    /**
+     * @test
+     */
+    public function it_get_its_cardmarket_api()
+    {
+        $model = factory(User::class)->create();
+        $this->assertEquals(CardmarketApi::class, get_class($model->cardmarketApi));
     }
 }

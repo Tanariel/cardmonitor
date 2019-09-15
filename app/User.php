@@ -6,11 +6,13 @@ use App\Models\Apis\Api;
 use App\Models\Articles\Article;
 use App\Models\Items\Item;
 use App\Models\Orders\Order;
+use App\Support\Users\CardmarketApi;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\App;
 
 class User extends Authenticatable
 {
@@ -43,19 +45,44 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * The booting method of the model.
+     *
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::created(function($model)
+        {
+            $model->api()->create([
+                'accessdata' => [],
+            ]);
+
+            return true;
+        });
+    }
+
+    public function getCardmarketApiAttribute() : CardmarketApi
+    {
+        return new CardmarketApi($this->api);
+    }
+
     public function setup() : void {
         Item::setup($this);
     }
 
-    public function api()
+    public function api() : HasOne
     {
-        return $this->apis()->first();
+        return $this->hasOne(Api::class, 'user_id');
     }
 
-    public function apis() : HasMany
-    {
-        return $this->hasMany(Api::class);
-    }
+
+    // public function apis() : HasMany
+    // {
+    //     return $this->hasMany(Api::class);
+    // }
 
     public function articles() : HasMany
     {

@@ -41,9 +41,7 @@ class MessageController extends Controller
      */
     public function store(Request $request, Order $order)
     {
-        $CardmarketApi = App::make('CardmarketApi', [
-            'api' => auth()->user()->apis->first(),
-        ]);
+        $CardmarketApi = auth()->user()->cardmarketApi;
 
         $message = $CardmarketApi->messages->send($order->buyer->cardmarket_user_id, $request->input('message-text'));
 
