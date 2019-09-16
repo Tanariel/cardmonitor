@@ -19,7 +19,13 @@ class ArticleController extends Controller
     public function index(Request $request)
     {
         if ($request->wantsJson()) {
-            return auth()->user()->articles()->paginate();
+            return auth()->user()->articles()
+                ->search($request->input('searchtext'))
+                ->with([
+                    'card.expansion',
+                    'language',
+                ])
+                ->paginate();
         }
 
         return view($this->baseViewPath . '.index');
@@ -88,19 +94,22 @@ class ArticleController extends Controller
             // 'condition' => 'required|string',
             // 'bought_at_formatted' => 'required|date_format:"d.m.Y H:i"',
             // 'sold_at_formatted' => 'required|date_format:"d.m.Y H:i"',
-            // 'unit_price_formatted' => 'required|formated_number',
+            'unit_price_formatted' => 'sometimes|required|formated_number',
             'unit_cost_formatted' => 'sometimes|required|formated_number',
             'provision_formatted' => 'sometimes|required|formated_number',
             'state' => 'sometimes|required|integer',
             'state_comments' => 'sometimes|nullable|string',
         ]));
 
-        $article->order->calculateProfits()
-            ->save();
+        if ($article->oder_id) {
+            $article->order->calculateProfits()
+                ->save();
+        }
 
         return $article->load([
             'card.expansion',
             'card.localizations',
+            'language',
         ]);
     }
 

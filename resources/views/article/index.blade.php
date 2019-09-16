@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    <h2>Inventar</h2>
+
+    <h2>Artikel</h2>
+    <article-table></article-table>
 
 @endsection

@@ -32,28 +32,34 @@
             <table class="table table-hover table-striped bg-white">
                 <thead>
                     <tr>
-                        <th width="5%">
+                        <th>
                             <label class="form-checkbox" for="checkall"></label>
                             <input id="checkall" type="checkbox" v-model="selectAll">
                         </th>
-                        <th width="10%">#</th>
-                        <th class="text-right" width="10%">Karten</th>
-                        <th class="text-right" width="10%">Umsatz</th>
-                        <th class="text-right" width="10%">Kosten</th>
-                        <th class="text-right" width="15%">Gewinn</th>
-                        <th width="20%">Status</th>
-                        <th class="text-center" colspan="3">Bewertung</th>
+                        <th class="text-center">Status</th>
+                        <th class="text-right"></th>
+                        <th class="">Name</th>
+                        <th class="text-right">#</th>
+                        <th class="">Erweiterung</th>
+                        <th class="text-center">Seltenheit</th>
+                        <th class="text-center">Zustand</th>
+                        <th class="">Extra</th>
+                        <th class="">Hinweise</th>
+                        <th class="text-right">Verkaufspreis</th>
+                        <th class="text-right">Einkaufspreis</th>
+                        <th class="text-right">Provision</th>
+                        <th class="text-right" title="Voraussichtlicher Gewinn ohne allgemeine Kosten">Gewinn</th>
                         <th class="text-right" width="10%">Aktion</th>
                     </tr>
                 </thead>
                 <tbody>
                     <template v-for="(item, index) in items">
-                        <row :item="item" :key="item.id" :uri="uri" :selected="(selected.indexOf(item.id) == -1) ? false : true" @input="toggleSelected"></row>
+                        <row :item="item" :key="item.id" :uri="uri" :selected="(selected.indexOf(item.id) == -1) ? false : true" @input="toggleSelected" @updated="updated(index, $event)" @show="showImgbox($event)" @hide="hideImgbox()"></row>
                     </template>
                 </tbody>
             </table>
         </div>
-        <div class="alert alert-dark mt-3" v-else><center>Keine Bestellungen vorhanden</center></div>
+        <div class="alert alert-dark mt-3" v-else><center>Keine Artikel vorhanden</center></div>
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center" v-show="paginate.lastPage > 1">
                 <li class="page-item" v-show="paginate.prevPageUrl">
@@ -67,6 +73,9 @@
                 </li>
             </ul>
         </nav>
+        <div id="imgbox" style="position: absolute; left: 200px;" :style="{ top: imgbox.top }">
+            <img :src="imgbox.src" v-show="imgbox.show">
+        </div>
     </div>
 </template>
 
@@ -83,10 +92,13 @@
 
         data () {
             return {
-                uri: '/order',
+                uri: '/article',
                 items: [],
                 isLoading: true,
-
+                imgbox: {
+                    src: null,
+                    show: true,
+                },
                 paginate: {
                     nextPageUrl: null,
                     prevPageUrl: null,
@@ -148,9 +160,12 @@
                         component.isLoading = false;
                     })
                     .catch(function (error) {
-                        Vue.error('Bestellungen konnten nicht geladen werden!');
+                        Vue.error('Artikel konnten nicht geladen werden!');
                         console.log(error);
                     });
+            },
+            updated(index, item) {
+                Vue.set(this.items, index, item);
             },
             toggleSelected (id) {
                 var index = this.selected.indexOf(id);
@@ -160,6 +175,14 @@
                 else {
                     this.selected.splice(index, 1);
                 }
+            },
+            showImgbox({src, top}) {
+                this.imgbox.src = src;
+                this.imgbox.top = top;
+                this.imgbox.show = true;
+            },
+            hideImgbox() {
+                this.imgbox.show = false;
             },
         },
     };

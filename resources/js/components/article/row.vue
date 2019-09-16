@@ -1,6 +1,9 @@
 <template>
     <tr>
-        <td class="align-middle pointer" @click="toShow">{{ (index + 1) }}</td>
+        <td class="align-middle">
+            <label class="form-checkbox"></label>
+            <input :checked="selected" type="checkbox" :value="id"  @change="$emit('input', id)" number>
+        </td>
         <td class="align-middle text-center pointer" @click="toShow"><i class="fas fa-fw" :class="item.state_icon" :title="item.state_comments"></i></td>
         <td class="align-middle"><i class="fas fa-image pointer" @mouseover="show($event)" @mouseout="$emit('hide')"></i></td>
         <td class="align-middle pointer" @click="toShow"><span class="flag-icon" :class="'flag-icon-' + item.language.code" :title="item.language.name"></span> {{ item.localName }}</td>
@@ -12,19 +15,18 @@
             <i class="fas fa-star text-warning" v-if="item.is_foil"></i>
         </td>
         <td class="align-middle pointer" @click="toShow">{{ item.comments || '' }}</td>
-        <td class="align-middle text-right pointer" @click="toShow">{{ Number(item.unit_price).format(2, ',', '.') }} €</td>
+        <td class="align-middle text-right pointer">
+            <input class="form-control text-right" :class="'unit_price_formatted' in errors ? 'is-invalid' : ''" type="text" v-model="form.unit_price_formatted" @keydown.enter="update">
+            <div class="invalid-feedback" v-text="'unit_price_formatted' in errors ? errors.unit_price_formatted[0] : ''"></div>
+        </td>
         <td class="align-middle text-right">
             <input class="form-control text-right" :class="'unit_cost_formatted' in errors ? 'is-invalid' : ''" type="text" v-model="form.unit_cost_formatted" @keydown.enter="update">
             <div class="invalid-feedback" v-text="'unit_cost_formatted' in errors ? errors.unit_cost_formatted[0] : ''"></div>
         </td>
-        <td class="align-middle text-right">
-            <input class="form-control text-right" :class="'provision_formatted' in errors ? 'is-invalid' : ''" type="text" v-model="form.provision_formatted" @keydown.enter="update">
-            <div class="invalid-feedback" v-text="'provision_formatted' in errors ? errors.provision_formatted[0] : ''"></div>
-        </td>
+        <td class="align-middle text-right">{{ Number(item.provision).format(2, ',', '.') }} €</td>
         <td class="align-middle text-right pointer" @click="toShow">{{ Number(item.unit_price - item.unit_cost - item.provision).format(2, ',', '.') }} €</td>
         <td class="align-middle text-right">
             <div class="btn-group btn-group-sm" role="group">
-                <button type="button" class="btn btn-secondary" title="Anzeigen" @click="toShow"><i class="fas fa-fw fa-eye"></i></button>
                 <button type="button" class="btn btn-secondary" title="Speichern" @click="update"><i class="fas fa-fw fa-save"></i></button>
             </div>
         </td>
@@ -32,8 +34,8 @@
 </template>
 
 <script>
-    import condition from '../../partials/emoji/condition.vue';
-    import rarity from '../../partials/emoji/rarity.vue';
+    import condition from '../partials/emoji/condition.vue';
+    import rarity from '../partials/emoji/rarity.vue';
 
     export default {
 
@@ -42,15 +44,15 @@
             rarity,
         },
 
-        props: ['item', 'uri', 'index'],
+        props: ['item', 'uri', 'selected'],
 
         data () {
             return {
                 id: this.item.id,
                 isEditing: false,
                 form: {
-                    provision_formatted: this.item.provision_formatted,
                     unit_cost_formatted: this.item.unit_cost_formatted,
+                    unit_price_formatted: this.item.unit_price_formatted,
                 },
                 errors: {},
             };
@@ -60,7 +62,7 @@
             show(event) {
                 this.$emit('show', {
                     src: this.item.card.imagePath,
-                    top: (event.layerY + 325) + 'px',
+                    top: (event.layerY + 50) + 'px',
                 });
             },
             toShow() {
@@ -68,7 +70,7 @@
             },
             update() {
                 var component = this;
-                axios.put('/article/' + component.id, component.form)
+                axios.put(component.item.path, component.form)
                     .then( function (response) {
                         component.errors = {};
                         component.isEditing = false;

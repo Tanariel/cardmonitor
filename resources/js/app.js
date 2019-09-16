@@ -64,6 +64,7 @@ Vue.use(Flash);
 
 Vue.component('flash-message', require('./components/partials/flashmessage.vue').default);
 
+Vue.component('article-table', require('./components/article/table.vue').default);
 Vue.component('item-table', require('./components/item/table.vue').default);
 Vue.component('item-quantity-table', require('./components/item/quantity/table.vue').default);
 Vue.component('order-table', require('./components/order/table.vue').default);
