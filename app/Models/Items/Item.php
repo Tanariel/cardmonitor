@@ -115,12 +115,13 @@ class Item extends Model
     public static function setup(Model $user)
     {
         $cards = [
-            'Land' => 0.02,
             'Common' => 0.02,
-            'Uncommon' => 0.1,
-            'Rare' => 0.5,
+            'Land' => 0.02,
             'Mystic' => 1,
+            'Rare' => 0.5,
             'Special' => 0.02,
+            'Token' => 0.05,
+            'Uncommon' => 0.1,
         ];
         foreach ($cards as $rarity => $unit_cost) {
             Card::create([

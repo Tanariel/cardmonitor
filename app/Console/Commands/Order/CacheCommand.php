@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands\Orders;
+namespace App\Console\Commands\Order;
 
 use App\Models\Orders\Order;
 use Illuminate\Console\Command;

@@ -12,7 +12,7 @@ $factory->define(Article::class, function (Faker $faker) {
     return [
         'card_id' => factory(Card::class),
         'user_id' => factory(User::class),
-        'language_id' => factory(Language::class),
+        'language_id' => Language::DEFAULT_ID,
         'cardmarket_article_id' => $faker->randomNumber,
         'cardmarket_last_edited' => $faker->dateTime,
         'condition' => $faker->randomElement(['M', 'NM', 'EX', 'GD']),

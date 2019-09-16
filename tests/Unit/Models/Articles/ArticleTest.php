@@ -115,16 +115,19 @@ class ArticleTest extends TestCase
     /**
      * @test
      */
-    public function it_()
+    public function it_can_be_transformed_to_cardmarket()
     {
-        $card = factory(Card::class)->create();
+        $model = factory(Article::class)->create();
+        $cardmarketModel = $model->toCardmarket();
 
-        $collection = factory(Article::class, 3)->create([
-            'card_id' => $card->id,
-            'language_id' => Language::DEFAULT_ID,
-        ]);
-
-        $collection->hash = 'test';
-        dump($collection);
+        $this->assertArrayHasKey('idProduct', $cardmarketModel);
+        $this->assertArrayHasKey('idLanguage', $cardmarketModel);
+        $this->assertArrayHasKey('comments', $cardmarketModel);
+        $this->assertArrayHasKey('count', $cardmarketModel);
+        $this->assertArrayHasKey('price', $cardmarketModel);
+        $this->assertArrayHasKey('condition', $cardmarketModel);
+        $this->assertArrayHasKey('isFoil', $cardmarketModel);
+        $this->assertArrayHasKey('isSigned', $cardmarketModel);
+        $this->assertArrayHasKey('isPlayset', $cardmarketModel);
     }
 }

@@ -40,6 +40,30 @@ class Language extends Model
                 'code' => 'it',
                 'name' => 'Italian',
             ],
+            6 => [
+                'code' => 'cn',
+                'name' => 'Simplified Chinese',
+            ],
+            7 => [
+                'code' => 'jp',
+                'name' => 'Japanese',
+            ],
+            8 => [
+                'code' => 'pt',
+                'name' => 'Portuguese',
+            ],
+            9 => [
+                'code' => 'ru',
+                'name' => 'Russian',
+            ],
+            10 => [
+                'code' => 'kr',
+                'name' => 'Korean',
+            ],
+            11 => [
+                'code' => 'cn',
+                'name' => 'Traditional Chinese',
+            ],
         ];
         foreach ($languages as $id => $language) {
             self::create([

@@ -5,6 +5,7 @@ namespace App\Models\Articles;
 use App\Models\Cards\Card;
 use App\Models\Localizations\Language;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Arr;
@@ -21,10 +22,12 @@ class Article extends Model
 
     protected $appends = [
         'localName',
+        'path',
         'provision_formatted',
         'state_icon',
         'state_key',
         'unit_cost_formatted',
+        'unit_price_formatted',
     ];
 
     protected $casts = [
@@ -77,6 +80,21 @@ class Article extends Model
         return true;
     }
 
+    public function toCardmarket() : array
+    {
+        return [
+            'idProduct' => $this->card->cardmarket_product_id,
+            'idLanguage' => $this->language_id,
+            'comments' => $this->cardmarket_comments,
+            'count' => 1,
+            'price' => $this->unit_price,
+            'condition' => $this->condition,
+            'isFoil' => $this->is_foil ? 'true' : 'false',
+            'isSigned' => $this->is_signed ? 'true' : 'false',
+            'isPlayset' => $this->is_playset ? 'true' : 'false',
+        ];
+    }
+
     protected function calculateProvision() : float
     {
         $this->attributes['provision'] = max(0.01, self::PROVISION * $this->unit_price);
@@ -126,6 +144,11 @@ class Article extends Model
         return $this->card->localizations()->where('language_id', $this->language_id)->first()->name;
     }
 
+    public function getPathAttribute()
+    {
+        return '/article/' . $this->id;
+    }
+
     public function getProvisionFormattedAttribute()
     {
         return number_format($this->provision, 2, ',', '');
@@ -157,6 +180,11 @@ class Article extends Model
         return number_format($this->unit_cost, 2, ',', '');
     }
 
+    public function getUnitPriceFormattedAttribute()
+    {
+        return number_format($this->unit_price, 2, ',', '');
+    }
+
     public function card() : BelongsTo
     {
         return $this->belongsTo(Card::class);
@@ -165,5 +193,19 @@ class Article extends Model
     public function language() : BelongsTo
     {
         return $this->belongsTo(Language::class);
+    }
+
+    public function scopeSearch(Builder $query, $value) : Builder
+    {
+        if (! $value) {
+            return $query;
+        }
+
+        return $query->join('cards', 'cards.id', 'articles.card_id')
+            ->join('localizations', function ($join) {
+                $join->on('localizations.localizationable_id', '=', 'cards.id');
+                $join->where('localizations.localizationable_type', '=', Card::class);
+        })
+            ->where('localizations.name', 'like', '%' . $value . '%');
     }
 }
