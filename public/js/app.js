@@ -2157,10 +2157,14 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     create: function create(sync) {
       var component = this;
-      component.form.sync = sync; // axios
-
-      component.filter.searchtext = '';
-      component.item = null;
+      component.form.sync = sync;
+      axios.post('/article', component.form).then(function (response) {
+        component.filter.searchtext = '';
+        component.item = null;
+      })["catch"](function (error) {
+        Vue.error('Karten konnten nicht angelegt werden!');
+        console.log(error);
+      });
     },
     fetch: function fetch() {
       var component = this;
@@ -2317,6 +2321,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2353,6 +2358,18 @@ __webpack_require__.r(__webpack_exports__);
     },
     toShow: function toShow() {
       this.$emit('toshow');
+    },
+    destroy: function destroy() {
+      var component = this;
+      axios["delete"](component.item.path).then(function (response) {
+        if (response.data.deleted) {
+          Vue.success('Karte gelöscht');
+          component.$emit("deleted", component.id);
+          return;
+        }
+
+        Vue.error('Karte konnte nicht gelöscht werden.');
+      });
     },
     update: function update(sync) {
       var component = this;
@@ -2571,6 +2588,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     hideImgbox: function hideImgbox() {
       this.imgbox.show = false;
+    },
+    remove: function remove(index) {
+      this.items.splice(index, 1);
     }
   }
 });
@@ -42299,7 +42319,13 @@ var render = function() {
           })
         ]),
         _vm._v(" "),
-        _c("td", { staticClass: "align-middle text-center" }),
+        _c("td", { staticClass: "align-middle text-center" }, [
+          _c("i", {
+            staticClass: "fas fa-fw",
+            class: _vm.item.sync_icon,
+            attrs: { title: _vm.item.sync_error || "Karte synchronisiert" }
+          })
+        ]),
         _vm._v(" "),
         _c("td", { staticClass: "align-middle pointer" }, [
           _c("i", {
@@ -42777,6 +42803,16 @@ var render = function() {
                   }
                 },
                 [_c("i", { staticClass: "fas fa-fw fa-sync" })]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-secondary",
+                  attrs: { type: "button", title: "Löschen" },
+                  on: { click: _vm.destroy }
+                },
+                [_c("i", { staticClass: "fas fa-fw fa-trash" })]
               )
             ]
           )
@@ -43160,7 +43196,7 @@ var render = function() {
                     })
                   ]),
                   _vm._v(" "),
-                  _c("th", { staticClass: "text-center" }, [_vm._v("Status")]),
+                  _c("th", { staticClass: "text-center" }, [_vm._v("Sync")]),
                   _vm._v(" "),
                   _c("th", { staticClass: "text-right" }),
                   _vm._v(" "),
@@ -43240,6 +43276,9 @@ var render = function() {
                           },
                           hide: function($event) {
                             return _vm.hideImgbox()
+                          },
+                          deleted: function($event) {
+                            return _vm.remove(index)
                           }
                         }
                       })

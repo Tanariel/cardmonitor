@@ -36,7 +36,7 @@
                             <label class="form-checkbox" for="checkall"></label>
                             <input id="checkall" type="checkbox" v-model="selectAll">
                         </th>
-                        <th class="text-center">Status</th>
+                        <th class="text-center">Sync</th>
                         <th class="text-right"></th>
                         <th class="">Name</th>
                         <th class="text-right">#</th>
@@ -57,7 +57,7 @@
                 </thead>
                 <tbody>
                     <template v-for="(item, index) in items">
-                        <row :item="item" :key="item.id" :uri="uri" :conditions="conditions" :languages="languages" :selected="(selected.indexOf(item.id) == -1) ? false : true" @input="toggleSelected" @updated="updated(index, $event)" @show="showImgbox($event)" @hide="hideImgbox()"></row>
+                        <row :item="item" :key="item.id" :uri="uri" :conditions="conditions" :languages="languages" :selected="(selected.indexOf(item.id) == -1) ? false : true" @input="toggleSelected" @updated="updated(index, $event)" @show="showImgbox($event)" @hide="hideImgbox()" @deleted="remove(index)"></row>
                     </template>
                 </tbody>
             </table>
@@ -198,6 +198,9 @@
             },
             hideImgbox() {
                 this.imgbox.show = false;
+            },
+            remove(index) {
+                this.items.splice(index, 1);
             },
         },
     };

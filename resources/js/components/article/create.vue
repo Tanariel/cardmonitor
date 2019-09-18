@@ -303,9 +303,15 @@
             create(sync) {
                 var component = this;
                 component.form.sync = sync;
-                // axios
-                component.filter.searchtext = '';
-                component.item = null;
+                axios.post('/article', component.form)
+                    .then(function (response) {
+                        component.filter.searchtext = '';
+                        component.item = null;
+                    })
+                     .catch(function (error) {
+                        Vue.error('Karten konnten nicht angelegt werden!');
+                        console.log(error);
+                    });
             },
             fetch() {
                 var component = this;

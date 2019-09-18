@@ -4,7 +4,7 @@
             <label class="form-checkbox"></label>
             <input :checked="selected" type="checkbox" :value="id"  @change="$emit('input', id)" number>
         </td>
-        <td class="align-middle text-center"></td>
+        <td class="align-middle text-center"><i class="fas fa-fw" :class="item.sync_icon" :title="item.sync_error || 'Karte synchronisiert'"></i></td>
         <td class="align-middle pointer"><i class="fas fa-image" @mouseover="show($event)" @mouseout="$emit('hide')"></i></td>
         <td class="align-middle">
             <span class="flag-icon" :class="'flag-icon-' + item.language.code" :title="item.language.name"></span> {{ item.localName }}
@@ -61,6 +61,7 @@
             <div class="btn-group btn-group-sm" role="group">
                 <button type="button" class="btn btn-secondary" title="Speichern" @click="update(false)"><i class="fas fa-fw fa-save"></i></button>
                 <button type="button" class="btn btn-secondary" title="Speichern & Exportieren" @click="update(true)"><i class="fas fa-fw fa-sync"></i></button>
+                <button type="button" class="btn btn-secondary" title="Löschen" @click="destroy"><i class="fas fa-fw fa-trash"></i></button>
             </div>
         </td>
     </tr>
@@ -143,6 +144,19 @@
             },
             toShow() {
                 this.$emit('toshow');
+            },
+            destroy() {
+                var component = this;
+                axios.delete(component.item.path)
+                    .then( function (response) {
+                        if (response.data.deleted) {
+                            Vue.success('Karte gelöscht')
+                            component.$emit("deleted", component.id);
+                            return;
+                        }
+
+                        Vue.error('Karte konnte nicht gelöscht werden.');
+                    })
             },
             update(sync) {
                 var component = this;

@@ -5,6 +5,7 @@ namespace App\Models\Articles;
 use App\Models\Cards\Card;
 use App\Models\Localizations\Language;
 use App\Models\Orders\Order;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -37,6 +38,7 @@ class Article extends Model
         'provision_formatted',
         'state_icon',
         'state_key',
+        'sync_icon',
         'unit_cost_formatted',
         'unit_price_formatted',
     ];
@@ -51,6 +53,7 @@ class Article extends Model
         'id',
         'state_icon',
         'state_key',
+        'sync_icon',
     ];
 
     protected $dates = [
@@ -112,6 +115,87 @@ class Article extends Model
         }
 
         return $cardmarketArticle;
+    }
+
+    public function sync() : self
+    {
+        if ($this->cardmarket_article_id) {
+            $this->syncUpdate();
+        }
+        else {
+            $this->syncAdd();
+        }
+
+        return $this;
+    }
+
+    public function syncAdd()
+    {
+        $response = $this->user->cardmarketApi->stock->add([$this->toCardmarket()]);
+        if ($response['inserted']['success']) {
+            $cardmarketArticle = $response['inserted']['idArticle'];
+            $this->update([
+                'cardmarket_article_id' => $cardmarketArticle['idArticle'],
+                'cardmarket_last_edited' => new Carbon($cardmarketArticle['lastEdited']),
+                'exported_at' => now(),
+                'synced_at' => now(),
+                'has_sync_error' => false,
+                'sync_error' => null,
+                'should_sync' => false,
+            ]);
+        }
+        else {
+            $this->update([
+                'has_sync_error' => true,
+                'sync_error' => $response['inserted']['error'],
+                'should_sync' => true,
+            ]);
+        }
+    }
+
+    public function syncUpdate()
+    {
+        $response = $this->user->cardmarketApi->stock->update([$this->toCardmarket()]);
+        if (is_array($response['updatedArticles'])) {
+            $cardmarketArticle = $response['updatedArticles'];
+            $this->update([
+                'cardmarket_article_id' => $cardmarketArticle['idArticle'],
+                'cardmarket_last_edited' => new Carbon($cardmarketArticle['lastEdited']),
+                'synced_at' => now(),
+                'has_sync_error' => false,
+                'sync_error' => null,
+                'should_sync' => false,
+            ]);
+        }
+        else {
+            $this->update([
+                'has_sync_error' => true,
+                'sync_error' => $response['notUpdatedArticles']['error'],
+                'should_sync' => true,
+            ]);
+        }
+    }
+
+    public function syncDelete() : bool
+    {
+        if (is_null($this->cardmarket_article_id)) {
+            return true;
+        }
+
+        $response = $this->user->cardmarketApi->stock->delete([
+            'idArticle' => $this->cardmarket_article_id,
+            'count' => 1,
+        ]);
+
+        if (Arr::has($response['deleted'], 'message')) {
+            $this->update([
+                'cardmarket_article_id' => null
+            ]);
+
+            return true;
+        }
+
+        return $response['deleted']['success'];
     }
 
     protected function calculateProvision() : float
@@ -189,6 +273,19 @@ class Article extends Model
         }
     }
 
+    public function getSyncIconAttribute()
+    {
+        if ($this->has_sync_error) {
+            return 'fa-exclamation text-danger';
+        }
+
+        if (is_null($this->exported_at)) {
+            return 'fa-sqare text-danger';
+        }
+
+        return 'fa-check text-success';
+    }
+
     public function getStateKeyAttribute()
     {
         return $this->state ?? -1;
@@ -217,6 +314,11 @@ class Article extends Model
     public function order() : BelongsTo
     {
         return $this->belongsTo(Order::class);
+    }
+
+    public function user() : BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function scopeSearch(Builder $query, $value) : Builder

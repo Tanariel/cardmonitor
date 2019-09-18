@@ -32,10 +32,10 @@ class CallbackController extends Controller
             auth()->user()->apis()->first()->reset();
         }
 
-        // return redirect('home')->with('status', [
-        //     'type' => 'success',
-        //     'text' => 'Konto verknüpft',
-        // ]);
+        return redirect('home')->with('status', [
+            'type' => 'success',
+            'text' => 'Konto verknüpft',
+        ]);
     }
 
     public function destroy()

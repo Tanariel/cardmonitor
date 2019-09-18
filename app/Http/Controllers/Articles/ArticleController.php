@@ -78,11 +78,25 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        return Article::create($request->validate([
+        $article = Article::create($request->validate([
             'card_id' => 'required|integer',
+            'cardmarket_comments' => 'sometimes|nullable|string',
             'language_id' => 'sometimes|required|integer',
             'condition' => 'sometimes|required|string',
+            // 'bought_at_formatted' => 'required|date_format:"d.m.Y H:i"',
+            // 'sold_at_formatted' => 'required|date_format:"d.m.Y H:i"',
+            'is_foil' => 'sometimes|required|boolean',
+            'is_signed' => 'sometimes|required|boolean',
+            'is_playset' => 'sometimes|required|boolean',
+            'unit_price_formatted' => 'sometimes|required|formated_number',
+            'unit_cost_formatted' => 'sometimes|required|formated_number',
         ]));
+
+        if ($request->input('sync')) {
+            $article->syncAdd();
+        }
+
+        return $article;
     }
 
     /**
@@ -140,20 +154,7 @@ class ArticleController extends Controller
         }
 
         if ($request->input('sync')) {
-            $user = auth()->user();
-            if ($article->cardmarket_article_id) {
-                $response = $user->cardmarketApi->stock->update([$article->toCardmarket()]);
-                $cardmarketArticle = $response['updatedArticles'];
-                $article->update([
-                    'cardmarket_article_id' => $cardmarketArticle['idArticle'],
-                    'cardmarket_last_edited' => new Carbon($cardmarketArticle['lastEdited']),
-                ]);
-            }
-            else {
-                dump('adding');
-                $cardmarketArticle = $user->cardmarketApi->stock->add([$article->toCardmarket()]);
-            }
-            // dd($response);
+            $article->sync();
         }
 
         return $article->load([
@@ -173,7 +174,9 @@ class ArticleController extends Controller
     public function destroy(Request $request, Article $article)
     {
         if ($isDeletable = $article->isDeletable()) {
-            $article->delete();
+            if ($isDeletable = $article->syncDelete()) {
+                $article->delete();
+            }
         }
 
         if ($request->wantsJson())

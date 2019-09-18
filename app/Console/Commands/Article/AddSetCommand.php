@@ -50,7 +50,7 @@ class AddSetCommand extends Command
             return [$item['name'] => $item['unit_cost']];
         });
 
-        // $this->truncateStock();
+        $this->truncateStock();
 
         $articles = [];
         $cardmarketArticles = [];

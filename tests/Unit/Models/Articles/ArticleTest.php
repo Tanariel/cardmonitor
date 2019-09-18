@@ -6,6 +6,7 @@ use App\Models\Articles\Article;
 use App\Models\Cards\Card;
 use App\Models\Localizations\Language;
 use App\Models\Orders\Order;
+use App\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -90,7 +91,18 @@ class ArticleTest extends TestCase
         $model = factory(Article::class)->create([
             'order_id' => factory(Order::class)->create()->id,
         ]);
-        $this->assertEquals(BelongsTo::class, get_class($model->language()));
+        $this->assertEquals(BelongsTo::class, get_class($model->order()));
+    }
+
+    /**
+     * @test
+     */
+    public function it_belongs_to_an_user()
+    {
+        $model = factory(Article::class)->create([
+            'user_id' => factory(User::class)->create()->id,
+        ]);
+        $this->assertEquals(BelongsTo::class, get_class($model->user()));
     }
 
     /**
