@@ -4,6 +4,7 @@ namespace App\Models\Cards;
 
 use App\Models\Expansions\Expansion;
 use App\Traits\HasLocalizations;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Arr;
@@ -98,5 +99,24 @@ class Card extends Model
     public function expansion() : BelongsTo
     {
         return $this->belongsTo(Expansion::class, 'expansion_id');
+    }
+
+    public function scopeExpansion(Builder $query, $value) : Builder
+    {
+        if (! $value) {
+            return $query;
+        }
+
+        return $query->where('cards.expansion_id', $value);
+    }
+
+    public function scopeSearch(Builder $query, $searchtext, $languageId) : Builder
+    {
+        return $query->join('localizations', function ($join) use ($languageId) {
+            $join->on('localizations.localizationable_id', '=', 'cards.id')
+                ->where('localizations.localizationable_type', '=', Card::class)
+                ->where('localizations.language_id', '=', $languageId);
+        })
+            ->where('localizations.name', 'like', '%' . $searchtext . '%');
     }
 }

@@ -1,7 +1,9 @@
 <template>
     <div>
         <div class="row">
-            <div class="col"></div>
+            <div class="col">
+                <a href="/article/create" class="btn btn-primary"><i class="fas fa-plus-square"></i></a>
+            </div>
             <div class="col-auto d-flex">
                 <div class="form-group" style="margin-bottom: 0;">
                     <filter-search v-model="filter.searchtext" @input="fetch()"></filter-search>
@@ -13,9 +15,7 @@
         <form v-if="filter.show" id="filter" class="mt-1">
             <div  class="form-row">
 
-                <filter-contact :options="contacts" v-model="filter.contact_id" @input="fetch"></filter-contact>
-                <filter-status :options="statuses" v-model="filter.status_type" @input="fetch"></filter-status>
-                <filter-tags :options="tags" v-model="filter.tags" @input="fetch"></filter-tags>
+
 
             </div>
         </form>
@@ -42,19 +42,22 @@
                         <th class="text-right">#</th>
                         <th class="">Erweiterung</th>
                         <th class="text-center">Seltenheit</th>
+                        <th class="text-center">Sprache</th>
                         <th class="text-center">Zustand</th>
-                        <th class="">Extra</th>
+                        <th class="text-center">Foil</th>
+                        <th class="text-center">Signiert</th>
+                        <th class="text-center">Playset</th>
                         <th class="">Hinweise</th>
                         <th class="text-right">Verkaufspreis</th>
                         <th class="text-right">Einkaufspreis</th>
                         <th class="text-right">Provision</th>
                         <th class="text-right" title="Voraussichtlicher Gewinn ohne allgemeine Kosten">Gewinn</th>
-                        <th class="text-right" width="10%">Aktion</th>
+                        <th class="text-right">Aktion</th>
                     </tr>
                 </thead>
                 <tbody>
                     <template v-for="(item, index) in items">
-                        <row :item="item" :key="item.id" :uri="uri" :selected="(selected.indexOf(item.id) == -1) ? false : true" @input="toggleSelected" @updated="updated(index, $event)" @show="showImgbox($event)" @hide="hideImgbox()"></row>
+                        <row :item="item" :key="item.id" :uri="uri" :conditions="conditions" :languages="languages" :selected="(selected.indexOf(item.id) == -1) ? false : true" @input="toggleSelected" @updated="updated(index, $event)" @show="showImgbox($event)" @hide="hideImgbox()"></row>
                     </template>
                 </tbody>
             </table>
@@ -90,6 +93,17 @@
             filterSearch,
         },
 
+        props: {
+            conditions: {
+                type: Object,
+                required: true,
+            },
+            languages: {
+                required: true,
+                type: Object,
+            },
+        },
+
         data () {
             return {
                 uri: '/article',
@@ -105,6 +119,7 @@
                     lastPage: 0,
                 },
                 filter: {
+                    show: false,
                     page: 1,
                     searchtext: '',
                 },

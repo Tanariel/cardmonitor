@@ -4,6 +4,7 @@ namespace App\Models\Articles;
 
 use App\Models\Cards\Card;
 use App\Models\Localizations\Language;
+use App\Models\Orders\Order;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -19,6 +20,16 @@ class Article extends Model
 
     const PROVISION = 0.05;
     const MIN_UNIT_PRICE = 0.02;
+
+    const CONDITIONS = [
+        'M' => 'Mint',
+        'NM' => 'Near Mint',
+        'EX' => 'Excelent',
+        'GD' => 'Good',
+        'LP' => 'Light Played',
+        'PL' => 'Played',
+        'PO' => 'Poor',
+    ];
 
     protected $appends = [
         'localName',
@@ -82,17 +93,25 @@ class Article extends Model
 
     public function toCardmarket() : array
     {
-        return [
-            'idProduct' => $this->card->cardmarket_product_id,
+        $cardmarketArticle = [
             'idLanguage' => $this->language_id,
             'comments' => $this->cardmarket_comments,
             'count' => 1,
-            'price' => $this->unit_price,
+            'price' => number_format($this->unit_price, 2),
             'condition' => $this->condition,
             'isFoil' => $this->is_foil ? 'true' : 'false',
             'isSigned' => $this->is_signed ? 'true' : 'false',
             'isPlayset' => $this->is_playset ? 'true' : 'false',
         ];
+
+        if ($this->cardmarket_article_id) {
+            $cardmarketArticle['idArticle'] = $this->cardmarket_article_id;
+        }
+        else {
+            $cardmarketArticle['idProduct'] = $this->card->cardmarket_product_id;
+        }
+
+        return $cardmarketArticle;
     }
 
     protected function calculateProvision() : float
@@ -195,16 +214,20 @@ class Article extends Model
         return $this->belongsTo(Language::class);
     }
 
+    public function order() : BelongsTo
+    {
+        return $this->belongsTo(Order::class);
+    }
+
     public function scopeSearch(Builder $query, $value) : Builder
     {
         if (! $value) {
             return $query;
         }
 
-        return $query->join('cards', 'cards.id', 'articles.card_id')
-            ->join('localizations', function ($join) {
-                $join->on('localizations.localizationable_id', '=', 'cards.id');
-                $join->where('localizations.localizationable_type', '=', Card::class);
+        return $query->join('localizations', function ($join) {
+            $join->on('localizations.localizationable_id', '=', 'cards.id');
+            $join->where('localizations.localizationable_type', '=', Card::class);
         })
             ->where('localizations.name', 'like', '%' . $value . '%');
     }

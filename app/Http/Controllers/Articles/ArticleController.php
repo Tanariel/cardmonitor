@@ -5,6 +5,10 @@ namespace App\Http\Controllers\Articles;
 use App\Http\Controllers\Controller;
 use App\Models\Articles\Article;
 use App\Models\Cards\Card;
+use App\Models\Expansions\Expansion;
+use App\Models\Items\Card as ItemCard;
+use App\Models\Localizations\Language;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ArticleController extends Controller
@@ -20,15 +24,25 @@ class ArticleController extends Controller
     {
         if ($request->wantsJson()) {
             return auth()->user()->articles()
+                ->select('articles.*')
+                ->join('cards', 'cards.id', 'articles.card_id')
                 ->search($request->input('searchtext'))
                 ->with([
                     'card.expansion',
                     'language',
+                    'order',
                 ])
+                ->orderBy('cards.name', 'ASC')
                 ->paginate();
         }
 
-        return view($this->baseViewPath . '.index');
+        $languages = Language::all()->mapWithKeys(function ($item) {
+            return [$item['id'] => $item['name']];
+        });
+
+        return view($this->baseViewPath . '.index')
+            ->with('conditions', Article::CONDITIONS)
+            ->with('languages', $languages);
     }
 
     /**
@@ -38,7 +52,22 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        //
+        $user = auth()->user();
+        $defaultCardCosts = ItemCard::defaultCosts($user);
+
+        $expansions = Expansion::orderBy('name', 'ASC')->get()->mapWithKeys(function ($item) {
+            return [$item['id'] => $item['name']];
+        });
+
+        $languages = Language::all()->mapWithKeys(function ($item) {
+            return [$item['id'] => $item['name']];
+        });
+
+        return view($this->baseViewPath . '.create')
+            ->with('conditions', Article::CONDITIONS)
+            ->with('defaultCardCosts', $defaultCardCosts)
+            ->with('expansions', $expansions)
+            ->with('languages', $languages);
     }
 
     /**
@@ -90,10 +119,14 @@ class ArticleController extends Controller
     public function update(Request $request, Article $article)
     {
         $article->update($request->validate([
-            // 'language_id' => 'required|integer',
-            // 'condition' => 'required|string',
+            'cardmarket_comments' => 'sometimes|nullable|string',
+            'language_id' => 'sometimes|required|integer',
+            'condition' => 'sometimes|required|string',
             // 'bought_at_formatted' => 'required|date_format:"d.m.Y H:i"',
             // 'sold_at_formatted' => 'required|date_format:"d.m.Y H:i"',
+            'is_foil' => 'sometimes|required|boolean',
+            'is_signed' => 'sometimes|required|boolean',
+            'is_playset' => 'sometimes|required|boolean',
             'unit_price_formatted' => 'sometimes|required|formated_number',
             'unit_cost_formatted' => 'sometimes|required|formated_number',
             'provision_formatted' => 'sometimes|required|formated_number',
@@ -101,15 +134,33 @@ class ArticleController extends Controller
             'state_comments' => 'sometimes|nullable|string',
         ]));
 
-        if ($article->oder_id) {
+        if ($article->order_id) {
             $article->order->calculateProfits()
                 ->save();
+        }
+
+        if ($request->input('sync')) {
+            $user = auth()->user();
+            if ($article->cardmarket_article_id) {
+                $response = $user->cardmarketApi->stock->update([$article->toCardmarket()]);
+                $cardmarketArticle = $response['updatedArticles'];
+                $article->update([
+                    'cardmarket_article_id' => $cardmarketArticle['idArticle'],
+                    'cardmarket_last_edited' => new Carbon($cardmarketArticle['lastEdited']),
+                ]);
+            }
+            else {
+                dump('adding');
+                $cardmarketArticle = $user->cardmarketApi->stock->add([$article->toCardmarket()]);
+            }
+            // dd($response);
         }
 
         return $article->load([
             'card.expansion',
             'card.localizations',
             'language',
+            'order',
         ]);
     }
 

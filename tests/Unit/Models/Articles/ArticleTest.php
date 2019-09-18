@@ -5,6 +5,7 @@ namespace Tests\Unit\Models\Articles;
 use App\Models\Articles\Article;
 use App\Models\Cards\Card;
 use App\Models\Localizations\Language;
+use App\Models\Orders\Order;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -79,6 +80,17 @@ class ArticleTest extends TestCase
             'language_id' => Language::DEFAULT_ID,
         ]);
         $this->assertEquals(BelongsTo::class, get_class($model->card()));
+    }
+
+    /**
+     * @test
+     */
+    public function it_belongs_to_an_order()
+    {
+        $model = factory(Article::class)->create([
+            'order_id' => factory(Order::class)->create()->id,
+        ]);
+        $this->assertEquals(BelongsTo::class, get_class($model->language()));
     }
 
     /**

@@ -8,7 +8,7 @@
                         <div class="invalid-feedback" v-text="'name' in errors ? errors.name[0] : ''"></div>
                     </div>
                 </div>
-                    <button class="btn btn-primary" @click="create"><i class="fas fa-plus-square"></i></button>
+                <button class="btn btn-primary" @click="create"><i class="fas fa-plus-square"></i></button>
             </div>
             <div class="col-auto d-flex align-items-start">
                 <div class="form-group mb-0">

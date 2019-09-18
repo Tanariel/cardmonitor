@@ -37,6 +37,10 @@ class CreateArticlesTable extends Migration
             $table->dateTime('exported_at')->nullable();
             $table->dateTime('sold_at')->nullable();
             $table->text('hash')->nullable();
+            $table->boolean('should_sync')->default(false);
+            $table->boolean('has_sync_error')->default(false);
+            $table->string('sync_error')->nullable();
+            $table->dateTime('synced_at')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

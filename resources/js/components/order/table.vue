@@ -13,9 +13,7 @@
         <form v-if="filter.show" id="filter" class="mt-1">
             <div  class="form-row">
 
-                <filter-contact :options="contacts" v-model="filter.contact_id" @input="fetch"></filter-contact>
-                <filter-status :options="statuses" v-model="filter.status_type" @input="fetch"></filter-status>
-                <filter-tags :options="tags" v-model="filter.tags" @input="fetch"></filter-tags>
+
 
             </div>
         </form>

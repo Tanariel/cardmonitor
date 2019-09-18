@@ -11,7 +11,7 @@
         <td class="align-middle pointer" @click="toShow">
             <i class="fas fa-star text-warning" v-if="item.is_foil"></i>
         </td>
-        <td class="align-middle pointer" @click="toShow">{{ item.comments || '' }}</td>
+        <td class="align-middle pointer" @click="toShow">{{ item.cardmarket_comments }}</td>
         <td class="align-middle text-right pointer" @click="toShow">{{ Number(item.unit_price).format(2, ',', '.') }} €</td>
         <td class="align-middle text-right">
             <input class="form-control text-right" :class="'unit_cost_formatted' in errors ? 'is-invalid' : ''" type="text" v-model="form.unit_cost_formatted" @keydown.enter="update">

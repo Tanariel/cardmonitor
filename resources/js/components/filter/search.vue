@@ -11,12 +11,22 @@
         props: [
             'error',
             'value',
+            'shouldFocus',
         ],
 
         data() {
             return {
                 timeout: null,
             };
+        },
+
+        watch: {
+            shouldFocus(newValue) {
+                if (newValue) {
+                    this.$refs['search'].focus();
+                    this.$emit('focused');
+                }
+            },
         },
 
         methods: {

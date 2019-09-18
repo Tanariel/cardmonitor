@@ -15,9 +15,18 @@ class CardController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if ($request->wantsJson()) {
+            return Card::select('cards.*', 'localizations.name AS local_name')
+                ->with([
+                    'expansion'
+                ])
+                ->search($request->input('searchtext'), $request->input('language_id'))
+                ->expansion($request->input('expansion_id'))
+                ->orderBy('local_name', 'ASC')
+                ->get();
+        }
     }
 
     /**
