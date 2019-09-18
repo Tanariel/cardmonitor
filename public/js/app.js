@@ -1862,6 +1862,7 @@ module.exports = function isBuffer (obj) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _filter_search_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../filter/search.vue */ "./resources/js/components/filter/search.vue");
 /* harmony import */ var _partials_emoji_rarity_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../partials/emoji/rarity.vue */ "./resources/js/components/partials/emoji/rarity.vue");
+/* harmony import */ var _row_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./row.vue */ "./resources/js/components/article/row.vue");
 //
 //
 //
@@ -2056,12 +2057,47 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     filterSearch: _filter_search_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
-    rarity: _partials_emoji_rarity_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+    rarity: _partials_emoji_rarity_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+    row: _row_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   computed: {
     conditionIndex: function conditionIndex() {
@@ -2069,6 +2105,20 @@ __webpack_require__.r(__webpack_exports__);
     },
     conditionKeys: function conditionKeys() {
       return Object.keys(this.conditions);
+    },
+    selectAll: {
+      get: function get() {
+        return this.items.length ? this.items.length == this.selected.length : false;
+      },
+      set: function set(value) {
+        this.selected = [];
+
+        if (value) {
+          for (var i in this.items) {
+            this.selected.push(this.items[i].id);
+          }
+        }
+      }
     }
   },
   props: {
@@ -2122,6 +2172,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       cards: {},
       item: null,
+      items: [],
       imgbox: {
         src: null,
         show: true
@@ -2148,6 +2199,7 @@ __webpack_require__.r(__webpack_exports__);
         is_playset: false,
         sync: false
       },
+      selected: [],
       uri: '/card'
     };
   },
@@ -2159,6 +2211,7 @@ __webpack_require__.r(__webpack_exports__);
       var component = this;
       component.form.sync = sync;
       axios.post('/article', component.form).then(function (response) {
+        component.items = response.data.concat(component.items);
         component.filter.searchtext = '';
         component.item = null;
       })["catch"](function (error) {
@@ -2190,6 +2243,21 @@ __webpack_require__.r(__webpack_exports__);
         Vue.error('Karten konnten nicht geladen werden!');
         console.log(error);
       });
+    },
+    updated: function updated(index, item) {
+      Vue.set(this.items, index, item);
+    },
+    remove: function remove(index) {
+      this.items.splice(index, 1);
+    },
+    toggleSelected: function toggleSelected(id) {
+      var index = this.selected.indexOf(id);
+
+      if (index == -1) {
+        this.selected.push(id);
+      } else {
+        this.selected.splice(index, 1);
+      }
     },
     keydown: function keydown(event) {
       console.log(event);
@@ -42248,6 +42316,20 @@ var render = function() {
                   }
                 },
                 [_c("i", { staticClass: "fas fa-fw fa-sync" })]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-secondary",
+                  attrs: { title: "Abbrechen" },
+                  on: {
+                    click: function($event) {
+                      _vm.item = null
+                    }
+                  }
+                },
+                [_c("i", { staticClass: "fas fa-fw fa-times" })]
               )
             ]),
             _vm._v(" "),
@@ -42256,6 +42338,152 @@ var render = function() {
             ])
           ])
         : _vm._e()
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "col mt-3" }, [
+      _c(
+        "table",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.items.length,
+              expression: "items.length"
+            }
+          ],
+          staticClass: "table table-hover table-striped"
+        },
+        [
+          _c("thead", [
+            _c("tr", [
+              _c("th", [
+                _c("label", {
+                  staticClass: "form-checkbox",
+                  attrs: { for: "checkall" }
+                }),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.selectAll,
+                      expression: "selectAll"
+                    }
+                  ],
+                  attrs: { id: "checkall", type: "checkbox" },
+                  domProps: {
+                    checked: Array.isArray(_vm.selectAll)
+                      ? _vm._i(_vm.selectAll, null) > -1
+                      : _vm.selectAll
+                  },
+                  on: {
+                    change: function($event) {
+                      var $$a = _vm.selectAll,
+                        $$el = $event.target,
+                        $$c = $$el.checked ? true : false
+                      if (Array.isArray($$a)) {
+                        var $$v = null,
+                          $$i = _vm._i($$a, $$v)
+                        if ($$el.checked) {
+                          $$i < 0 && (_vm.selectAll = $$a.concat([$$v]))
+                        } else {
+                          $$i > -1 &&
+                            (_vm.selectAll = $$a
+                              .slice(0, $$i)
+                              .concat($$a.slice($$i + 1)))
+                        }
+                      } else {
+                        _vm.selectAll = $$c
+                      }
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("th", { staticClass: "text-center" }, [_vm._v("Sync")]),
+              _vm._v(" "),
+              _c("th", { staticClass: "text-right" }),
+              _vm._v(" "),
+              _c("th", {}, [_vm._v("Name")]),
+              _vm._v(" "),
+              _c("th", { staticClass: "text-right" }, [_vm._v("#")]),
+              _vm._v(" "),
+              _c("th", {}, [_vm._v("Erweiterung")]),
+              _vm._v(" "),
+              _c("th", { staticClass: "text-center" }, [_vm._v("Seltenheit")]),
+              _vm._v(" "),
+              _c("th", { staticClass: "text-center" }, [_vm._v("Sprache")]),
+              _vm._v(" "),
+              _c("th", { staticClass: "text-center" }, [_vm._v("Zustand")]),
+              _vm._v(" "),
+              _c("th", { staticClass: "text-center" }, [_vm._v("Foil")]),
+              _vm._v(" "),
+              _c("th", { staticClass: "text-center" }, [_vm._v("Signiert")]),
+              _vm._v(" "),
+              _c("th", { staticClass: "text-center" }, [_vm._v("Playset")]),
+              _vm._v(" "),
+              _c("th", {}, [_vm._v("Hinweise")]),
+              _vm._v(" "),
+              _c("th", { staticClass: "text-right" }, [
+                _vm._v("Verkaufspreis")
+              ]),
+              _vm._v(" "),
+              _c("th", { staticClass: "text-right" }, [
+                _vm._v("Einkaufspreis")
+              ]),
+              _vm._v(" "),
+              _c("th", { staticClass: "text-right" }, [_vm._v("Provision")]),
+              _vm._v(" "),
+              _c(
+                "th",
+                {
+                  staticClass: "text-right",
+                  attrs: {
+                    title: "Voraussichtlicher Gewinn ohne allgemeine Kosten"
+                  }
+                },
+                [_vm._v("Gewinn")]
+              ),
+              _vm._v(" "),
+              _c("th", { staticClass: "text-right" }, [_vm._v("Aktion")])
+            ])
+          ]),
+          _vm._v(" "),
+          _c(
+            "tbody",
+            _vm._l(_vm.items, function(item, index) {
+              return _c("row", {
+                key: item.id,
+                attrs: {
+                  item: item,
+                  uri: _vm.uri,
+                  conditions: _vm.conditions,
+                  languages: _vm.languages,
+                  selected: _vm.selected.indexOf(item.id) == -1 ? false : true
+                },
+                on: {
+                  input: _vm.toggleSelected,
+                  updated: function($event) {
+                    return _vm.updated(index, $event)
+                  },
+                  show: function($event) {
+                    return _vm.showImgbox($event)
+                  },
+                  hide: function($event) {
+                    return _vm.hideImgbox()
+                  },
+                  deleted: function($event) {
+                    return _vm.remove(index)
+                  }
+                }
+              })
+            }),
+            1
+          )
+        ]
+      )
     ]),
     _vm._v(" "),
     _c(

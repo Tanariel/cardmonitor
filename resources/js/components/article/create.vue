@@ -180,11 +180,44 @@
                     </table>
                     <button class="btn btn-primary" title="Anlegen" @click="create(false)"><i class="fas fa-fw fa-save"></i></button>
                     <button class="btn btn-primary" title="Anlegen & Exportieren" @click="create(true)"><i class="fas fa-fw fa-sync"></i></button>
+                    <button class="btn btn-secondary" title="Abbrechen" @click="item = null"><i class="fas fa-fw fa-times"></i></button>
                 </div>
                 <div class="col">
                     <img :src="item.imagePath">
                 </div>
             </div>
+        </div>
+        <div class="col mt-3">
+            <table class="table table-hover table-striped" v-show="items.length">
+                <thead>
+                    <tr>
+                        <th>
+                            <label class="form-checkbox" for="checkall"></label>
+                            <input id="checkall" type="checkbox" v-model="selectAll">
+                        </th>
+                        <th class="text-center">Sync</th>
+                        <th class="text-right"></th>
+                        <th class="">Name</th>
+                        <th class="text-right">#</th>
+                        <th class="">Erweiterung</th>
+                        <th class="text-center">Seltenheit</th>
+                        <th class="text-center">Sprache</th>
+                        <th class="text-center">Zustand</th>
+                        <th class="text-center">Foil</th>
+                        <th class="text-center">Signiert</th>
+                        <th class="text-center">Playset</th>
+                        <th class="">Hinweise</th>
+                        <th class="text-right">Verkaufspreis</th>
+                        <th class="text-right">Einkaufspreis</th>
+                        <th class="text-right">Provision</th>
+                        <th class="text-right" title="Voraussichtlicher Gewinn ohne allgemeine Kosten">Gewinn</th>
+                        <th class="text-right">Aktion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <row :item="item" :key="item.id" :uri="uri" :conditions="conditions" :languages="languages" :selected="(selected.indexOf(item.id) == -1) ? false : true" v-for="(item, index) in items" @input="toggleSelected" @updated="updated(index, $event)" @show="showImgbox($event)" @hide="hideImgbox()" @deleted="remove(index)"></row>
+                </tbody>
+            </table>
         </div>
         <div id="imgbox" style="position: absolute; left: 100px;" :style="{ top: imgbox.top }">
             <img :src="imgbox.src" v-show="imgbox.show">
@@ -195,12 +228,14 @@
 <script>
     import filterSearch from "../filter/search.vue";
     import rarity from '../partials/emoji/rarity.vue';
+    import row from "./row.vue";
 
     export default {
 
         components: {
             filterSearch,
             rarity,
+            row,
         },
 
         computed: {
@@ -209,7 +244,20 @@
             },
             conditionKeys() {
                 return Object.keys(this.conditions);
-            }
+            },
+            selectAll: {
+                get: function () {
+                    return this.items.length ? this.items.length == this.selected.length : false;
+                },
+                set: function (value) {
+                    this.selected = [];
+                    if (value) {
+                        for (let i in this.items) {
+                            this.selected.push(this.items[i].id);
+                        }
+                    }
+                },
+            },
         },
 
         props: {
@@ -266,6 +314,7 @@
             return {
                 cards: {},
                 item: null,
+                items: [],
                 imgbox: {
                     src: null,
                     show: true,
@@ -291,6 +340,7 @@
                     is_playset: false,
                     sync: false,
                 },
+                selected: [],
                 uri: '/card',
             };
         },
@@ -305,6 +355,7 @@
                 component.form.sync = sync;
                 axios.post('/article', component.form)
                     .then(function (response) {
+                        component.items = response.data.concat(component.items);
                         component.filter.searchtext = '';
                         component.item = null;
                     })
@@ -337,6 +388,21 @@
                         Vue.error('Karten konnten nicht geladen werden!');
                         console.log(error);
                     });
+            },
+            updated(index, item) {
+                Vue.set(this.items, index, item);
+            },
+            remove(index) {
+                this.items.splice(index, 1);
+            },
+            toggleSelected (id) {
+                var index = this.selected.indexOf(id);
+                if (index == -1) {
+                    this.selected.push(id);
+                }
+                else {
+                    this.selected.splice(index, 1);
+                }
             },
             keydown(event) {
                 console.log(event);

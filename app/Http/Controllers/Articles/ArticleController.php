@@ -78,7 +78,7 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        $article = Article::create($request->validate([
+        $attributes = $request->validate([
             'card_id' => 'required|integer',
             'cardmarket_comments' => 'sometimes|nullable|string',
             'language_id' => 'sometimes|required|integer',
@@ -90,13 +90,27 @@ class ArticleController extends Controller
             'is_playset' => 'sometimes|required|boolean',
             'unit_price_formatted' => 'sometimes|required|formated_number',
             'unit_cost_formatted' => 'sometimes|required|formated_number',
-        ]));
+        ]);
+        $articles = [];
 
-        if ($request->input('sync')) {
-            $article->syncAdd();
+        for ($i=0; $i < $request->input('count'); $i++) {
+            $article = Article::create($attributes);
+
+            if ($request->input('sync')) {
+                $article->syncAdd();
+            }
+
+            $article->load([
+                'card.expansion',
+                'card.localizations',
+                'language',
+                'order',
+            ]);
+
+            $articles[] = $article;
         }
 
-        return $article;
+        return $articles;
     }
 
     /**
