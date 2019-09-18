@@ -13,6 +13,16 @@ class Card extends Model
 {
     use HasLocalizations;
 
+    const RARITIES = [
+        'Mythic',
+        'Rare',
+        'Special',
+        'Uncommon',
+        'Common',
+        'Land',
+        'Token',
+    ];
+
     protected $appends = [
         'imagePath',
     ];
