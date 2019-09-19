@@ -71,6 +71,10 @@ class PriceController extends Controller
      */
     public function update(Request $request, Card $card)
     {
+        if ($card->has_latest_prices) {
+            return $card;
+        }
+
         $api = App::make('CardmarketApi');
 
         $cardmarketProduct = $api->product->get($card->cardmarket_product_id);

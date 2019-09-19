@@ -2165,6 +2165,7 @@ __webpack_require__.r(__webpack_exports__);
             response.data.expansion = newValue.expansion;
             component.item = response.data;
             component.isLoadingPrices = false;
+            Vue.set(component.cards, newValue.index, component.item);
           });
         }
 
@@ -2247,7 +2248,7 @@ __webpack_require__.r(__webpack_exports__);
         component.isLoading = false;
 
         if (component.cards.length == 1) {
-          component.item = component.cards[0];
+          component.setItem(component.cards[0], 0);
         } else {
           component.item = null;
         }
@@ -2255,6 +2256,14 @@ __webpack_require__.r(__webpack_exports__);
         Vue.error('Karten konnten nicht geladen werden!');
         console.log(error);
       });
+    },
+    setItem: function setItem(card, index) {
+      this.item = card;
+
+      if (card != null) {
+        this.item.index = index;
+        console.log(this.$refs);
+      }
     },
     updated: function updated(index, item) {
       Vue.set(this.items, index, item);
@@ -41417,7 +41426,7 @@ var render = function() {
                       {
                         on: {
                           click: function($event) {
-                            _vm.item = card
+                            return _vm.setItem(card, index)
                           }
                         }
                       },
@@ -41533,6 +41542,7 @@ var render = function() {
                                 expression: "form.count"
                               }
                             ],
+                            ref: "count",
                             staticClass: "form-control",
                             attrs: { type: "number" },
                             domProps: { value: _vm.form.count },

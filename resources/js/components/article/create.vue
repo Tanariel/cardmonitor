@@ -27,7 +27,7 @@
                 <table
                 <table class="table table-hover table-striped" v-else-if="cards.length">
                     <tbody>
-                        <tr v-for="(card, index) in cards" @click="item = card">
+                        <tr v-for="(card, index) in cards" @click="setItem(card, index)">
                             <td class="align-middle text-center pointer" width="50"><i class="fas fa-image" @mouseover="showImgbox(card.imagePath, ($event.layerY + 100) + 'px')" @mouseout="hideImgbox"></i></td>
                             <td class="align-middle pointer">{{ card.expansion.name }}</td>
                             <td class="align-middle text-center" width="50"><rarity :value="card.rarity"></rarity></td>
@@ -57,7 +57,7 @@
                                 <td class="align-middle">Anzahl</td>
                                 <td class="align-middle" width="50%">
                                     <div class="form-group mb-0">
-                                        <input class="form-control" type="number" v-model="form.count"@keydown="keydown">
+                                        <input class="form-control" type="number" ref="count" v-model="form.count" @keydown="keydown">
                                         <div class="invalid-feedback" v-text="'count' in errors ? errors.count[0] : ''"></div>
                                     </div>
                                 </td>
@@ -307,6 +307,7 @@
                                 response.data.expansion = newValue.expansion;
                                 component.item = response.data;
                                 component.isLoadingPrices = false;
+                                Vue.set(component.cards, newValue.index, component.item);
                             })
                     }
                     this.form.card_id = newValue.id;
@@ -392,7 +393,7 @@
                         component.cards = response.data;
                         component.isLoading = false;
                         if (component.cards.length == 1) {
-                            component.item = component.cards[0];
+                            component.setItem(component.cards[0], 0);
                         }
                         else {
                             component.item = null;
@@ -402,6 +403,13 @@
                         Vue.error('Karten konnten nicht geladen werden!');
                         console.log(error);
                     });
+            },
+            setItem(card, index) {
+                this.item = card;
+                if (card != null) {
+                    this.item.index = index;
+                    console.log(this.$refs);
+                }
             },
             updated(index, item) {
                 Vue.set(this.items, index, item);
