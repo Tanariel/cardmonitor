@@ -27,6 +27,22 @@ class Card extends Model
         'imagePath',
     ];
 
+    protected $casts = [
+        'price_sell' => 'decimal:2',
+        'price_low' => 'decimal:2',
+        'price_trend' => 'decimal:2',
+        'price_avg' => 'decimal:2',
+        'price_german_pro' => 'decimal:2',
+        'price_foil_sell' => 'decimal:2',
+        'price_foil_low' => 'decimal:2',
+        'price_foil_trend' => 'decimal:2',
+        'price_low_ex' => 'decimal:2',
+    ];
+
+    protected $dates = [
+        'prices_updated_at',
+    ];
+
     protected $guarded = [
         'id',
         'imagePath',
@@ -99,6 +115,19 @@ class Card extends Model
         }
 
         return $model;
+    }
+
+    public function setPricesFromCardmarket(array $cardMarketPriceGuide) : self
+    {
+        $this->attributes['price_sell'] = $cardMarketPriceGuide['SELL'];
+        $this->attributes['price_low'] = $cardMarketPriceGuide['LOW'];
+        $this->attributes['price_low_ex'] = $cardMarketPriceGuide['LOWEX'];
+        $this->attributes['price_foil_low'] = $cardMarketPriceGuide['LOWFOIL'];
+        $this->attributes['price_avg'] = $cardMarketPriceGuide['AVG'];
+        $this->attributes['price_trend'] = $cardMarketPriceGuide['TREND'];
+        $this->prices_updated_at = now();
+
+        return $this;
     }
 
     public function getImagePathAttribute()

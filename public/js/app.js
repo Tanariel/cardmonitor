@@ -2159,7 +2159,7 @@ __webpack_require__.r(__webpack_exports__);
         this.form.card_id = newValue.id;
         this.form.language_id = this.filter.language_id;
         this.form.unit_cost_formatted = Number(this.defaultCardCosts[newValue.rarity] || 0).format(2, ',', '');
-        this.form.unit_price_formatted = '0,00';
+        this.form.unit_price_formatted = Number(newValue.price_trend).format(2, ',', '');
         this.form.is_foil = false;
         this.form.is_signed = false;
         this.form.is_playset = false;
@@ -2192,8 +2192,7 @@ __webpack_require__.r(__webpack_exports__);
         count: 1,
         language_id: 0,
         unit_cost_formatted: '0,00',
-        unit_price_formatted: '2,34',
-        // aus user settings (TREND|LOW|...)
+        unit_price_formatted: '0,00',
         is_foil: false,
         is_signed: false,
         is_playset: false,
@@ -2269,6 +2268,10 @@ __webpack_require__.r(__webpack_exports__);
     },
     hideImgbox: function hideImgbox() {
       this.imgbox.show = false;
+    },
+    setPrice: function setPrice(type) {
+      console.log(this.item['price_' + type]);
+      this.form.unit_price_formatted = Number(this.item['price_' + (this.form.is_foil ? 'foil_' : '') + type]).format(2, ',', '');
     }
   }
 });
@@ -42238,7 +42241,7 @@ var render = function() {
                               staticClass: "btn btn-secondary",
                               on: {
                                 click: function($event) {
-                                  _vm.form.count = 1
+                                  return _vm.setPrice("low")
                                 }
                               }
                             },
@@ -42251,7 +42254,7 @@ var render = function() {
                               staticClass: "btn btn-secondary",
                               on: {
                                 click: function($event) {
-                                  _vm.form.count = 2
+                                  return _vm.setPrice("sell")
                                 }
                               }
                             },
@@ -42264,7 +42267,7 @@ var render = function() {
                               staticClass: "btn btn-secondary",
                               on: {
                                 click: function($event) {
-                                  _vm.form.count = 3
+                                  return _vm.setPrice("trend")
                                 }
                               }
                             },
@@ -42275,9 +42278,10 @@ var render = function() {
                             "button",
                             {
                               staticClass: "btn btn-secondary",
+                              attrs: { disabled: _vm.form.is_foil },
                               on: {
                                 click: function($event) {
-                                  _vm.form.count = 4
+                                  return _vm.setPrice("avg")
                                 }
                               }
                             },

@@ -169,10 +169,10 @@
                                 </td>
                                 <td class="align-middle">
                                     <div class="btn-group btn-group-sm" role="group">
-                                        <button class="btn btn-secondary" @click="form.count = 1">LOW</button>
-                                        <button class="btn btn-secondary" @click="form.count = 2">SELL</button>
-                                        <button class="btn btn-secondary" @click="form.count = 3">TREND</button>
-                                        <button class="btn btn-secondary" @click="form.count = 4">AVG</button>
+                                        <button class="btn btn-secondary" @click="setPrice('low')">LOW</button>
+                                        <button class="btn btn-secondary" @click="setPrice('sell')">SELL</button>
+                                        <button class="btn btn-secondary" @click="setPrice('trend')">TREND</button>
+                                        <button class="btn btn-secondary" @click="setPrice('avg')" :disabled="form.is_foil">AVG</button>
                                     </div>
                                 </td>
                             </tr>
@@ -300,7 +300,7 @@
                     this.form.card_id = newValue.id;
                     this.form.language_id = this.filter.language_id;
                     this.form.unit_cost_formatted = Number(this.defaultCardCosts[newValue.rarity] || 0).format(2, ',', '');
-                    this.form.unit_price_formatted = '0,00';
+                    this.form.unit_price_formatted = Number(newValue.price_trend).format(2, ',', '');
                     this.form.is_foil = false;
                     this.form.is_signed = false;
                     this.form.is_playset = false;
@@ -334,7 +334,7 @@
                     count: 1,
                     language_id: 0,
                     unit_cost_formatted: '0,00',
-                    unit_price_formatted: '2,34', // aus user settings (TREND|LOW|...)
+                    unit_price_formatted: '0,00',
                     is_foil: false,
                     is_signed: false,
                     is_playset: false,
@@ -414,6 +414,10 @@
             },
             hideImgbox() {
                 this.imgbox.show = false;
+            },
+            setPrice(type) {
+                console.log(this.item['price_' + type]);
+                this.form.unit_price_formatted = Number(this.item['price_' + (this.form.is_foil ? 'foil_' : '') + type]).format(2, ',', '');
             },
         },
     };
