@@ -10,6 +10,10 @@ class Api extends Model
         'accessdata' => 'array',
     ];
 
+    protected $dates = [
+        'invalid_at',
+    ];
+
     protected $guarded = [
         'id',
     ];
@@ -28,6 +32,7 @@ class Api extends Model
     {
         $this->update([
             'accessdata' => [],
+            'invalid_at' => null,
         ]);
 
         return $this;
@@ -41,6 +46,7 @@ class Api extends Model
                 'access_token' => $access_token,
                 'access_token_secret' => $access_token_secret,
             ],
+            'invalid_at' => now()->addHours(24),
         ]);
     }
 }

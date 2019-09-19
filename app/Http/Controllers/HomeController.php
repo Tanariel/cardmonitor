@@ -56,6 +56,7 @@ class HomeController extends Controller
             ->with('cardmarketAccount', $cardmarketAccount)
             ->with('cardmarketConnectLink', $cardmarketConnectLink)
             ->with('evaluations', $evaluations)
+            ->with('invalid_at', $user->api->invalid_at)
             ->with('ordersByState', $ordersByState);
     }
 }

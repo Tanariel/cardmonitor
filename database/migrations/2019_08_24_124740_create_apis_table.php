@@ -17,6 +17,8 @@ class CreateApisTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
             $table->json('accessdata');
+
+            $table->dateTime('invalid_at')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');

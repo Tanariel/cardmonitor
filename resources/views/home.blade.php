@@ -15,6 +15,7 @@
                         @if ($cardmarketAccount['unreadMessages'])
                             <div>{{ $cardmarketAccount['unreadMessages'] }} ungelesene Nachrichten</div>
                         @endif
+                        <div>Gültig bis: {{ $invalid_at->format('d.m.Y H:i') }} <a href="{{ route('cardmarket.callback.update') }}" class="btn btn-sm btn-link" title="Erneuern"><i class="fas fa-fw fa-sync"></i></a></div>
                         <form action="{{ route('cardmarket.callback.destroy') }}" class="ml-1 mt-3" method="POST">
                             @csrf
                             @method('DELETE')
