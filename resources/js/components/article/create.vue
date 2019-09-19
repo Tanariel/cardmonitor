@@ -47,21 +47,21 @@
                     <table class="table table-striped">
                         <tbody>
                             <tr>
-                                <td class="align-middle">Artikel</td>
-                                <td class="align-middle" colspan="2">
+                                <td class="align-middle" width="150">Artikel</td>
+                                <td class="align-middle" colspan="2" width="100%">
                                     <div>{{ item.local_name }}</div>
                                 <div class="text-muted" v-if="filter.language_id != 1">{{ item.name }}</div>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="align-middle">Anzahl</td>
-                                <td class="align-middle">
+                                <td class="align-middle" width="50%">
                                     <div class="form-group mb-0">
                                         <input class="form-control" type="number" v-model="form.count"@keydown="keydown">
                                         <div class="invalid-feedback" v-text="'count' in errors ? errors.count[0] : ''"></div>
                                     </div>
                                 </td>
-                                <td class="align-middle">
+                                <td class="align-middle" width="50%">
                                     <div class="btn-group btn-group-sm" role="group">
                                         <button class="btn btn-secondary" @click="form.count = 1">1</button>
                                         <button class="btn btn-secondary" @click="form.count = 2">2</button>
@@ -174,6 +174,7 @@
                                         <button class="btn btn-secondary" @click="setPrice('trend')">TREND</button>
                                         <button class="btn btn-secondary" @click="setPrice('avg')" :disabled="form.is_foil">AVG</button>
                                     </div>
+                                    <i class="fas fa-fw fa-spin fa-spinner" v-show="isLoadingPrices"></i>
                                 </td>
                             </tr>
                         </tbody>
@@ -297,6 +298,17 @@
                     this.filter.shouldFocus = true;
                 }
                 else {
+                    if (newValue.has_latest_prices == false) {
+                        var component = this;
+                        component.isLoadingPrices = true;
+                        axios.put('/cardmarket/product/' + newValue.id)
+                            .then( function (response) {
+                                response.data.local_name = newValue.local_name;
+                                response.data.expansion = newValue.expansion;
+                                component.item = response.data;
+                                component.isLoadingPrices = false;
+                            })
+                    }
                     this.form.card_id = newValue.id;
                     this.form.language_id = this.filter.language_id;
                     this.form.unit_cost_formatted = Number(this.defaultCardCosts[newValue.rarity] || 0).format(2, ',', '');
@@ -306,6 +318,7 @@
                     this.form.is_playset = false;
                     this.form.is_altered = false;
                     this.form.cardmarket_comments = '';
+
                 }
             },
         },
@@ -320,6 +333,7 @@
                     show: true,
                 },
                 isLoading: false,
+                isLoadingPrices: false,
                 errors: {},
                 filter: {
                     expansion_id: 250,

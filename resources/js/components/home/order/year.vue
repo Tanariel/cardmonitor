@@ -21,7 +21,7 @@
                 </center>
             </div>
             <div class="alert alert-dark mt-3" role="alert" v-else-if="statistics.orders_count == 0">
-                Keine Bestellungen im {{ month_name }} vorhanden.
+                Keine Bestellungen im Zeitraum vorhanden.
             </div>
         </div>
         <div class="card-body row">

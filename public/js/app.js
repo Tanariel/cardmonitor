@@ -2090,6 +2090,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -2156,6 +2157,17 @@ __webpack_require__.r(__webpack_exports__);
         this.form.sync = false;
         this.filter.shouldFocus = true;
       } else {
+        if (newValue.has_latest_prices == false) {
+          var component = this;
+          component.isLoadingPrices = true;
+          axios.put('/cardmarket/product/' + newValue.id).then(function (response) {
+            response.data.local_name = newValue.local_name;
+            response.data.expansion = newValue.expansion;
+            component.item = response.data;
+            component.isLoadingPrices = false;
+          });
+        }
+
         this.form.card_id = newValue.id;
         this.form.language_id = this.filter.language_id;
         this.form.unit_cost_formatted = Number(this.defaultCardCosts[newValue.rarity] || 0).format(2, ',', '');
@@ -2178,6 +2190,7 @@ __webpack_require__.r(__webpack_exports__);
         show: true
       },
       isLoading: false,
+      isLoadingPrices: false,
       errors: {},
       filter: {
         expansion_id: 250,
@@ -41477,13 +41490,18 @@ var render = function() {
               _c("table", { staticClass: "table table-striped" }, [
                 _c("tbody", [
                   _c("tr", [
-                    _c("td", { staticClass: "align-middle" }, [
-                      _vm._v("Artikel")
-                    ]),
+                    _c(
+                      "td",
+                      { staticClass: "align-middle", attrs: { width: "150" } },
+                      [_vm._v("Artikel")]
+                    ),
                     _vm._v(" "),
                     _c(
                       "td",
-                      { staticClass: "align-middle", attrs: { colspan: "2" } },
+                      {
+                        staticClass: "align-middle",
+                        attrs: { colspan: "2", width: "100%" }
+                      },
                       [
                         _c("div", [_vm._v(_vm._s(_vm.item.local_name))]),
                         _vm._v(" "),
@@ -41501,104 +41519,112 @@ var render = function() {
                       _vm._v("Anzahl")
                     ]),
                     _vm._v(" "),
-                    _c("td", { staticClass: "align-middle" }, [
-                      _c("div", { staticClass: "form-group mb-0" }, [
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.form.count,
-                              expression: "form.count"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: { type: "number" },
-                          domProps: { value: _vm.form.count },
-                          on: {
-                            keydown: _vm.keydown,
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
+                    _c(
+                      "td",
+                      { staticClass: "align-middle", attrs: { width: "50%" } },
+                      [
+                        _c("div", { staticClass: "form-group mb-0" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.form.count,
+                                expression: "form.count"
                               }
-                              _vm.$set(_vm.form, "count", $event.target.value)
+                            ],
+                            staticClass: "form-control",
+                            attrs: { type: "number" },
+                            domProps: { value: _vm.form.count },
+                            on: {
+                              keydown: _vm.keydown,
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(_vm.form, "count", $event.target.value)
+                              }
                             }
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c("div", {
-                          staticClass: "invalid-feedback",
-                          domProps: {
-                            textContent: _vm._s(
-                              "count" in _vm.errors ? _vm.errors.count[0] : ""
-                            )
-                          }
-                        })
-                      ])
-                    ]),
+                          }),
+                          _vm._v(" "),
+                          _c("div", {
+                            staticClass: "invalid-feedback",
+                            domProps: {
+                              textContent: _vm._s(
+                                "count" in _vm.errors ? _vm.errors.count[0] : ""
+                              )
+                            }
+                          })
+                        ])
+                      ]
+                    ),
                     _vm._v(" "),
-                    _c("td", { staticClass: "align-middle" }, [
-                      _c(
-                        "div",
-                        {
-                          staticClass: "btn-group btn-group-sm",
-                          attrs: { role: "group" }
-                        },
-                        [
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-secondary",
-                              on: {
-                                click: function($event) {
-                                  _vm.form.count = 1
+                    _c(
+                      "td",
+                      { staticClass: "align-middle", attrs: { width: "50%" } },
+                      [
+                        _c(
+                          "div",
+                          {
+                            staticClass: "btn-group btn-group-sm",
+                            attrs: { role: "group" }
+                          },
+                          [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-secondary",
+                                on: {
+                                  click: function($event) {
+                                    _vm.form.count = 1
+                                  }
                                 }
-                              }
-                            },
-                            [_vm._v("1")]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-secondary",
-                              on: {
-                                click: function($event) {
-                                  _vm.form.count = 2
+                              },
+                              [_vm._v("1")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-secondary",
+                                on: {
+                                  click: function($event) {
+                                    _vm.form.count = 2
+                                  }
                                 }
-                              }
-                            },
-                            [_vm._v("2")]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-secondary",
-                              on: {
-                                click: function($event) {
-                                  _vm.form.count = 3
+                              },
+                              [_vm._v("2")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-secondary",
+                                on: {
+                                  click: function($event) {
+                                    _vm.form.count = 3
+                                  }
                                 }
-                              }
-                            },
-                            [_vm._v("3")]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-secondary",
-                              on: {
-                                click: function($event) {
-                                  _vm.form.count = 4
+                              },
+                              [_vm._v("3")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-secondary",
+                                on: {
+                                  click: function($event) {
+                                    _vm.form.count = 4
+                                  }
                                 }
-                              }
-                            },
-                            [_vm._v("4")]
-                          )
-                        ]
-                      )
-                    ])
+                              },
+                              [_vm._v("4")]
+                            )
+                          ]
+                        )
+                      ]
+                    )
                   ]),
                   _vm._v(" "),
                   _c("tr", [
@@ -42288,7 +42314,19 @@ var render = function() {
                             [_vm._v("AVG")]
                           )
                         ]
-                      )
+                      ),
+                      _vm._v(" "),
+                      _c("i", {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.isLoadingPrices,
+                            expression: "isLoadingPrices"
+                          }
+                        ],
+                        staticClass: "fas fa-fw fa-spin fa-spinner"
+                      })
                     ])
                   ])
                 ])
@@ -44253,9 +44291,7 @@ var render = function() {
             { staticClass: "alert alert-dark mt-3", attrs: { role: "alert" } },
             [
               _vm._v(
-                "\n            Keine Bestellungen im " +
-                  _vm._s(_vm.month_name) +
-                  " vorhanden.\n        "
+                "\n            Keine Bestellungen im Zeitraum vorhanden.\n        "
               )
             ]
           )

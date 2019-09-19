@@ -23,6 +23,10 @@ body {
     position: relative;
 }
 
+table {
+    table-layout: fixed;
+}
+
 #nav {
     display: flex;
     flex-direction: column;

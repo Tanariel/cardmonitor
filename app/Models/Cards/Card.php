@@ -25,6 +25,7 @@ class Card extends Model
 
     protected $appends = [
         'imagePath',
+        'has_latest_prices',
     ];
 
     protected $casts = [
@@ -46,6 +47,7 @@ class Card extends Model
     protected $guarded = [
         'id',
         'imagePath',
+        'has_latest_prices',
     ];
 
     /**
@@ -115,6 +117,15 @@ class Card extends Model
         }
 
         return $model;
+    }
+
+    public function getHasLatestPricesAttribute() : bool
+    {
+        if (is_null($this->prices_updated_at)) {
+            return false;
+        }
+
+        return ($this->prices_updated_at->diffInHours() < 2);
     }
 
     public function setPricesFromCardmarket(array $cardMarketPriceGuide) : self
