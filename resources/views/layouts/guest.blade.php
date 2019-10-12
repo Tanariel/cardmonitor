@@ -37,13 +37,9 @@
                     </ul>
 
                     <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <span class="navbar-text">
-                                Verwalte dein Cardmarket Konto
-                            </span>
-                        </li>
-                    </ul>
+                    <span class="navbar-text ml-auto">
+                        Verwalte dein Cardmarket Konto
+                    </span>
                 </div>
             </div>
         </nav>
