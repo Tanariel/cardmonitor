@@ -44,7 +44,7 @@ class SyncCommand extends Command
      */
     public function handle()
     {
-        $apis = Api::all();
+        $apis = Api::where('accessdata', '!=', '[]')->get();
         foreach ($apis as $api) {
             $this->syncApiOrders($api);
         }

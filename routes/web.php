@@ -14,11 +14,10 @@ use Illuminate\Support\Facades\App;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect(route('login'));
 });
 
 Auth::routes();
-
 
 Route::middleware(['auth'])->group(function () {
 
