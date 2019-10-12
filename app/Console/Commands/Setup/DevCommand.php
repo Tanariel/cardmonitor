@@ -61,6 +61,14 @@ class DevCommand extends Command
         ]);
         $this->user->setup();
 
+        $user = User::create([
+            'name' => 'Cardmarket',
+            'email' => 'cardmarket@cardmonitor.de',
+            'email_verified_at' => now(),
+            'password' => Hash::make('cardmarket'),
+        ]);
+        $user->setup();
+
         // // create Sandbox API
         // $api = Api::create([
         //     'user_id' => $this->user->id,
