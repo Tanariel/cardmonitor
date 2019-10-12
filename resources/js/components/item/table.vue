@@ -34,7 +34,9 @@
                             <label class="form-checkbox" for="checkall"></label>
                             <input id="checkall" type="checkbox" v-model="selectAll">
                         </th>
-                        <th width="55%">Name</th>
+                        <th width="55%">Datum</th>
+                        <th width="30%">Einheiten</th>
+                        <th width="30%">Kosten</th>
                         <th width="30%">Kosten / Einheit</th>
                         <th class="text-right" width="10%">Aktion</th>
                     </tr>
@@ -46,7 +48,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="alert alert-dark mt-3" v-else><center>Keine Kosten vorhanden</center></div>
+        <div class="alert alert-dark mt-3" v-else><center>Keine Bewegungen vorhanden</center></div>
     </div>
 </template>
 

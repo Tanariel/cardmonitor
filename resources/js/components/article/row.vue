@@ -1,11 +1,13 @@
 <template>
     <tr v-if="isEditing">
         <td class="align-middle">
-            <label class="form-checkbox"></label>
-            <input :checked="selected" type="checkbox" :value="id"  @change="$emit('input', id)" number>
+            <div class="form-group form-check mb-0">
+                <input :checked="selected" class="form-check-input" type="checkbox" :value="id" @change="$emit('input', id)" number>
+                <label class="form-check-label"></label>
+            </div>
         </td>
         <td class="align-middle text-center"><i class="fas fa-fw" :class="item.sync_icon" :title="item.sync_error || 'Karte synchronisiert'"></i></td>
-        <td class="align-middle pointer"><i class="fas fa-image" @mouseover="show($event)" @mouseout="$emit('hide')"></i></td>
+        <td class="align-middle text-center pointer"><i class="fas fa-image" @mouseover="show($event)" @mouseout="$emit('hide')"></i></td>
         <td class="align-middle">
             <span class="flag-icon" :class="'flag-icon-' + item.language.code" :title="item.language.name"></span> {{ item.localName }}
             <div class="text-muted" v-if="item.language_id != 1">{{ item.card.name }}</div>
@@ -60,7 +62,7 @@
         <td class="align-middle text-right">
             <div class="btn-group btn-group-sm" role="group">
                 <button type="button" class="btn btn-secondary" title="Speichern" @click="update(false)"><i class="fas fa-fw fa-save"></i></button>
-                <button type="button" class="btn btn-secondary" title="Speichern & Exportieren" @click="update(true)"><i class="fas fa-fw fa-sync"></i></button>
+                <button type="button" class="btn btn-secondary" title="Speichern & Exportieren" @click="update(true)"><i class="fas fa-fw fa-cloud-upload-alt"></i></button>
                 <button type="button" class="btn btn-secondary" title="Löschen" @click="destroy"><i class="fas fa-fw fa-trash"></i></button>
             </div>
         </td>
@@ -115,6 +117,27 @@
 
         props: ['item', 'uri', 'selected', 'conditions', 'languages'],
 
+        // watch: {
+        //     'item': {
+        //         hander: function (newValue, oldValue) {
+        //             console.log('watch 1', 'newval: ', newValue, '   oldVal:', oldValue)
+        //             // this.form = {
+        //             //     cardmarket_comments: newValue.cardmarket_comments,
+        //             //     condition: newValue.condition,
+        //             //     language_id: newValue.language_id,
+        //             //     unit_cost_formatted: newValue.unit_cost_formatted,
+        //             //     unit_price_formatted: newValue.unit_price_formatted,
+        //             //     provision_formatted: newValue.provision_formatted,
+        //             //     is_foil: newValue.is_foil,
+        //             //     is_signed: newValue.is_signed,
+        //             //     is_playset: newValue.is_playset,
+        //             //     sync: false,
+        //             // };
+        //         },
+        //         deep: true,
+        //     },
+        // },
+
         data () {
             return {
                 id: this.item.id,
@@ -133,6 +156,25 @@
                 },
                 errors: {},
             };
+        },
+
+        mounted() {
+            this.$watch('item', function (newValue, oldValue) {
+                this.form = {
+                    cardmarket_comments: newValue.cardmarket_comments,
+                    condition: newValue.condition,
+                    language_id: newValue.language_id,
+                    unit_cost_formatted: newValue.unit_cost_formatted,
+                    unit_price_formatted: newValue.unit_price_formatted,
+                    provision_formatted: newValue.provision_formatted,
+                    is_foil: newValue.is_foil,
+                    is_signed: newValue.is_signed,
+                    is_playset: newValue.is_playset,
+                    sync: false,
+                };
+            }, {
+                deep: true
+            });
         },
 
         methods: {

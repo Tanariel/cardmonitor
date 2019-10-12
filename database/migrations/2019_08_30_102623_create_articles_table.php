@@ -24,6 +24,7 @@ class CreateArticlesTable extends Migration
             $table->unsignedTinyInteger('state')->nullable();
             $table->string('state_comments')->nullable();
             $table->string('condition');
+            $table->unsignedTinyInteger('condition_sort');
             $table->string('cardmarket_comments')->nullable();
             $table->boolean('is_in_shoppingcard')->default(false);
             $table->boolean('is_foil')->default(false);

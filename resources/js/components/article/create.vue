@@ -13,7 +13,7 @@
                 </select>
             </div>
             <div class="form-group" style="margin-bottom: 0;">
-                <filter-search :should-focus="filter.shouldFocus" v-model="filter.searchtext" @input="fetch()" @focused="shouldFocus = false"></filter-search>
+                <filter-search :should-focus="filter.shouldFocus" v-model="filter.searchtext" @input="fetch()" @focused="filter.shouldFocus = false"></filter-search>
             </div>
             <div class="col mt-3 p-0" style="min-height: 500px; overflow: auto;">
                 <div v-if="isLoading" class="mt-3 p-5">
@@ -57,7 +57,7 @@
                                 <td class="align-middle">Anzahl</td>
                                 <td class="align-middle" width="50%">
                                     <div class="form-group mb-0">
-                                        <input class="form-control" type="number" ref="count" v-model="form.count" @keydown="keydown">
+                                        <input class="form-control" type="number" ref="count" v-model="form.count" @keydown.enter="create(true)">
                                         <div class="invalid-feedback" v-text="'count' in errors ? errors.count[0] : ''"></div>
                                     </div>
                                 </td>
@@ -180,7 +180,7 @@
                         </tbody>
                     </table>
                     <button class="btn btn-primary" title="Anlegen" @click="create(false)"><i class="fas fa-fw fa-save"></i></button>
-                    <button class="btn btn-primary" title="Anlegen & Exportieren" @click="create(true)"><i class="fas fa-fw fa-sync"></i></button>
+                    <button class="btn btn-primary" title="Anlegen & Exportieren" @click="create(true)"><i class="fas fa-fw fa-cloud-upload-alt"></i></button>
                     <button class="btn btn-secondary" title="Abbrechen" @click="item = null"><i class="fas fa-fw fa-times"></i></button>
                 </div>
                 <div class="col">
@@ -303,6 +303,7 @@
                         component.isLoadingPrices = true;
                         axios.put('/cardmarket/product/' + newValue.id)
                             .then( function (response) {
+                                response.data.index = newValue.index;
                                 response.data.local_name = newValue.local_name;
                                 response.data.expansion = newValue.expansion;
                                 component.item = response.data;
@@ -319,7 +320,6 @@
                     this.form.is_playset = false;
                     this.form.is_altered = false;
                     this.form.cardmarket_comments = '';
-
                 }
             },
         },
@@ -373,6 +373,7 @@
                         component.items = response.data.concat(component.items);
                         component.filter.searchtext = '';
                         component.item = null;
+                        component.filter.shouldFocus = true;
                     })
                      .catch(function (error) {
                         Vue.error('Karten konnten nicht angelegt werden!');
@@ -408,7 +409,9 @@
                 this.item = card;
                 if (card != null) {
                     this.item.index = index;
-                    console.log(this.$refs);
+                    this.$nextTick(function () {
+                        this.$refs.count.focus();
+                    });
                 }
             },
             updated(index, item) {

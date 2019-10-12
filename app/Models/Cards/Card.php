@@ -14,13 +14,16 @@ class Card extends Model
     use HasLocalizations;
 
     const RARITIES = [
+        'Masterpiece',
         'Mythic',
         'Rare',
         'Special',
+        'Time Shifted',
         'Uncommon',
         'Common',
         'Land',
         'Token',
+        'Tip Card',
     ];
 
     protected $appends = [
@@ -149,6 +152,15 @@ class Card extends Model
     public function expansion() : BelongsTo
     {
         return $this->belongsTo(Expansion::class, 'expansion_id');
+    }
+
+    public function scopeRarity(Builder $query, $value) : Builder
+    {
+        if (! $value) {
+            return $query;
+        }
+
+        return $query->where('cards.rarity', $value);
     }
 
     public function scopeExpansion(Builder $query, $value) : Builder

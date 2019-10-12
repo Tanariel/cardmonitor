@@ -46,5 +46,12 @@
         </div>
     </div>
 
+    <div class="card">
+        <div class="card-header">Bewegungen</div>
+        <div class="card-body">
+            <item-transaction-table :model="{{ json_encode($model) }}"></item-transaction-table>
+        </div>
+    </div>
+
 
 @endsection

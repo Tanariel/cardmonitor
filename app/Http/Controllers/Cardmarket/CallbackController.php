@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Cardmarket;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Artisan;
 
 class CallbackController extends Controller
 {
@@ -27,11 +28,14 @@ class CallbackController extends Controller
         try {
             $access = $this->api->access->token($request_token);
             auth()->user()->api->setAccessToken($request_token, $access['oauth_token'], $access['oauth_token_secret']);
+
+            Artisan::call('order:sync');
+            Artisan::call('order:sync', ['--state' => 'paid']);
         }
         catch (\Exception $exc) {
             dump($exc);
             dump('Anmeldung fehlgeschlagen');
-            auth()->user()->apis()->first()->reset();
+            auth()->user()->api->reset();
         }
 
         return redirect('home')->with('status', [

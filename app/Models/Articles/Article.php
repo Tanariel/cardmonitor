@@ -211,6 +211,12 @@ class Article extends Model
         Arr::forget($this->attributes, 'bought_at_formatted');
     }
 
+    public function setConditionAttribute($value)
+    {
+        $this->attributes['condition'] = $value;
+        $this->attributes['condition_sort'] = (int) array_search($value, array_keys(array_reverse(self::CONDITIONS)));
+    }
+
     public function setSoldAtFormattedAttribute($value)
     {
         $this->attributes['sold_at'] = Carbon::createFromFormat('d.m.Y H:i', $value);
@@ -321,6 +327,51 @@ class Article extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function scopeIsFoil(Builder $query, $value) : Builder
+    {
+        if (is_null($value)) {
+            return $query;
+        }
+
+        return $query->where('articles.is_foil', $value);
+    }
+
+    public function scopeCondition(Builder $query, $value, $operator = '=') : Builder
+    {
+        if (is_null($value) || $value == -1) {
+            return $query;
+        }
+
+        return $query->where('articles.condition_sort', $operator, $value);
+    }
+
+    public function scopeExpansion(Builder $query, $value) : Builder
+    {
+        if (! $value) {
+            return $query;
+        }
+
+        return $query->where('cards.expansion_id', $value);
+    }
+
+    public function scopeLanguage(Builder $query, $value) : Builder
+    {
+        if (! $value) {
+            return $query;
+        }
+
+        return $query->where('articles.language_id', $value);
+    }
+
+    public function scopeRarity(Builder $query, $value) : Builder
+    {
+        if (! $value) {
+            return $query;
+        }
+
+        return $query->where('cards.rarity', $value);
+    }
+
     public function scopeSearch(Builder $query, $value) : Builder
     {
         if (! $value) {
@@ -332,5 +383,31 @@ class Article extends Model
             $join->where('localizations.localizationable_type', '=', Card::class);
         })
             ->where('localizations.name', 'like', '%' . $value . '%');
+    }
+
+    public function scopeUnitPrice(Builder $query, $min, $max) : Builder
+    {
+        if ($min) {
+            $query->where('articles.unit_price', '>=', str_replace(',', '.', $min));
+        }
+
+        if ($max) {
+            $query->where('articles.unit_price', '<=', str_replace(',', '.', $max));
+        }
+
+        return $query;
+    }
+
+    public function scopeUnitCost(Builder $query, $min, $max) : Builder
+    {
+        if ($min) {
+            $query->where('articles.unit_cost', '>=', str_replace(',', '.', $min));
+        }
+
+        if ($max) {
+            $query->where('articles.unit_cost', '<=', str_replace(',', '.', $max));
+        }
+
+        return $query;
     }
 }

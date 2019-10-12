@@ -15,7 +15,42 @@
         <form v-if="filter.show" id="filter" class="mt-1">
             <div  class="form-row">
 
+                <div class="col-auto">
+                    <filter-expansion :options="expansions" v-model="filter.expansion_id" @input="search"></filter-expansion>
+                </div>
+                <div class="col-auto">
+                    <filter-rarity :options="rarities" v-model="filter.rarity" @input="search"></filter-rarity>
+                </div>
+                <div class="col-auto">
+                    <filter-language :options="languages" v-model="filter.language_id" @input="search"></filter-language>
+                </div>
+                <div class="col-auto">
+                    <div class="form-group">
+                        <label for="filter-unit_price_min">Verkaufspreis min</label>
+                        <input class="form-control" id="filter-unit_price_min" type="text" v-model="filter.unit_price_min" @input="search">
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <div class="form-group">
+                        <label for="filter-unit_price_max">Verkaufspreis max</label>
+                        <input class="form-control" id="filter-unit_price_max" type="text" v-model="filter.unit_price_max" @input="search">
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <div class="form-group">
+                        <label for="filter-unit_cost_min">Einkaufspreis min</label>
+                        <input class="form-control" id="filter-unit_cost_min" type="text" v-model="filter.unit_cost_min" @input="search">
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <div class="form-group">
+                        <label for="filter-unit_cost_max">Einkaufspreis max</label>
+                        <input class="form-control" id="filter-unit_cost_max" type="text" v-model="filter.unit_cost_max" @input="search">
+                    </div>
+                </div>
 
+                Sync, Erweiterung (nur vorhandene in Artikeln), Seltenheit, Sprache, Zustand (<=,=,>=), Foil, Signiert, Playset, Hinweise, Preis (min, max), Verfügbar (min, max), Verfügbar (Alle?|Verkauf|Angebote)
+                Regel anwenden -> Filter setzen
 
             </div>
         </form>
@@ -32,27 +67,27 @@
             <table class="table table-hover table-striped bg-white">
                 <thead>
                     <tr>
-                        <th>
+                        <th width="25">
                             <label class="form-checkbox" for="checkall"></label>
                             <input id="checkall" type="checkbox" v-model="selectAll">
                         </th>
-                        <th class="text-center">Sync</th>
-                        <th class="text-right"></th>
+                        <th class="text-center" width="50">Sync</th>
+                        <th class="text-right" width="50"></th>
                         <th class="">Name</th>
-                        <th class="text-right">#</th>
+                        <th class="text-right" width="50">#</th>
                         <th class="">Erweiterung</th>
-                        <th class="text-center">Seltenheit</th>
+                        <th class="text-center" width="75">Seltenheit</th>
                         <th class="text-center">Sprache</th>
                         <th class="text-center">Zustand</th>
-                        <th class="text-center">Foil</th>
-                        <th class="text-center">Signiert</th>
-                        <th class="text-center">Playset</th>
+                        <th class="text-center" width="75">Foil</th>
+                        <th class="text-center" width="75">Signiert</th>
+                        <th class="text-center" width="75">Playset</th>
                         <th class="">Hinweise</th>
                         <th class="text-right">Verkaufspreis</th>
                         <th class="text-right">Einkaufspreis</th>
                         <th class="text-right">Provision</th>
-                        <th class="text-right" title="Voraussichtlicher Gewinn ohne allgemeine Kosten">Gewinn</th>
-                        <th class="text-right">Aktion</th>
+                        <th class="text-right" title="Voraussichtlicher Gewinn ohne allgemeine Kosten" width="100">Gewinn</th>
+                        <th class="text-right" width="150">Aktion</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -85,12 +120,18 @@
 <script>
     import row from "./row.vue";
     import filterSearch from "../filter/search.vue";
+    import filterRarity from "../filter/rarity.vue";
+    import filterLanguage from "../filter/language.vue";
+    import filterExpansion from "../filter/expansion.vue";
 
     export default {
 
         components: {
             row,
+            filterRarity,
             filterSearch,
+            filterLanguage,
+            filterExpansion,
         },
 
         props: {
@@ -101,6 +142,14 @@
             languages: {
                 required: true,
                 type: Object,
+            },
+            expansions: {
+                type: Object,
+                required: true,
+            },
+            rarities: {
+                type: Array,
+                required: true,
             },
         },
 
@@ -119,11 +168,18 @@
                     lastPage: 0,
                 },
                 filter: {
-                    show: false,
+                    show: true,
                     page: 1,
                     searchtext: '',
+                    cardmarket_comments: '',
+                    language_id: 0,
+                    unit_price_min: 0,
+                    unit_price_max: 0,
+                    unit_cost_min: 0,
+                    unit_cost_max: 0,
                 },
                 selected: [],
+                errors: {},
             };
         },
 
@@ -178,6 +234,10 @@
                         Vue.error('Artikel konnten nicht geladen werden!');
                         console.log(error);
                     });
+            },
+            search() {
+                this.filter.page = 1;
+                this.fetch();
             },
             updated(index, item) {
                 Vue.set(this.items, index, item);

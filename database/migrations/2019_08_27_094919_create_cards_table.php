@@ -16,7 +16,7 @@ class CreateCardsTable extends Migration
         Schema::create('cards', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedTinyInteger('game_id');
-            $table->unsignedBigInteger('expansion_id');
+            $table->unsignedBigInteger('expansion_id')->nullable();
             $table->unsignedBigInteger('cardmarket_product_id')->index();
             $table->string('skryfall_card_id')->nullable();
             $table->unsignedSmallInteger('reprints_count')->default(0);

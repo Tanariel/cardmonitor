@@ -154,4 +154,28 @@ class ArticleTest extends TestCase
         $this->assertArrayHasKey('isSigned', $cardmarketModel);
         $this->assertArrayHasKey('isPlayset', $cardmarketModel);
     }
+
+    /**
+     * @test
+     */
+    public function it_sets_rarity_sort()
+    {
+        $model = new Article([
+            'condition' => 'NM',
+        ]);
+
+        $this->assertEquals(5, $model->condition_sort);
+    }
+
+    /**
+     * @test
+     */
+    public function it_handles_invalid_condition()
+    {
+        $model = new Article([
+            'condition' => 'Ungueltig',
+        ]);
+
+        $this->assertEquals(0, $model->condition_sort);
+    }
 }

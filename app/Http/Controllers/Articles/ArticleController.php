@@ -26,6 +26,13 @@ class ArticleController extends Controller
             return auth()->user()->articles()
                 ->select('articles.*')
                 ->join('cards', 'cards.id', 'articles.card_id')
+                ->condition($request->input('condition_sort'), $request->input('condition_operator'))
+                ->expansion($request->input('expansion_id'))
+                ->isFoil($request->input('is_foil'))
+                ->language($request->input('language_id'))
+                ->rarity($request->input('rarity'))
+                ->unitPrice($request->input('unit_price_min'), $request->input('unit_price_max'))
+                ->unitCost($request->input('unit_cost_min'), $request->input('unit_cost_max'))
                 ->search($request->input('searchtext'))
                 ->with([
                     'card.expansion',
@@ -36,13 +43,19 @@ class ArticleController extends Controller
                 ->paginate();
         }
 
+        $expansions = Expansion::orderBy('name', 'ASC')->get()->mapWithKeys(function ($item) {
+            return [$item['id'] => $item['name']];
+        });
+
         $languages = Language::all()->mapWithKeys(function ($item) {
             return [$item['id'] => $item['name']];
         });
 
         return view($this->baseViewPath . '.index')
             ->with('conditions', Article::CONDITIONS)
-            ->with('languages', $languages);
+            ->with('expansions', $expansions)
+            ->with('languages', $languages)
+            ->with('rarities', Card::RARITIES);
     }
 
     /**
