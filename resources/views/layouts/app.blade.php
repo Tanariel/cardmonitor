@@ -31,6 +31,7 @@
                 <a href="{{ url('/order') }}"><li>Bestellungen</li></a>
                 <a href="{{ url('/item') }}"><li>Kosten</li></a>
             </ul>
+            <div class="px-3 text-white text-center"><p>Alle Daten sind von <a href="https://www.cardmarket.eu">Cardmarket</a></p></div>
             <div class="bg-secondary text-white p-2 d-flex justify-content-around">
                 <div><i class="fas fa-bars pointer"></i></div>
                 <div><i class="fas fa-bars pointer"></i></div>
