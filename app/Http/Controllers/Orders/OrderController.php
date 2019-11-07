@@ -21,6 +21,7 @@ class OrderController extends Controller
             return auth()->user()
                 ->orders()
                 ->with([
+                    'buyer',
                     'evaluation'
                 ])
                 ->orderBy('paid_at', 'DESC')

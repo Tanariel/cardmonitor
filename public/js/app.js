@@ -4548,6 +4548,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -4579,6 +4581,8 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _row_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./row.vue */ "./resources/js/components/order/row.vue");
 /* harmony import */ var _filter_search_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../filter/search.vue */ "./resources/js/components/filter/search.vue");
+//
+//
 //
 //
 //
@@ -47119,7 +47123,15 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("td", { staticClass: "align-middle pointer", on: { click: _vm.link } }, [
+      _vm._v(_vm._s(_vm.item.bought_at))
+    ]),
+    _vm._v(" "),
+    _c("td", { staticClass: "align-middle pointer", on: { click: _vm.link } }, [
       _vm._v(_vm._s(_vm.item.cardmarket_order_id))
+    ]),
+    _vm._v(" "),
+    _c("td", { staticClass: "align-middle pointer", on: { click: _vm.link } }, [
+      _vm._v(_vm._s(_vm.item.buyer.username))
     ]),
     _vm._v(" "),
     _c(
@@ -47392,7 +47404,11 @@ var render = function() {
                     })
                   ]),
                   _vm._v(" "),
-                  _c("th", { attrs: { width: "10%" } }, [_vm._v("#")]),
+                  _c("th", { attrs: { width: "5%" } }, [_vm._v("Datum")]),
+                  _vm._v(" "),
+                  _c("th", { attrs: { width: "5%" } }, [_vm._v("#")]),
+                  _vm._v(" "),
+                  _c("th", { attrs: { width: "10%" } }, [_vm._v("Käufer")]),
                   _vm._v(" "),
                   _c(
                     "th",
@@ -47414,11 +47430,11 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "th",
-                    { staticClass: "text-right", attrs: { width: "15%" } },
+                    { staticClass: "text-right", attrs: { width: "10%" } },
                     [_vm._v("Gewinn")]
                   ),
                   _vm._v(" "),
-                  _c("th", { attrs: { width: "20%" } }, [_vm._v("Status")]),
+                  _c("th", { attrs: { width: "15%" } }, [_vm._v("Status")]),
                   _vm._v(" "),
                   _c(
                     "th",

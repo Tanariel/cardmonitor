@@ -35,12 +35,14 @@
                             <label class="form-checkbox" for="checkall"></label>
                             <input id="checkall" type="checkbox" v-model="selectAll">
                         </th>
-                        <th width="10%">#</th>
+                        <th width="5%">Datum</th>
+                        <th width="5%">#</th>
+                        <th width="10%">Käufer</th>
                         <th class="text-right" width="10%">Karten</th>
                         <th class="text-right" width="10%">Umsatz</th>
                         <th class="text-right" width="10%">Kosten</th>
-                        <th class="text-right" width="15%">Gewinn</th>
-                        <th width="20%">Status</th>
+                        <th class="text-right" width="10%">Gewinn</th>
+                        <th width="15%">Status</th>
                         <th class="text-center" colspan="3">Bewertung</th>
                         <th class="text-right" width="10%">Aktion</th>
                     </tr>
