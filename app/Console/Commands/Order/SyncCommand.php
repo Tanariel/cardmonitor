@@ -56,9 +56,18 @@ class SyncCommand extends Command
             'api' => $api,
         ]);
 
-        $cardmarketOrders = $CardmarketApi->order->find($this->option('actor'), $this->option('state'));
+        $cardmarketOrders = [];
+        $start = 1;
+        do {
+            $data = $CardmarketApi->order->find(Order::ACTOR_SELLER, ORDER::STATE_RECEIVED, $start);
+            if (is_array($data)) {
+                $cardmarketOrders += $data['order'];
+                $start += 100;
+            }
+        }
+        while (! is_null($data));
+
         foreach ($cardmarketOrders['order'] as $cardmarketOrder) {
-            // dump($cardmarketOrder['buyer'], $cardmarketOrder['seller']);
             // TODO: nur aktuelle aktualisieren ($cardmarketOrder['state']['dateReceived'] ?)
             $order = Order::updateOrCreateFromCardmarket($userId, $cardmarketOrder);
 
