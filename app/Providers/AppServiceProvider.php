@@ -22,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
             $access = [
                 'app_token' => config('app.cardmarket_api.app_token'),
                 'app_secret' => config('app.cardmarket_api.app_secret'),
-                'url' => ($this->app->environment() == 'production' ? Api::URL_Api : Api::URL_SANDBOX),
+                'url' => (($this->app->environment() == 'production') ? Api::URL_API : Api::URL_SANDBOX),
             ];
 
             if (Arr::has($parameters, 'api')) {
