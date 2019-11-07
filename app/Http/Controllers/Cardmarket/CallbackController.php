@@ -31,17 +31,17 @@ class CallbackController extends Controller
 
             Artisan::call('order:sync');
             Artisan::call('order:sync', ['--state' => 'paid']);
+
+            return redirect('home')->with('status', [
+                'type' => 'success',
+                'text' => 'Konto verknüpft',
+            ]);
         }
         catch (\Exception $exc) {
             dump($exc);
             dump('Anmeldung fehlgeschlagen');
             auth()->user()->api->reset();
         }
-
-        return redirect('home')->with('status', [
-            'type' => 'success',
-            'text' => 'Konto verknüpft',
-        ]);
     }
 
     public function update()
