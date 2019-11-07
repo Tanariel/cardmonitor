@@ -33,8 +33,8 @@ class CallbackController extends Controller
             $user = auth()->user();
             $user->api->setAccessToken($request_token, $access['oauth_token'], $access['oauth_token_secret']);
 
-            // Artisan::call('order:sync', ['--user' => $user->id]);
-            // Artisan::call('order:sync', ['--user' => $user->id, '--state' => 'paid']);
+            Artisan::call('order:sync', ['--user' => $user->id]);
+            Artisan::call('order:sync', ['--user' => $user->id, '--state' => 'paid']);
 
             return redirect('home')->with('status', [
                 'type' => 'success',
