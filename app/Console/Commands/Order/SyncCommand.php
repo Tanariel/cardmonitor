@@ -59,10 +59,14 @@ class SyncCommand extends Command
         $cardmarketOrders = [];
         $start = 1;
         do {
-            $data = $CardmarketApi->order->find(Order::ACTOR_SELLER, ORDER::STATE_RECEIVED, $start);
+            $data = $CardmarketApi->order->find($this->option('actor'), $this->option('state'), $start);
             if (is_array($data)) {
+                $data_count = count($data['order']);
                 $cardmarketOrders += $data['order'];
                 $start += 100;
+                if ($data_count == 0) {
+                    $data = null;
+                }
             }
         }
         while (! is_null($data));
