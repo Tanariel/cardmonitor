@@ -97,11 +97,12 @@ class DevCommand extends Command
 
         $row = 0;
         $cardsFile = fopen("database/data/cards.csv", "r");
-        while (($data = fgetcsv($cardsFile, 1000, ";")) !== FALSE) {
+        while (($data = fgetcsv($cardsFile, 1100, ";")) !== FALSE) {
             if ($row == 0 || $data[0] == '') {
                 $row++;
                 continue;
             }
+
             $card = Card::createFromCsv($data, $expansions[$data[0]]);
             $row++;
         }

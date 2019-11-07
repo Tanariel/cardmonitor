@@ -46,7 +46,7 @@ class Expansion extends Model
             'name' => $row[1],
             'abbreviation' => $row[6],
             'icon' => $row[7],
-            'is_released' => $row[9],
+            'is_released' => $row[9] ?: 0,
             'released_at' => ($row[9] == 1 ? new Carbon($row[8]) : null)
         ]);
         for ($i = 2; $i <= 5; $i++) {

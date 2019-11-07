@@ -146,7 +146,7 @@ class Card extends Model
 
     public function getImagePathAttribute()
     {
-        return 'https://static.cardmarket.com/' . substr($this->attributes['image'], 2);
+        return 'https://static.cardmarket.com' . $this->attributes['image'];
     }
 
     public function expansion() : BelongsTo
