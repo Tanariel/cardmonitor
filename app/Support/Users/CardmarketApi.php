@@ -3,6 +3,7 @@
 namespace App\Support\Users;
 
 use App\Models\Apis\Api;
+use App\Models\Orders\Order;
 use Illuminate\Support\Facades\App;
 
 class CardmarketApi
@@ -40,6 +41,47 @@ class CardmarketApi
         }
         catch (\Exception $exc) {
             // $this->refresh();
+        }
+    }
+
+    public function syncAllSellerOrders()
+    {
+        $states = [
+            'bought',
+            'paid',
+            'sent',
+            'received',
+            'lost',
+            'cancelled',
+        ];
+
+        foreach ($states as $state) {
+            $this->syncOrders('seller', $state);
+        }
+    }
+
+    public function syncOrders(string $actor, string $state)
+    {
+        $userId = $this->api->user_id;
+        $cardmarketOrders = [];
+        $start = 1;
+        do {
+            $data = $this->cardmarketApi->order->find($actor, $state, $start);
+            if (is_array($data)) {
+                $data_count = count($data['order']);
+                $cardmarketOrders += $data['order'];
+                $start += 100;
+                if ($data_count == 0) {
+                    $data = null;
+                }
+            }
+        }
+        while (! is_null($data));
+
+        foreach ($cardmarketOrders as $cardmarketOrder) {
+            // TODO: nur aktuelle aktualisieren ($cardmarketOrder['state']['dateReceived'] ?)
+            $order = Order::updateOrCreateFromCardmarket($userId, $cardmarketOrder);
+
         }
     }
 

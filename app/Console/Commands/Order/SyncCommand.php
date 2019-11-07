@@ -45,36 +45,6 @@ class SyncCommand extends Command
      */
     public function handle()
     {
-        $this->syncApiOrders(User::find($this->option('user'))->api);
-    }
-
-    protected function syncApiOrders(Api $api)
-    {
-
-        $userId = $api->user_id;
-        $CardmarketApi = App::make('CardmarketApi', [
-            'api' => $api,
-        ]);
-
-        $cardmarketOrders = [];
-        $start = 1;
-        do {
-            $data = $CardmarketApi->order->find($this->option('actor'), $this->option('state'), $start);
-            if (is_array($data)) {
-                $data_count = count($data['order']);
-                $cardmarketOrders += $data['order'];
-                $start += 100;
-                if ($data_count == 0) {
-                    $data = null;
-                }
-            }
-        }
-        while (! is_null($data));
-
-        foreach ($cardmarketOrders as $cardmarketOrder) {
-            // TODO: nur aktuelle aktualisieren ($cardmarketOrder['state']['dateReceived'] ?)
-            $order = Order::updateOrCreateFromCardmarket($userId, $cardmarketOrder);
-
-        }
+        User::find($this->option('user'))->cardmarketApi->syncOrders($this->option('actor'), $this->option('state'));
     }
 }

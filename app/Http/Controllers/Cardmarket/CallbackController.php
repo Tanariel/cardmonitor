@@ -28,13 +28,10 @@ class CallbackController extends Controller
         try {
             $access = $this->api->access->token($request_token);
 
-            dump($access);
-
             $user = auth()->user();
             $user->api->setAccessToken($request_token, $access['oauth_token'], $access['oauth_token_secret']);
 
-            Artisan::call('order:sync', ['--user' => $user->id]);
-            Artisan::call('order:sync', ['--user' => $user->id, '--state' => 'paid']);
+            $user->cardmarketApi->syncAllSellerOrders();
 
             return redirect('home')->with('status', [
                 'type' => 'success',

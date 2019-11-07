@@ -51,8 +51,7 @@ class OrderController extends Controller
 
     protected function syncAllOrders(User $user)
     {
-        Artisan::call('order:sync', ['--user' => $user->id]);
-        Artisan::call('order:sync', ['--user' => $user->id, '--state' => 'paid']);
+        $this->CardmarketApi->syncAllSellerOrders();
     }
 
 }
