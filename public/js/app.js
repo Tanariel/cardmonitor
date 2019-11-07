@@ -3977,6 +3977,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -4647,6 +4649,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -4724,6 +4727,16 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         this.selected.splice(index, 1);
       }
+    },
+    sync: function sync() {
+      var component = this;
+      component.isLoading = true;
+      axios.put(component.uri + '/sync').then(function (response) {
+        component.isLoading = false;
+      })["catch"](function (error) {
+        Vue.error('Bestellungen konnten nicht synchronisiert werden!');
+        console.log(error);
+      });
     }
   }
 });
@@ -46166,7 +46179,11 @@ var render = function() {
                     })
                   ]),
                   _vm._v(" "),
-                  _c("th", { attrs: { width: "55%" } }, [_vm._v("Name")]),
+                  _c("th", { attrs: { width: "55%" } }, [_vm._v("Datum")]),
+                  _vm._v(" "),
+                  _c("th", { attrs: { width: "30%" } }, [_vm._v("Einheiten")]),
+                  _vm._v(" "),
+                  _c("th", { attrs: { width: "30%" } }, [_vm._v("Kosten")]),
                   _vm._v(" "),
                   _c("th", { attrs: { width: "30%" } }, [
                     _vm._v("Kosten / Einheit")
@@ -46211,7 +46228,7 @@ var render = function() {
       : _c(
           "div",
           { staticClass: "alert alert-dark mt-3" },
-          [_c("center", [_vm._v("Keine Kosten vorhanden")])],
+          [_c("center", [_vm._v("Keine Bewegungen vorhanden")])],
           1
         )
   ])
@@ -47291,6 +47308,12 @@ var render = function() {
             }
           },
           [_c("i", { staticClass: "fas fa-filter" })]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          { staticClass: "btn btn-secondary ml-1", on: { click: _vm.sync } },
+          [_c("i", { staticClass: "fas fa-sync" })]
         )
       ])
     ]),

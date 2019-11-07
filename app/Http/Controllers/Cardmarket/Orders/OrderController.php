@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Cardmarket\Orders;
 
 use App\Http\Controllers\Controller;
 use App\Models\Orders\Order;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Artisan;
 
 class OrderController extends Controller
 {
@@ -20,13 +22,18 @@ class OrderController extends Controller
      */
     public function update(Request $request, Order $order = null)
     {
-        $this->CardmarketApi = auth()->user()->cardmarketApi;
+        $user = auth()->user();
+        $this->CardmarketApi = $user->cardmarketApi;
 
         if (is_null($order)) {
-            $this->syncAllOrders();
+            $this->syncAllOrders($user);
         }
         else {
             $this->syncOrder($order);
+        }
+
+        if ($request->wantsJson()) {
+            return;
         }
 
         return back()->with('status', [
@@ -42,9 +49,10 @@ class OrderController extends Controller
         return Order::updateOrCreateFromCardmarket($order->user_id, $cardmarketOrder['order']);
     }
 
-    protected function syncAllOrders()
+    protected function syncAllOrders(User $user)
     {
-
+        Artisan::call('order:sync', ['--user' => $user->id]);
+        Artisan::call('order:sync', ['--user' => $user->id, '--state' => 'paid']);
     }
 
 }

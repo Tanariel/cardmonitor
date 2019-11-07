@@ -49,6 +49,8 @@ Route::middleware(['auth'])->group(function () {
         'as' => 'order',
     ]);
 
+    Route::put('order/sync', 'Cardmarket\Orders\OrderController@update')->name('order.sync.update');
+
     Route::resource('order', 'Orders\OrderController')->except([
         'create',
         'store',

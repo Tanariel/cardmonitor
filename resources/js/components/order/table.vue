@@ -7,6 +7,7 @@
                     <filter-search v-model="filter.searchtext" @input="fetch()"></filter-search>
                 </div>
                 <button class="btn btn-secondary ml-1" @click="filter.show = !filter.show"><i class="fas fa-filter"></i></button>
+                <button class="btn btn-secondary ml-1" @click="sync"><i class="fas fa-sync"></i></button>
             </div>
         </div>
 
@@ -159,6 +160,18 @@
                     this.selected.splice(index, 1);
                 }
             },
+            sync() {
+                var component = this;
+                component.isLoading = true;
+                axios.put(component.uri + '/sync')
+                    .then(function (response) {
+                        component.isLoading = false;
+                    })
+                    .catch(function (error) {
+                        Vue.error('Bestellungen konnten nicht synchronisiert werden!');
+                        console.log(error);
+                    });
+            }
         },
     };
 </script>
