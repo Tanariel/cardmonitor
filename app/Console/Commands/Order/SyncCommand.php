@@ -6,6 +6,7 @@ use App\Models\Apis\Api;
 use App\Models\Articles\Article;
 use App\Models\Cards\Card;
 use App\Models\Orders\Order;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Arr;
@@ -18,7 +19,7 @@ class SyncCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'order:sync {--actor=seller}  {--state=received}';
+    protected $signature = 'order:sync {--user} {--actor=seller}  {--state=received}';
 
     /**
      * The console command description.
@@ -44,10 +45,7 @@ class SyncCommand extends Command
      */
     public function handle()
     {
-        $apis = Api::where('accessdata', '!=', '[]')->get();
-        foreach ($apis as $api) {
-            $this->syncApiOrders($api);
-        }
+        $this->syncApiOrders(User::find($this->option('user'))->api);
     }
 
     protected function syncApiOrders(Api $api)

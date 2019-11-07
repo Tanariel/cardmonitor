@@ -40,7 +40,6 @@ class CardmarketApi
         }
         catch (\Exception $exc) {
             // $this->refresh();
-
         }
     }
 
