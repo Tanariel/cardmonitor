@@ -23,12 +23,12 @@ class CardmarketUser extends Model
 
             'firstname' => $cardmarketUser['name']['firstName'],
             'name' => $cardmarketUser['address']['name'],
-            'extra' => $cardmarketUser['address']['extra'],
+            'extra' => $cardmarketUser['address']['extra'] ?? '',
             'street' => $cardmarketUser['address']['street'],
             'zip' => $cardmarketUser['address']['zip'],
             'city' => $cardmarketUser['address']['city'],
-            'country' => $cardmarketUser['address']['country'],
-            'phone' => $cardmarketUser['phone'],
+            'country' => $cardmarketUser['address']['country'] ?? '',
+            'phone' => $cardmarketUser['phone'] ?? '',
             'email' => $cardmarketUser['email'],
 
             'vat' => $cardmarketUser['vat'],
