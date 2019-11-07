@@ -69,7 +69,9 @@ class CardmarketApi
             $data = $this->cardmarketApi->order->find($actor, $state, $start);
             if (is_array($data)) {
                 $data_count = count($data['order']);
-                $cardmarketOrders += $data['order'];
+                foreach ($data['order'] as $cardmarketOrder) {
+                    $order = Order::updateOrCreateFromCardmarket($userId, $cardmarketOrder);
+                }
                 $start += 100;
                 if ($data_count == 0) {
                     $data = null;
@@ -77,12 +79,6 @@ class CardmarketApi
             }
         }
         while (! is_null($data));
-
-        foreach ($cardmarketOrders as $cardmarketOrder) {
-            // TODO: nur aktuelle aktualisieren ($cardmarketOrder['state']['dateReceived'] ?)
-            $order = Order::updateOrCreateFromCardmarket($userId, $cardmarketOrder);
-
-        }
     }
 
     public function refresh()
