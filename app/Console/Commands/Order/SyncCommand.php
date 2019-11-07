@@ -71,7 +71,7 @@ class SyncCommand extends Command
         }
         while (! is_null($data));
 
-        foreach ($cardmarketOrders['order'] as $cardmarketOrder) {
+        foreach ($cardmarketOrders as $cardmarketOrder) {
             // TODO: nur aktuelle aktualisieren ($cardmarketOrder['state']['dateReceived'] ?)
             $order = Order::updateOrCreateFromCardmarket($userId, $cardmarketOrder);
 
