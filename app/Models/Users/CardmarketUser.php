@@ -31,8 +31,8 @@ class CardmarketUser extends Model
             'phone' => $cardmarketUser['phone'] ?? '',
             'email' => $cardmarketUser['email'],
 
-            'vat' => $cardmarketUser['vat'],
-            'legalinformation' => $cardmarketUser['legalInformation'],
+            'vat' => $cardmarketUser['vat'] ?? '',
+            'legalinformation' => $cardmarketUser['legalInformation'] ?? '',
 
             'risk_group' => $cardmarketUser['riskGroup'],
             'loss_percentage' => $cardmarketUser['lossPercentage'],
