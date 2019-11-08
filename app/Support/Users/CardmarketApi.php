@@ -47,7 +47,7 @@ class CardmarketApi
     public function syncAllSellerOrders()
     {
         $states = [
-            'bought',
+            // 'bought',
             'paid',
             'sent',
             'received',

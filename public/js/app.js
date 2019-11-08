@@ -47125,7 +47125,7 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("td", { staticClass: "align-middle pointer", on: { click: _vm.link } }, [
-      _vm._v(_vm._s(_vm.item.bought_at))
+      _vm._v(_vm._s(_vm.item.paid_at))
     ]),
     _vm._v(" "),
     _c("td", { staticClass: "align-middle pointer", on: { click: _vm.link } }, [
@@ -47133,7 +47133,7 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("td", { staticClass: "align-middle pointer", on: { click: _vm.link } }, [
-      _vm._v(_vm._s(_vm.item.buyer.username))
+      _vm._v(_vm._s(_vm.item.buyer.name))
     ]),
     _vm._v(" "),
     _c(

@@ -156,7 +156,7 @@ class Order extends Model
         }
 
         $sql = "SELECT
-                    DATE(orders.received_at) AS received_at,
+                    DATE(orders.paid_at) AS paid_at,
                     SUM(orders.revenue) AS revenue,
                     SUM(orders.cost) AS cost,
                     SUM(orders.profit) AS profit,
@@ -165,10 +165,10 @@ class Order extends Model
                     orders
                 WHERE
                     orders.user_id = :user_id AND
-                    orders.received_at IS NOT NULL AND
-                    orders.received_at BETWEEN :start AND :end
+                    orders.paid_at IS NOT NULL AND
+                    orders.paid_at BETWEEN :start AND :end
                 GROUP BY
-                    DATE(received_at)";
+                    DATE(paid_at)";
         $params = [
             'user_id' => $userId,
             'start' => $start,
@@ -176,7 +176,7 @@ class Order extends Model
         ];
         $orders = DB::select($sql, $params);
         foreach ($orders as $key => $order) {
-            $key = $order->received_at;
+            $key = $order->paid_at;
             $article_counts[$key] = (float) $order->articles_count;
             $revenues[$key] = (float) $order->revenue;
             $costs[$key] = (float) $order->cost;

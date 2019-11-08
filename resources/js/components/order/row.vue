@@ -4,9 +4,9 @@
             <label class="form-checkbox"></label>
             <input :checked="selected" type="checkbox" :value="id"  @change="$emit('input', id)" number>
         </td>
-        <td class="align-middle pointer" @click="link">{{ item.bought_at }}</td>
+        <td class="align-middle pointer" @click="link">{{ item.paid_at }}</td>
         <td class="align-middle pointer" @click="link">{{ item.cardmarket_order_id }}</td>
-        <td class="align-middle pointer" @click="link">{{ item.buyer.username }}</td>
+        <td class="align-middle pointer" @click="link">{{ item.buyer.name }}</td>
         <td class="align-middle text-right pointer" @click="link">{{ item.articles_count }}</td>
         <td class="align-middle text-right pointer" @click="link">{{ Number(item.revenue).toFixed(2) }} €</td>
         <td class="align-middle text-right pointer" @click="link">{{ Number(item.cost).toFixed(2) }} €</td>
