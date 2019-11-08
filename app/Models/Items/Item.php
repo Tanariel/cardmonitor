@@ -115,13 +115,13 @@ class Item extends Model
     public static function setup(Model $user)
     {
         $cards = [
-            'Masterpiece' => 1.5,
-            'Mythic' => 1,
-            'Rare' => 0.5,
-            'Special' => 0.4,
-            'Time Shifted' => 0.3,
-            'Uncommon' => 0.1,
-            'Common' => 0.05,
+            'Masterpiece' => 0.02,
+            'Mythic' => 0.02,
+            'Rare' => 0.02,
+            'Special' => 0.02,
+            'Time Shifted' => 0.02,
+            'Uncommon' => 0.02,
+            'Common' => 0.02,
             'Land' => 0.02,
             'Token' => 0.02,
             'Tip Card' => 0.02,

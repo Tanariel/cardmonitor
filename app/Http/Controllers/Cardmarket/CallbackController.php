@@ -25,24 +25,17 @@ class CallbackController extends Controller
 
     public function store(string $request_token)
     {
-        try {
-            $access = $this->api->access->token($request_token);
+        $access = $this->api->access->token($request_token);
 
-            $user = auth()->user();
-            $user->api->setAccessToken($request_token, $access['oauth_token'], $access['oauth_token_secret']);
+        $user = auth()->user();
+        $user->api->setAccessToken($request_token, $access['oauth_token'], $access['oauth_token_secret']);
 
-            $user->cardmarketApi->syncAllSellerOrders();
+        $user->cardmarketApi->syncAllSellerOrders();
 
-            return redirect('home')->with('status', [
-                'type' => 'success',
-                'text' => 'Konto verknüpft',
-            ]);
-        }
-        catch (\Exception $exc) {
-            dump($exc);
-            dump('Anmeldung fehlgeschlagen');
-            auth()->user()->api->reset();
-        }
+        return redirect('home')->with('status', [
+            'type' => 'success',
+            'text' => 'Konto verknüpft',
+        ]);
     }
 
     public function update()

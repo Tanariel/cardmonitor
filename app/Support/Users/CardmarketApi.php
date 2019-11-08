@@ -57,6 +57,7 @@ class CardmarketApi
 
         foreach ($states as $state) {
             $this->syncOrders('seller', $state);
+            usleep(100);
         }
     }
 

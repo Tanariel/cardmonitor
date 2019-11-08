@@ -115,7 +115,9 @@ return [
 
         Watchers\CommandWatcher::class => [
             'enabled' => env('TELESCOPE_COMMAND_WATCHER', true),
-            'ignore' => [],
+            'ignore' => [
+                'setup:dev',
+            ],
         ],
 
         Watchers\DumpWatcher::class => env('TELESCOPE_DUMP_WATCHER', true),
