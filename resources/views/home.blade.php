@@ -3,7 +3,33 @@
 @section('content')
     <div class="row mb-3 align-items-stretch">
 
-        <div class="col">
+        @if ($paidOrders_count > 0)
+            <div class="col-12 col-md-6 col-lg-4 col-xl mb-3 mb-xl-0">
+                <div class="card h-100">
+                    <div class="card-header">Bezahlte Bestellungen</div>
+                    <div class="card-body">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Datum</th>
+                                    <th>Bestellung</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($paidOrders as $order)
+                                    <tr>
+                                        <td>{{ $order->paid_at }}</td>
+                                        <td><a href="{{ $order->path }}">{{ $order->cardmarket_order_id }}</a></td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        @endif
+
+        <div class="col-12 col-md-6 col-lg-4 col-xl mb-3 mb-xl-0">
             <div class="card h-100">
                 <div class="card-header">Cardmarket Konto</div>
                 <div class="card-body">
@@ -27,7 +53,7 @@
             </div>
         </div>
 
-        <div class="col">
+        <div class="col-12 col-md-6 col-lg-4 col-xl mb-3 mb-xl-0 d-none d-xl-block">
             <div class="card h-100">
                 <div class="card-header">Bestellungen</div>
                 <div class="card-body">
@@ -68,7 +94,7 @@
         </div>
 
 
-        <div class="col">
+        <div class="col-12 col-md-6 col-lg-4 col-xl mb-3 mb-xl-0 d-none d-xl-block">
             <div class="card h-100">
                 <div class="card-header">Artikel</div>
                 <div class="card-body">
@@ -77,7 +103,7 @@
             </div>
         </div>
 
-        <div class="col">
+        <div class="col-12 col-md-6 col-lg-4 col-xl mb-3 mb-xl-0">
             <div class="card h-100">
                 <div class="card-header">Letzte Bewertungen</div>
                 <div class="card-body">

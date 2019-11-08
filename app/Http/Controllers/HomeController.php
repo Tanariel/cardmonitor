@@ -39,9 +39,13 @@ class HomeController extends Controller
             $cardmarketConnectLink = (App::make('CardmarketApi'))->access->link();
         }
 
+        $paidOrders = Order::where('user_id', $user->id)
+            ->where('state', 'paid')
+            ->get();
+
         $evaluations = Evaluation::join('orders', 'orders.id', '=', 'evaluations.order_id')
             ->with('order.buyer')
-            ->where('orders.user_id', auth()->user()->id)
+            ->where('orders.user_id', $user->id)
             ->orderBy('orders.received_at', 'DESC')
             ->limit(5)
             ->get();
@@ -57,6 +61,8 @@ class HomeController extends Controller
             ->with('cardmarketConnectLink', $cardmarketConnectLink)
             ->with('evaluations', $evaluations)
             ->with('invalid_at', $user->api->invalid_at)
-            ->with('ordersByState', $ordersByState);
+            ->with('ordersByState', $ordersByState)
+            ->with('paidOrders', $paidOrders)
+            ->with('paidOrders_count', count($paidOrders));
     }
 }
