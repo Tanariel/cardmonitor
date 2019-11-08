@@ -5,9 +5,7 @@
                 <div>
                     <i class="fas fa-fw fa-3x" :class="icons[message.type]"></i>
                 </div>
-                <div class="col text-center">
-                    {{ message.text }}
-                </div>
+                <div class="col text-center" v-html="message.text"></div>
             </div>
         </Transition>
     </div>

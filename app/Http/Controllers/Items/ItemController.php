@@ -22,6 +22,7 @@ class ItemController extends Controller
             return auth()->user()
                 ->items()
                 ->search($request->input('searchtext'))
+                ->orderBy('name', 'ASC')
                 ->get();
         }
 
@@ -71,6 +72,14 @@ class ItemController extends Controller
      */
     public function edit(Item $item)
     {
+        if (! $item->isEditable()) {
+            return redirect($item->path)
+                ->with('status', [
+                    'type' => 'danger',
+                    'text' => 'Kosten <b>' . $item->name . '</b> kann nicht bearbeitet werden.',
+                ]);
+        }
+
         return view($this->baseViewPath . '.edit')
             ->with('model', $item);
     }
@@ -84,11 +93,23 @@ class ItemController extends Controller
      */
     public function update(Request $request, Item $item)
     {
+        if (! $item->isEditable()) {
+            return redirect($item->path)
+                ->with('status', [
+                    'type' => 'danger',
+                    'text' => 'Kosten <b>' . $item->name . '</b> kann nicht bearbeitet werden.',
+                ]);
+        }
+
         $item->update($request->validate([
             'name' => 'required|string',
         ]));
 
-        return $item;
+        if ($request->wantsJson()) {
+            return $item;
+        }
+
+        return redirect($item->path);
     }
 
     /**
@@ -110,6 +131,20 @@ class ItemController extends Controller
             ];
         }
 
-        return redirect(route($this->baseViewPath . '.index'));
+        if ($isDeletable) {
+            $status = [
+                'type' => 'success',
+                'text' => 'Kosten <b>' . $item->name . '</b> gelöscht.',
+            ];
+        }
+        else {
+            $status = [
+                'type' => 'danger',
+                'text' => 'Kosten <b>' . $item->name . '</b> kann nicht gelöscht werden.',
+            ];
+        }
+
+        return redirect(route($this->baseViewPath . '.index'))
+            ->with('status', $status);
     }
 }

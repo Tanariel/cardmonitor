@@ -35,9 +35,7 @@
                             <input id="checkall" type="checkbox" v-model="selectAll">
                         </th>
                         <th width="55%">Datum</th>
-                        <th width="30%">Einheiten</th>
                         <th width="30%">Kosten</th>
-                        <th width="30%">Kosten / Einheit</th>
                         <th class="text-right" width="10%">Aktion</th>
                     </tr>
                 </thead>

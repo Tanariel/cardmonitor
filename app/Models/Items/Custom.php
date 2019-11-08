@@ -32,7 +32,17 @@ class Custom extends Item
         });
     }
 
+    public function isEditable() : bool
+    {
+        return true;
+    }
+
     public function isDeletable() : bool
+    {
+        return (! $this->transactions()->exists());
+    }
+
+    public function hasQuantities() : bool
     {
         return true;
     }

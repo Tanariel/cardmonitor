@@ -3899,7 +3899,7 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     destroy: function destroy() {
       var component = this;
-      axios["delete"]('/item/' + component.id).then(function (response) {
+      axios["delete"](component.item.path).then(function (response) {
         if (response.data.deleted) {
           component.$emit("deleted", component.id); // Vue.success('Kosten wurden gelöscht.');
         } else {// Vue.error('Kosten konnten nicht gelöscht werden.');
@@ -3907,7 +3907,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     link: function link() {
-      location.href = this.item.path;
+      location.href = this.item.path + '/edit';
     }
   }
 });
@@ -3925,8 +3925,6 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _row_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./row.vue */ "./resources/js/components/item/row.vue");
 /* harmony import */ var _filter_search_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../filter/search.vue */ "./resources/js/components/filter/search.vue");
-//
-//
 //
 //
 //
@@ -4914,8 +4912,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
 //
 //
 //
@@ -45978,25 +45974,29 @@ var render = function() {
         "div",
         { staticClass: "btn-group btn-group-sm", attrs: { role: "group" } },
         [
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-secondary",
-              attrs: { type: "button", title: "Bearbeiten" },
-              on: { click: _vm.link }
-            },
-            [_c("i", { staticClass: "fas fa-edit" })]
-          ),
+          _vm.item.isEditable
+            ? _c(
+                "button",
+                {
+                  staticClass: "btn btn-secondary",
+                  attrs: { type: "button", title: "Bearbeiten" },
+                  on: { click: _vm.link }
+                },
+                [_c("i", { staticClass: "fas fa-edit" })]
+              )
+            : _vm._e(),
           _vm._v(" "),
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-secondary",
-              attrs: { type: "button", title: "Löschen" },
-              on: { click: _vm.destroy }
-            },
-            [_c("i", { staticClass: "fas fa-trash" })]
-          )
+          _vm.item.isDeletable
+            ? _c(
+                "button",
+                {
+                  staticClass: "btn btn-secondary",
+                  attrs: { type: "button", title: "Löschen" },
+                  on: { click: _vm.destroy }
+                },
+                [_c("i", { staticClass: "fas fa-trash" })]
+              )
+            : _vm._e()
         ]
       )
     ])
@@ -46187,13 +46187,7 @@ var render = function() {
                   _vm._v(" "),
                   _c("th", { attrs: { width: "55%" } }, [_vm._v("Datum")]),
                   _vm._v(" "),
-                  _c("th", { attrs: { width: "30%" } }, [_vm._v("Einheiten")]),
-                  _vm._v(" "),
                   _c("th", { attrs: { width: "30%" } }, [_vm._v("Kosten")]),
-                  _vm._v(" "),
-                  _c("th", { attrs: { width: "30%" } }, [
-                    _vm._v("Kosten / Einheit")
-                  ]),
                   _vm._v(" "),
                   _c(
                     "th",
@@ -47718,13 +47712,10 @@ var render = function() {
                   })
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "col text-center" }, [
-                  _vm._v(
-                    "\n                " +
-                      _vm._s(_vm.message.text) +
-                      "\n            "
-                  )
-                ])
+                _c("div", {
+                  staticClass: "col text-center",
+                  domProps: { innerHTML: _vm._s(_vm.message.text) }
+                })
               ]
             )
           : _vm._e()

@@ -5,7 +5,9 @@
     <div class="d-flex">
         <h2 class="col"><a class="text-body" href="/item">Kosten</a> > {{ $model->name }}</h2>
         <div class="d-flex align-items-center">
-            <a href="{{ url($model->path . '/edit') }}" class="btn btn-primary" title="Bearbeiten"><i class="fas fa-edit"></i></a>
+            @if ($model->isEditable())
+                <a href="{{ url($model->path . '/edit') }}" class="btn btn-primary" title="Bearbeiten"><i class="fas fa-edit"></i></a>
+            @endif
             <a href="{{ url('/item') }}" class="btn btn-secondary ml-1">Übersicht</a>
             @if ($model->isDeletable())
                 <form action="{{ $model->path }}" class="ml-1" method="POST">
@@ -17,6 +19,7 @@
             @endif
         </div>
     </div>
+
     <div class="row">
         <div class="col-md-6">
             <div class="card mb-5">
@@ -39,14 +42,16 @@
         </div>
     </div>
 
-    <div class="card">
-        <div class="card-header">Staffelung</div>
-        <div class="card-body">
-            <item-quantity-table :model="{{ json_encode($model) }}"></item-quantity-table>
+    @if ($model->hasQuantities())
+        <div class="card">
+            <div class="card-header">Staffelung</div>
+            <div class="card-body">
+                <item-quantity-table :model="{{ json_encode($model) }}"></item-quantity-table>
+            </div>
         </div>
-    </div>
+    @endif
 
-    <div class="card">
+    <div class="card mt-3">
         <div class="card-header">Bewegungen</div>
         <div class="card-body">
             <item-transaction-table :model="{{ json_encode($model) }}"></item-transaction-table>

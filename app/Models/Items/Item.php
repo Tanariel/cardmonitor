@@ -18,6 +18,8 @@ class Item extends Model
     use HasChildren;
 
     protected $appends = [
+        'isDeletable',
+        'isEditable',
         'path',
     ];
 
@@ -60,7 +62,27 @@ class Item extends Model
         return '/item/' . $this->id;
     }
 
+    public function getIsEditableAttribute()
+    {
+        return $this->isEditable();
+    }
+
+    public function getIsDeletableAttribute()
+    {
+        return $this->isDeletable();
+    }
+
+    public function isEditable() : bool
+    {
+        return false;
+    }
+
     public function isDeletable() : bool
+    {
+        return false;
+    }
+
+    public function hasQuantities() : bool
     {
         return false;
     }
