@@ -14,7 +14,7 @@ class CreateCardmarketUsersTable extends Migration
     public function up()
     {
         Schema::create('cardmarket_users', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->unsignedBigInteger('id')->primary();
             $table->unsignedBigInteger('cardmarket_user_id')->unique();
 
             $table->string('username');

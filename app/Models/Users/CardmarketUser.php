@@ -7,9 +7,26 @@ use Illuminate\Database\Eloquent\Model;
 
 class CardmarketUser extends Model
 {
-    protected $guarded = [
-        'id',
-    ];
+    protected $guarded = [];
+
+    public $incrementing = false;
+
+    /**
+     * The booting method of the model.
+     *
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function($model)
+        {
+            $model->id = $model->cardmarket_user_id;
+
+            return true;
+        });
+    }
 
     public static function updateOrCreateFromCardmarket(array $cardmarketUser) : self
     {

@@ -167,11 +167,14 @@
                 component.isLoading = true;
                 axios.put(component.uri + '/sync')
                     .then(function (response) {
-                        component.isLoading = false;
+                        component.fetch();
                     })
                     .catch(function (error) {
                         Vue.error('Bestellungen konnten nicht synchronisiert werden!');
                         console.log(error);
+                    })
+                    .finally ( function () {
+                        component.isLoading = false;
                     });
             }
         },

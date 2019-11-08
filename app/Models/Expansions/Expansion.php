@@ -16,9 +16,9 @@ class Expansion extends Model
         'released_at',
     ];
 
-    protected $guarded = [
-        'id',
-    ];
+    protected $guarded = [];
+
+    public $incrementing = false;
 
     /**
      * The booting method of the model.
@@ -31,6 +31,8 @@ class Expansion extends Model
 
         static::creating(function($model)
         {
+            $model->id = $model->cardmarket_expansion_id;
+
             if (! $model->game_id) {
                 $model->game_id = 1;
             }

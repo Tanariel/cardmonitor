@@ -48,10 +48,11 @@ class Card extends Model
     ];
 
     protected $guarded = [
-        'id',
         'imagePath',
         'has_latest_prices',
     ];
+
+    public $incrementing = false;
 
     /**
      * The booting method of the model.
@@ -64,6 +65,8 @@ class Card extends Model
 
         static::creating(function($model)
         {
+            $model->id = $model->cardmarket_product_id;
+
             if (! $model->game_id) {
                 $model->game_id = 1;
             }

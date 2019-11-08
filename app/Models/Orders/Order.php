@@ -58,8 +58,10 @@ class Order extends Model
     protected $cardDefaultPrices;
 
     protected $guarded = [
-        'id',
+
     ];
+
+    public $incrementing = false;
 
     /**
      * The booting method of the model.
@@ -72,6 +74,13 @@ class Order extends Model
 
         static::creating(function($model)
         {
+            $model->id = $model->cardmarket_order_id;
+
+            return true;
+        });
+
+        static::created(function($model)
+        {
             return true;
         });
     }
@@ -82,6 +91,7 @@ class Order extends Model
         $seller = CardmarketUser::updateOrCreateFromCardmarket($cardmarketOrder['seller']);
 
         $values = [
+            'cardmarket_order_id' => $cardmarketOrder['idOrder'],
             'buyer_id' => $buyer->id,
             'seller_id' => $seller->id,
             'shipping_method_id' => $cardmarketOrder['shippingMethod']['idShippingMethod'],
@@ -115,8 +125,6 @@ class Order extends Model
         }
         $order->calculateProfits()
             ->save();
-
-
 
         return $order;
     }
@@ -445,7 +453,7 @@ class Order extends Model
             'cardmarket_article_id' => $cardmarketArticle['idArticle'],
             'condition' => $cardmarketArticle['condition'],
             'unit_price' => $cardmarketArticle['price'],
-            'unit_cost' => $this->cardDefaultPrices[$cardmarketArticle['product']['rarity']], // Berechnen
+            'unit_cost' => Arr::get($this->cardDefaultPrices, $cardmarketArticle['product']['rarity'], 0.02),
             'sold_at' => $this->paid_at, // "2019-08-30T10:59:53+0200"
             'is_in_shoppingcard' => $cardmarketArticle['inShoppingCart'] ?? false,
             'is_foil' => $cardmarketArticle['isFoil'] ?? false,
