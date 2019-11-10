@@ -89,6 +89,30 @@ class Article extends Model
         });
     }
 
+    public static function updateOrCreateFromCardmarket(int $userId, array $cardmarketArticle) : self
+    {
+        $values = [
+            'user_id' => $userId,
+            'card_id' => $cardmarketOrder['idProduct'],
+            'language_id' => $cardmarketArticle['language']['idLanguage'],
+            'cardmarket_article_id' => $cardmarketArticle['idArticle'],
+            'condition' => $cardmarketArticle['condition'],
+            'unit_price' => $cardmarketArticle['price'],
+            'unit_cost' => \App\Models\Items\Card::defaultPrice($userId, $cardmarketArticle['product']['rarity']),
+            'sold_at' => null,
+            'is_in_shoppingcard' => $cardmarketArticle['inShoppingCart'] ?? false,
+            'is_foil' => $cardmarketArticle['isFoil'] ?? false,
+            'is_signed' => $cardmarketArticle['isSigned'] ?? false,
+            'is_altered' => $cardmarketArticle['isAltered'] ?? false,
+            'is_playset' => $cardmarketArticle['isPlayset'] ?? false,
+            'cardmarket_comments' => $cardmarketArticle['comments'] ?: null,
+        ];
+
+        $article = self::updateOrCreate(['cardmarket_article_id' => $cardmarketOrder['idArticle']], $values);
+
+        return $article;
+    }
+
     public function isDeletable() : bool
     {
         return true;

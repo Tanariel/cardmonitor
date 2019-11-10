@@ -34,6 +34,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('api', 'Apis\ApiController');
 
+    Route::put('article/sync', 'Cardmarket\Articles\ArticleController@update')->name('article.sync.update');
+
     Route::resource('article', 'Articles\ArticleController');
 
     Route::resource('card', 'Cards\CardController');

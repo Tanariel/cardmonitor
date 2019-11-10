@@ -12,7 +12,7 @@ class SyncCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'article:sync';
+    protected $signature = 'article:sync {--user=}';
 
     /**
      * The console command description.
@@ -38,19 +38,6 @@ class SyncCommand extends Command
      */
     public function handle()
     {
-        $users = User::with('api')->get();
-        foreach ($users as $key => $user) {
-            if ($user->api->isConnected() === false) {
-                continue;
-            }
-
-            $this->sync($user);
-        }
-    }
-
-    protected function sync(User $user)
-    {
-        $cardmarketArticles = $user->cardmarketApi->stock->get();
-        dump($cardmarketArticles);
+        User::find($this->option('user'))->cardmarketApi->syncAllArticles();
     }
 }

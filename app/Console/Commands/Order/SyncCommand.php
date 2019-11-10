@@ -19,7 +19,7 @@ class SyncCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'order:sync {--user} {--actor=seller}  {--state=received}';
+    protected $signature = 'order:sync {--user=} {--actor=seller}  {--state=received}';
 
     /**
      * The console command description.

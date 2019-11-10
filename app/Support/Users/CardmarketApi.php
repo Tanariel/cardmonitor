@@ -5,6 +5,7 @@ namespace App\Support\Users;
 use App\Models\Apis\Api;
 use App\Models\Orders\Order;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Storage;
 
 class CardmarketApi
 {
@@ -42,6 +43,20 @@ class CardmarketApi
         catch (\Exception $exc) {
             // $this->refresh();
         }
+    }
+
+    public function syncAllArticles()
+    {
+        $data = $this->stock->csv();
+        $filename = 'stock.csv';
+        $zippedFilename = $filename . '.gz';
+
+        $created = Storage::disk('local')->put($zippedFilename, base64_decode($data['stock']));
+        dump(storage_path('app/' . $filename));
+        shell_exec('gunzip ' . storage_path('app/' . $filename));
+
+
+
     }
 
     public function syncAllSellerOrders()
