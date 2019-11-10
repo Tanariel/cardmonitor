@@ -33,6 +33,7 @@ class HomeController extends Controller
             $cardmarketAccount = $user->cardmarketApi->account->get();
             $cardmarketAccount = $cardmarketAccount['account'];
             $cardmarketConnectLink = '';
+            dump($user->api->accessdata);
         }
         else {
             $cardmarketAccount = [];
