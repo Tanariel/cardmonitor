@@ -16,9 +16,16 @@ class CreateApisTable extends Migration
         Schema::create('apis', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
-            $table->json('accessdata');
+
+            $table->string('request_token')->nullable();
+            $table->string('access_token')->nullable();
+            $table->string('access_token_secret')->nullable();
 
             $table->dateTime('invalid_at')->nullable();
+
+            $table->dateTime('orders_synced_at')->nullable();
+            $table->dateTime('articles_synced_at')->nullable();
+
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');

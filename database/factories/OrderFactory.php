@@ -17,7 +17,7 @@ $factory->define(Order::class, function (Faker $faker) {
         'state' => 'paid',
         'shippingmethod' => 'Standardbrief',
         'shipping_name' => $faker->name,
-        'shipping_extra' => $faker->secondaryAddress,
+        'shipping_extra' => '',
         'shipping_street' => $faker->streetName . ' ' . $faker->buildingNumber,
         'shipping_zip' => $faker->postcode,
         'shipping_city' => $faker->city,

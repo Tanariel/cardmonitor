@@ -20,6 +20,16 @@ class OrderTest extends TestCase
     /**
      * @test
      */
+    public function it_knows_its_routes()
+    {
+        $model = factory(Order::class)->create();
+        $this->assertEquals(config('app.url') . '/order/' . $model->id, $model->path);
+        $this->assertEquals(config('app.url') . '/order/' . $model->id . '/edit', $model->editPath);
+    }
+
+    /**
+     * @test
+     */
     public function it_has_one_evaluation()
     {
         $model = factory(Order::class)->create();

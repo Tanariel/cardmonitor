@@ -44,6 +44,7 @@ class Order extends Model
     ];
 
     protected $appends = [
+        'editPath',
         'path',
     ];
 
@@ -550,7 +551,22 @@ class Order extends Model
 
     public function getPathAttribute()
     {
-        return '/order/' . $this->id;
+        return $this->path('show');
+    }
+
+    public function getEditPathAttribute()
+    {
+        return $this->path('edit');
+    }
+
+    protected function path(string $action = '') : string
+    {
+        return route($this->baseRoute() . '.' . $action, ['order' => $this->id]);
+    }
+
+    protected function baseRoute() : string
+    {
+        return 'order';
     }
 
     public function getShippingAddressTextAttribute() : string

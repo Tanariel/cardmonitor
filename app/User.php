@@ -56,9 +56,7 @@ class User extends Authenticatable
 
         static::created(function($model)
         {
-            $model->api()->create([
-                'accessdata' => [],
-            ]);
+            $model->api()->create();
 
             return true;
         });

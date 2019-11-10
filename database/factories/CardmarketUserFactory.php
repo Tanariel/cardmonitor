@@ -14,7 +14,7 @@ $factory->define(CardmarketUser::class, function (Faker $faker) {
         'is_seller' => $faker->boolean,
         'firstname' => $faker->firstName,
         'name' => $faker->name,
-        'extra' => $faker->secondaryAddress,
+        'extra' => '',
         'street' => $faker->streetName . ' ' . $faker->buildingNumber,
         'zip' => $faker->postcode,
         'city' => $faker->city,
