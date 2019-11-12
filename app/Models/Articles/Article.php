@@ -89,6 +89,32 @@ class Article extends Model
         });
     }
 
+    public static function createOrUpdateFromCsv(int $userId, array $row) : self
+    {
+        // TODO: get rarity from card
+
+        $values = [
+            'user_id' => $userId,
+            'card_id' => $row[1],
+            'language_id' => $row[7],
+            'cardmarket_article_id' => $row[0],
+            'condition' => $row[8],
+            'unit_price' => $row[6],
+            'unit_cost' => \App\Models\Items\Card::defaultPrice($userId, ''),
+            'sold_at' => null,
+            'is_in_shoppingcard' => false,
+            'is_foil' => ($row[9] == 'X' ? true : false),
+            'is_signed' => ($row[10] == 'X' ? true : false),
+            'is_altered' => ($row[11] == 'X' ? true : false),
+            'is_playset' => ($row[12] == 'X' ? true : false),
+            'cardmarket_comments' => $row[13],
+        ];
+
+        $article = self::updateOrCreate(['cardmarket_article_id' => $row[0]], $values);
+
+        return $article;
+    }
+
     public static function updateOrCreateFromCardmarket(int $userId, array $cardmarketArticle) : self
     {
         $values = [

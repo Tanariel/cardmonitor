@@ -3,6 +3,7 @@
 namespace App\Support\Users;
 
 use App\Models\Apis\Api;
+use App\Models\Articles\Article;
 use App\Models\Orders\Order;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
@@ -47,14 +48,32 @@ class CardmarketApi
 
     public function syncAllArticles()
     {
-        $data = $this->stock->csv();
+        $userId = $this->api->user_id;
         $filename = 'stock.csv';
-        $zippedFilename = $filename . '.gz';
 
-        $created = Storage::disk('local')->put($zippedFilename, base64_decode($data['stock']));
-        dump(storage_path('app/' . $filename));
-        shell_exec('gunzip ' . storage_path('app/' . $filename));
+        if (! Storage::disk('local')->exists($filename)) {
+            $data = $this->cardmarketApi->stock->csv();
+            $zippedFilename = $filename . '.gz';
+            $created = Storage::disk('local')->put($zippedFilename, base64_decode($data['stock']));
+            dump(storage_path('app/' . $filename));
+            shell_exec('gunzip ' . storage_path('app/' . $filename));
+        }
 
+        $row = 0;
+        $articlesFile = fopen(storage_path('app/' . $filename), "r");
+        while (($data = fgetcsv($articlesFile, 1000, ";")) !== FALSE) {
+            dump($data, $row == 0, $data[0] == '');
+            if ($row == 0 || $data[0] == '') {
+                $row++;
+                continue;
+            }
+            for ($i = 0; $i < $data[14]; $i++) {
+                $article = Article::createOrUpdateFromCsv($userId, $data);
+                dump($article);
+            }
+            $row++;
+            break;
+        }
 
 
     }

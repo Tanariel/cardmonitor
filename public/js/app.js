@@ -47016,11 +47016,13 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th"),
+        _c("th", { attrs: { width: "100" } }),
         _vm._v(" "),
-        _c("th", { staticClass: "text-center" }, [_vm._v("Status")]),
+        _c("th", { staticClass: "text-center", attrs: { width: "75" } }, [
+          _vm._v("Status")
+        ]),
         _vm._v(" "),
-        _c("th", { staticClass: "text-right" }),
+        _c("th", { staticClass: "text-right", attrs: { width: "75" } }),
         _vm._v(" "),
         _c("th", {}, [_vm._v("Name")]),
         _vm._v(" "),

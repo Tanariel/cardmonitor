@@ -104,6 +104,8 @@ class DevCommand extends Command
             }
 
             $card = Card::createFromCsv($data, $expansions[$data[0]]);
+            $card->download();
+
             $row++;
         }
         fclose($cardsFile);

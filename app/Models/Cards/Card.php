@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Storage;
 
 class Card extends Model
 {
@@ -125,6 +127,27 @@ class Card extends Model
         return $model;
     }
 
+    public function download()
+    {
+        $CardmarketApi = App::make('CardmarketApi');
+
+        $filename = storage_path('app/public/items/' . $this->game_id . '/' . $this->expansion_id . '/' . $this->id . '.jpg');
+
+        if (Storage::exists('public/items/' . $this->game_id . '/' . $this->expansion_id . '/' . $this->id . '.jpg')) {
+            return;
+        }
+
+        if (! Storage::exists('public/items/' . $this->game_id)) {
+            Storage::makeDirectory('public/items/' . $this->game_id);
+        }
+
+        if (! Storage::exists('public/items/' . $this->game_id . '/' . $this->expansion_id)) {
+            Storage::makeDirectory('public/items/' . $this->game_id . '/' . $this->expansion_id);
+        }
+
+        $CardmarketApi->product->download($this->image, $filename);
+    }
+
     public function getHasLatestPricesAttribute() : bool
     {
         if (is_null($this->prices_updated_at)) {
@@ -149,7 +172,7 @@ class Card extends Model
 
     public function getImagePathAttribute()
     {
-        return 'https://static.cardmarket.com' . $this->attributes['image'];
+        return Storage::url('public/items/' . $this->game_id . '/' . $this->expansion_id . '/' . $this->id . '.jpg');
     }
 
     public function expansion() : BelongsTo

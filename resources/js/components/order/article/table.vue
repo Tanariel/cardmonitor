@@ -12,9 +12,9 @@
             <table class="table table-hover table-striped bg-white">
                 <thead>
                     <tr>
-                        <th></th>
-                        <th class="text-center">Status</th>
-                        <th class="text-right"></th>
+                        <th width="100"></th>
+                        <th width="75" class="text-center">Status</th>
+                        <th width="75" class="text-right"></th>
                         <th class="">Name</th>
                         <th class="text-right">#</th>
                         <th class="">Erweiterung</th>
