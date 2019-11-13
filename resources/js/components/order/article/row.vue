@@ -5,7 +5,7 @@
         <td class="align-middle"><i class="fas fa-image pointer" @mouseover="show($event)" @mouseout="$emit('hide')"></i></td>
         <td class="align-middle pointer" @click="toShow"><span class="flag-icon" :class="'flag-icon-' + item.language.code" :title="item.language.name"></span> {{ item.localName }}</td>
         <td class="align-middle text-right pointer" @click="toShow">{{ item.card.number }}</td>
-        <td class="align-middle pointer" @click="toShow">{{ item.card.expansion.name }}</td>
+        <td class="align-middle pointer" @click="toShow"><expansion-icon :expansion="item.card.expansion"></expansion-icon></td>
         <td class="align-middle text-center pointer" @click="toShow"><rarity :value="item.card.rarity"></rarity></td>
         <td class="align-middle text-center pointer" @click="toShow"><condition :value="item.condition"></condition></td>
         <td class="align-middle pointer" @click="toShow">
@@ -34,11 +34,13 @@
 <script>
     import condition from '../../partials/emoji/condition.vue';
     import rarity from '../../partials/emoji/rarity.vue';
+    import expansionIcon from '../../expansion/icon.vue';
 
     export default {
 
         components: {
             condition,
+            expansionIcon,
             rarity,
         },
 

@@ -29,7 +29,7 @@
                     <tbody>
                         <tr v-for="(card, index) in cards" @click="setItem(card, index)">
                             <td class="align-middle text-center pointer" width="50"><i class="fas fa-image" @mouseover="showImgbox(card.imagePath, ($event.layerY + 100) + 'px')" @mouseout="hideImgbox"></i></td>
-                            <td class="align-middle pointer">{{ card.expansion.name }}</td>
+                            <td class="align-middle pointer"><expansion-icon :expansion="card.expansion"></expansion-icon></td>
                             <td class="align-middle text-center" width="50"><rarity :value="card.rarity"></rarity></td>
                             <td class="align-middle pointer">
                                 <div>{{ card.local_name }}</div>
@@ -230,10 +230,12 @@
     import filterSearch from "../filter/search.vue";
     import rarity from '../partials/emoji/rarity.vue';
     import row from "./row.vue";
+    import expansionIcon from '../expansion/icon.vue';
 
     export default {
 
         components: {
+            expansionIcon,
             filterSearch,
             rarity,
             row,

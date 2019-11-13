@@ -78,7 +78,7 @@
             <span class="flag-icon" :class="'flag-icon-' + item.language.code" :title="item.language.name"></span> {{ item.localName }}
             <div class="text-muted" v-if="item.language_id != 1">{{ item.card.name }}</div></td>
         <td class="align-middle text-right">{{ item.card.number }}</td>
-        <td class="align-middle">{{ item.card.expansion.name }}</td>
+        <td class="align-middle"><expansion-icon :expansion="item.card.expansion"></expansion-icon></td>
         <td class="align-middle text-center"><rarity :value="item.card.rarity"></rarity></td>
         <td class="align-middle text-center"><span class="flag-icon" :class="'flag-icon-' + item.language.code" :title="item.language.name"></span></td>
         <td class="align-middle text-center"><condition :value="item.condition"></condition></td>
@@ -107,11 +107,13 @@
 <script>
     import condition from '../partials/emoji/condition.vue';
     import rarity from '../partials/emoji/rarity.vue';
+    import expansionIcon from '../expansion/icon.vue';
 
     export default {
 
         components: {
             condition,
+            expansionIcon,
             rarity,
         },
 

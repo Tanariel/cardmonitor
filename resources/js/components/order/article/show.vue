@@ -10,7 +10,7 @@
             <div class="col d-flex flex-column">
                 <div class="mb-3">
                     <div><b>{{ (index + 1) }}: {{ item.localName }} (#{{ item.card.number }}) <span class="flag-icon" :class="'flag-icon-' + item.language.code" :title="item.language.name"></span> </b></div>
-                    <div>{{ item.card.expansion.name }}</div>
+                    <div><expansion-icon :expansion="item.card.expansion"></expansion-icon></div>
                     <div><rarity :value="item.card.rarity"></rarity> ({{ item.card.rarity }})</div>
                     <div><condition :value="item.condition"></condition> ({{ item.condition }})</div>
                     <div><i class="fas fa-star text-warning" v-if="item.is_foil"></i></div>
@@ -46,11 +46,13 @@
 <script>
     import condition from '../../partials/emoji/condition.vue';
     import rarity from '../../partials/emoji/rarity.vue';
+    import expansionIcon from '../../expansion/icon.vue';
 
     export default {
 
         components: {
             condition,
+            expansionIcon,
             rarity,
         },
 
