@@ -87,7 +87,6 @@ class CardmarketApi
             'received',
             'lost',
             'cancelled',
-            'evaluated',
         ];
 
         foreach ($states as $state) {
