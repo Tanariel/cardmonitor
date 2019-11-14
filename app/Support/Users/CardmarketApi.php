@@ -106,12 +106,11 @@ class CardmarketApi
             if (is_array($data)) {
                 $data_count = count($data['order']);
                 $cardmarketOrders_count += $data_count;
-                dump($state, $cardmarketOrders_count);
                 foreach ($data['order'] as $cardmarketOrder) {
-                    $order = Order::updateOrCreateFromCardmarket($userId, $cardmarketOrder);
+                    Order::updateOrCreateFromCardmarket($userId, $cardmarketOrder);
                 }
                 $start += 100;
-                if ($data_count == 0) {
+                if ($data_count < 100) {
                     $data = null;
                 }
             }
