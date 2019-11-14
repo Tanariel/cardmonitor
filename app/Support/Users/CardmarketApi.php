@@ -87,6 +87,7 @@ class CardmarketApi
             'received',
             'lost',
             'cancelled',
+            'evaluated',
         ];
 
         foreach ($states as $state) {
@@ -98,12 +99,14 @@ class CardmarketApi
     public function syncOrders(string $actor, string $state)
     {
         $userId = $this->api->user_id;
-        $cardmarketOrders = [];
+        $cardmarketOrders_count = 0;
         $start = 1;
         do {
             $data = $this->cardmarketApi->order->find($actor, $state, $start);
             if (is_array($data)) {
                 $data_count = count($data['order']);
+                $cardmarketOrders_count += $data_count;
+                dump($state, $cardmarketOrders_count);
                 foreach ($data['order'] as $cardmarketOrder) {
                     $order = Order::updateOrCreateFromCardmarket($userId, $cardmarketOrder);
                 }

@@ -14,7 +14,8 @@ class ExpansionController extends Controller
      */
     public function index()
     {
-        //
+        return Expansion::orderBy('name', 'ASC')
+            ->get();
     }
 
     /**

@@ -30,10 +30,11 @@
                 <a class="navbar-brand" href="#">Cardmonitor</a>
             </div>
             <ul class="col">
-                <a href="{{ url('/home') }}"><li>Start</li></a>
-                <a href="{{ url('/article') }}"><li>Artikel</li></a>
-                <a href="{{ url('/order') }}"><li>Bestellungen</li></a>
-                <a href="{{ url('/item') }}"><li>Kosten</li></a>
+                <a href="/home'"><li>Start</li></a>
+                <a href="/article"><li>Artikel</li></a>
+                <a href="/order"><li>Bestellungen</li></a>
+                <a href="/item"><li>Kosten</li></a>
+                <a href="/storage"><li>Lagerplätze</li></a>
             </ul>
             <div class="px-3 text-white text-center"><p>Alle Daten sind von <a href="https://www.cardmarket.eu">Cardmarket</a></p></div>
             <div class="bg-secondary text-white p-2 d-flex justify-content-around">

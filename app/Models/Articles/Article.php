@@ -98,6 +98,7 @@ class Article extends Model
             'card_id' => $row[1],
             'language_id' => $row[7],
             'cardmarket_article_id' => $row[0],
+            'storage_id' => Content::defaultStorage($userId, $row[4]),
             'condition' => $row[8],
             'unit_price' => $row[6],
             'unit_cost' => \App\Models\Items\Card::defaultPrice($userId, ''),

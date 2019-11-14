@@ -40,6 +40,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('card', 'Cards\CardController');
 
+    Route::get('expansion', 'ExpansionController@index');
+
     Route::resource('item', 'Items\ItemController');
 
     Route::resource('image', 'Images\ImageController')->only([
@@ -63,6 +65,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('order/{order}/message/create', 'Cardmarket\Orders\MessageController@create')->name('order.message.create');
     Route::post('order/{order}/message', 'Cardmarket\Orders\MessageController@store')->name('order.message.store');
     Route::put('order/{order}/sync', 'Cardmarket\Orders\OrderController@update')->name('order.sync.update');
+
+    Route::resource('storage', 'Storages\StorageController');
+
+    Route::resource('content', 'Storages\ContentController')->except([
+        'index',
+        'store',
+    ]);
+    Route::get('storage/{storage}/content', 'Storages\ContentController@index')->name('storage.content.index');
+    Route::post('storage/{storage}/content', 'Storages\ContentController@store')->name('storage.content.store');
 
     Route::resource('transaction', 'Items\Transactions\TransactionController')->except([
         'index',

@@ -66,13 +66,15 @@ Vue.component('flash-message', require('./components/partials/flashmessage.vue')
 
 Vue.component('article-create', require('./components/article/create.vue').default);
 Vue.component('article-table', require('./components/article/table.vue').default);
-Vue.component('item-table', require('./components/item/table.vue').default);
-Vue.component('item-quantity-table', require('./components/item/quantity/table.vue').default);
-Vue.component('order-table', require('./components/order/table.vue').default);
-Vue.component('order-article-index', require('./components/order/article/index.vue').default);
-Vue.component('imageable-table', require('./components/image/imageable/table.vue').default);
-Vue.component('imageable-gallery', require('./components/image/imageable/gallery.vue').default);
 Vue.component('home-order-index', require('./components/home/order/index.vue').default);
+Vue.component('imageable-gallery', require('./components/image/imageable/gallery.vue').default);
+Vue.component('imageable-table', require('./components/image/imageable/table.vue').default);
+Vue.component('item-quantity-table', require('./components/item/quantity/table.vue').default);
+Vue.component('item-table', require('./components/item/table.vue').default);
+Vue.component('order-article-index', require('./components/order/article/index.vue').default);
+Vue.component('order-table', require('./components/order/table.vue').default);
+Vue.component('storage-table', require('./components/storage/table.vue').default);
+Vue.component('storage-content-table', require('./components/storage/content/table.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

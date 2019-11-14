@@ -9,6 +9,7 @@ use App\Models\Items\Item;
 use App\Models\Items\Transactions\Sale;
 use App\Models\Items\Transactions\Transaction;
 use App\Models\Orders\Evaluation;
+use App\Models\Storages\Content;
 use App\Models\Users\CardmarketUser;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
@@ -447,11 +448,14 @@ class Order extends Model
             return;
         }
 
+        $card = Card::where('cardmarket_product_id', $cardmarketArticle['idProduct'])->first();
+
         $attributes = [
             'user_id' => $this->user_id,
-            'card_id' => Card::where('cardmarket_product_id', $cardmarketArticle['idProduct'])->first()->id,
+            'card_id' => $card->id,
             'language_id' => $cardmarketArticle['language']['idLanguage'],
             'cardmarket_article_id' => $cardmarketArticle['idArticle'],
+            'storage_id' => Content::defaultStorage($this->user_id, $card->expansion_id),
             'condition' => $cardmarketArticle['condition'],
             'unit_price' => $cardmarketArticle['price'],
             'unit_cost' => Arr::get($this->cardDefaultPrices, $cardmarketArticle['product']['rarity'], 0.02),

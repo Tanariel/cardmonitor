@@ -18,6 +18,7 @@ class CreateArticlesTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('card_id');
             $table->unsignedBigInteger('order_id')->nullable();
+            $table->unsignedBigInteger('storage_id')->nullable();
             $table->unsignedTinyInteger('language_id');
             $table->unsignedBigInteger('cardmarket_article_id')->nullable()->index();
             $table->dateTime('cardmarket_last_edited')->nullable();
@@ -48,6 +49,7 @@ class CreateArticlesTable extends Migration
             $table->foreign('card_id')->references('id')->on('cards')->onDelete('cascade');
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
             $table->foreign('language_id')->references('id')->on('languages');
+            $table->foreign('storage_id')->references('id')->on('storages');
         });
     }
 
