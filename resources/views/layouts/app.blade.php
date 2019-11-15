@@ -30,7 +30,7 @@
                 <a class="navbar-brand" href="#">Cardmonitor</a>
             </div>
             <ul class="col">
-                <a href="/home'"><li>Start</li></a>
+                <a href="/home"><li>Start</li></a>
                 <a href="/article"><li>Artikel</li></a>
                 <a href="/order"><li>Bestellungen</li></a>
                 <a href="/item"><li>Kosten</li></a>

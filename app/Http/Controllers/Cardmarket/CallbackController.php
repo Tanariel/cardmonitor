@@ -34,7 +34,7 @@ class CallbackController extends Controller
 
         return redirect('home')->with('status', [
             'type' => 'success',
-            'text' => 'Konto verknüpft',
+            'text' => 'Konto verknüpft. Bestellungen werden im Hintergrund synchronisiert',
         ]);
     }
 
