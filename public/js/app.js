@@ -4776,15 +4776,12 @@ __webpack_require__.r(__webpack_exports__);
     },
     sync: function sync() {
       var component = this;
-      component.isLoading = true;
       axios.put(component.uri + '/sync').then(function (response) {
-        component.fetch();
+        Vue.success('Bestellungen werden im Hintergrund aktualisiert.');
       })["catch"](function (error) {
         Vue.error('Bestellungen konnten nicht synchronisiert werden!');
         console.log(error);
-      })["finally"](function () {
-        component.isLoading = false;
-      });
+      })["finally"](function () {});
     }
   }
 });
