@@ -4,7 +4,10 @@ namespace App\Providers;
 
 use Carbon\Carbon;
 use Cardmonitor\Cardmarket\Api;
+use Illuminate\Queue\Events\JobProcessed;
+use Illuminate\Queue\Events\JobProcessing;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 
@@ -49,5 +52,19 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Carbon::setLocale('de');
+
+        Queue::before(function (JobProcessing $event) {
+            if ($event->job->payload()['displayName'] == \App\Jobs\Orders\SyncAll::class) {
+                $command = unserialize($event->job->payload()['data']['command']);
+                $command->processing();
+            }
+        });
+
+        Queue::after(function (JobProcessed $event) {
+            if ($event->job->payload()['displayName'] == \App\Jobs\Orders\SyncAll::class) {
+                $command = unserialize($event->job->payload()['data']['command']);
+                $command->processed();
+            }
+        });
     }
 }

@@ -34,4 +34,18 @@ class SyncAll implements ShouldQueue
     {
         $this->user->cardmarketApi->syncAllSellerOrders();
     }
+
+    public function processing()
+    {
+        $this->user->api()->update([
+            'is_syncing_orders' => true,
+        ]);
+    }
+
+    public function processed()
+    {
+        $this->user->api()->update([
+            'is_syncing_orders' => false,
+        ]);
+    }
 }
