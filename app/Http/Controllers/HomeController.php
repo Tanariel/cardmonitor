@@ -63,6 +63,7 @@ class HomeController extends Controller
             ->with('invalid_at', $user->api->invalid_at)
             ->with('ordersByState', $ordersByState)
             ->with('paidOrders', $paidOrders)
-            ->with('paidOrders_count', count($paidOrders));
+            ->with('paidOrders_count', count($paidOrders))
+            ->with('api', $user->api);
     }
 }

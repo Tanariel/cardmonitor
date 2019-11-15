@@ -48,6 +48,7 @@
 
                             <button type="submit" class="btn btn-secondary" title="Aktualisieren">Konto trennen</button>
                         </form>
+                        <pre>{{ var_dump($api->accessdata) }}</pre>
                     @endif
                 </div>
             </div>
