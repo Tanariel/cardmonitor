@@ -51,7 +51,7 @@ class OrderController extends Controller
 
     protected function syncAllOrders(User $user)
     {
-        $this->CardmarketApi->syncAllSellerOrders();
+        \App\Jobs\Orders\SyncAll::dispatch($user);
     }
 
 }

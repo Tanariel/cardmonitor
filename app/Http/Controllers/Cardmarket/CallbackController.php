@@ -30,7 +30,7 @@ class CallbackController extends Controller
         $user = auth()->user();
         $user->api->setAccessToken($request_token, $access['oauth_token'], $access['oauth_token_secret']);
 
-        $user->cardmarketApi->syncAllSellerOrders();
+        \App\Jobs\Orders\SyncAll::dispatch($user);
 
         return redirect('home')->with('status', [
             'type' => 'success',
