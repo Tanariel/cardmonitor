@@ -20,8 +20,6 @@ class ArticleController extends Controller
      */
     public function update(Request $request, Article $article = null)
     {
-        dump('updating');
-
         $user = auth()->user();
         $this->CardmarketApi = $user->cardmarketApi;
 
@@ -49,7 +47,6 @@ class ArticleController extends Controller
 
     protected function syncAll(User $user)
     {
-        dump('syncing all..');
-        $this->CardmarketApi->syncAllArticles();
+        \App\Jobs\Articles\SyncAll::dispatch($user);
     }
 }

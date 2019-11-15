@@ -9,6 +9,7 @@
                     <filter-search v-model="filter.searchtext" @input="fetch()"></filter-search>
                 </div>
                 <button class="btn btn-secondary ml-1" @click="filter.show = !filter.show"><i class="fas fa-filter"></i></button>
+                <button class="btn btn-secondary ml-1" @click="sync"><i class="fas fa-sync"></i></button>
             </div>
         </div>
 
@@ -233,6 +234,20 @@
                     .catch(function (error) {
                         Vue.error('Artikel konnten nicht geladen werden!');
                         console.log(error);
+                    });
+            },
+            sync() {
+                var component = this;
+                axios.put(component.uri + '/sync')
+                    .then(function (response) {
+                        Vue.success('Artikel werden im Hintergrund aktualisiert.');
+                    })
+                    .catch(function (error) {
+                        Vue.error('Artikel konnten nicht synchronisiert werden!');
+                        console.log(error);
+                    })
+                    .finally ( function () {
+
                     });
             },
             search() {

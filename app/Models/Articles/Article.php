@@ -5,6 +5,7 @@ namespace App\Models\Articles;
 use App\Models\Cards\Card;
 use App\Models\Localizations\Language;
 use App\Models\Orders\Order;
+use App\Models\Storages\Content;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;

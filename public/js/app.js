@@ -2664,6 +2664,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -2768,6 +2769,15 @@ __webpack_require__.r(__webpack_exports__);
         Vue.error('Artikel konnten nicht geladen werden!');
         console.log(error);
       });
+    },
+    sync: function sync() {
+      var component = this;
+      axios.put(component.uri + '/sync').then(function (response) {
+        Vue.success('Artikel werden im Hintergrund aktualisiert.');
+      })["catch"](function (error) {
+        Vue.error('Artikel konnten nicht synchronisiert werden!');
+        console.log(error);
+      })["finally"](function () {});
     },
     search: function search() {
       this.filter.page = 1;
@@ -44057,6 +44067,12 @@ var render = function() {
             }
           },
           [_c("i", { staticClass: "fas fa-filter" })]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          { staticClass: "btn btn-secondary ml-1", on: { click: _vm.sync } },
+          [_c("i", { staticClass: "fas fa-sync" })]
         )
       ])
     ]),
