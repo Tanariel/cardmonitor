@@ -110,6 +110,7 @@ class CardmarketApi
                 if ($data_count < 100) {
                     $data = null;
                 }
+                usleep(50);
             }
         }
         while (! is_null($data));
