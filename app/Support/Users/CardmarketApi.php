@@ -52,7 +52,7 @@ class CardmarketApi
         $filename = $userId . '-stock.csv';
         $zippedFilename = $filename . '.gz';
 
-        $data = $user->cardmarketApi->stock->csv();
+        $data = $this->cardmarketApi->stock->csv();
         $created = Storage::disk('local')->put($zippedFilename, base64_decode($data['stock']));
 
         if ($created === false) {
