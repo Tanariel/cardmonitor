@@ -67,7 +67,7 @@ class CardmarketApi
         $row = 0;
         $articlesFile = fopen(storage_path('app/' . $filename), "r");
         while (($data = fgetcsv($articlesFile, 2000, ";")) !== FALSE) {
-            if ($row == 0 || $data[0] == '') {
+            if ($row == 0) {
                 $row++;
                 continue;
             }
