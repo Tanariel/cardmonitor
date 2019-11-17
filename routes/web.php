@@ -17,6 +17,8 @@ Route::get('/', function () {
     return redirect(route('login'));
 });
 
+Route::post('deploy', 'DeploymentController@store');
+
 Auth::routes();
 
 Route::middleware(['auth'])->group(function () {
