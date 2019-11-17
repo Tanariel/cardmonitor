@@ -21,10 +21,10 @@ class DeploymentController extends Controller
         //     return abort(404);
         // }
 
-        if (! $githubHash)
-        {
-            return abort(404);
-        }
+        // if (! $githubHash)
+        // {
+        //     return abort(404);
+        // }
 
         $root_path = base_path();
         $process = new Process('cd ' . $root_path . '; sh ./deploy.sh');
