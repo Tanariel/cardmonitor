@@ -49,8 +49,6 @@ class CardmarketApi
 
     public function syncAllArticles()
     {
-        set_time_limit(0);
-
         $userId = $this->api->user_id;
         $filename = $userId . '-stock.csv';
         $zippedFilename = $filename . '.gz';
