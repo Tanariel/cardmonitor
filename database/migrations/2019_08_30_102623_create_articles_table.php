@@ -47,7 +47,7 @@ class CreateArticlesTable extends Migration
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('card_id')->references('id')->on('cards')->onDelete('cascade');
-            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
+            $table->foreign('order_id')->references('id')->on('orders');
             $table->foreign('language_id')->references('id')->on('languages');
             $table->foreign('storage_id')->references('id')->on('storages');
         });
