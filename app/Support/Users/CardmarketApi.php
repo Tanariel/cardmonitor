@@ -74,13 +74,7 @@ class CardmarketApi
             echo $row .': ' . $data[0] . PHP_EOL;
             $data['expansion_id'] = $expansions[$data[4]]->id;
             for ($i = 0; $i < $data[14]; $i++) {
-                try {
-                    Article::createOrUpdateFromCsv($userId, $data);
-                }
-                catch (\Exception $e)
-                {
-                    dd($e);
-                }
+                Article::createOrUpdateFromCsv($userId, $data);
             }
             $row++;
         }
