@@ -4,6 +4,7 @@ namespace App\Support\Users;
 
 use App\Models\Apis\Api;
 use App\Models\Articles\Article;
+use App\Models\Expansions\Expansion;
 use App\Models\Orders\Order;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
@@ -60,7 +61,8 @@ class CardmarketApi
         }
 
         shell_exec('gunzip ' . storage_path('app/' . $filename));
-        $this->info('Downloaded ' . $filename);
+
+        $expansions = Expansion::all()->keyBy('abbreviation');
 
         $row = 0;
         $articlesFile = fopen(storage_path('app/' . $filename), "r");
@@ -69,6 +71,7 @@ class CardmarketApi
                 $row++;
                 continue;
             }
+            $data['expansion_id'] = $expansions[$data[4]]->id;
             for ($i = 0; $i < $data[14]; $i++) {
                 Article::createOrUpdateFromCsv($userId, $data);
             }

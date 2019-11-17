@@ -100,7 +100,7 @@ class Article extends Model
             'card_id' => $row[1],
             'language_id' => $row[7],
             'cardmarket_article_id' => $row[0],
-            'storage_id' => Content::defaultStorage($userId, Expansion::where('abbreviation', $row[4])->first()->id),
+            'storage_id' => Content::defaultStorage($userId, $row['expansion_id']),
             'condition' => $row[8],
             'unit_price' => $row[6],
             'unit_cost' => \App\Models\Items\Card::defaultPrice($userId, ''),
