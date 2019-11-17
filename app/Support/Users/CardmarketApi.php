@@ -71,7 +71,6 @@ class CardmarketApi
                 $row++;
                 continue;
             }
-            var_dump($data);
             $data['expansion_id'] = $expansions[$data[4]]->id;
             for ($i = 0; $i < $data[14]; $i++) {
                 Article::createOrUpdateFromCsv($userId, $data);
