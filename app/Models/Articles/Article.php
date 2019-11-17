@@ -3,6 +3,7 @@
 namespace App\Models\Articles;
 
 use App\Models\Cards\Card;
+use App\Models\Expansions\Expansion;
 use App\Models\Localizations\Language;
 use App\Models\Orders\Order;
 use App\Models\Storages\Content;
@@ -99,7 +100,7 @@ class Article extends Model
             'card_id' => $row[1],
             'language_id' => $row[7],
             'cardmarket_article_id' => $row[0],
-            'storage_id' => Content::defaultStorage($userId, $row[4]),
+            'storage_id' => Content::defaultStorage($userId, Expansion::where('abbreviation', $row[4])->first()->id),
             'condition' => $row[8],
             'unit_price' => $row[6],
             'unit_cost' => \App\Models\Items\Card::defaultPrice($userId, ''),
