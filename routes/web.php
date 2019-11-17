@@ -35,7 +35,9 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('api', 'Apis\ApiController');
 
     Route::get('article/download', function () {
-        \App\Jobs\Articles\Download::dispatch(auth()->user());
+        Artisan::queue('article:download', [
+            '--user' => auth()->user()->id,
+        ]);
     });
 
     Route::put('article/sync', 'Cardmarket\Articles\ArticleController@update')->name('article.sync.update');
