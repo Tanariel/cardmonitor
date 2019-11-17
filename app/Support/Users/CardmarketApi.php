@@ -49,6 +49,8 @@ class CardmarketApi
 
     public function syncAllArticles()
     {
+        set_time_limit(0);
+
         $userId = $this->api->user_id;
         $filename = $userId . '-stock.csv';
         $zippedFilename = $filename . '.gz';
@@ -71,6 +73,7 @@ class CardmarketApi
                 $row++;
                 continue;
             }
+            var_dump($data[0]);
             $data['expansion_id'] = $expansions[$data[4]]->id;
             for ($i = 0; $i < $data[14]; $i++) {
                 Article::createOrUpdateFromCsv($userId, $data);
