@@ -50,14 +50,17 @@ class CardmarketApi
     {
         $userId = $this->api->user_id;
         $filename = $userId . '-stock.csv';
-        $path = Storage::disk('local')->url($filename);
+        $zippedFilename = $filename . '.gz';
 
-        if (! Storage::disk('local')->exists($filename)) {
-            $data = $this->cardmarketApi->stock->csv();
-            $zippedFilename = $filename . '.gz';
-            $created = Storage::disk('local')->put($zippedFilename, base64_decode($data['stock']));
-            shell_exec('gunzip ' . storage_path('app/' . $filename));
+        $data = $user->cardmarketApi->stock->csv();
+        $created = Storage::disk('local')->put($zippedFilename, base64_decode($data['stock']));
+
+        if ($created === false) {
+            return;
         }
+
+        shell_exec('gunzip ' . storage_path('app/' . $filename));
+        $this->info('Downloaded ' . $filename);
 
         $row = 0;
         $articlesFile = fopen(storage_path('app/' . $filename), "r");
