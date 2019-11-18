@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 
 class Article extends Model
 {
@@ -23,6 +24,9 @@ class Article extends Model
 
     const PROVISION = 0.05;
     const MIN_UNIT_PRICE = 0.02;
+
+    const CSV_CARDMARKET_ARTICLE_ID = 0;
+    const CSV_AMOUNT = 14;
 
     const CONDITIONS = [
         'M' => 'Mint',
@@ -91,7 +95,7 @@ class Article extends Model
         });
     }
 
-    public static function createOrUpdateFromCsv(int $userId, array $row) : self
+    public static function createOrUpdateFromCsv(int $userId, array $row, int $index) : self
     {
         // TODO: get rarity from card
 
@@ -113,9 +117,26 @@ class Article extends Model
             'cardmarket_comments' => $row[13],
         ];
 
-        $article = self::updateOrCreate(['cardmarket_article_id' => $row[0]], $values);
+        $attributes = [
+            'cardmarket_article_id' => $row[0],
+            'index' => $index,
+        ];
 
-        return $article;
+        return self::updateOrCreate($attributes, $values);
+    }
+
+    public static function reindex(int $cardmarket_article_id, int $start = 1) : int
+    {
+        $collection = self::where('cardmarket_article_id', $cardmarket_article_id)
+            ->whereNull('sold_at')->orderBy('index', 'ASC')->get();
+
+        foreach ($collection as $key => $model) {
+            $model->update([
+                'index' => $start++,
+            ]);
+        }
+
+        return ($key + 1);
     }
 
     public static function updateOrCreateFromCardmarket(int $userId, array $cardmarketArticle) : self

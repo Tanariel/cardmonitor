@@ -39,14 +39,8 @@ class SyncAll implements ShouldQueue
      */
     public function handle()
     {
-        try {
-            set_time_limit(0);
-            $this->user->cardmarketApi->syncAllSellerOrders();
-            $this->user->cardmarketApi->syncAllArticles();
-        }
-        catch (\Exception $exc) {
-            dd($exc);
-        }
+        $this->user->cardmarketApi->syncAllSellerOrders();
+        $this->user->cardmarketApi->syncAllArticles();
     }
 
     public function processing()

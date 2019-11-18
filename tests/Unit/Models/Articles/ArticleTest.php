@@ -123,6 +123,30 @@ class ArticleTest extends TestCase
     /**
      * @test
      */
+    public function it_can_be_reindexed()
+    {
+        $cardmarket_article_id = 1;
+
+        factory(Article::class, 3)->create([
+            'cardmarket_article_id' => $cardmarket_article_id,
+            'index' => 1,
+        ]);
+
+        $affected = Article::reindex($cardmarket_article_id);
+        $this->assertEquals(3, $affected);
+
+        $collection = Article::where('cardmarket_article_id', $cardmarket_article_id)->orderBy('index', 'ASC')->get();
+
+        $index = 1;
+        foreach ($collection as $model) {
+            $this->assertEquals($index, $model->index);
+            $index++;
+        };
+    }
+
+    /**
+     * @test
+     */
     public function it_calculates_its_provision()
     {
         $model = new Article();

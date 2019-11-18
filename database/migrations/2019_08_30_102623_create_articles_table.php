@@ -21,6 +21,7 @@ class CreateArticlesTable extends Migration
             $table->unsignedBigInteger('storage_id')->nullable();
             $table->unsignedTinyInteger('language_id');
             $table->unsignedBigInteger('cardmarket_article_id')->nullable()->index();
+            $table->unsignedSmallInteger('index')->default(0);
             $table->dateTime('cardmarket_last_edited')->nullable();
             $table->unsignedTinyInteger('state')->nullable();
             $table->string('state_comments')->nullable();
