@@ -156,6 +156,9 @@ class ArticleTest extends TestCase
         $model->unit_price = 0.02;
         $this->assertEquals(0.01, $model->provision);
 
+        $model->unit_price_formatted = 0.44;
+        $this->assertEquals(0.03, $model->provision);
+
         $model->unit_price_formatted = 1;
         $this->assertEquals(0.05, $model->provision);
     }

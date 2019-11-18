@@ -276,7 +276,7 @@ class Article extends Model
 
     protected function calculateProvision() : float
     {
-        $this->attributes['provision'] = max(0.01, self::PROVISION * $this->unit_price);
+        $this->attributes['provision'] = ceil(self::PROVISION * ($this->unit_price * 100)) / 100;
 
         return $this->attributes['provision'];
     }
