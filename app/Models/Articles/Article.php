@@ -128,7 +128,7 @@ class Article extends Model
     public static function reindex(int $cardmarket_article_id, int $start = 1) : int
     {
         $collection = self::where('cardmarket_article_id', $cardmarket_article_id)
-            ->whereNull('sold_at')->orderBy('index', 'ASC')->get();
+            ->whereNull('order_id')->orderBy('index', 'ASC')->get();
 
         $i = 0;
         foreach ($collection as $model) {

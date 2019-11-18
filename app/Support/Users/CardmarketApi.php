@@ -78,7 +78,7 @@ class CardmarketApi
                 Article::reindex($cardmarket_article_id);
                 Article::createOrUpdateFromCsv($userId, $data, $i);
                 Article::where('cardmarket_article_id', $cardmarket_article_id)
-                    ->whereNull('sold_at')
+                    ->whereNull('order_id')
                     ->where('index', '>', $amount)
                     ->delete();
             }
