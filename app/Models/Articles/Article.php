@@ -130,13 +130,15 @@ class Article extends Model
         $collection = self::where('cardmarket_article_id', $cardmarket_article_id)
             ->whereNull('sold_at')->orderBy('index', 'ASC')->get();
 
-        foreach ($collection as $key => $model) {
+        $i = 0;
+        foreach ($collection as $model) {
             $model->update([
                 'index' => $start++,
             ]);
+            $i++;
         }
 
-        return ($key + 1);
+        return $i;
     }
 
     public static function updateOrCreateFromCardmarket(int $userId, array $cardmarketArticle) : self
