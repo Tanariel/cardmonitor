@@ -2750,6 +2750,23 @@ __webpack_require__.r(__webpack_exports__);
           }
         }
       }
+    },
+    pages: function pages() {
+      var pages = [];
+
+      for (var i = 1; i <= this.paginate.lastPage; i++) {
+        if (this.showPageButton(i)) {
+          var lastItem = pages[pages.length - 1];
+
+          if (lastItem < i - 1 && lastItem != '...') {
+            pages.push('...');
+          }
+
+          pages.push(i);
+        }
+      }
+
+      return pages;
     }
   },
   methods: {
@@ -2807,6 +2824,17 @@ __webpack_require__.r(__webpack_exports__);
     },
     remove: function remove(index) {
       this.items.splice(index, 1);
+    },
+    showPageButton: function showPageButton(page) {
+      if (page == 1 || page == this.paginate.lastPage) {
+        return true;
+      }
+
+      if (page <= this.filter.page + 2 && page >= this.filter.page - 2) {
+        return true;
+      }
+
+      return false;
     }
   }
 });
@@ -4755,6 +4783,23 @@ __webpack_require__.r(__webpack_exports__);
           }
         }
       }
+    },
+    pages: function pages() {
+      var pages = [];
+
+      for (var i = 1; i <= this.paginate.lastPage; i++) {
+        if (this.showPageButton(i)) {
+          var lastItem = pages[pages.length - 1];
+
+          if (lastItem < i - 1 && lastItem != '...') {
+            pages.push('...');
+          }
+
+          pages.push(i);
+        }
+      }
+
+      return pages;
     }
   },
   methods: {
@@ -4792,6 +4837,17 @@ __webpack_require__.r(__webpack_exports__);
         Vue.error('Bestellungen konnten nicht synchronisiert werden!');
         console.log(error);
       })["finally"](function () {});
+    },
+    showPageButton: function showPageButton(page) {
+      if (page == 1 || page == this.paginate.lastPage) {
+        return true;
+      }
+
+      if (page <= this.filter.page + 2 && page >= this.filter.page - 2) {
+        return true;
+      }
+
+      return false;
     }
   }
 });
@@ -44535,7 +44591,7 @@ var render = function() {
             ]
           ),
           _vm._v(" "),
-          _vm._l(_vm.paginate.lastPage, function(n) {
+          _vm._l(_vm.pages, function(n, i) {
             return _c(
               "li",
               {
@@ -48016,7 +48072,7 @@ var render = function() {
             ]
           ),
           _vm._v(" "),
-          _vm._l(_vm.paginate.lastPage, function(n) {
+          _vm._l(_vm.pages, function(n, i) {
             return _c(
               "li",
               {

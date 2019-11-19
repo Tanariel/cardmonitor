@@ -105,7 +105,7 @@
                     <a class="page-link" href="#" @click.prevent="filter.page--">Previous</a>
                 </li>
 
-                <li class="page-item" v-for="n in paginate.lastPage" v-bind:class="{ active: (n == filter.page) }"><a class="page-link" href="#" @click.prevent="filter.page = n">{{ n }}</a></li>
+                <li class="page-item" v-for="(n, i) in pages" v-bind:class="{ active: (n == filter.page) }"><a class="page-link" href="#" @click.prevent="filter.page = n">{{ n }}</a></li>
 
                 <li class="page-item" v-show="paginate.nextPageUrl">
                     <a class="page-link" href="#" @click.prevent="filter.page++">Next</a>
@@ -214,6 +214,20 @@
                     }
                 },
             },
+            pages() {
+                var pages = [];
+                for (var i = 1; i <= this.paginate.lastPage; i++) {
+                    if (this.showPageButton(i)) {
+                        const lastItem = pages[pages.length - 1];
+                        if (lastItem < (i - 1) && lastItem != '...') {
+                            pages.push('...');
+                        }
+                        pages.push(i);
+                    }
+                }
+
+                return pages;
+            },
         },
 
         methods: {
@@ -276,6 +290,17 @@
             },
             remove(index) {
                 this.items.splice(index, 1);
+            },
+            showPageButton(page) {
+                if (page == 1 || page == this.paginate.lastPage) {
+                    return true;
+                }
+
+                if (page <= this.filter.page + 2 && page >= this.filter.page - 2) {
+                    return true;
+                }
+
+                return false;
             },
         },
     };
