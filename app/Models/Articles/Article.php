@@ -28,6 +28,12 @@ class Article extends Model
     const CSV_CARDMARKET_ARTICLE_ID = 0;
     const CSV_AMOUNT = 14;
 
+    const BASE_PRICES = [
+        'price_sell' => 'Durchschnittlicher Verkaufspreis',
+        'price_low' => 'Niedrigster Preis',
+        'price_trend' => 'Trend Preis',
+    ];
+
     const CONDITIONS = [
         'M' => 'Mint',
         'NM' => 'Near Mint',

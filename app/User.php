@@ -6,6 +6,7 @@ use App\Models\Apis\Api;
 use App\Models\Articles\Article;
 use App\Models\Items\Item;
 use App\Models\Orders\Order;
+use App\Models\Rules\Rule;
 use App\Models\Storages\Storage;
 use App\Support\Users\CardmarketApi;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -96,6 +97,11 @@ class User extends Authenticatable
     public function orders() : HasMany
     {
         return $this->hasMany(Order::class);
+    }
+
+    public function rules() : HasMany
+    {
+        return $this->hasMany(Rule::class);
     }
 
     public function storages() : HasMany

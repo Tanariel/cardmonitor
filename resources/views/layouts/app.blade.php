@@ -34,6 +34,7 @@
                 <a href="/article"><li>Artikel</li></a>
                 <a href="/order"><li>Bestellungen</li></a>
                 <a href="/item"><li>Kosten</li></a>
+                <a href="/rule"><li>Regeln</li></a>
                 <a href="/storage"><li>Lagerplätze</li></a>
             </ul>
             <div class="px-3 text-white text-center"><p>Alle Daten sind von <a href="https://www.cardmarket.eu">Cardmarket</a></p></div>

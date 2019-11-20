@@ -73,6 +73,8 @@ Vue.component('item-quantity-table', require('./components/item/quantity/table.v
 Vue.component('item-table', require('./components/item/table.vue').default);
 Vue.component('order-article-index', require('./components/order/article/index.vue').default);
 Vue.component('order-table', require('./components/order/table.vue').default);
+Vue.component('rule-table', require('./components/rule/table.vue').default);
+Vue.component('rule-edit', require('./components/rule/edit.vue').default);
 Vue.component('storage-table', require('./components/storage/table.vue').default);
 Vue.component('storage-content-table', require('./components/storage/content/table.vue').default);
 

@@ -44,6 +44,10 @@ class CreateArticlesTable extends Migration
             $table->boolean('has_sync_error')->default(false);
             $table->string('sync_error')->nullable();
             $table->dateTime('synced_at')->nullable();
+
+            $table->decimal('rule_price', 15, 6)->nullable();
+            $table->unsignedBigInteger('rule_id')->nullable();
+
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
@@ -51,6 +55,7 @@ class CreateArticlesTable extends Migration
             $table->foreign('order_id')->references('id')->on('orders');
             $table->foreign('language_id')->references('id')->on('languages');
             $table->foreign('storage_id')->references('id')->on('storages');
+            $table->foreign('rule_id')->references('id')->on('rules');
         });
     }
 

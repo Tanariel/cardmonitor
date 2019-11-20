@@ -6,6 +6,7 @@ use App\Models\Apis\Api;
 use App\Models\Articles\Article;
 use App\Models\Items\Item;
 use App\Models\Orders\Order;
+use App\Models\Rules\Rule;
 use App\Models\Storages\Storage;
 use App\Support\Users\CardmarketApi;
 use App\User;
@@ -75,6 +76,19 @@ class UserTest extends TestCase
         ]);
 
         $this->assertHasMany($model, $related, 'orders');
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_many_rules()
+    {
+        $model = factory(User::class)->create();
+        $related = factory(Rule::class)->create([
+            'user_id' => $model->id,
+        ]);
+
+        $this->assertHasMany($model, $related, 'rules');
     }
 
     /**
