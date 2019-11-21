@@ -38,6 +38,7 @@
             <table class="table table-hover table-striped bg-white">
                 <thead>
                     <tr>
+                        <th width="5%"></th>
                         <th width="5%">
                             <label class="form-checkbox" for="checkall"></label>
                             <input id="checkall" type="checkbox" v-model="selectAll">
@@ -46,11 +47,9 @@
                         <th class="text-right" width="10%">Aktion</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <template v-for="(item, index) in items">
-                        <row :item="item" :key="item.id" :uri="uri" :selected="(selected.indexOf(item.id) == -1) ? false : true" @input="toggleSelected"></row>
-                    </template>
-                </tbody>
+                <draggable v-model="items" tag="tbody" handle=".sort" @end="sort">
+                    <row :item="item" :key="item.id" :uri="uri" :selected="(selected.indexOf(item.id) == -1) ? false : true" v-for="(item, index) in items" @input="toggleSelected" @deleted="remove(index)"></row>
+                </draggable>
             </table>
         </div>
         <div class="alert alert-dark mt-3" v-else><center>Keine Regeln vorhanden</center></div>
@@ -71,14 +70,17 @@
 </template>
 
 <script>
+    import draggable from "vuedraggable";
+
     import row from "./row.vue";
     import filterSearch from "../filter/search.vue";
 
     export default {
 
         components: {
-            row,
+            draggable,
             filterSearch,
+            row,
         },
 
         data () {
@@ -181,6 +183,23 @@
                         console.log(error);
                     });
             },
+            sort() {
+                const ranks = this.items.reduce( function (total, item, index) {
+                    total[index] = item.id;
+                    return total;
+                }, []);
+
+                var component = this;
+                axios.put('/rule/sort', {
+                    rules: ranks,
+                })
+                    .then(function (response) {
+                        Vue.success('Reihenfolge der Regeln gespeichert.')
+                    })
+                    .catch( function (error) {
+                        Vue.error('Reihenfolge der Regeln konnte nicht gespeichert werden!');
+                });
+            },
             toggleSelected (id) {
                 var index = this.selected.indexOf(id);
                 if (index == -1) {
@@ -200,6 +219,9 @@
                 }
 
                 return false;
+            },
+            remove(index) {
+                this.items.splice(index, 1);
             },
         },
     };

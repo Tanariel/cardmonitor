@@ -51,6 +51,8 @@ class Rule extends Model
                 $model->base_price = 'price_trend';
             }
 
+            $model->order_column = self::nextOrderColumn($model->user_id);
+
             return true;
         });
 
@@ -61,6 +63,11 @@ class Rule extends Model
                 'rule_price' => null,
             ]);
         });
+    }
+
+    public static function nextOrderColumn(int $userId)
+    {
+        return self::where('user_id', $userId)->max('order_column') + 1;
     }
 
     public function isDeletable() : bool

@@ -68,6 +68,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('order/{order}/message', 'Cardmarket\Orders\MessageController@store')->name('order.message.store');
     Route::put('order/{order}/sync', 'Cardmarket\Orders\OrderController@update')->name('order.sync.update');
 
+    Route::put('rule/sort', 'Rules\SortController@update');
     Route::resource('rule', 'Rules\RuleController');
 
     Route::resource('storage', 'Storages\StorageController');

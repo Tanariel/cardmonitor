@@ -16,6 +16,23 @@ class RuleTest extends TestCase
     /**
      * @test
      */
+    public function it_sets_its_order_column()
+    {
+        $model = factory(Rule::class)->create();
+        $this->assertEquals(1, $model->order_column);
+
+        $model = factory(Rule::class)->create([
+            'user_id' => $model->user_id
+        ]);
+        $this->assertEquals(2, $model->order_column);
+
+        $model = factory(Rule::class)->create();
+        $this->assertEquals(1, $model->order_column);
+    }
+
+    /**
+     * @test
+     */
     public function it_has_many_articles()
     {
         $model = factory(Rule::class)->create();
