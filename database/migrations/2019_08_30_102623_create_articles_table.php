@@ -15,11 +15,15 @@ class CreateArticlesTable extends Migration
     {
         Schema::create('articles', function (Blueprint $table) {
             $table->bigIncrements('id');
+
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('card_id');
+            $table->unsignedTinyInteger('language_id');
+
             $table->unsignedBigInteger('order_id')->nullable();
             $table->unsignedBigInteger('storage_id')->nullable();
-            $table->unsignedTinyInteger('language_id');
+            $table->unsignedBigInteger('rule_id')->nullable();
+
             $table->unsignedBigInteger('cardmarket_article_id')->nullable()->index();
             $table->unsignedSmallInteger('index')->default(0);
             $table->dateTime('cardmarket_last_edited')->nullable();
@@ -46,7 +50,10 @@ class CreateArticlesTable extends Migration
             $table->dateTime('synced_at')->nullable();
 
             $table->decimal('rule_price', 15, 6)->nullable();
-            $table->unsignedBigInteger('rule_id')->nullable();
+            $table->decimal('rule_difference', 15, 6)->nullable();
+            $table->decimal('rule_difference_percent', 5, 2)->nullable();
+            $table->dateTime('rule_applied_at')->nullable();
+
 
             $table->timestamps();
 

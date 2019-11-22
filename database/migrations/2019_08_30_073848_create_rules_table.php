@@ -23,6 +23,8 @@ class CreateRulesTable extends Migration
             $table->string('name');
             $table->text('description')->nullable();
 
+            $table->boolean('active')->default(false);
+
             $table->string('rarity')->nullable();
 
             $table->unsignedSmallInteger('order_column')->default(0);

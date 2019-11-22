@@ -4053,6 +4053,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -4098,6 +4099,17 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    calculate: function calculate() {
+      console.log('calculate');
+      return;
+      var component = this;
+      axios.post(component.uri, component.form).then(function (response) {
+        Vue.success('Kosten werden im Hintergrund neu berechnet.');
+      })["catch"](function (error) {
+        component.errors = error.response.data.errors;
+        Vue.error('Kosten können nicht neu berechnet werden!');
+      });
+    },
     create: function create() {
       var component = this;
       axios.post(component.uri, component.form).then(function (response) {
@@ -50890,6 +50902,15 @@ var render = function() {
             }
           },
           [_c("i", { staticClass: "fas fa-filter" })]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-secondary ml-1",
+            on: { click: _vm.calculate }
+          },
+          [_vm._v("Kosten neu berechnen")]
         )
       ])
     ]),

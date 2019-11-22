@@ -127,6 +127,23 @@ class Card extends Model
         return $model;
     }
 
+    public static function updatePricesFromCardmarket(array $data)
+    {
+        self::where('id', $data[0])->update([
+            'price_sell' => $data[1] ?: 0,
+            'price_avg' => $data[1] ?: 0,
+            'price_low' => $data[2] ?: 0,
+            'price_trend' => $data[3] ?: 0,
+            'price_german_pro' => $data[4] ?: 0,
+            'price_suggested' => $data[5] ?: 0,
+            'price_foil_sell' => $data[6] ?: 0,
+            'price_foil_low' => $data[7] ?: 0,
+            'price_foil_trend' => $data[8] ?: 0,
+            'price_low_ex' => $data[9] ?: 0,
+            'prices_updated_at' => now(),
+        ]);
+    }
+
     public function download()
     {
         $CardmarketApi = App::make('CardmarketApi');

@@ -70,6 +70,11 @@ class Rule extends Model
         return self::where('user_id', $userId)->max('order_column') + 1;
     }
 
+    public function apply()
+    {
+        // TODO: Update Article with rule price
+    }
+
     public function isDeletable() : bool
     {
         return true;
