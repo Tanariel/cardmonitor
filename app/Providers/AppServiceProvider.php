@@ -52,19 +52,5 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Carbon::setLocale('de');
-
-        Queue::before(function (JobProcessing $event) {
-            if ($event->job->payload()['displayName'] == \App\Jobs\Orders\SyncAll::class) {
-                $command = unserialize($event->job->payload()['data']['command']);
-                $command->processing();
-            }
-        });
-
-        Queue::after(function (JobProcessed $event) {
-            if ($event->job->payload()['displayName'] == \App\Jobs\Orders\SyncAll::class) {
-                $command = unserialize($event->job->payload()['data']['command']);
-                $command->processed();
-            }
-        });
     }
 }
