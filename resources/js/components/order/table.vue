@@ -168,6 +168,7 @@
                 axios.get(component.uri + '/sync')
                     .then(function (response) {
                         component.syncing.status = response.data.is_syncing_orders;
+                        console.log(component.syncing.status);
                         if (component.syncing.status == 0) {
                             component.syncing.interval = null;
                             component.fetch();
