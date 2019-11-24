@@ -63,6 +63,9 @@ class OrderController extends Controller
 
     protected function syncAllOrders(User $user)
     {
+        $user->update([
+            'is_syncing_orders' => true,
+        ]);
         \App\Jobs\Orders\SyncAll::dispatch($user);
     }
 

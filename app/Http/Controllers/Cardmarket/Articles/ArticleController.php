@@ -48,7 +48,7 @@ class ArticleController extends Controller
 
         return back()->with('status', [
             'type' => 'success',
-            'text' => 'Bestellung aktualisiert.',
+            'text' => 'Artikel aktualisiert.',
         ]);
     }
 
@@ -59,6 +59,9 @@ class ArticleController extends Controller
 
     protected function syncAll(User $user)
     {
+        $user->update([
+            'is_syncing_articles' => true,
+        ]);
         \App\Jobs\Articles\SyncAll::dispatch($user);
     }
 }

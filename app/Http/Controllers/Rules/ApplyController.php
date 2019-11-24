@@ -30,6 +30,10 @@ class ApplyController extends Controller
     {
         $user = auth()->user();
 
+        $user->update([
+            'is_applying_rules' => true,
+        ]);
+
         Artisan::queue('rule:apply', [
             'user' => $user->id,
             '--sync' => $request->input('sync') ?? false,
