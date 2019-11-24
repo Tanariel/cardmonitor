@@ -93,6 +93,8 @@ class Rule extends Model
             'articles.rule_id' => $this->id,
             'articles.rule_applied_at' => now(),
             'articles.rule_price' => DB::raw('(cards.' . $this->base_price . ' * ' . $this->multiplier . ')'),
+            // 'articles.rule_difference' => DB::raw('(cards.' . $this->base_price . ' * ' . $this->multiplier . ') - articles.unit_price'),
+            // 'articles.rule_difference_percent' => DB::raw('((cards.' . $this->base_price . ' * ' . $this->multiplier . ') - articles.unit_price) / articles.unit_price * 100'),
         ];
 
         if ($sync) {
@@ -109,6 +111,8 @@ class Rule extends Model
                 'rule_id' => null,
                 'rule_price' => null,
                 'rule_applied_at' => null,
+                'rule_difference' => 0,
+                'rule_difference_percent' => 0,
             ]);
     }
 
