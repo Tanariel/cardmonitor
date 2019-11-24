@@ -20,7 +20,7 @@ class ActiveController extends Controller
             ->save();
 
         if ($request->wantsJson()) {
-            return $rule;
+            return $rule->loadCount('articles');
         }
 
         return redirect($rule->path)
@@ -42,7 +42,7 @@ class ActiveController extends Controller
             ->save();
 
         if ($request->wantsJson()) {
-            return $rule;
+            return $rule->loadCount('articles');
         }
 
         return redirect($rule->path)

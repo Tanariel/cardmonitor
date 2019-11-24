@@ -23,6 +23,7 @@ class RuleController extends Controller
         if ($request->wantsJson()) {
             $rules = auth()->user()
                 ->rules()
+                ->withCount('articles')
                 ->orderBy('order_column', 'ASC')
                 ->paginate();
 

@@ -23,6 +23,8 @@ class SyncCommand extends Command
      */
     protected $description = 'Get latest prices from cardmarket';
 
+    protected $filename = 'priceguide.csv';
+
     /**
      * Create a new command instance.
      *
@@ -40,22 +42,10 @@ class SyncCommand extends Command
      */
     public function handle()
     {
-        $CardmarketApi = App::make('CardmarketApi');
-
-        $filename = 'priceguide.csv';
-        $zippedFilename = $filename . '.gz';
-
-        $data = $CardmarketApi->priceguide->csv();
-        $created = Storage::disk('local')->put($zippedFilename, base64_decode($data['priceguidefile']));
-
-        if ($created === false) {
-            return;
-        }
-
-        shell_exec('gunzip ' . storage_path('app/' . $filename));
+        $this->download();
 
         $row_count = 0;
-        $articlesFile = fopen(storage_path('app/' . $filename), "r");
+        $articlesFile = fopen(storage_path('app/' . $this->filename), "r");
         while (($data = fgetcsv($articlesFile, 2000, ",")) !== FALSE) {
             if ($row_count == 0) {
                 $row_count++;
@@ -65,6 +55,26 @@ class SyncCommand extends Command
             $row_count++;
         }
 
-        Storage::disk('local')->delete($filename);
+        // Storage::disk('local')->delete($this->filename);
+    }
+
+    protected function download()
+    {
+        if (App::environment() != 'production') {
+            return;
+        }
+
+        $CardmarketApi = App::make('CardmarketApi');
+
+        $zippedFilename = $this->filename . '.gz';
+
+        $data = $CardmarketApi->priceguide->csv();
+        $created = Storage::disk('local')->put($zippedFilename, base64_decode($data['priceguidefile']));
+
+        if ($created === false) {
+            return;
+        }
+
+        shell_exec('gunzip ' . storage_path('app/' . $this->filename));
     }
 }

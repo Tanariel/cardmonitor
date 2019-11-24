@@ -38,12 +38,7 @@ class SyncCommand extends Command
      */
     public function handle()
     {
-        try {
-            $user = User::with('api')->find($this->option('user'));
-            $user->cardmarketApi->syncAllArticles();
-        }
-        catch (\Exception $exc) {
-            dd($exc);
-        }
+        $user = User::with('api')->find($this->option('user'));
+        $user->cardmarketApi->syncAllArticles();
     }
 }

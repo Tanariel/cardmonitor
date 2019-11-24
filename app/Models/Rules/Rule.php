@@ -71,7 +71,7 @@ class Rule extends Model
         return self::where('user_id', $userId)->max('order_column') + 1;
     }
 
-    public function apply()
+    public function apply(bool $sync = false)
     {
         // TODO: Update Article with rule price
         $query = Article::join('cards', 'cards.id', '=', 'articles.card_id')
@@ -88,11 +88,17 @@ class Rule extends Model
             $query->where('cards.rarity', $this->rarity);
         }
 
-        $query->update([
+        $attributes = [
             'articles.rule_id' => $this->id,
             'articles.rule_applied_at' => now(),
             'articles.rule_price' => DB::raw('(cards.' . $this->base_price . ' * ' . $this->multiplier . ')'),
-        ]);
+        ];
+
+        if ($sync) {
+            $attributes['unit_price'] = DB::raw('articles.rule_price');
+        }
+
+        $query->update($attributes);
     }
 
     public static function reset(int $userId)

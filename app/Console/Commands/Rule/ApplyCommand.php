@@ -2,9 +2,11 @@
 
 namespace App\Console\Commands\Rule;
 
+use App\Models\Articles\Article;
 use App\Models\Rules\Rule;
 use App\User;
 use Illuminate\Console\Command;
+use Illuminate\Support\Arr;
 
 class ApplyCommand extends Command
 {
@@ -13,7 +15,7 @@ class ApplyCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'rule:apply {user}';
+    protected $signature = 'rule:apply {user} {--sync}';
 
     /**
      * The console command description.
@@ -21,6 +23,8 @@ class ApplyCommand extends Command
      * @var string
      */
     protected $description = 'Applies all active rules';
+
+    protected $user;
 
     /**
      * Create a new command instance.
@@ -39,29 +43,46 @@ class ApplyCommand extends Command
      */
     public function handle()
     {
-        $user = User::findOrFail($this->argument('user'));
+        $this->user = User::findOrFail($this->argument('user'));
 
-        if ($user->is_applying_rules) {
+        if ($this->user->is_applying_rules) {
             return;
         }
 
-        $user->update([
+        $this->user->update([
             'is_applying_rules' => true,
         ]);
 
-        $rules = Rule::where('user_id', $user->id)
+        $rules = Rule::where('user_id', $this->user->id)
             ->where('active', true)
             ->orderBy('order_column', 'ASC')
             ->get();
 
-        Rule::reset($user->id);
+        Rule::reset($this->user->id);
 
         foreach ($rules as $rule) {
-            $rule->apply();
+            $rule->apply($this->option('sync'));
         }
 
-        $user->update([
+        if ($this->option('sync')) {
+            $this->sync();
+        }
+
+        $this->user->update([
             'is_applying_rules' => false,
         ]);
+    }
+
+    protected function sync()
+    {
+        $cardmarketApi = $this->user->cardmarketApi;
+
+        $this->user->articles()->whereNotNull('rule_id')
+            // ->where('rule_price', '>=', 0.02)
+            ->whereNull('order_id')
+            ->orderBy('cardmarket_article_id', 'ASC')
+            ->chunk(100, function ($articles) use ($cardmarketApi) {
+                $articles->sync($cardmarketApi);
+        });
     }
 }

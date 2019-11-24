@@ -5387,6 +5387,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['item', 'uri', 'selected'],
   data: function data() {
@@ -5441,6 +5442,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuedraggable__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vuedraggable__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _row_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./row.vue */ "./resources/js/components/rule/row.vue");
 /* harmony import */ var _filter_search_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../filter/search.vue */ "./resources/js/components/filter/search.vue");
+//
 //
 //
 //
@@ -5647,9 +5649,10 @@ __webpack_require__.r(__webpack_exports__);
       axios.get(component.uri + '/apply').then(function (response) {
         component.applying.status = response.data.is_applying_rules;
 
-        if (component.applying.status) {
+        if (component.applying.status == 0) {
           component.applying.interval = null;
-          Vue.success('Regeln wurde im Hintergrund angewendet.');
+          component.fetch();
+          Vue.success('Regeln wurden im Hintergrund angewendet.');
         }
       })["catch"](function (error) {
         console.log(error);
@@ -53804,6 +53807,12 @@ var render = function() {
       _vm._v(_vm._s(_vm.item.name))
     ]),
     _vm._v(" "),
+    _c(
+      "td",
+      { staticClass: "align-middle text-right", on: { click: _vm.link } },
+      [_vm._v(_vm._s(_vm.item.articles_count))]
+    ),
+    _vm._v(" "),
     _c("td", { staticClass: "align-middle text-right" }, [
       _c(
         "div",
@@ -53957,7 +53966,7 @@ var render = function() {
             attrs: { disabled: _vm.applying.status == 1 },
             on: { click: _vm.apply }
           },
-          [_vm._v("Regeln anwenden")]
+          [_vm._v("Regeln simulieren")]
         )
       ])
     ]),
@@ -54040,7 +54049,13 @@ var render = function() {
                   _vm._v(" "),
                   _c("th", { attrs: { width: "5%" } }, [_vm._v("Status")]),
                   _vm._v(" "),
-                  _c("th", { attrs: { width: "80%" } }, [_vm._v("Name")]),
+                  _c("th", { attrs: { width: "70%" } }, [_vm._v("Name")]),
+                  _vm._v(" "),
+                  _c(
+                    "th",
+                    { staticClass: "text-right", attrs: { width: "10%" } },
+                    [_vm._v("Artikel")]
+                  ),
                   _vm._v(" "),
                   _c(
                     "th",

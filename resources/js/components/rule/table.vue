@@ -15,7 +15,7 @@
                     <filter-search v-model="filter.searchtext" @input="fetch()"></filter-search>
                 </div>
                 <button class="btn btn-secondary ml-1" @click="filter.show = !filter.show" v-if="false"><i class="fas fa-filter"></i></button>
-                <button class="btn btn-secondary ml-1" @click="apply" :disabled="applying.status == 1">Regeln anwenden</button>
+                <button class="btn btn-secondary ml-1" @click="apply" :disabled="applying.status == 1">Regeln simulieren</button>
             </div>
         </div>
 
@@ -45,7 +45,8 @@
                             <input id="checkall" type="checkbox" v-model="selectAll">
                         </th>
                         <th width="5%">Status</th>
-                        <th width="80%">Name</th>
+                        <th width="70%">Name</th>
+                        <th class="text-right" width="10%">Artikel</th>
                         <th class="text-right" width="10%">Aktion</th>
                     </tr>
                 </thead>
@@ -220,9 +221,10 @@
                 axios.get(component.uri + '/apply')
                     .then(function (response) {
                         component.applying.status = response.data.is_applying_rules;
-                        if (component.applying.status) {
+                        if (component.applying.status == 0) {
                             component.applying.interval = null;
-                            Vue.success('Regeln wurde im Hintergrund angewendet.');
+                            component.fetch();
+                            Vue.success('Regeln wurden im Hintergrund angewendet.');
                         }
                     })
                     .catch(function (error) {

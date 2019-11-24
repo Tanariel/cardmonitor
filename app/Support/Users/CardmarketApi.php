@@ -85,7 +85,7 @@ class CardmarketApi
             $row_count++;
         }
 
-        // Storage::disk('local')->delete($filename);
+        Storage::disk('local')->delete($filename);
 
     }
 

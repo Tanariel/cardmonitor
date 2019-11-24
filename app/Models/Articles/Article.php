@@ -2,6 +2,7 @@
 
 namespace App\Models\Articles;
 
+use App\Collections\ArticleCollection;
 use App\Models\Cards\Card;
 use App\Models\Expansions\Expansion;
 use App\Models\Localizations\Language;
@@ -172,6 +173,17 @@ class Article extends Model
         $article = self::updateOrCreate(['cardmarket_article_id' => $cardmarketOrder['idArticle']], $values);
 
         return $article;
+    }
+
+    /**
+     * Create a new Eloquent Collection instance.
+     *
+     * @param  array  $models
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function newCollection(array $models = [])
+    {
+        return new ArticleCollection($models);
     }
 
     public function isDeletable() : bool

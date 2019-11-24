@@ -12,6 +12,7 @@ use Cardmonitor\Cardmarket\Api as CardmarketApi;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Hash;
 
 class DevCommand extends Command
@@ -49,10 +50,14 @@ class DevCommand extends Command
     {
         $this->call('migrate:fresh', ['--force' => true]);
 
-        // Create Languages
         Language::setup();
+        $this->createUsers();
+        $this->createCards();
+        Artisan::command('card:price:sync');
+    }
 
-        // create User
+    protected function createUsers()
+    {
         $this->user = User::create([
             'name' => 'admin',
             'email' => 'admin@cardmonitor.de',
@@ -69,16 +74,10 @@ class DevCommand extends Command
         ]);
         $user->setup();
 
-        // // create Sandbox API
-        // $api = Api::create([
-        //     'user_id' => $this->user->id,
-        //     'accessdata' => [
-        //         'access_token' => 'LMDxSPkFfCBIYTULl3yHdswrwbYCZEzf',
-        //         'access_token_secret' => 'PgHYR3j8o0Itktu47AbkRRE1foccd91r',
-        //     ],
-        // ]);
+    }
 
-        // Create Crads from CSV
+    protected function createCards()
+    {
         $row = 0;
         $expansionsFile = fopen("database/data/expansions.csv", "r");
         while (($data = fgetcsv($expansionsFile, 1000, ";")) !== FALSE) {
@@ -109,22 +108,5 @@ class DevCommand extends Command
             $row++;
         }
         fclose($cardsFile);
-
-        // $this->call('order:sync');
-        // $this->call('order:sync', ['--state' => 'paid']);
-
-        // Create Cards from API
-        // $CardmarketApi = App::make('CardmarketApi', [
-        //     'api' => $api,
-        // ]);
-        // $cardmarketExpansions = $CardmarketApi->expansion->find(1);
-        // foreach ($cardmarketExpansions['expansion'] as $cardmarketExpansion) {
-        //     $expansion = Expansion::createFromCardmarket($cardmarketExpansion);
-        //     $cardmarketCards = $CardmarketApi->expansion->singles($expansion->cardmarket_expansion_id);
-        //     foreach ($cardmarketCards['single'] as $cardmarketCard) {
-        //         // dd($cardmarketCard);
-        //         $card = Card::createFromCardmarket($cardmarketCard, $expansion->id);
-        //     }
-        // }
     }
 }
