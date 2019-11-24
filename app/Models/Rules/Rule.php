@@ -6,6 +6,7 @@ use App\Models\Articles\Article;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 
 class Rule extends Model
 {
@@ -73,6 +74,52 @@ class Rule extends Model
     public function apply()
     {
         // TODO: Update Article with rule price
+        $query = Article::join('cards', 'cards.id', '=', 'articles.card_id')
+            ->whereNull('articles.rule_id')
+            ->whereNull('order_id')
+            ->where('articles.unit_price', '>=', $this->price_above)
+            ->where('articles.unit_price', '<=', $this->price_below);
+
+        if ($this->expansion_id) {
+            $query->where('cards.expansion_id', $this->expansion_id);
+        }
+
+        if ($this->rarity) {
+            $query->where('cards.rarity', $this->rarity);
+        }
+
+        $query->update([
+            'articles.rule_id' => $this->id,
+            'articles.rule_applied_at' => now(),
+            'articles.rule_price' => DB::raw('(cards.' . $this->base_price . ' * ' . $this->multiplier . ')'),
+        ]);
+    }
+
+    public static function reset(int $userId)
+    {
+        Article::where('user_id', $userId)
+            ->update([
+                'rule_id' => null,
+                'rule_price' => null,
+                'rule_applied_at' => null,
+            ]);
+    }
+
+    public function activate() : self {
+        $this->active = true;
+
+        return $this;
+    }
+
+    public function deactivate() : self {
+        $this->active = false;
+
+        return $this;
+    }
+
+    public function isActivated() : bool
+    {
+        return $this->active;
     }
 
     public function isDeletable() : bool

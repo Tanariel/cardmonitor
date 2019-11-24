@@ -68,7 +68,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post('order/{order}/message', 'Cardmarket\Orders\MessageController@store')->name('order.message.store');
     Route::put('order/{order}/sync', 'Cardmarket\Orders\OrderController@update')->name('order.sync.update');
 
+    Route::get('rule/apply', 'Rules\ApplyController@index');
+    Route::post('rule/apply', 'Rules\ApplyController@store');
     Route::put('rule/sort', 'Rules\SortController@update');
+    Route::post('rule/{rule}/activate', 'Rules\ActiveController@store');
+    Route::delete('rule/{rule}/activate', 'Rules\ActiveController@destroy');
     Route::resource('rule', 'Rules\RuleController');
 
     Route::resource('storage', 'Storages\StorageController');

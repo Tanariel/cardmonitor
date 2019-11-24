@@ -29,7 +29,8 @@ class RuleController extends Controller
             return $rules;
         }
 
-        return view($this->baseViewPath . '.index');
+        return view($this->baseViewPath . '.index')
+            ->with('is_applying_rules', auth()->user()->is_applying_rules);
     }
 
     /**
@@ -149,13 +150,13 @@ class RuleController extends Controller
         if ($isDeletable) {
             $status = [
                 'type' => 'success',
-                'text' => 'Lagerplatz <b>' . $rule->name . '</b> gelöscht.',
+                'text' => 'Regel <b>' . $rule->name . '</b> gelöscht.',
             ];
         }
         else {
             $status = [
                 'type' => 'danger',
-                'text' => 'Lagerplatz <b>' . $rule->name . '</b> kann nicht gelöscht werden.',
+                'text' => 'Regel <b>' . $rule->name . '</b> kann nicht gelöscht werden.',
             ];
         }
 

@@ -17,6 +17,17 @@
             <div  class="form-row">
 
                 <div class="col-auto">
+                    <div class="form-group">
+                        <label for="filter-sold">Verkauft</label>
+                        <select class="form-control" id="filter-sold" v-model="filter.sold" @change="search">
+                            <option :value="-1">Alle</option>
+                            <option :value="0">Nicht Verkauft</option>
+                            <option :value="1">Verkauft</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-auto">
                     <filter-expansion :options="expansions" v-model="filter.expansion_id" @input="search"></filter-expansion>
                 </div>
                 <div class="col-auto">
@@ -178,6 +189,7 @@
                     unit_price_max: 0,
                     unit_cost_min: 0,
                     unit_cost_max: 0,
+                    sold: 0,
                 },
                 selected: [],
                 errors: {},

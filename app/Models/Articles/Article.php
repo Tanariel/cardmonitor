@@ -6,12 +6,14 @@ use App\Models\Cards\Card;
 use App\Models\Expansions\Expansion;
 use App\Models\Localizations\Language;
 use App\Models\Orders\Order;
+use App\Models\Rules\Rule;
 use App\Models\Storages\Content;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
@@ -53,6 +55,7 @@ class Article extends Model
         'sync_icon',
         'unit_cost_formatted',
         'unit_price_formatted',
+        'rule_price_formatted',
     ];
 
     protected $casts = [
@@ -317,6 +320,12 @@ class Article extends Model
         Arr::forget($this->attributes, 'unit_price_formatted');
     }
 
+    public function setRulePriceFormattedAttribute($value)
+    {
+        $this->rule_price = number_format(str_replace(',', '.', $value), self::DECIMALS, '.', '');
+        Arr::forget($this->attributes, 'rule_price_formatted');
+    }
+
     public function setUnitPriceAttribute($value)
     {
         $this->attributes['unit_price'] = $value;
@@ -389,6 +398,11 @@ class Article extends Model
         return number_format($this->unit_price, 2, ',', '');
     }
 
+    public function getRulePriceFormattedAttribute()
+    {
+        return number_format($this->rule_price, 2, ',', '');
+    }
+
     public function card() : BelongsTo
     {
         return $this->belongsTo(Card::class);
@@ -402,6 +416,11 @@ class Article extends Model
     public function order() : BelongsTo
     {
         return $this->belongsTo(Order::class);
+    }
+
+    public function rule() : BelongsTo
+    {
+        return $this->belongsTo(Rule::class, 'rule_id');
     }
 
     public function user() : BelongsTo
@@ -465,6 +484,19 @@ class Article extends Model
             $join->where('localizations.localizationable_type', '=', Card::class);
         })
             ->where('localizations.name', 'like', '%' . $value . '%');
+    }
+
+    public function scopeSold(Builder $query, $value) : Builder
+    {
+        if ($value == 1) {
+            return $query->whereNotNull('order_id');
+        }
+
+        if ($value == 0) {
+            return $query->whereNull('order_id');
+        }
+
+        return $query;
     }
 
     public function scopeUnitPrice(Builder $query, $min, $max) : Builder

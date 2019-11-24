@@ -34,9 +34,11 @@ class ArticleController extends Controller
                 ->unitPrice($request->input('unit_price_min'), $request->input('unit_price_max'))
                 ->unitCost($request->input('unit_cost_min'), $request->input('unit_cost_max'))
                 ->search($request->input('searchtext'))
+                ->sold($request->input('sold'))
                 ->with([
                     'card.expansion',
                     'language',
+                    'rule',
                     'order',
                 ])
                 ->orderBy('cards.name', 'ASC')

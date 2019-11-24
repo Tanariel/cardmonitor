@@ -13,7 +13,7 @@
             <div class="text-muted" v-if="item.language_id != 1">{{ item.card.name }}</div>
         </td>
         <td class="align-middle text-right">{{ item.card.number }}</td>
-        <td class="align-middle">{{ item.card.expansion.name }}</td>
+        <td class="align-middle"><expansion-icon :expansion="item.card.expansion"></expansion-icon></td>
         <td class="align-middle text-center"><rarity :value="item.card.rarity"></rarity></td>
         <td class="align-middle text-center">
             <select class="form-control" v-model="form.language_id">
@@ -50,7 +50,14 @@
             <div class="invalid-feedback" v-text="'cardmarket_comments' in errors ? errors.cardmarket_comments[0] : ''"></div>
         </td>
         <td class="align-middle text-right">
-            <input class="form-control text-right" :class="'unit_price_formatted' in errors ? 'is-invalid' : ''" type="text" v-model="form.unit_price_formatted" @keydown.enter="update(false)">
+            <div class="input-group">
+                <input class="form-control text-right" :class="'unit_price_formatted' in errors ? 'is-invalid' : ''" type="text" v-model="form.unit_price_formatted" @keydown.enter="update(false)">
+                <div class="input-group-append" v-if="item.rule_id">
+                    <span class="input-group-text text-left pointer" :title="'Regel ' + item.rule.name" @click="form.unit_price_formatted = item.rule_price_formatted">
+                        {{ item.rule_price_formatted }}€
+                    </span>
+                </div>
+            </div>
             <div class="invalid-feedback" v-text="'unit_price_formatted' in errors ? errors.unit_price_formatted[0] : ''"></div>
         </td>
         <td class="align-middle text-right">
@@ -219,3 +226,17 @@
         },
     };
 </script>
+
+<style>
+
+    .rule_price_wrapper {
+        white-space: nowrap;
+        max-width: 100%;
+    }
+
+    .rule_price {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+</style>

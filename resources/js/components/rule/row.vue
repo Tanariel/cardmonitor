@@ -5,6 +5,10 @@
             <label class="form-checkbox"></label>
             <input :checked="selected" type="checkbox" :value="id"  @change="$emit('input', id)" number>
         </td>
+        <td>
+            <i class="fas fa-play pointer text-success" @click="deactivate" v-if="item.active == 1"></i>
+            <i class="fas fa-pause pointer text-danger" @click="activate" v-if="item.active == 0"></i>
+        </td>
         <td class="align-middle pointer" @click="link">{{ item.name }}</td>
         <td class="align-middle text-right">
             <div class="btn-group btn-group-sm" role="group">
@@ -27,6 +31,22 @@
         },
 
         methods: {
+            activate() {
+                var component = this;
+                axios.post(component.item.path + '/activate')
+                    .then(function (response) {
+                        component.$emit("updated", response.data);
+                        Vue.success('Regel <b>' + response.data.name + '</b> wurde aktiviert.');
+                    });
+            },
+            deactivate() {
+                var component = this;
+                axios.delete(component.item.path + '/activate')
+                    .then(function (response) {
+                        component.$emit("updated", response.data);
+                        Vue.success('Regel <b>' + response.data.name + '</b> wurde deaktiviert.');
+                    });
+            },
             destroy() {
                 var component = this;
                 axios.delete(component.item.path)

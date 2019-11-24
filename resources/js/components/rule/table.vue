@@ -14,7 +14,8 @@
                 <div class="form-group" style="margin-bottom: 0;">
                     <filter-search v-model="filter.searchtext" @input="fetch()"></filter-search>
                 </div>
-                <button class="btn btn-secondary ml-1" @click="filter.show = !filter.show"><i class="fas fa-filter"></i></button>
+                <button class="btn btn-secondary ml-1" @click="filter.show = !filter.show" v-if="false"><i class="fas fa-filter"></i></button>
+                <button class="btn btn-secondary ml-1" @click="apply" :disabled="applying.status == 1">Regeln anwenden</button>
             </div>
         </div>
 
@@ -43,12 +44,13 @@
                             <label class="form-checkbox" for="checkall"></label>
                             <input id="checkall" type="checkbox" v-model="selectAll">
                         </th>
-                        <th width="85%">Name</th>
+                        <th width="5%">Status</th>
+                        <th width="80%">Name</th>
                         <th class="text-right" width="10%">Aktion</th>
                     </tr>
                 </thead>
                 <draggable v-model="items" tag="tbody" handle=".sort" @end="sort">
-                    <row :item="item" :key="item.id" :uri="uri" :selected="(selected.indexOf(item.id) == -1) ? false : true" v-for="(item, index) in items" @input="toggleSelected" @deleted="remove(index)"></row>
+                    <row :item="item" :key="item.id" :uri="uri" :selected="(selected.indexOf(item.id) == -1) ? false : true" v-for="(item, index) in items" @input="toggleSelected" @deleted="remove(index)" @updated="updated(index, $event)"></row>
                 </draggable>
             </table>
         </div>
@@ -83,12 +85,22 @@
             row,
         },
 
+        props: {
+            isApplyingRules: {
+                required: true,
+                type: Number,
+            },
+        },
+
         data () {
             return {
                 uri: '/rule',
                 items: [],
                 isLoading: true,
-
+                applying: {
+                    status: this.isApplyingRules,
+                    interval: null,
+                },
                 paginate: {
                     nextPageUrl: null,
                     prevPageUrl: null,
@@ -109,8 +121,9 @@
         mounted() {
 
             this.fetch();
-            // this.setInitialFilters();
-
+            if (this.isApplyingRules) {
+                this.checkIsApplyingRules();
+            }
         },
 
         watch: {
@@ -153,6 +166,22 @@
         },
 
         methods: {
+            apply() {
+                var component = this;
+                axios.post(component.uri + '/apply')
+                    .then(function (response) {
+                        component.applying.status = 1;
+                        component.checkIsApplyingRules();
+                        Vue.success('Regeln werden im Hintergrund angewendet.');
+                    })
+                    .catch(function (error) {
+                        Vue.error('Regeln konnten nicht angewendet werden!');
+                        console.log(error);
+                    })
+                    .finally ( function () {
+
+                    });
+            },
             create() {
                 var component = this;
                 axios.post(component.uri, component.form)
@@ -183,6 +212,26 @@
                         console.log(error);
                     });
             },
+            checkIsApplyingRules() {
+                this.applying.interval = setInterval(this.getIsApplyingRules(), 3000);
+            },
+            getIsApplyingRules() {
+                var component = this;
+                axios.get(component.uri + '/apply')
+                    .then(function (response) {
+                        component.applying.status = response.data.is_applying_rules;
+                        if (component.applying.status) {
+                            component.applying.interval = null;
+                            Vue.success('Regeln wurde im Hintergrund angewendet.');
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    })
+                    .finally ( function () {
+
+                    });
+            },
             sort() {
                 const ranks = this.items.reduce( function (total, item, index) {
                     total[index] = item.id;
@@ -199,6 +248,9 @@
                     .catch( function (error) {
                         Vue.error('Reihenfolge der Regeln konnte nicht gespeichert werden!');
                 });
+            },
+            updated(index, item) {
+                Vue.set(this.items, index, item);
             },
             toggleSelected (id) {
                 var index = this.selected.indexOf(id);

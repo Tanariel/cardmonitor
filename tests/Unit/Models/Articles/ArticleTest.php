@@ -6,6 +6,7 @@ use App\Models\Articles\Article;
 use App\Models\Cards\Card;
 use App\Models\Localizations\Language;
 use App\Models\Orders\Order;
+use App\Models\Rules\Rule;
 use App\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -53,9 +54,30 @@ class ArticleTest extends TestCase
     /**
      * @test
      */
+    public function it_sets_rule_price_from_formated_value()
+    {
+        $this->assertSetsFormattedNumber(Article::class, 'rule_price');
+    }
+
+    /**
+     * @test
+     */
     public function it_sets_provision_from_formated_value()
     {
         $this->assertSetsFormattedNumber(Article::class, 'provision');
+    }
+
+    /**
+     * @test
+     */
+    public function it_belongs_to_rule()
+    {
+        $rule = factory(Rule::class)->create();
+
+        $model = factory(Article::class)->create([
+            'rule_id' => $rule->id,
+        ]);
+        $this->assertEquals(BelongsTo::class, get_class($model->rule()));
     }
 
     /**

@@ -31,6 +31,23 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="mt-5">
+                        @if ($model->isActivated())
+                            <form action="{{ $model->path }}/activate" class="ml-1" method="POST">
+                                @csrf
+                                @method('DELETE')
+
+                                <button type="submit" class="btn btn-secondary" title="Deaktivieren">Deaktivieren</button>
+                            </form>
+                        @else
+                            <form action="{{ $model->path }}/activate" class="ml-1" method="POST">
+                                @csrf
+
+                                <button type="submit" class="btn btn-success" title="Aktivieren">Aktivieren</button>
+                            </form>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
