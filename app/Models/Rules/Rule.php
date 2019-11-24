@@ -96,7 +96,7 @@ class Rule extends Model
         ];
 
         if ($sync) {
-            $attributes['unit_price'] = DB::raw('articles.rule_price');
+            $attributes['unit_price'] = DB::raw('(cards.' . $this->base_price . ' * ' . $this->multiplier . ')');
         }
 
         $query->update($attributes);
