@@ -40,6 +40,7 @@ class HomeController extends Controller
         }
 
         $paidOrders = Order::where('user_id', $user->id)
+            ->with('buyer')
             ->where('state', 'paid')
             ->get();
 
@@ -64,6 +65,7 @@ class HomeController extends Controller
             ->with('ordersByState', $ordersByState)
             ->with('paidOrders', $paidOrders)
             ->with('paidOrders_count', count($paidOrders))
-            ->with('api', $user->api);
+            ->with('api', $user->api)
+            ->with('is_syncing_articles', $user->is_syncing_articles);
     }
 }

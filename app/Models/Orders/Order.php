@@ -47,6 +47,7 @@ class Order extends Model
     protected $appends = [
         'editPath',
         'path',
+        'revenue_formatted',
     ];
 
     protected $dates = [
@@ -522,6 +523,11 @@ class Order extends Model
         $this->update([
 
         ]);
+    }
+
+    public function getRevenueFormattedAttribute()
+    {
+        return number_format($this->revenue, 2, ',', '');
     }
 
     public function getPreparedMessageAttribute() : string

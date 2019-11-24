@@ -78,6 +78,8 @@ Vue.component('rule-edit', require('./components/rule/edit.vue').default);
 Vue.component('storage-table', require('./components/storage/table.vue').default);
 Vue.component('storage-content-table', require('./components/storage/content/table.vue').default);
 
+Vue.component('home-article-index', require('./components/home/article/index.vue').default);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
