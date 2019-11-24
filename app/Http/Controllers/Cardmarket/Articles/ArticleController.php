@@ -12,6 +12,18 @@ class ArticleController extends Controller
     protected $CardmarketApi;
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
+        if ($request->wantsJson()) {
+            return auth()->user();
+        }
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

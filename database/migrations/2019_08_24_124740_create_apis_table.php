@@ -26,9 +26,6 @@ class CreateApisTable extends Migration
             $table->dateTime('orders_synced_at')->nullable();
             $table->dateTime('articles_synced_at')->nullable();
 
-            $table->boolean('is_syncing_articles')->default(false);
-            $table->boolean('is_syncing_orders')->default(false);
-
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');

@@ -36,6 +36,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('api', 'Apis\ApiController');
 
+    Route::get('article/sync', 'Cardmarket\Articles\ArticleController@index');
     Route::put('article/sync', 'Cardmarket\Articles\ArticleController@update')->name('article.sync.update');
 
     Route::resource('article', 'Articles\ArticleController');
@@ -55,6 +56,7 @@ Route::middleware(['auth'])->group(function () {
         'as' => 'order',
     ]);
 
+    Route::get('order/sync', 'Cardmarket\Orders\OrderController@index');
     Route::put('order/sync', 'Cardmarket\Orders\OrderController@update')->name('order.sync.update');
 
     Route::resource('order', 'Orders\OrderController')->except([

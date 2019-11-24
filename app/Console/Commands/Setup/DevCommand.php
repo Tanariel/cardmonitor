@@ -53,7 +53,7 @@ class DevCommand extends Command
         Language::setup();
         $this->createUsers();
         $this->createCards();
-        Artisan::command('card:price:sync');
+        Artisan::call('card:price:sync');
     }
 
     protected function createUsers()

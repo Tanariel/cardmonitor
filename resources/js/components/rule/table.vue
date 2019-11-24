@@ -45,7 +45,8 @@
                             <input id="checkall" type="checkbox" v-model="selectAll">
                         </th>
                         <th width="5%">Status</th>
-                        <th width="70%">Name</th>
+                        <th width="50%">Name</th>
+                        <th width="20%">Preis</th>
                         <th class="text-right" width="10%">Artikel</th>
                         <th class="text-right" width="10%">Aktion</th>
                     </tr>

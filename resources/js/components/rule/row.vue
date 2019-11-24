@@ -10,6 +10,7 @@
             <i class="fas fa-pause pointer text-danger" @click="activate" v-if="item.active == 0"></i>
         </td>
         <td class="align-middle pointer" @click="link">{{ item.name }}</td>
+        <td class="align-middle pointer" @click="link">{{ item.base_price_formatted }} * {{ item.multiplier_formatted }}</td>
         <td class="align-middle text-right" @click="link">{{ item.articles_count }}</td>
         <td class="align-middle text-right">
             <div class="btn-group btn-group-sm" role="group">

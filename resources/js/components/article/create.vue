@@ -8,7 +8,7 @@
             </div>
             <div class="form-group">
                 <select class="form-control" v-model="filter.expansion_id" @change="fetch()">
-                    <option value="0">Alle Erweiterungen</option>
+                    <option :value="0">Alle Erweiterungen</option>
                     <option :value="id" v-for="(name, id) in expansions">{{ name }}</option>
                 </select>
             </div>
@@ -339,7 +339,7 @@
                 isLoadingPrices: false,
                 errors: {},
                 filter: {
-                    expansion_id: 250,
+                    expansion_id: 1469,
                     language_id: 3,
                     searchtext: 'kundschafter',
                     shouldFocus: false,

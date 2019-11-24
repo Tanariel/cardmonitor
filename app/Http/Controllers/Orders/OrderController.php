@@ -28,7 +28,8 @@ class OrderController extends Controller
                 ->paginate();
         }
 
-        return view($this->baseViewPath . '.index');
+        return view($this->baseViewPath . '.index')
+            ->with('is_syncing_orders', auth()->user()->is_syncing_orders);
     }
 
     /**

@@ -125,6 +125,9 @@ class Article extends Model
             'is_altered' => ($row[11] == 'X' ? true : false),
             'is_playset' => ($row[12] == 'X' ? true : false),
             'cardmarket_comments' => $row[13],
+            'has_sync_error' => false,
+            'sync_error' => null,
+            'exported_at' => now(),
         ];
 
         $attributes = [
@@ -168,6 +171,8 @@ class Article extends Model
             'is_altered' => $cardmarketArticle['isAltered'] ?? false,
             'is_playset' => $cardmarketArticle['isPlayset'] ?? false,
             'cardmarket_comments' => $cardmarketArticle['comments'] ?: null,
+            'has_sync_error' => false,
+            'sync_error' => null,
         ];
 
         $article = self::updateOrCreate(['cardmarket_article_id' => $cardmarketOrder['idArticle']], $values);

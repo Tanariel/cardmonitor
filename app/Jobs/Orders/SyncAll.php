@@ -44,14 +44,14 @@ class SyncAll implements ShouldQueue
 
     public function processing()
     {
-        $this->user->api()->update([
+        $this->user->update([
             'is_syncing_orders' => true,
         ]);
     }
 
     public function processed()
     {
-        $this->user->api()->update([
+        $this->user->update([
             'is_syncing_orders' => false,
         ]);
     }

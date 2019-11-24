@@ -13,6 +13,7 @@ class Rule extends Model
     const DECIMALS = 6;
 
     protected $appends = [
+        'base_price_formatted',
         'editPath',
         'isDeletable',
         'min_price_common_formatted',
@@ -131,6 +132,11 @@ class Rule extends Model
     public function isDeletable() : bool
     {
         return true;
+    }
+
+    public function getBasePriceFormattedAttribute()
+    {
+        return Arr::get(Article::BASE_PRICES, $this->base_price, 'Preis');
     }
 
     public function setMultiplierFormattedAttribute($value)

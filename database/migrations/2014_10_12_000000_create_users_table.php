@@ -21,6 +21,8 @@ class CreateUsersTable extends Migration
             $table->string('password');
 
             $table->boolean('is_applying_rules')->default(false);
+            $table->boolean('is_syncing_articles')->default(false);
+            $table->boolean('is_syncing_orders')->default(false);
 
             $table->rememberToken();
             $table->timestamps();

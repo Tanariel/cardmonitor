@@ -64,6 +64,8 @@ class CardmarketApi
 
         $expansions = Expansion::all()->keyBy('abbreviation');
 
+        $cardmarketArticleIds = [];
+
         $row_count = 0;
         $articlesFile = fopen(storage_path('app/' . $filename), "r");
         while (($data = fgetcsv($articlesFile, 2000, ";")) !== FALSE) {
@@ -74,6 +76,7 @@ class CardmarketApi
             $data['expansion_id'] = $expansions[$data[4]]->id;
             $amount = $data[Article::CSV_AMOUNT];
             $cardmarket_article_id = $data[Article::CSV_CARDMARKET_ARTICLE_ID];
+            $cardmarketArticleIds[] = $cardmarket_article_id;
             for ($i = 1; $i <= $amount; $i++) {
                 Article::reindex($cardmarket_article_id);
                 Article::createOrUpdateFromCsv($userId, $data, $i);
@@ -84,6 +87,12 @@ class CardmarketApi
             }
             $row_count++;
         }
+
+        Article::where('user_id', $userId)
+            ->whereNull('order_id')
+            ->whereNotNull('cardmarket_article_id')
+            ->whereNotIn('cardmarket_article_id', $cardmarketArticleIds)
+            ->delete();
 
         Storage::disk('local')->delete($filename);
 

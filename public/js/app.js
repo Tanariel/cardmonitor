@@ -2198,7 +2198,7 @@ __webpack_require__.r(__webpack_exports__);
       isLoadingPrices: false,
       errors: {},
       filter: {
-        expansion_id: 250,
+        expansion_id: 1469,
         language_id: 3,
         searchtext: 'kundschafter',
         shouldFocus: false
@@ -2709,6 +2709,10 @@ __webpack_require__.r(__webpack_exports__);
       type: Object,
       required: true
     },
+    isSyncingArticles: {
+      required: true,
+      type: Number
+    },
     rarities: {
       type: Array,
       required: true
@@ -2719,6 +2723,10 @@ __webpack_require__.r(__webpack_exports__);
       uri: '/article',
       items: [],
       isLoading: true,
+      syncing: {
+        status: this.isSyncingArticles,
+        interval: null
+      },
       imgbox: {
         src: null,
         show: true
@@ -2745,7 +2753,11 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
-    this.fetch(); // this.setInitialFilters();
+    this.fetch();
+
+    if (this.isSyncingArticles) {
+      this.checkIsSyncingArticles();
+    }
   },
   watch: {
     page: function page() {
@@ -2789,6 +2801,23 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    checkIsSyncingArticles: function checkIsSyncingArticles() {
+      this.syncing.interval = setInterval(this.getIsSyncingArticles(), 3000);
+    },
+    getIsSyncingArticles: function getIsSyncingArticles() {
+      var component = this;
+      axios.get(component.uri + '/sync').then(function (response) {
+        component.syncing.status = response.data.is_syncing_articles;
+
+        if (component.syncing.status == 0) {
+          component.syncing.interval = null;
+          component.fetch();
+          Vue.success('Artikel wurden im Hintergrund synchronisiert.');
+        }
+      })["catch"](function (error) {
+        console.log(error);
+      })["finally"](function () {});
+    },
     fetch: function fetch() {
       var component = this;
       component.isLoading = true;
@@ -2809,6 +2838,8 @@ __webpack_require__.r(__webpack_exports__);
     sync: function sync() {
       var component = this;
       axios.put(component.uri + '/sync').then(function (response) {
+        component.syncing.status = 1;
+        component.checkIsSyncingArticles();
         Vue.success('Artikel werden im Hintergrund aktualisiert.');
       })["catch"](function (error) {
         Vue.error('Artikel konnten nicht synchronisiert werden!');
@@ -4772,11 +4803,21 @@ __webpack_require__.r(__webpack_exports__);
     row: _row_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     filterSearch: _filter_search_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
+  props: {
+    isSyncingOrders: {
+      required: true,
+      type: Number
+    }
+  },
   data: function data() {
     return {
       uri: '/order',
       items: [],
       isLoading: true,
+      syncing: {
+        status: this.isSyncingOrders,
+        interval: null
+      },
       paginate: {
         nextPageUrl: null,
         prevPageUrl: null,
@@ -4790,7 +4831,11 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
-    this.fetch(); // this.setInitialFilters();
+    this.fetch();
+
+    if (this.isSyncingOrders) {
+      this.checkIsSyncingOrders();
+    }
   },
   watch: {
     page: function page() {
@@ -4834,6 +4879,23 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    checkIsSyncingOrders: function checkIsSyncingOrders() {
+      this.syncing.interval = setInterval(this.getIsSyncingOrders(), 3000);
+    },
+    getIsSyncingOrders: function getIsSyncingOrders() {
+      var component = this;
+      axios.get(component.uri + '/sync').then(function (response) {
+        component.syncing.status = response.data.is_syncing_orders;
+
+        if (component.syncing.status == 0) {
+          component.syncing.interval = null;
+          component.fetch();
+          Vue.success('Bestellungen wurden im Hintergrund synchronisiert.');
+        }
+      })["catch"](function (error) {
+        console.log(error);
+      })["finally"](function () {});
+    },
     fetch: function fetch() {
       var component = this;
       component.isLoading = true;
@@ -4863,6 +4925,8 @@ __webpack_require__.r(__webpack_exports__);
     sync: function sync() {
       var component = this;
       axios.put(component.uri + '/sync').then(function (response) {
+        component.syncing.status = 1;
+        component.checkIsSyncingOrders();
         Vue.success('Bestellungen werden im Hintergrund aktualisiert.');
       })["catch"](function (error) {
         Vue.error('Bestellungen konnten nicht synchronisiert werden!');
@@ -5388,6 +5452,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['item', 'uri', 'selected'],
   data: function data() {
@@ -5442,6 +5507,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuedraggable__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vuedraggable__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _row_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./row.vue */ "./resources/js/components/rule/row.vue");
 /* harmony import */ var _filter_search_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../filter/search.vue */ "./resources/js/components/filter/search.vue");
+//
 //
 //
 //
@@ -46431,7 +46497,7 @@ var render = function() {
             }
           },
           [
-            _c("option", { attrs: { value: "0" } }, [
+            _c("option", { domProps: { value: 0 } }, [
               _vm._v("Alle Erweiterungen")
             ]),
             _vm._v(" "),
@@ -48550,7 +48616,11 @@ var render = function() {
         _vm._v(" "),
         _c(
           "button",
-          { staticClass: "btn btn-secondary ml-1", on: { click: _vm.sync } },
+          {
+            staticClass: "btn btn-secondary ml-1",
+            attrs: { disabled: _vm.syncing.status == 1 },
+            on: { click: _vm.sync }
+          },
           [_c("i", { staticClass: "fas fa-sync" })]
         )
       ])
@@ -52359,7 +52429,11 @@ var render = function() {
         _vm._v(" "),
         _c(
           "button",
-          { staticClass: "btn btn-secondary ml-1", on: { click: _vm.sync } },
+          {
+            staticClass: "btn btn-secondary ml-1",
+            attrs: { disabled: _vm.syncing.status == 1 },
+            on: { click: _vm.sync }
+          },
           [_c("i", { staticClass: "fas fa-sync" })]
         )
       ])
@@ -53807,6 +53881,14 @@ var render = function() {
       _vm._v(_vm._s(_vm.item.name))
     ]),
     _vm._v(" "),
+    _c("td", { staticClass: "align-middle pointer", on: { click: _vm.link } }, [
+      _vm._v(
+        _vm._s(_vm.item.base_price_formatted) +
+          " * " +
+          _vm._s(_vm.item.multiplier_formatted)
+      )
+    ]),
+    _vm._v(" "),
     _c(
       "td",
       { staticClass: "align-middle text-right", on: { click: _vm.link } },
@@ -54049,7 +54131,9 @@ var render = function() {
                   _vm._v(" "),
                   _c("th", { attrs: { width: "5%" } }, [_vm._v("Status")]),
                   _vm._v(" "),
-                  _c("th", { attrs: { width: "70%" } }, [_vm._v("Name")]),
+                  _c("th", { attrs: { width: "50%" } }, [_vm._v("Name")]),
+                  _vm._v(" "),
+                  _c("th", { attrs: { width: "20%" } }, [_vm._v("Preis")]),
                   _vm._v(" "),
                   _c(
                     "th",

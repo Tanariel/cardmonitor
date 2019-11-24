@@ -9,7 +9,7 @@
                     <filter-search v-model="filter.searchtext" @input="fetch()"></filter-search>
                 </div>
                 <button class="btn btn-secondary ml-1" @click="filter.show = !filter.show"><i class="fas fa-filter"></i></button>
-                <button class="btn btn-secondary ml-1" @click="sync"><i class="fas fa-sync"></i></button>
+                <button class="btn btn-secondary ml-1" @click="sync" :disabled="syncing.status == 1"><i class="fas fa-sync"></i></button>
             </div>
         </div>
 
@@ -159,6 +159,10 @@
                 type: Object,
                 required: true,
             },
+            isSyncingArticles: {
+                required: true,
+                type: Number,
+            },
             rarities: {
                 type: Array,
                 required: true,
@@ -170,6 +174,10 @@
                 uri: '/article',
                 items: [],
                 isLoading: true,
+                syncing: {
+                    status: this.isSyncingArticles,
+                    interval: null,
+                },
                 imgbox: {
                     src: null,
                     show: true,
@@ -199,7 +207,9 @@
         mounted() {
 
             this.fetch();
-            // this.setInitialFilters();
+            if (this.isSyncingArticles) {
+                this.checkIsSyncingArticles();
+            }
 
         },
 
@@ -243,6 +253,27 @@
         },
 
         methods: {
+            checkIsSyncingArticles() {
+                this.syncing.interval = setInterval(this.getIsSyncingArticles(), 3000);
+            },
+            getIsSyncingArticles() {
+                var component = this;
+                axios.get(component.uri + '/sync')
+                    .then(function (response) {
+                        component.syncing.status = response.data.is_syncing_articles;
+                        if (component.syncing.status == 0) {
+                            component.syncing.interval = null;
+                            component.fetch();
+                            Vue.success('Artikel wurden im Hintergrund synchronisiert.');
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    })
+                    .finally ( function () {
+
+                    });
+            },
             fetch() {
                 var component = this;
                 component.isLoading = true;
@@ -266,6 +297,8 @@
                 var component = this;
                 axios.put(component.uri + '/sync')
                     .then(function (response) {
+                        component.syncing.status = 1;
+                        component.checkIsSyncingArticles();
                         Vue.success('Artikel werden im Hintergrund aktualisiert.');
                     })
                     .catch(function (error) {

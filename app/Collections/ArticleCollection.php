@@ -13,13 +13,17 @@ class ArticleCollection extends Collection
         $cardmarketArticles = [];
         $notUpdated = [];
         $count = 0;
+        $updated_count = 0;
+
         foreach ($this->items as $key => $article) {
             $cardmarketArticles[$key] = $article->toCardmarket();
             $count++;
         }
+
         $response = $cardmarketApi->stock->update($cardmarketArticles);
+
         $notUpdated = $this->setNotUpdated($response['notUpdatedArticles']);
-        dump($count, $cardmarketArticles, $response);
+
         foreach ($this->items as $key => $article) {
             if (Arr::has($notUpdated, $article->cardmarket_article_id)) {
                 $attributes = [
@@ -29,10 +33,11 @@ class ArticleCollection extends Collection
             }
             else {
                 $attributes = [
-                    'cardmarket_article_id' => $response['updatedArticles'][$key]['idArticle'],
+                    'cardmarket_article_id' => $response['updatedArticles'][$updated_count]['idArticle'],
                     'has_sync_error' => false,
-                    'sync_error' => '',
+                    'sync_error' => null,
                 ];
+                $updated_count++;
             }
             $article->update($attributes);
         }
