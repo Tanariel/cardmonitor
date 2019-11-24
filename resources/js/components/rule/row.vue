@@ -5,7 +5,7 @@
             <label class="form-checkbox"></label>
             <input :checked="selected" type="checkbox" :value="id"  @change="$emit('input', id)" number>
         </td>
-        <td>
+        <td class="align-middle">
             <i class="fas fa-play pointer text-success" @click="deactivate" v-if="item.active == 1"></i>
             <i class="fas fa-pause pointer text-danger" @click="activate" v-if="item.active == 0"></i>
         </td>

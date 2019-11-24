@@ -32,6 +32,7 @@ class ArticleCollection extends Collection
                 ];
             }
             else {
+                $article->calculateProvision();
                 $attributes = [
                     'cardmarket_article_id' => $response['updatedArticles'][$updated_count]['idArticle'],
                     'has_sync_error' => false,

@@ -32,6 +32,7 @@ class ApplyController extends Controller
 
         Artisan::queue('rule:apply', [
             'user' => $user->id,
+            '--sync' => $request->input('sync') ?? false,
         ]);
 
         if ($request->wantsJson()) {

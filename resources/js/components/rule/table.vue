@@ -225,7 +225,7 @@
                         if (component.applying.status == 0) {
                             component.applying.interval = null;
                             component.fetch();
-                            Vue.success('Regeln wurden im Hintergrund angewendet.');
+                            Vue.success('Regeln wurden angewendet.');
                         }
                     })
                     .catch(function (error) {

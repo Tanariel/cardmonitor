@@ -300,7 +300,7 @@ class Article extends Model
         return $response['deleted']['success'];
     }
 
-    protected function calculateProvision() : float
+    public function calculateProvision() : float
     {
         $this->attributes['provision'] = ceil(self::PROVISION * ($this->unit_price * 100)) / 100;
 

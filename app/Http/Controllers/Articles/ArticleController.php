@@ -58,6 +58,7 @@ class ArticleController extends Controller
             ->with('expansions', $expansions)
             ->with('languages', $languages)
             ->with('rarities', Card::RARITIES)
+            ->with('is_applying_rules', auth()->user()->is_applying_rules)
             ->with('is_syncing_articles', auth()->user()->is_syncing_articles);
     }
 

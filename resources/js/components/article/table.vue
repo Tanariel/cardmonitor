@@ -10,6 +10,9 @@
                 </div>
                 <button class="btn btn-secondary ml-1" @click="filter.show = !filter.show"><i class="fas fa-filter"></i></button>
                 <button class="btn btn-secondary ml-1" @click="sync" :disabled="syncing.status == 1"><i class="fas fa-sync"></i></button>
+                <button type="button" class="btn btn-primary ml-1" data-toggle="modal" data-target="#confirm-rule-apply" :disabled="applying.status == 1">
+                    Regeln anwenden
+                </button>
             </div>
         </div>
 
@@ -126,6 +129,30 @@
         <div id="imgbox" style="position: absolute; left: 200px;" :style="{ top: imgbox.top }">
             <img :src="imgbox.src" v-show="imgbox.show">
         </div>
+        <div class="modal fade" id="confirm-rule-apply" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Regeln anwenden</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Möchtest du alle aktiven Regeln anweden und in deinem Cardmarket Konto speichern?</p>
+                        <div class="alert alert-danger" role="alert">
+                            Es werden Preise in deinem Cardmarket Konto verändert! Versichere dich vorher, ob alle Regeln angewendet weden, wie Du es möchtest!<br /><br />
+                            Ausführung auf eigne Gefahr!
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
+                        <button type="button" class="btn btn-secondary" @click="apply(false)">Regeln simulieren</button>
+                        <button type="button" class="btn btn-primary" @click="apply(true)">Regeln anwenden</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -159,6 +186,10 @@
                 type: Object,
                 required: true,
             },
+            isApplyingRules: {
+                required: true,
+                type: Number,
+            },
             isSyncingArticles: {
                 required: true,
                 type: Number,
@@ -174,6 +205,10 @@
                 uri: '/article',
                 items: [],
                 isLoading: true,
+                applying: {
+                    status: this.isApplyingRules,
+                    interval: null,
+                },
                 syncing: {
                     status: this.isSyncingArticles,
                     interval: null,
@@ -207,6 +242,9 @@
         mounted() {
 
             this.fetch();
+            if (this.isApplyingRules) {
+                this.checkIsApplyingRules();
+            }
             if (this.isSyncingArticles) {
                 this.checkIsSyncingArticles();
             }
@@ -253,6 +291,46 @@
         },
 
         methods: {
+            apply(sync) {
+                $('#confirm-rule-apply').modal('hide');
+                var component = this;
+                axios.post('/rule/apply', {
+                    sync: sync,
+                })
+                    .then(function (response) {
+                        component.applying.status = 1;
+                        component.checkIsApplyingRules();
+                        Vue.success('Regeln werden im Hintergrund ' + (sync ? 'angewendet' : 'simuliert') + '.');
+                    })
+                    .catch(function (error) {
+                        Vue.error('Regeln konnten nicht angewendet werden!');
+                        console.log(error);
+                    })
+                    .finally ( function () {
+
+                    });
+            },
+            checkIsApplyingRules() {
+                this.applying.interval = setInterval(this.getIsApplyingRules(), 3000);
+            },
+            getIsApplyingRules() {
+                var component = this;
+                axios.get('/rule/apply')
+                    .then(function (response) {
+                        component.applying.status = response.data.is_applying_rules;
+                        if (component.applying.status == 0) {
+                            component.applying.interval = null;
+                            component.fetch();
+                            Vue.success('Regeln wurden angewendet.');
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    })
+                    .finally ( function () {
+
+                    });
+            },
             checkIsSyncingArticles() {
                 this.syncing.interval = setInterval(this.getIsSyncingArticles(), 3000);
             },

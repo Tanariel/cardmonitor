@@ -2683,6 +2683,33 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2709,6 +2736,10 @@ __webpack_require__.r(__webpack_exports__);
       type: Object,
       required: true
     },
+    isApplyingRules: {
+      required: true,
+      type: Number
+    },
     isSyncingArticles: {
       required: true,
       type: Number
@@ -2723,6 +2754,10 @@ __webpack_require__.r(__webpack_exports__);
       uri: '/article',
       items: [],
       isLoading: true,
+      applying: {
+        status: this.isApplyingRules,
+        interval: null
+      },
       syncing: {
         status: this.isSyncingArticles,
         interval: null
@@ -2754,6 +2789,10 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     this.fetch();
+
+    if (this.isApplyingRules) {
+      this.checkIsApplyingRules();
+    }
 
     if (this.isSyncingArticles) {
       this.checkIsSyncingArticles();
@@ -2801,6 +2840,37 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    apply: function apply(sync) {
+      $('#confirm-rule-apply').modal('hide');
+      var component = this;
+      axios.post('/rule/apply', {
+        sync: sync
+      }).then(function (response) {
+        component.applying.status = 1;
+        component.checkIsApplyingRules();
+        Vue.success('Regeln werden im Hintergrund ' + (sync ? 'angewendet' : 'simuliert') + '.');
+      })["catch"](function (error) {
+        Vue.error('Regeln konnten nicht angewendet werden!');
+        console.log(error);
+      })["finally"](function () {});
+    },
+    checkIsApplyingRules: function checkIsApplyingRules() {
+      this.applying.interval = setInterval(this.getIsApplyingRules(), 3000);
+    },
+    getIsApplyingRules: function getIsApplyingRules() {
+      var component = this;
+      axios.get('/rule/apply').then(function (response) {
+        component.applying.status = response.data.is_applying_rules;
+
+        if (component.applying.status == 0) {
+          component.applying.interval = null;
+          component.fetch();
+          Vue.success('Regeln wurden angewendet.');
+        }
+      })["catch"](function (error) {
+        console.log(error);
+      })["finally"](function () {});
+    },
     checkIsSyncingArticles: function checkIsSyncingArticles() {
       this.syncing.interval = setInterval(this.getIsSyncingArticles(), 3000);
     },
@@ -5718,7 +5788,7 @@ __webpack_require__.r(__webpack_exports__);
         if (component.applying.status == 0) {
           component.applying.interval = null;
           component.fetch();
-          Vue.success('Regeln wurden im Hintergrund angewendet.');
+          Vue.success('Regeln wurden angewendet.');
         }
       })["catch"](function (error) {
         console.log(error);
@@ -48622,6 +48692,20 @@ var render = function() {
             on: { click: _vm.sync }
           },
           [_c("i", { staticClass: "fas fa-sync" })]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-primary ml-1",
+            attrs: {
+              type: "button",
+              "data-toggle": "modal",
+              "data-target": "#confirm-rule-apply",
+              disabled: _vm.applying.status == 1
+            }
+          },
+          [_vm._v("\n                Regeln anwenden\n            ")]
         )
       ])
     ]),
@@ -49222,6 +49306,72 @@ var render = function() {
           attrs: { src: _vm.imgbox.src }
         })
       ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "confirm-rule-apply",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "exampleModalLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "modal-dialog", attrs: { role: "document" } },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _vm._m(1),
+              _vm._v(" "),
+              _vm._m(2),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    attrs: { type: "button", "data-dismiss": "modal" }
+                  },
+                  [_vm._v("Abbrechen")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function($event) {
+                        return _vm.apply(false)
+                      }
+                    }
+                  },
+                  [_vm._v("Regeln simulieren")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function($event) {
+                        return _vm.apply(true)
+                      }
+                    }
+                  },
+                  [_vm._v("Regeln anwenden")]
+                )
+              ])
+            ])
+          ]
+        )
+      ]
     )
   ])
 }
@@ -49235,6 +49385,54 @@ var staticRenderFns = [
         "a",
         { staticClass: "btn btn-primary", attrs: { href: "/article/create" } },
         [_c("i", { staticClass: "fas fa-plus-square" })]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c("h5", { staticClass: "modal-title" }, [_vm._v("Regeln anwenden")]),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-body" }, [
+      _c("p", [
+        _vm._v(
+          "Möchtest du alle aktiven Regeln anweden und in deinem Cardmarket Konto speichern?"
+        )
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "alert alert-danger", attrs: { role: "alert" } },
+        [
+          _vm._v(
+            "\n                        Es werden Preise in deinem Cardmarket Konto verändert! Versichere dich vorher, ob alle Regeln angewendet weden, wie Du es möchtest!"
+          ),
+          _c("br"),
+          _c("br"),
+          _vm._v(
+            "\n                        Ausführung auf eigne Gefahr!\n                    "
+          )
+        ]
       )
     ])
   }
@@ -53861,7 +54059,7 @@ var render = function() {
       })
     ]),
     _vm._v(" "),
-    _c("td", [
+    _c("td", { staticClass: "align-middle" }, [
       _vm.item.active == 1
         ? _c("i", {
             staticClass: "fas fa-play pointer text-success",
