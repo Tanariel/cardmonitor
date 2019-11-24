@@ -15,7 +15,7 @@
                     <filter-search v-model="filter.searchtext" @input="fetch()"></filter-search>
                 </div>
                 <button class="btn btn-secondary ml-1" @click="filter.show = !filter.show" v-if="false"><i class="fas fa-filter"></i></button>
-                <button class="btn btn-secondary ml-1" @click="apply" :disabled="applying.status == 1">Regeln simulieren</button>
+                <button class="btn btn-secondary ml-1" @click="apply" :disabled="applying.status == 1"><i class="fas fa-spinner fa-spin mr-1" v-show="applying.status == 1"></i>Regeln simulieren</button>
             </div>
         </div>
 

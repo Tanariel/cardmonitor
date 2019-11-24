@@ -9,9 +9,9 @@
                     <filter-search v-model="filter.searchtext" @input="fetch()"></filter-search>
                 </div>
                 <button class="btn btn-secondary ml-1" @click="filter.show = !filter.show"><i class="fas fa-filter"></i></button>
-                <button class="btn btn-secondary ml-1" @click="sync" :disabled="syncing.status == 1"><i class="fas fa-sync"></i></button>
+                <button class="btn btn-secondary ml-1" @click="sync" :disabled="syncing.status == 1"><i class="fas fa-sync" :class="{'fa-spin': syncing.status == 1}"></i></button>
                 <button type="button" class="btn btn-primary ml-1" data-toggle="modal" data-target="#confirm-rule-apply" :disabled="applying.status == 1">
-                    Regeln anwenden
+                    <i class="fas fa-spinner fa-spin mr-1" v-show="applying.status == 1"></i>Regeln anwenden
                 </button>
             </div>
         </div>

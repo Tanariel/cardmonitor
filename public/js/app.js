@@ -48707,7 +48707,12 @@ var render = function() {
             attrs: { disabled: _vm.syncing.status == 1 },
             on: { click: _vm.sync }
           },
-          [_c("i", { staticClass: "fas fa-sync" })]
+          [
+            _c("i", {
+              staticClass: "fas fa-sync",
+              class: { "fa-spin": _vm.syncing.status == 1 }
+            })
+          ]
         ),
         _vm._v(" "),
         _c(
@@ -48721,7 +48726,20 @@ var render = function() {
               disabled: _vm.applying.status == 1
             }
           },
-          [_vm._v("\n                Regeln anwenden\n            ")]
+          [
+            _c("i", {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.applying.status == 1,
+                  expression: "applying.status == 1"
+                }
+              ],
+              staticClass: "fas fa-spinner fa-spin mr-1"
+            }),
+            _vm._v("Regeln anwenden\n            ")
+          ]
         )
       ])
     ]),
@@ -52648,7 +52666,12 @@ var render = function() {
             attrs: { disabled: _vm.syncing.status == 1 },
             on: { click: _vm.sync }
           },
-          [_c("i", { staticClass: "fas fa-sync" })]
+          [
+            _c("i", {
+              staticClass: "fas fa-sync",
+              class: { "fa-spin": _vm.syncing.status == 1 }
+            })
+          ]
         )
       ])
     ]),
@@ -54262,7 +54285,20 @@ var render = function() {
             attrs: { disabled: _vm.applying.status == 1 },
             on: { click: _vm.apply }
           },
-          [_vm._v("Regeln simulieren")]
+          [
+            _c("i", {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.applying.status == 1,
+                  expression: "applying.status == 1"
+                }
+              ],
+              staticClass: "fas fa-spinner fa-spin mr-1"
+            }),
+            _vm._v("Regeln simulieren")
+          ]
         )
       ])
     ]),
