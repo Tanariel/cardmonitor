@@ -2855,7 +2855,10 @@ __webpack_require__.r(__webpack_exports__);
       })["finally"](function () {});
     },
     checkIsApplyingRules: function checkIsApplyingRules() {
-      this.applying.interval = setInterval(this.getIsApplyingRules(), 3000);
+      var component = this;
+      this.applying.interval = setInterval(function () {
+        component.getIsApplyingRules();
+      }, 3000);
     },
     getIsApplyingRules: function getIsApplyingRules() {
       var component = this;
@@ -2863,6 +2866,7 @@ __webpack_require__.r(__webpack_exports__);
         component.applying.status = response.data.is_applying_rules;
 
         if (component.applying.status == 0) {
+          clearInterval(component.applying.interval);
           component.applying.interval = null;
           component.fetch();
           Vue.success('Regeln wurden angewendet.');
@@ -2872,7 +2876,10 @@ __webpack_require__.r(__webpack_exports__);
       })["finally"](function () {});
     },
     checkIsSyncingArticles: function checkIsSyncingArticles() {
-      this.syncing.interval = setInterval(this.getIsSyncingArticles(), 3000);
+      var component = this;
+      this.syncing.interval = setInterval(function () {
+        component.getIsSyncingArticles();
+      }, 3000);
     },
     getIsSyncingArticles: function getIsSyncingArticles() {
       var component = this;
@@ -2880,9 +2887,10 @@ __webpack_require__.r(__webpack_exports__);
         component.syncing.status = response.data.is_syncing_articles;
 
         if (component.syncing.status == 0) {
+          clearInterval(component.syncing.interval);
           component.syncing.interval = null;
           component.fetch();
-          Vue.success('Artikel wurden im Hintergrund synchronisiert.');
+          Vue.success('Artikel wurden synchronisiert.');
         }
       })["catch"](function (error) {
         console.log(error);
@@ -4950,18 +4958,21 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     checkIsSyncingOrders: function checkIsSyncingOrders() {
-      this.syncing.interval = setInterval(this.getIsSyncingOrders(), 3000);
+      var component = this;
+      this.syncing.interval = setInterval(function () {
+        component.getIsSyncingOrders();
+      }, 3000);
     },
     getIsSyncingOrders: function getIsSyncingOrders() {
       var component = this;
       axios.get(component.uri + '/sync').then(function (response) {
         component.syncing.status = response.data.is_syncing_orders;
-        console.log(component.syncing.status);
 
         if (component.syncing.status == 0) {
+          clearInterval(component.syncing.interval);
           component.syncing.interval = null;
           component.fetch();
-          Vue.success('Bestellungen wurden im Hintergrund synchronisiert.');
+          Vue.success('Bestellungen wurden synchronisiert.');
         }
       })["catch"](function (error) {
         console.log(error);
@@ -4998,7 +5009,7 @@ __webpack_require__.r(__webpack_exports__);
       axios.put(component.uri + '/sync').then(function (response) {
         component.syncing.status = 1;
         component.checkIsSyncingOrders();
-        Vue.success('Bestellungen werden im Hintergrund aktualisiert.');
+        Vue.success('Bestellungen werden im Hintergrund synchronisiert.');
       })["catch"](function (error) {
         Vue.error('Bestellungen konnten nicht synchronisiert werden!');
         console.log(error);
@@ -5747,9 +5758,9 @@ __webpack_require__.r(__webpack_exports__);
       axios.post(component.uri + '/apply').then(function (response) {
         component.applying.status = 1;
         component.checkIsApplyingRules();
-        Vue.success('Regeln werden im Hintergrund angewendet.');
+        Vue.success('Regeln werden im Hintergrund simuliert.');
       })["catch"](function (error) {
-        Vue.error('Regeln konnten nicht angewendet werden!');
+        Vue.error('Regeln konnten nicht simuliert werden!');
         console.log(error);
       })["finally"](function () {});
     },
@@ -5779,7 +5790,10 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     checkIsApplyingRules: function checkIsApplyingRules() {
-      this.applying.interval = setInterval(this.getIsApplyingRules(), 3000);
+      var component = this;
+      this.applying.interval = setInterval(function () {
+        component.getIsApplyingRules();
+      }, 3000);
     },
     getIsApplyingRules: function getIsApplyingRules() {
       var component = this;
@@ -5787,9 +5801,10 @@ __webpack_require__.r(__webpack_exports__);
         component.applying.status = response.data.is_applying_rules;
 
         if (component.applying.status == 0) {
+          clearInterval(component.applying.interval);
           component.applying.interval = null;
           component.fetch();
-          Vue.success('Regeln wurden angewendet.');
+          Vue.success('Regeln wurden simuliert.');
         }
       })["catch"](function (error) {
         console.log(error);

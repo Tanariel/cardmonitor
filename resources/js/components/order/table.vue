@@ -161,18 +161,21 @@
 
         methods: {
             checkIsSyncingOrders() {
-                this.syncing.interval = setInterval(this.getIsSyncingOrders(), 3000);
+                var component = this;
+                this.syncing.interval = setInterval(function () {
+                    component.getIsSyncingOrders()
+                }, 3000);
             },
             getIsSyncingOrders() {
                 var component = this;
                 axios.get(component.uri + '/sync')
                     .then(function (response) {
                         component.syncing.status = response.data.is_syncing_orders;
-                        console.log(component.syncing.status);
                         if (component.syncing.status == 0) {
+                            clearInterval(component.syncing.interval)
                             component.syncing.interval = null;
                             component.fetch();
-                            Vue.success('Bestellungen wurden im Hintergrund synchronisiert.');
+                            Vue.success('Bestellungen wurden synchronisiert.');
                         }
                     })
                     .catch(function (error) {
@@ -216,7 +219,7 @@
                     .then(function (response) {
                         component.syncing.status = 1;
                         component.checkIsSyncingOrders();
-                        Vue.success('Bestellungen werden im Hintergrund aktualisiert.');
+                        Vue.success('Bestellungen werden im Hintergrund synchronisiert.');
                     })
                     .catch(function (error) {
                         Vue.error('Bestellungen konnten nicht synchronisiert werden!');

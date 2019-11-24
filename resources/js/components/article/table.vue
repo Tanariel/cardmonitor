@@ -311,7 +311,10 @@
                     });
             },
             checkIsApplyingRules() {
-                this.applying.interval = setInterval(this.getIsApplyingRules(), 3000);
+                var component = this;
+                this.applying.interval = setInterval( function () {
+                    component.getIsApplyingRules()
+                }, 3000);
             },
             getIsApplyingRules() {
                 var component = this;
@@ -319,6 +322,7 @@
                     .then(function (response) {
                         component.applying.status = response.data.is_applying_rules;
                         if (component.applying.status == 0) {
+                            clearInterval(component.applying.interval)
                             component.applying.interval = null;
                             component.fetch();
                             Vue.success('Regeln wurden angewendet.');
@@ -332,7 +336,10 @@
                     });
             },
             checkIsSyncingArticles() {
-                this.syncing.interval = setInterval(this.getIsSyncingArticles(), 3000);
+                var component = this;
+                this.syncing.interval = setInterval(function () {
+                    component.getIsSyncingArticles()
+                }, 3000);
             },
             getIsSyncingArticles() {
                 var component = this;
@@ -340,9 +347,10 @@
                     .then(function (response) {
                         component.syncing.status = response.data.is_syncing_articles;
                         if (component.syncing.status == 0) {
+                            clearInterval(component.syncing.interval)
                             component.syncing.interval = null;
                             component.fetch();
-                            Vue.success('Artikel wurden im Hintergrund synchronisiert.');
+                            Vue.success('Artikel wurden synchronisiert.');
                         }
                     })
                     .catch(function (error) {

@@ -45,10 +45,6 @@ class ApplyCommand extends Command
     {
         $this->user = User::findOrFail($this->argument('user'));
 
-        if ($this->user->is_applying_rules) {
-            return;
-        }
-
         $this->user->update([
             'is_applying_rules' => true,
         ]);

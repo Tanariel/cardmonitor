@@ -174,10 +174,10 @@
                     .then(function (response) {
                         component.applying.status = 1;
                         component.checkIsApplyingRules();
-                        Vue.success('Regeln werden im Hintergrund angewendet.');
+                        Vue.success('Regeln werden im Hintergrund simuliert.');
                     })
                     .catch(function (error) {
-                        Vue.error('Regeln konnten nicht angewendet werden!');
+                        Vue.error('Regeln konnten nicht simuliert werden!');
                         console.log(error);
                     })
                     .finally ( function () {
@@ -215,7 +215,10 @@
                     });
             },
             checkIsApplyingRules() {
-                this.applying.interval = setInterval(this.getIsApplyingRules(), 3000);
+                var component = this;
+                this.applying.interval = setInterval( function () {
+                    component.getIsApplyingRules()
+                }, 3000);
             },
             getIsApplyingRules() {
                 var component = this;
@@ -223,9 +226,10 @@
                     .then(function (response) {
                         component.applying.status = response.data.is_applying_rules;
                         if (component.applying.status == 0) {
+                            clearInterval(component.applying.interval)
                             component.applying.interval = null;
                             component.fetch();
-                            Vue.success('Regeln wurden angewendet.');
+                            Vue.success('Regeln wurden simuliert.');
                         }
                     })
                     .catch(function (error) {
