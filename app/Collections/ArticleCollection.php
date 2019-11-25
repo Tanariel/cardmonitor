@@ -3,8 +3,8 @@
 namespace App\Collections;
 
 use App\Support\Users\CardmarketApi;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
 
 class ArticleCollection extends Collection
 {
