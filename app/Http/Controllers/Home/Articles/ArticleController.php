@@ -17,12 +17,29 @@ class ArticleController extends Controller
     {
         $user = auth()->user();
 
-        $articles = DB::table('articles')
-            ->select(DB::raw('COUNT(id) AS count'), DB::raw('SUM(unit_price) AS unit_price_sum'), DB::raw('SUM(rule_price) AS rule_price_sum'))
+        $offers = DB::table('articles')
+            ->select(DB::raw('COUNT(id) AS count'), DB::raw('SUM(unit_cost) AS cost'), DB::raw('SUM(unit_price) AS price'))
             ->where('user_id', $user->id)
             ->whereNull('order_id')
             ->get();
 
-        return json_encode($articles->first());
+        $sold = DB::table('articles')
+            ->select(DB::raw('COUNT(id) AS count'), DB::raw('SUM(unit_cost) AS cost'), DB::raw('SUM(unit_price) AS price'))
+            ->where('user_id', $user->id)
+            ->whereNotNull('order_id')
+            ->get();
+
+        $rules = DB::table('articles')
+            ->select(DB::raw('COUNT(id) AS count'), DB::raw('SUM(unit_cost) AS cost'), DB::raw('SUM(rule_price) AS price'))
+            ->where('user_id', $user->id)
+            ->whereNull('order_id')
+            ->whereNotNull('rule_id')
+            ->get();
+
+        return json_encode([
+            'offers' => $offers->first(),
+            'sold' => $sold->first(),
+            'rules' => $rules->first(),
+        ]);
     }
 }

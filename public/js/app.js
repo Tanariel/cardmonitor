@@ -3189,6 +3189,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     isSyncingArticles: {
@@ -3204,11 +3224,7 @@ __webpack_require__.r(__webpack_exports__);
         status: this.isSyncingArticles,
         interval: null
       },
-      articles: {
-        count: 0,
-        unit_price_sum: 0,
-        rule_price_sum: 0
-      }
+      articles: {}
     };
   },
   mounted: function mounted() {
@@ -49939,46 +49955,117 @@ var render = function() {
                 ],
                 1
               )
-            : _vm.articles.count > 0
+            : _vm.articles.offers.count > 0
             ? _c("div", [
                 _c("table", { staticClass: "table" }, [
-                  _c("tr", [
-                    _c("td", [_vm._v("Artikel")]),
-                    _vm._v(" "),
-                    _c("td", { staticClass: "text-right" }, [
-                      _vm._v(_vm._s(_vm.articles.count))
-                    ])
-                  ]),
+                  _vm._m(0),
                   _vm._v(" "),
-                  _c("tr", [
-                    _c("td", [_vm._v("Wert Verkaufspreis")]),
+                  _c("tbody", [
+                    _c("tr", [
+                      _c("td", [_vm._v("Angebote")]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "text-right" }, [
+                        _vm._v(_vm._s(_vm.articles.offers.count))
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "text-right" }, [
+                        _vm._v(
+                          _vm._s(
+                            Number(_vm.articles.offers.cost).format(2, ",", ".")
+                          ) + " €"
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "text-right" }, [
+                        _vm._v(
+                          _vm._s(
+                            Number(_vm.articles.offers.price).format(
+                              2,
+                              ",",
+                              "."
+                            )
+                          ) + " €"
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "text-right" }, [
+                        _vm._v(
+                          _vm._s(
+                            Number(
+                              _vm.articles.offers.price -
+                                _vm.articles.offers.cost
+                            ).format(2, ",", ".")
+                          ) + " €"
+                        )
+                      ])
+                    ]),
                     _vm._v(" "),
-                    _c("td", { staticClass: "text-right" }, [
-                      _vm._v(
-                        _vm._s(
-                          Number(_vm.articles.unit_price_sum).format(
-                            2,
-                            ",",
-                            "."
-                          )
-                        ) + " €"
-                      )
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("tr", [
-                    _c("td", [_vm._v("Wert Regelpreis")]),
+                    _c("tr", [
+                      _c("td", [_vm._v("Regeln")]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "text-right" }, [
+                        _vm._v(_vm._s(_vm.articles.rules.count))
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "text-right" }, [
+                        _vm._v(
+                          _vm._s(
+                            Number(_vm.articles.rules.cost).format(2, ",", ".")
+                          ) + " €"
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "text-right" }, [
+                        _vm._v(
+                          _vm._s(
+                            Number(_vm.articles.rules.price).format(2, ",", ".")
+                          ) + " €"
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "text-right" }, [
+                        _vm._v(
+                          _vm._s(
+                            Number(
+                              _vm.articles.rules.price - _vm.articles.rules.cost
+                            ).format(2, ",", ".")
+                          ) + " €"
+                        )
+                      ])
+                    ]),
                     _vm._v(" "),
-                    _c("td", { staticClass: "text-right" }, [
-                      _vm._v(
-                        _vm._s(
-                          Number(_vm.articles.rule_price_sum).format(
-                            2,
-                            ",",
-                            "."
-                          )
-                        ) + " €"
-                      )
+                    _c("tr", [
+                      _c("td", [_vm._v("Verkäufe")]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "text-right" }, [
+                        _vm._v(_vm._s(_vm.articles.sold.count))
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "text-right" }, [
+                        _vm._v(
+                          _vm._s(
+                            Number(_vm.articles.sold.cost).format(2, ",", ".")
+                          ) + " €"
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "text-right" }, [
+                        _vm._v(
+                          _vm._s(
+                            Number(_vm.articles.sold.price).format(2, ",", ".")
+                          ) + " €"
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "text-right" }, [
+                        _vm._v(
+                          _vm._s(
+                            Number(
+                              _vm.articles.sold.price - _vm.articles.sold.cost
+                            ).format(2, ",", ".")
+                          ) + " €"
+                        )
+                      ])
                     ])
                   ])
                 ])
@@ -50019,7 +50106,26 @@ var render = function() {
     ]
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th"),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-right" }, [_vm._v("Anzahl")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-right" }, [_vm._v("Einkauf")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-right" }, [_vm._v("Verkauf")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-right" }, [_vm._v("Differenz")])
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 

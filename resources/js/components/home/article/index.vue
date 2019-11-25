@@ -12,20 +12,40 @@
                         <span v-else>Lade Daten..</span>
                     </center>
                 </div>
-                <div v-else-if="articles.count > 0">
+                <div v-else-if="articles.offers.count > 0">
                     <table class="table">
-                        <tr>
-                            <td>Artikel</td>
-                            <td class="text-right">{{ articles.count }}</td>
-                        </tr>
-                        <tr>
-                            <td>Wert Verkaufspreis</td>
-                            <td class="text-right">{{ Number(articles.unit_price_sum).format(2, ',', '.') }} €</td>
-                        </tr>
-                        <tr>
-                            <td>Wert Regelpreis</td>
-                            <td class="text-right">{{ Number(articles.rule_price_sum).format(2, ',', '.') }} €</td>
-                        </tr>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th class="text-right">Anzahl</th>
+                                <th class="text-right">Einkauf</th>
+                                <th class="text-right">Verkauf</th>
+                                <th class="text-right">Differenz</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Angebote</td>
+                                <td class="text-right">{{ articles.offers.count }}</td>
+                                <td class="text-right">{{ Number(articles.offers.cost).format(2, ',', '.') }} €</td>
+                                <td class="text-right">{{ Number(articles.offers.price).format(2, ',', '.') }} €</td>
+                                <td class="text-right">{{ Number(articles.offers.price - articles.offers.cost).format(2, ',', '.') }} €</td>
+                            </tr>
+                            <tr>
+                                <td>Regeln</td>
+                                <td class="text-right">{{ articles.rules.count }}</td>
+                                <td class="text-right">{{ Number(articles.rules.cost).format(2, ',', '.') }} €</td>
+                                <td class="text-right">{{ Number(articles.rules.price).format(2, ',', '.') }} €</td>
+                                <td class="text-right">{{ Number(articles.rules.price - articles.rules.cost).format(2, ',', '.') }} €</td>
+                            </tr>
+                            <tr>
+                                <td>Verkäufe</td>
+                                <td class="text-right">{{ articles.sold.count }}</td>
+                                <td class="text-right">{{ Number(articles.sold.cost).format(2, ',', '.') }} €</td>
+                                <td class="text-right">{{ Number(articles.sold.price).format(2, ',', '.') }} €</td>
+                                <td class="text-right">{{ Number(articles.sold.price - articles.sold.cost).format(2, ',', '.') }} €</td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
                 <div class="d-flex align-items-center justify-content-center" v-else>
@@ -56,12 +76,7 @@
                     status: this.isSyncingArticles,
                     interval: null,
                 },
-                articles: {
-                    count: 0,
-                    unit_price_sum: 0,
-                    rule_price_sum: 0,
-                },
-
+                articles: {},
             };
         },
 
