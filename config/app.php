@@ -234,4 +234,13 @@ return [
         'app_secret' => env('CARDMARKET_APP_SECRET'),
     ],
 
+    'fints' => [
+        'registration_no' => env('FHP_REGISTRATION_NO'),
+        'bank_url' => env('FHP_BANK_URL'),
+        'bank_code' => env('FHP_BANK_CODE'),
+        'username' => env('FHP_ONLINE_BANKING_USERNAME'),
+        'pin' => env('FHP_ONLINE_BANKING_PIN'),
+        'tan_mechanism' => env('FHP_TAN_MECHANISM'),
+    ],
+
 ];
