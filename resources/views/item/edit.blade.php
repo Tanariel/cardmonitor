@@ -19,7 +19,11 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label for="name">Name</label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="{{ $model->name }}">
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="{{ $model->name }}" {{ $model->isEditable() ? '' : 'readonly="readonly"' }}>
+                        </div>
+                        <div class="form-group">
+                            <label for="unit_cost_formatted">Kosten / Einheit</label>
+                            <input type="text" class="form-control" id="unit_cost_formatted" name="unit_cost_formatted" value="{{ $model->unit_cost_formatted }}">
                         </div>
                     </div>
                     <div class="card-footer">

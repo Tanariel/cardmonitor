@@ -72,14 +72,6 @@ class ItemController extends Controller
      */
     public function edit(Item $item)
     {
-        if (! $item->isEditable()) {
-            return redirect($item->path)
-                ->with('status', [
-                    'type' => 'danger',
-                    'text' => 'Kosten <b>' . $item->name . '</b> kann nicht bearbeitet werden.',
-                ]);
-        }
-
         return view($this->baseViewPath . '.edit')
             ->with('model', $item);
     }
@@ -93,17 +85,15 @@ class ItemController extends Controller
      */
     public function update(Request $request, Item $item)
     {
-        if (! $item->isEditable()) {
-            return redirect($item->path)
-                ->with('status', [
-                    'type' => 'danger',
-                    'text' => 'Kosten <b>' . $item->name . '</b> kann nicht bearbeitet werden.',
-                ]);
+        $rules = [
+            'unit_cost_formatted' => 'required|formated_number',
+        ];
+
+        if ($item->isEditable()) {
+            $rules['name'] = 'required|string';
         }
 
-        $item->update($request->validate([
-            'name' => 'required|string',
-        ]));
+        $item->update($request->validate($rules));
 
         if ($request->wantsJson()) {
             return $item;

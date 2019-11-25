@@ -9,7 +9,7 @@
 
         <td class="align-middle text-right">
             <div class="btn-group btn-group-sm" role="group">
-                <button type="button" class="btn btn-secondary" title="Bearbeiten" @click="link" v-if="item.isEditable"><i class="fas fa-edit"></i></button>
+                <button type="button" class="btn btn-secondary" title="Bearbeiten" @click="link"><i class="fas fa-edit"></i></button>
                 <button type="button" class="btn btn-secondary" title="Löschen" @click="destroy" v-if="item.isDeletable"><i class="fas fa-trash"></i></button>
             </div>
         </td>

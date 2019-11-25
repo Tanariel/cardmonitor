@@ -51671,17 +51671,15 @@ var render = function() {
         "div",
         { staticClass: "btn-group btn-group-sm", attrs: { role: "group" } },
         [
-          _vm.item.isEditable
-            ? _c(
-                "button",
-                {
-                  staticClass: "btn btn-secondary",
-                  attrs: { type: "button", title: "Bearbeiten" },
-                  on: { click: _vm.link }
-                },
-                [_c("i", { staticClass: "fas fa-edit" })]
-              )
-            : _vm._e(),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-secondary",
+              attrs: { type: "button", title: "Bearbeiten" },
+              on: { click: _vm.link }
+            },
+            [_c("i", { staticClass: "fas fa-edit" })]
+          ),
           _vm._v(" "),
           _vm.item.isDeletable
             ? _c(

@@ -11,16 +11,20 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Arr;
 use Tightenco\Parental\HasChildren;
 
 class Item extends Model
 {
     use HasChildren;
 
+    const DECIMALS = 6;
+
     protected $appends = [
         'isDeletable',
         'isEditable',
         'path',
+        'unit_cost_formatted',
     ];
 
     protected $guarded = [
@@ -55,6 +59,17 @@ class Item extends Model
 
             return true;
         });
+    }
+
+    public function setUnitCostFormattedAttribute($value)
+    {
+        $this->unit_cost = number_format(str_replace(',', '.', $value), self::DECIMALS, '.', '');
+        Arr::forget($this->attributes, 'unit_cost_formatted');
+    }
+
+    public function getUnitCostFormattedAttribute()
+    {
+        return number_format($this->unit_cost, 2, ',', '');
     }
 
     public function getPathAttribute()
