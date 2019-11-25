@@ -51,7 +51,7 @@ class FinTs
         return $transactions;
     }
 
-    public function import()
+    public function import(Carbon $from, Carbon $to)
     {
         $statements = $this->getStatements($from, $to);
         foreach ($statements->getStatements() as $statement)
