@@ -66,7 +66,9 @@ class RuleController extends Controller
     public function show(Rule $rule)
     {
         return view($this->baseViewPath . '.show')
-            ->with('model', $rule);
+            ->with('model', $rule->load([
+                'expansion'
+            ]));
     }
 
     /**

@@ -29,6 +29,23 @@
                                 <div class="col-md-4"><b>Name</b></div>
                                 <div class="col-md-8">{{ $model->name }}</div>
                             </div>
+                            <div>
+                                {!! nl2br($model->description) !!}
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="row">
+                                <div class="col-md-4"><b>Erweiterung</b></div>
+                                <div class="col-md-8">{{ $model->expansion_id ? $model->expansion->name : 'Alle' }}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4"><b>Seltenheit</b></div>
+                                <div class="col-md-8">{{ $model->rarity ?? 'Alle' }}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4"><b>Preis</b></div>
+                                <div class="col-md-8">{{ $model->base_price_formatted }} * {{ $model->multiplier_formatted }}</div>
+                            </div>
                         </div>
                     </div>
 

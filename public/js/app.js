@@ -54057,361 +54057,381 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _c("div", [
-      _c("div", { staticClass: "card mb-3" }, [
-        _c("div", { staticClass: "card-header" }, [_vm._v("Mindestpreise")]),
-        _vm._v(" "),
-        _c("div", { staticClass: "card-body d-flex" }, [
-          _c("div", { staticClass: "col" }, [
-            _c("div", { staticClass: "form-group" }, [
-              _c(
-                "label",
-                { attrs: { for: "min_price_masterpiece_formatted" } },
-                [_vm._v("Masterpiece")]
-              ),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.form.min_price_masterpiece_formatted,
-                    expression: "form.min_price_masterpiece_formatted"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text", id: "min_price_masterpiece_formatted" },
-                domProps: { value: _vm.form.min_price_masterpiece_formatted },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(
-                      _vm.form,
-                      "min_price_masterpiece_formatted",
-                      $event.target.value
-                    )
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c("small", [_vm._v("Hinweis")])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", { attrs: { for: "min_price_mythic_formatted" } }, [
-                _vm._v("Mythic")
-              ]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.form.min_price_mythic_formatted,
-                    expression: "form.min_price_mythic_formatted"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text", id: "min_price_mythic_formatted" },
-                domProps: { value: _vm.form.min_price_mythic_formatted },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(
-                      _vm.form,
-                      "min_price_mythic_formatted",
-                      $event.target.value
-                    )
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c("small", [_vm._v("Hinweis")])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", { attrs: { for: "min_price_rare_formatted" } }, [
-                _vm._v("Rare")
-              ]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.form.min_price_rare_formatted,
-                    expression: "form.min_price_rare_formatted"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text", id: "min_price_rare_formatted" },
-                domProps: { value: _vm.form.min_price_rare_formatted },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(
-                      _vm.form,
-                      "min_price_rare_formatted",
-                      $event.target.value
-                    )
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c("small", [_vm._v("Hinweis")])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", { attrs: { for: "min_price_special_formatted" } }, [
-                _vm._v("Special")
-              ]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.form.min_price_special_formatted,
-                    expression: "form.min_price_special_formatted"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text", id: "min_price_special_formatted" },
-                domProps: { value: _vm.form.min_price_special_formatted },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(
-                      _vm.form,
-                      "min_price_special_formatted",
-                      $event.target.value
-                    )
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c("small", [_vm._v("Hinweis")])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group" }, [
-              _c(
-                "label",
-                { attrs: { for: "min_price_time_shifted_formatted" } },
-                [_vm._v("Time Shifted")]
-              ),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.form.min_price_time_shifted_formatted,
-                    expression: "form.min_price_time_shifted_formatted"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text", id: "min_price_time_shifted_formatted" },
-                domProps: { value: _vm.form.min_price_time_shifted_formatted },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(
-                      _vm.form,
-                      "min_price_time_shifted_formatted",
-                      $event.target.value
-                    )
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c("small", [_vm._v("Hinweis")])
-            ])
-          ]),
+    _c(
+      "div",
+      {
+        directives: [
+          { name: "show", rawName: "v-show", value: false, expression: "false" }
+        ]
+      },
+      [
+        _c("div", { staticClass: "card mb-3" }, [
+          _c("div", { staticClass: "card-header" }, [_vm._v("Mindestpreise")]),
           _vm._v(" "),
-          _c("div", { staticClass: "col" }, [
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", { attrs: { for: "min_price_uncommon_formatted" } }, [
-                _vm._v("Uncommon")
+          _c("div", { staticClass: "card-body d-flex" }, [
+            _c("div", { staticClass: "col" }, [
+              _c("div", { staticClass: "form-group" }, [
+                _c(
+                  "label",
+                  { attrs: { for: "min_price_masterpiece_formatted" } },
+                  [_vm._v("Masterpiece")]
+                ),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form.min_price_masterpiece_formatted,
+                      expression: "form.min_price_masterpiece_formatted"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: {
+                    type: "text",
+                    id: "min_price_masterpiece_formatted"
+                  },
+                  domProps: { value: _vm.form.min_price_masterpiece_formatted },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(
+                        _vm.form,
+                        "min_price_masterpiece_formatted",
+                        $event.target.value
+                      )
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c("small", [_vm._v("Hinweis")])
               ]),
               _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.form.min_price_uncommon_formatted,
-                    expression: "form.min_price_uncommon_formatted"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text", id: "min_price_uncommon_formatted" },
-                domProps: { value: _vm.form.min_price_uncommon_formatted },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "min_price_mythic_formatted" } }, [
+                  _vm._v("Mythic")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form.min_price_mythic_formatted,
+                      expression: "form.min_price_mythic_formatted"
                     }
-                    _vm.$set(
-                      _vm.form,
-                      "min_price_uncommon_formatted",
-                      $event.target.value
-                    )
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text", id: "min_price_mythic_formatted" },
+                  domProps: { value: _vm.form.min_price_mythic_formatted },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(
+                        _vm.form,
+                        "min_price_mythic_formatted",
+                        $event.target.value
+                      )
+                    }
                   }
-                }
-              }),
+                }),
+                _vm._v(" "),
+                _c("small", [_vm._v("Hinweis")])
+              ]),
               _vm._v(" "),
-              _c("small", [_vm._v("Hinweis")])
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "min_price_rare_formatted" } }, [
+                  _vm._v("Rare")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form.min_price_rare_formatted,
+                      expression: "form.min_price_rare_formatted"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text", id: "min_price_rare_formatted" },
+                  domProps: { value: _vm.form.min_price_rare_formatted },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(
+                        _vm.form,
+                        "min_price_rare_formatted",
+                        $event.target.value
+                      )
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c("small", [_vm._v("Hinweis")])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "min_price_special_formatted" } }, [
+                  _vm._v("Special")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form.min_price_special_formatted,
+                      expression: "form.min_price_special_formatted"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text", id: "min_price_special_formatted" },
+                  domProps: { value: _vm.form.min_price_special_formatted },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(
+                        _vm.form,
+                        "min_price_special_formatted",
+                        $event.target.value
+                      )
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c("small", [_vm._v("Hinweis")])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c(
+                  "label",
+                  { attrs: { for: "min_price_time_shifted_formatted" } },
+                  [_vm._v("Time Shifted")]
+                ),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form.min_price_time_shifted_formatted,
+                      expression: "form.min_price_time_shifted_formatted"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: {
+                    type: "text",
+                    id: "min_price_time_shifted_formatted"
+                  },
+                  domProps: {
+                    value: _vm.form.min_price_time_shifted_formatted
+                  },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(
+                        _vm.form,
+                        "min_price_time_shifted_formatted",
+                        $event.target.value
+                      )
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c("small", [_vm._v("Hinweis")])
+              ])
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", { attrs: { for: "min_price_common_formatted" } }, [
-                _vm._v("Commmon")
+            _c("div", { staticClass: "col" }, [
+              _c("div", { staticClass: "form-group" }, [
+                _c(
+                  "label",
+                  { attrs: { for: "min_price_uncommon_formatted" } },
+                  [_vm._v("Uncommon")]
+                ),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form.min_price_uncommon_formatted,
+                      expression: "form.min_price_uncommon_formatted"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text", id: "min_price_uncommon_formatted" },
+                  domProps: { value: _vm.form.min_price_uncommon_formatted },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(
+                        _vm.form,
+                        "min_price_uncommon_formatted",
+                        $event.target.value
+                      )
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c("small", [_vm._v("Hinweis")])
               ]),
               _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.form.min_price_common_formatted,
-                    expression: "form.min_price_common_formatted"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text", id: "min_price_common_formatted" },
-                domProps: { value: _vm.form.min_price_common_formatted },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "min_price_common_formatted" } }, [
+                  _vm._v("Commmon")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form.min_price_common_formatted,
+                      expression: "form.min_price_common_formatted"
                     }
-                    _vm.$set(
-                      _vm.form,
-                      "min_price_common_formatted",
-                      $event.target.value
-                    )
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text", id: "min_price_common_formatted" },
+                  domProps: { value: _vm.form.min_price_common_formatted },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(
+                        _vm.form,
+                        "min_price_common_formatted",
+                        $event.target.value
+                      )
+                    }
                   }
-                }
-              }),
-              _vm._v(" "),
-              _c("small", [_vm._v("Hinweis")])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", { attrs: { for: "min_price_land_formatted" } }, [
-                _vm._v("Land")
+                }),
+                _vm._v(" "),
+                _c("small", [_vm._v("Hinweis")])
               ]),
               _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.form.min_price_land_formatted,
-                    expression: "form.min_price_land_formatted"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text", id: "min_price_land_formatted" },
-                domProps: { value: _vm.form.min_price_land_formatted },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "min_price_land_formatted" } }, [
+                  _vm._v("Land")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form.min_price_land_formatted,
+                      expression: "form.min_price_land_formatted"
                     }
-                    _vm.$set(
-                      _vm.form,
-                      "min_price_land_formatted",
-                      $event.target.value
-                    )
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text", id: "min_price_land_formatted" },
+                  domProps: { value: _vm.form.min_price_land_formatted },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(
+                        _vm.form,
+                        "min_price_land_formatted",
+                        $event.target.value
+                      )
+                    }
                   }
-                }
-              }),
-              _vm._v(" "),
-              _c("small", [_vm._v("Hinweis")])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", { attrs: { for: "min_price_token_formatted" } }, [
-                _vm._v("Token")
+                }),
+                _vm._v(" "),
+                _c("small", [_vm._v("Hinweis")])
               ]),
               _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.form.min_price_token_formatted,
-                    expression: "form.min_price_token_formatted"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text", id: "min_price_token_formatted" },
-                domProps: { value: _vm.form.min_price_token_formatted },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "min_price_token_formatted" } }, [
+                  _vm._v("Token")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form.min_price_token_formatted,
+                      expression: "form.min_price_token_formatted"
                     }
-                    _vm.$set(
-                      _vm.form,
-                      "min_price_token_formatted",
-                      $event.target.value
-                    )
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text", id: "min_price_token_formatted" },
+                  domProps: { value: _vm.form.min_price_token_formatted },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(
+                        _vm.form,
+                        "min_price_token_formatted",
+                        $event.target.value
+                      )
+                    }
                   }
-                }
-              }),
-              _vm._v(" "),
-              _c("small", [_vm._v("Hinweis")])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", { attrs: { for: "min_price_tip_card_formatted" } }, [
-                _vm._v("Tip Card")
+                }),
+                _vm._v(" "),
+                _c("small", [_vm._v("Hinweis")])
               ]),
               _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.form.min_price_tip_card_formatted,
-                    expression: "form.min_price_tip_card_formatted"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text", id: "min_price_tip_card_formatted" },
-                domProps: { value: _vm.form.min_price_tip_card_formatted },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
+              _c("div", { staticClass: "form-group" }, [
+                _c(
+                  "label",
+                  { attrs: { for: "min_price_tip_card_formatted" } },
+                  [_vm._v("Tip Card")]
+                ),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form.min_price_tip_card_formatted,
+                      expression: "form.min_price_tip_card_formatted"
                     }
-                    _vm.$set(
-                      _vm.form,
-                      "min_price_tip_card_formatted",
-                      $event.target.value
-                    )
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text", id: "min_price_tip_card_formatted" },
+                  domProps: { value: _vm.form.min_price_tip_card_formatted },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(
+                        _vm.form,
+                        "min_price_tip_card_formatted",
+                        $event.target.value
+                      )
+                    }
                   }
-                }
-              }),
-              _vm._v(" "),
-              _c("small", [_vm._v("Hinweis")])
+                }),
+                _vm._v(" "),
+                _c("small", [_vm._v("Hinweis")])
+              ])
             ])
           ])
         ])
-      ])
-    ]),
+      ]
+    ),
     _vm._v(" "),
     _c("div", { staticClass: "card mb-3" }, [
       _c("div", { staticClass: "card-body" }, [

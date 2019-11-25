@@ -18,6 +18,8 @@ class CreateRulesTable extends Migration
 
             $table->unsignedBigInteger('user_id');
 
+            $table->unsignedTinyInteger('game_id');
+
             $table->unsignedBigInteger('expansion_id')->nullable();
 
             $table->string('name');
@@ -26,6 +28,7 @@ class CreateRulesTable extends Migration
             $table->boolean('active')->default(false);
 
             $table->string('rarity')->nullable();
+            $table->string('condition')->nullable();
 
             $table->unsignedSmallInteger('order_column')->default(0);
 

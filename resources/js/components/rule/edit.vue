@@ -104,7 +104,7 @@
             </div>
         </div>
 
-        <div>
+        <div v-show="false">
             <div class="card mb-3">
                 <div class="card-header">Mindestpreise</div>
                 <div class="card-body d-flex">

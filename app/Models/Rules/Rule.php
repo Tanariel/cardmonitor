@@ -3,7 +3,10 @@
 namespace App\Models\Rules;
 
 use App\Models\Articles\Article;
+use App\Models\Cards\Card;
+use App\Models\Expansions\Expansion;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -53,6 +56,7 @@ class Rule extends Model
                 $model->base_price = 'price_trend';
             }
 
+            $model->game_id = 1;
             $model->order_column = self::nextOrderColumn($model->user_id);
 
             return true;
@@ -315,5 +319,10 @@ class Rule extends Model
     public function articles() : HasMany
     {
         return $this->hasMany(Article::class);
+    }
+
+    public function expansion() : BelongsTo
+    {
+        return $this->belongsTo(Expansion::class);
     }
 }
