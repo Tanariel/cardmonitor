@@ -49965,7 +49965,11 @@ var render = function() {
                       _c("td", [_vm._v("Angebote")]),
                       _vm._v(" "),
                       _c("td", { staticClass: "text-right" }, [
-                        _vm._v(_vm._s(_vm.articles.offers.count))
+                        _vm._v(
+                          _vm._s(
+                            Number(_vm.articles.offers.count).format(0, "", ".")
+                          )
+                        )
                       ]),
                       _vm._v(" "),
                       _c("td", { staticClass: "text-right" }, [
@@ -50004,7 +50008,11 @@ var render = function() {
                       _c("td", [_vm._v("Regeln")]),
                       _vm._v(" "),
                       _c("td", { staticClass: "text-right" }, [
-                        _vm._v(_vm._s(_vm.articles.rules.count))
+                        _vm._v(
+                          _vm._s(
+                            Number(_vm.articles.rules.count).format(0, "", ".")
+                          )
+                        )
                       ]),
                       _vm._v(" "),
                       _c("td", { staticClass: "text-right" }, [
@@ -50038,7 +50046,11 @@ var render = function() {
                       _c("td", [_vm._v("Verkäufe")]),
                       _vm._v(" "),
                       _c("td", { staticClass: "text-right" }, [
-                        _vm._v(_vm._s(_vm.articles.sold.count))
+                        _vm._v(
+                          _vm._s(
+                            Number(_vm.articles.sold.count).format(0, "", ".")
+                          )
+                        )
                       ]),
                       _vm._v(" "),
                       _c("td", { staticClass: "text-right" }, [

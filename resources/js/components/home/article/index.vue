@@ -26,21 +26,21 @@
                         <tbody>
                             <tr>
                                 <td>Angebote</td>
-                                <td class="text-right">{{ articles.offers.count }}</td>
+                                <td class="text-right">{{ Number(articles.offers.count).format(0, '', '.') }}</td>
                                 <td class="text-right">{{ Number(articles.offers.cost).format(2, ',', '.') }} €</td>
                                 <td class="text-right">{{ Number(articles.offers.price).format(2, ',', '.') }} €</td>
                                 <td class="text-right">{{ Number(articles.offers.price - articles.offers.cost).format(2, ',', '.') }} €</td>
                             </tr>
                             <tr>
                                 <td>Regeln</td>
-                                <td class="text-right">{{ articles.rules.count }}</td>
+                                <td class="text-right">{{ Number(articles.rules.count).format(0, '', '.') }}</td>
                                 <td class="text-right">{{ Number(articles.rules.cost).format(2, ',', '.') }} €</td>
                                 <td class="text-right">{{ Number(articles.rules.price).format(2, ',', '.') }} €</td>
                                 <td class="text-right">{{ Number(articles.rules.price - articles.rules.cost).format(2, ',', '.') }} €</td>
                             </tr>
                             <tr>
                                 <td>Verkäufe</td>
-                                <td class="text-right">{{ articles.sold.count }}</td>
+                                <td class="text-right">{{ Number(articles.sold.count).format(0, '', '.') }}</td>
                                 <td class="text-right">{{ Number(articles.sold.cost).format(2, ',', '.') }} €</td>
                                 <td class="text-right">{{ Number(articles.sold.price).format(2, ',', '.') }} €</td>
                                 <td class="text-right">{{ Number(articles.sold.price - articles.sold.cost).format(2, ',', '.') }} €</td>
