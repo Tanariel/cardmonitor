@@ -46,6 +46,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('expansion', 'ExpansionController@index');
 
+    Route::post('item/reload', 'Items\ReloadController@store');
     Route::resource('item', 'Items\ItemController');
 
     Route::resource('image', 'Images\ImageController')->only([

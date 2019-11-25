@@ -15,7 +15,7 @@
                     <filter-search v-model="filter.searchtext" @input="fetch()"></filter-search>
                 </div>
                 <button class="btn btn-secondary ml-1" @click="filter.show = !filter.show"><i class="fas fa-filter"></i></button>
-                <button class="btn btn-secondary ml-1" @click="calculate">Kosten neu berechnen</button>
+                <button class="btn btn-secondary ml-1" @click="reload">Kosten neu berechnen</button>
             </div>
         </div>
 
@@ -107,11 +107,9 @@
         },
 
         methods: {
-            calculate() {
-                console.log('calculate');
-                return;
+            reload() {
                 var component = this;
-                axios.post(component.uri, component.form)
+                axios.post(component.uri + '/reload')
                     .then(function (response) {
                         Vue.success('Kosten werden im Hintergrund neu berechnet.');
                     })

@@ -4370,11 +4370,9 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
-    calculate: function calculate() {
-      console.log('calculate');
-      return;
+    reload: function reload() {
       var component = this;
-      axios.post(component.uri, component.form).then(function (response) {
+      axios.post(component.uri + '/reload').then(function (response) {
         Vue.success('Kosten werden im Hintergrund neu berechnet.');
       })["catch"](function (error) {
         component.errors = error.response.data.errors;
@@ -51812,10 +51810,7 @@ var render = function() {
         _vm._v(" "),
         _c(
           "button",
-          {
-            staticClass: "btn btn-secondary ml-1",
-            on: { click: _vm.calculate }
-          },
+          { staticClass: "btn btn-secondary ml-1", on: { click: _vm.reload } },
           [_vm._v("Kosten neu berechnen")]
         )
       ])
