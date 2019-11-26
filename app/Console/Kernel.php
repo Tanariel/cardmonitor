@@ -25,6 +25,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('card:price:sync')->cron('0 */2 * * *');
+        $schedule->command('user:balance:import')->daily();
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Support\Users;
 
+use App\Models\Users\Balance;
 use Carbon\Carbon;
 
 class FinTs
@@ -59,7 +60,10 @@ class FinTs
             $date = new Carbon($statement->getDate()->format('Y-m-d'));
             foreach ($statement->getTransactions() as $SEPATransaction)
             {
-                // Import
+                if ($SEPATransaction->getCreditDebit() == \Fhp\Model\StatementOfAccount\Transaction::CD_DEBIT) {
+                    continue;
+                }
+                $balance = Balance::createFromTransaction($SEPATransaction);
             }
         }
     }

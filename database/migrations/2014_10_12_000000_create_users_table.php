@@ -20,6 +20,9 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
 
+            $table->unsignedMediumInteger('credits')->default(0);
+            $table->unsignedMediumInteger('balance_in_cents')->default(0);
+
             $table->boolean('is_applying_rules')->default(false);
             $table->boolean('is_syncing_articles')->default(false);
             $table->boolean('is_syncing_orders')->default(false);

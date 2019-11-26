@@ -8,6 +8,7 @@ use App\Models\Items\Item;
 use App\Models\Orders\Order;
 use App\Models\Rules\Rule;
 use App\Models\Storages\Storage;
+use App\Models\Users\Balance;
 use App\Support\Users\CardmarketApi;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -20,6 +21,10 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+    protected $appends = [
+        'balance_in_euros_formatted',
+    ];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -29,6 +34,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'balance_in_cents',
+        'credits',
         'is_applying_rules',
         'is_syncing_articles',
         'is_syncing_orders',
@@ -74,6 +81,11 @@ class User extends Authenticatable
         return new CardmarketApi($this->api);
     }
 
+    public function getBalanceInEuroFormattedAttribute()
+    {
+        return number_format(($this->balance_in_cents / 100), 2, ',', '.');
+    }
+
     public function setup() : void {
         Item::setup($this);
     }
@@ -83,7 +95,6 @@ class User extends Authenticatable
         return $this->hasOne(Api::class, 'user_id');
     }
 
-
     // public function apis() : HasMany
     // {
     //     return $this->hasMany(Api::class);
@@ -92,6 +103,11 @@ class User extends Authenticatable
     public function articles() : HasMany
     {
         return $this->hasMany(Article::class);
+    }
+
+    public function balances() : HasMany
+    {
+        return $this->hasMany(Balance::class);
     }
 
     public function items() : HasMany

@@ -8,6 +8,7 @@ use App\Models\Items\Item;
 use App\Models\Orders\Order;
 use App\Models\Rules\Rule;
 use App\Models\Storages\Storage;
+use App\Models\Users\Balance;
 use App\Support\Users\CardmarketApi;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -50,6 +51,19 @@ class UserTest extends TestCase
         ]);
 
         $this->assertHasMany($model, $related, 'articles');
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_many_balances()
+    {
+        $model = factory(User::class)->create();
+        $related = factory(Balance::class)->create([
+            'user_id' => $model->id,
+        ]);
+
+        $this->assertHasMany($model, $related, 'balances');
     }
 
     /**

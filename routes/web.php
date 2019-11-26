@@ -107,4 +107,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('item/{item}/quantity', 'Items\QuantityController@index')->name('quantity.index');
     Route::post('item/{item}/quantity', 'Items\QuantityController@store')->name('quantity.store');
 
+    Route::get('/user/balance', 'Users\Balances\BalanceController@index');
+
 });
