@@ -23,9 +23,13 @@ class RuleController extends Controller
         if ($request->wantsJson()) {
             $rules = auth()->user()
                 ->rules()
-                ->withCount('articles')
+                ->with('expansion')
                 ->orderBy('order_column', 'ASC')
                 ->paginate();
+
+            foreach ($rules as $key => $rule) {
+                $rule->articleStats = $rule->articleStats;
+            }
 
             return $rules;
         }

@@ -39,16 +39,21 @@
             <table class="table table-hover table-striped bg-white">
                 <thead>
                     <tr>
-                        <th width="5%"></th>
-                        <th width="5%">
+                        <th width="50"></th>
+                        <th class="text-center" width="50">
                             <label class="form-checkbox" for="checkall"></label>
                             <input id="checkall" type="checkbox" v-model="selectAll">
                         </th>
-                        <th width="5%">Status</th>
-                        <th width="50%">Name</th>
-                        <th width="20%">Preis</th>
+                        <th class="text-center" width="5%">Status</th>
+                        <th width="20%">Name</th>
+                        <th width="15%">Erweiterung</th>
+                        <th class="text-center" width="10%">Seltenheit</th>
+                        <th width="10%">Preis</th>
                         <th class="text-right" width="10%">Artikel</th>
-                        <th class="text-right" width="10%">Aktion</th>
+                        <th class="text-right" width="10%">Verkaufspreis</th>
+                        <th class="text-right" width="10%">Regelpreis</th>
+                        <th class="text-right" width="5%">Differenz</th>
+                        <th class="text-right" width="5%">Aktion</th>
                     </tr>
                 </thead>
                 <draggable v-model="items" tag="tbody" handle=".sort" @end="sort">

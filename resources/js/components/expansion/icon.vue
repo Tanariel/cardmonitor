@@ -1,7 +1,7 @@
 <template>
-    <div class="d-flex align-items-center">
-        <span class="mr-2" style="display: inline-block; width: 21px; height: 21px; background-image: url('/storage/expansionicons/expicons.png');" :style="{ 'background-position': bachgroundPosition }"></span>
-        <span>{{ expansion.name }}</span>
+    <div class="d-flex align-items-center justify-content-space-between">
+        <span class="expansion-icon mr-2" :style="{ 'background-position': bachgroundPosition }"></span>
+        <span class="expansion-name">{{ expansion.name }}</span>
     </div>
 </template>
 
@@ -23,3 +23,16 @@
 
     };
 </script>
+
+<style>
+    .expansion-icon {
+        display: inline-block;
+        width: 21px;
+        height: 21px;
+        background-image: url('/storage/expansionicons/expicons.png');
+    }
+
+    .expansion-name {
+        word-break: break-all;
+    }
+</style>

@@ -142,6 +142,26 @@ class Rule extends Model
         return true;
     }
 
+    public function getArticleStatsAttribute()
+    {
+        $stats = DB::table('articles')
+            ->select(DB::raw('COUNT(id) AS count'), DB::raw('SUM(unit_price) AS price'), DB::raw('SUM(rule_price) AS rule_price'))
+            ->where('user_id', $this->user_id)
+            ->where('rule_id', $this->id)
+            ->whereNull('order_id')
+            ->first();
+
+        $stats->count_formatted = number_format($stats->count, 0, '', '.');
+        $stats->price_formatted = number_format($stats->price, 2, ',', '.');
+        $stats->rule_price_formatted = number_format($stats->rule_price, 2, ',', '.');
+        $stats->difference = $stats->rule_price - $stats->price;
+        $stats->difference_percent = $stats->difference / $stats->price;
+        $stats->difference_percent_formatted = number_format(($stats->difference_percent * 100), 0, ',', '.');
+        $stats->difference_icon = ($stats->difference == 0 ? '' : ($stats->difference > 0 ? '<i class="fas fa-arrow-up text-success"></i>' : '<i class="fas fa-arrow-down text-danger"></i>'));
+
+        return $stats;
+    }
+
     public function getBasePriceFormattedAttribute()
     {
         return Arr::get(Article::BASE_PRICES, $this->base_price, 'Preis');

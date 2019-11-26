@@ -19,15 +19,15 @@
     </div>
 
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-12 col-md-6">
             <div class="card mb-5">
                 <div class="card-header">{{ $model->name }}</div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="row">
-                                <div class="col-md-4"><b>Name</b></div>
-                                <div class="col-md-8">{{ $model->name }}</div>
+                                <div class="col-4"><b>Name</b></div>
+                                <div class="col-8">{{ $model->name }}</div>
                             </div>
                             <div>
                                 {!! nl2br($model->description) !!}
@@ -35,16 +35,16 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="row">
-                                <div class="col-md-4"><b>Erweiterung</b></div>
-                                <div class="col-md-8">{{ $model->expansion_id ? $model->expansion->name : 'Alle' }}</div>
+                                <div class="col-4"><b>Erweiterung</b></div>
+                                <div class="col-8">{{ $model->expansion_id ? $model->expansion->name : 'Alle' }}</div>
                             </div>
                             <div class="row">
-                                <div class="col-md-4"><b>Seltenheit</b></div>
-                                <div class="col-md-8">{{ $model->rarity ?? 'Alle' }}</div>
+                                <div class="col-4"><b>Seltenheit</b></div>
+                                <div class="col-8">{{ $model->rarity ?? 'Alle' }}</div>
                             </div>
                             <div class="row">
-                                <div class="col-md-4"><b>Preis</b></div>
-                                <div class="col-md-8">{{ $model->base_price_formatted }} * {{ $model->multiplier_formatted }}</div>
+                                <div class="col-4"><b>Preis</b></div>
+                                <div class="col-8">{{ $model->base_price_formatted }} * {{ $model->multiplier_formatted }}</div>
                             </div>
                         </div>
                     </div>
@@ -68,6 +68,36 @@
                 </div>
             </div>
         </div>
+
+        <div class="col-12 col-md-6">
+            <div class="card mb-5">
+                <div class="card-header">Artikel</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-4"><b>Artikel</b></div>
+                        <div class="col-8">{{ $model->articleStats->count_formatted }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4"><b>Verkaufspreis</b></div>
+                        <div class="col-8">{{ $model->articleStats->price_formatted }} €</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4"><b>Regelpreis</b></div>
+                        <div class="col-4">{{ $model->articleStats->rule_price_formatted }} €</div>
+                        <div class="col-4">
+                            @if ($model->articleStats->difference != 0)
+                                {!! $model->articleStats->difference_icon !!} {{ $model->articleStats->difference_percent_formatted }}%
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="alert alert-dark mt-3" role="alert">
+                        Regeln müssen erst simuliert oder angewendet werden, um hier eine Änderung zu sehen.
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <div class="card">
