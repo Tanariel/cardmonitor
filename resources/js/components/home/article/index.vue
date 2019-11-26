@@ -137,7 +137,7 @@
                         Vue.success('Artikel werden im Hintergrund aktualisiert.');
                     })
                     .catch(function (error) {
-                        Vue.error('Artikel konnten nicht synchronisiert werden!');
+                        Vue.error('Artikel konnten nicht synchronisiert werden! Ist das Cardmarket Konto verbunden?');
                         console.log(error);
                     })
                     .finally ( function () {

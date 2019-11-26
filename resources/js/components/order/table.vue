@@ -222,7 +222,7 @@
                         Vue.success('Bestellungen werden im Hintergrund synchronisiert.');
                     })
                     .catch(function (error) {
-                        Vue.error('Bestellungen konnten nicht synchronisiert werden!');
+                        Vue.error('Bestellungen konnten nicht synchronisiert werden! Ist das Cardmarket Konto verbunden?');
                         console.log(error);
                     })
                     .finally ( function () {

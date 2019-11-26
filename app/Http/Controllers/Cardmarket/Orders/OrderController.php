@@ -37,6 +37,10 @@ class OrderController extends Controller
         $user = auth()->user();
         $this->CardmarketApi = $user->cardmarketApi;
 
+        if (! $user->api->isConnected()) {
+            abort(404);
+        }
+
         if (is_null($order)) {
             $this->syncAllOrders($user);
         }

@@ -35,6 +35,10 @@ class ArticleController extends Controller
         $user = auth()->user();
         $this->CardmarketApi = $user->cardmarketApi;
 
+        if (! $user->api->isConnected()) {
+            abort(404);
+        }
+
         if (is_null($article)) {
             $this->syncAll($user);
         }
