@@ -333,7 +333,6 @@
                                 Vue.set(component.cards, newValue.index, component.item);
                             })
                     }
-                    console.log(newValue.rule.id, newValue[newValue.rule.base_price], newValue.rule.multiplier);
                     newValue.price_rule = (newValue.rule.id ? newValue[newValue.rule.base_price] * newValue.rule.multiplier : null);
                     this.form.card_id = newValue.id;
                     this.form.language_id = this.filter.language_id;
@@ -456,7 +455,7 @@
                 }
             },
             keydown(event) {
-                console.log(event);
+                // console.log(event);
             },
             showImgbox(src, top) {
                 this.imgbox.src = src;

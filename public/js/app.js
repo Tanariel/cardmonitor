@@ -2193,7 +2193,6 @@ __webpack_require__.r(__webpack_exports__);
           });
         }
 
-        console.log(newValue.rule.id, newValue[newValue.rule.base_price], newValue.rule.multiplier);
         newValue.price_rule = newValue.rule.id ? newValue[newValue.rule.base_price] * newValue.rule.multiplier : null;
         this.form.card_id = newValue.id;
         this.form.language_id = this.filter.language_id;
@@ -2311,8 +2310,7 @@ __webpack_require__.r(__webpack_exports__);
         this.selected.splice(index, 1);
       }
     },
-    keydown: function keydown(event) {
-      console.log(event);
+    keydown: function keydown(event) {// console.log(event);
     },
     showImgbox: function showImgbox(src, top) {
       this.imgbox.src = src;
