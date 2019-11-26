@@ -2106,6 +2106,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -2192,11 +2193,13 @@ __webpack_require__.r(__webpack_exports__);
           });
         }
 
+        console.log(newValue.rule.id, newValue[newValue.rule.base_price], newValue.rule.multiplier);
+        newValue.price_rule = newValue.rule.id ? newValue[newValue.rule.base_price] * newValue.rule.multiplier : null;
         this.form.card_id = newValue.id;
         this.form.language_id = this.filter.language_id;
         this.form.storage_id = newValue.storage_id || null;
         this.form.unit_cost_formatted = Number(this.defaultCardCosts[newValue.rarity] || 0).format(2, ',', '');
-        this.form.unit_price_formatted = Number(newValue.price_trend).format(2, ',', '');
+        this.form.unit_price_formatted = Number(newValue.price_rule || newValue.price_trend).format(2, ',', '');
         this.form.is_foil = false;
         this.form.is_signed = false;
         this.form.is_playset = false;
@@ -47269,126 +47272,68 @@ var render = function() {
                       _vm._v("Lagerplatz")
                     ]),
                     _vm._v(" "),
-                    _c("td", { staticClass: "align-middle" }, [
-                      _c("div", { staticClass: "form-group mb-0" }, [
-                        _c(
-                          "select",
-                          {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.form.storage_id,
-                                expression: "form.storage_id"
-                              }
-                            ],
-                            staticClass: "form-control",
-                            on: {
-                              change: function($event) {
-                                var $$selectedVal = Array.prototype.filter
-                                  .call($event.target.options, function(o) {
-                                    return o.selected
-                                  })
-                                  .map(function(o) {
-                                    var val = "_value" in o ? o._value : o.value
-                                    return val
-                                  })
-                                _vm.$set(
-                                  _vm.form,
-                                  "storage_id",
-                                  $event.target.multiple
-                                    ? $$selectedVal
-                                    : $$selectedVal[0]
-                                )
-                              }
-                            }
-                          },
-                          [
-                            _c("option", { domProps: { value: null } }, [
-                              _vm._v("Kein Lagerplatz")
-                            ]),
-                            _vm._v(" "),
-                            _vm._l(_vm.storages, function(storage, id) {
-                              return _c("option", {
-                                domProps: {
-                                  value: storage.id,
-                                  innerHTML: _vm._s(storage.indentedName)
-                                }
-                              })
-                            })
-                          ],
-                          2
-                        ),
-                        _vm._v(" "),
-                        _c("div", {
-                          staticClass: "invalid-feedback",
-                          domProps: {
-                            textContent: _vm._s(
-                              "storage" in _vm.errors
-                                ? _vm.errors.storage[0]
-                                : ""
-                            )
-                          }
-                        })
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("td")
-                  ]),
-                  _vm._v(" "),
-                  _c("tr", [
-                    _c("td", { staticClass: "align-middle" }, [
-                      _vm._v("Anzahl")
-                    ]),
-                    _vm._v(" "),
                     _c(
                       "td",
-                      { staticClass: "align-middle", attrs: { width: "50%" } },
+                      { staticClass: "align-middle", attrs: { width: "30%" } },
                       [
                         _c("div", { staticClass: "form-group mb-0" }, [
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.form.count,
-                                expression: "form.count"
-                              }
-                            ],
-                            ref: "count",
-                            staticClass: "form-control",
-                            attrs: { type: "number" },
-                            domProps: { value: _vm.form.count },
-                            on: {
-                              keydown: function($event) {
-                                if (
-                                  !$event.type.indexOf("key") &&
-                                  _vm._k(
-                                    $event.keyCode,
-                                    "enter",
-                                    13,
-                                    $event.key,
-                                    "Enter"
+                          _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.form.storage_id,
+                                  expression: "form.storage_id"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              on: {
+                                change: function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.$set(
+                                    _vm.form,
+                                    "storage_id",
+                                    $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
                                   )
-                                ) {
-                                  return null
                                 }
-                                return _vm.create(true)
-                              },
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.$set(_vm.form, "count", $event.target.value)
                               }
-                            }
-                          }),
+                            },
+                            [
+                              _c("option", { domProps: { value: null } }, [
+                                _vm._v("Kein Lagerplatz")
+                              ]),
+                              _vm._v(" "),
+                              _vm._l(_vm.storages, function(storage, id) {
+                                return _c("option", {
+                                  domProps: {
+                                    value: storage.id,
+                                    innerHTML: _vm._s(storage.indentedName)
+                                  }
+                                })
+                              })
+                            ],
+                            2
+                          ),
                           _vm._v(" "),
                           _c("div", {
                             staticClass: "invalid-feedback",
                             domProps: {
                               textContent: _vm._s(
-                                "count" in _vm.errors ? _vm.errors.count[0] : ""
+                                "storage" in _vm.errors
+                                  ? _vm.errors.storage[0]
+                                  : ""
                               )
                             }
                           })
@@ -47396,72 +47341,127 @@ var render = function() {
                       ]
                     ),
                     _vm._v(" "),
-                    _c(
-                      "td",
-                      { staticClass: "align-middle", attrs: { width: "50%" } },
-                      [
-                        _c(
-                          "div",
-                          {
-                            staticClass: "btn-group btn-group-sm",
-                            attrs: { role: "group" }
-                          },
-                          [
-                            _c(
-                              "button",
-                              {
-                                staticClass: "btn btn-secondary",
-                                on: {
-                                  click: function($event) {
-                                    _vm.form.count = 1
-                                  }
-                                }
-                              },
-                              [_vm._v("1")]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "button",
-                              {
-                                staticClass: "btn btn-secondary",
-                                on: {
-                                  click: function($event) {
-                                    _vm.form.count = 2
-                                  }
-                                }
-                              },
-                              [_vm._v("2")]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "button",
-                              {
-                                staticClass: "btn btn-secondary",
-                                on: {
-                                  click: function($event) {
-                                    _vm.form.count = 3
-                                  }
-                                }
-                              },
-                              [_vm._v("3")]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "button",
-                              {
-                                staticClass: "btn btn-secondary",
-                                on: {
-                                  click: function($event) {
-                                    _vm.form.count = 4
-                                  }
-                                }
-                              },
-                              [_vm._v("4")]
+                    _c("td", { attrs: { width: "70%" } })
+                  ]),
+                  _vm._v(" "),
+                  _c("tr", [
+                    _c("td", { staticClass: "align-middle" }, [
+                      _vm._v("Anzahl")
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "align-middle" }, [
+                      _c("div", { staticClass: "form-group mb-0" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.count,
+                              expression: "form.count"
+                            }
+                          ],
+                          ref: "count",
+                          staticClass: "form-control",
+                          attrs: { type: "number" },
+                          domProps: { value: _vm.form.count },
+                          on: {
+                            keydown: function($event) {
+                              if (
+                                !$event.type.indexOf("key") &&
+                                _vm._k(
+                                  $event.keyCode,
+                                  "enter",
+                                  13,
+                                  $event.key,
+                                  "Enter"
+                                )
+                              ) {
+                                return null
+                              }
+                              return _vm.create(true)
+                            },
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(_vm.form, "count", $event.target.value)
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("div", {
+                          staticClass: "invalid-feedback",
+                          domProps: {
+                            textContent: _vm._s(
+                              "count" in _vm.errors ? _vm.errors.count[0] : ""
                             )
-                          ]
-                        )
-                      ]
-                    )
+                          }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "align-middle" }, [
+                      _c(
+                        "div",
+                        {
+                          staticClass: "btn-group btn-group-sm",
+                          attrs: { role: "group" }
+                        },
+                        [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-secondary",
+                              on: {
+                                click: function($event) {
+                                  _vm.form.count = 1
+                                }
+                              }
+                            },
+                            [_vm._v("1")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-secondary",
+                              on: {
+                                click: function($event) {
+                                  _vm.form.count = 2
+                                }
+                              }
+                            },
+                            [_vm._v("2")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-secondary",
+                              on: {
+                                click: function($event) {
+                                  _vm.form.count = 3
+                                }
+                              }
+                            },
+                            [_vm._v("3")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-secondary",
+                              on: {
+                                click: function($event) {
+                                  _vm.form.count = 4
+                                }
+                              }
+                            },
+                            [_vm._v("4")]
+                          )
+                        ]
+                      )
+                    ])
                   ]),
                   _vm._v(" "),
                   _c("tr", [
@@ -48090,81 +48090,118 @@ var render = function() {
                       ])
                     ]),
                     _vm._v(" "),
-                    _c("td", { staticClass: "align-middle" }, [
-                      _c(
-                        "div",
-                        {
-                          staticClass: "btn-group btn-group-sm",
-                          attrs: { role: "group" }
-                        },
-                        [
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-secondary",
-                              on: {
-                                click: function($event) {
-                                  return _vm.setPrice("low")
-                                }
-                              }
-                            },
-                            [_vm._v("LOW")]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-secondary",
-                              on: {
-                                click: function($event) {
-                                  return _vm.setPrice("sell")
-                                }
-                              }
-                            },
-                            [_vm._v("SELL")]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-secondary",
-                              on: {
-                                click: function($event) {
-                                  return _vm.setPrice("trend")
-                                }
-                              }
-                            },
-                            [_vm._v("TREND")]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-secondary",
-                              attrs: { disabled: _vm.form.is_foil },
-                              on: {
-                                click: function($event) {
-                                  return _vm.setPrice("avg")
-                                }
-                              }
-                            },
-                            [_vm._v("AVG")]
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c("i", {
-                        directives: [
+                    _c(
+                      "td",
+                      { staticClass: "align-middle" },
+                      [
+                        _c(
+                          "div",
                           {
-                            name: "show",
-                            rawName: "v-show",
-                            value: _vm.isLoadingPrices,
-                            expression: "isLoadingPrices"
-                          }
-                        ],
-                        staticClass: "fas fa-fw fa-spin fa-spinner"
-                      })
-                    ])
+                            directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value: _vm.isLoadingPrices == false,
+                                expression: "isLoadingPrices == false"
+                              }
+                            ],
+                            staticClass: "btn-group btn-group-sm",
+                            attrs: { role: "group" }
+                          },
+                          [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-secondary",
+                                on: {
+                                  click: function($event) {
+                                    return _vm.setPrice("low")
+                                  }
+                                }
+                              },
+                              [_vm._v("LOW")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-secondary",
+                                on: {
+                                  click: function($event) {
+                                    return _vm.setPrice("sell")
+                                  }
+                                }
+                              },
+                              [_vm._v("SELL")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-secondary",
+                                on: {
+                                  click: function($event) {
+                                    return _vm.setPrice("trend")
+                                  }
+                                }
+                              },
+                              [_vm._v("TREND")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-secondary",
+                                attrs: { disabled: _vm.form.is_foil },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.setPrice("avg")
+                                  }
+                                }
+                              },
+                              [_vm._v("AVG")]
+                            ),
+                            _vm._v(" "),
+                            _vm.item.rule.id
+                              ? _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-secondary",
+                                    attrs: { title: _vm.item.rule.name },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.setPrice("rule")
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("REGEL")]
+                                )
+                              : _vm._e()
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "center",
+                          {
+                            directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value: _vm.isLoadingPrices,
+                                expression: "isLoadingPrices"
+                              }
+                            ]
+                          },
+                          [
+                            _c("i", {
+                              staticClass: "fas fa-fw fa-spin fa-spinner"
+                            }),
+                            _vm._v(" Lade Preise")
+                          ]
+                        )
+                      ],
+                      1
+                    )
                   ])
                 ])
               ]),

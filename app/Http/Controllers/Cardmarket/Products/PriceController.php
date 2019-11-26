@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Cardmarket\Products;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cards\Card;
+use App\Models\Rules\Rule;
+use App\Models\Storages\Content;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 
@@ -81,6 +83,9 @@ class PriceController extends Controller
 
         $card->setPricesFromCardmarket($cardmarketProduct['product']['priceGuide'])
             ->save();
+
+        $card->storage_id = Content::findStorageIdByExpansion(auth()->user()->id, $card->expansion_id)->storage_id;
+        $card->rule = Rule::findForCard(auth()->user()->id, $card);
 
         return $card;
     }

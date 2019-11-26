@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Cards;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cards\Card;
+use App\Models\Rules\Rule;
 use App\Models\Storages\Content;
 use Illuminate\Http\Request;
 
@@ -30,6 +31,7 @@ class CardController extends Controller
 
             foreach ($cards as $key => &$card) {
                 $card->storage_id = Content::findStorageIdByExpansion(auth()->user()->id, $card->expansion_id)->storage_id;
+                $card->rule = Rule::findForCard(auth()->user()->id, $card);
             }
 
             return $cards;

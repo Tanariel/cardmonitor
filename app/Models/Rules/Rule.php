@@ -5,6 +5,7 @@ namespace App\Models\Rules;
 use App\Models\Articles\Article;
 use App\Models\Cards\Card;
 use App\Models\Expansions\Expansion;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -69,6 +70,25 @@ class Rule extends Model
                 'rule_price' => null,
             ]);
         });
+    }
+
+    public static function findForCard(int $userId, Card $card) : self
+    {
+        $rule = self::where('active', true)
+            ->where(function (Builder $query) use ($card) {
+                $query->whereNull('expansion_id')
+                    ->orWhere('expansion_id', $card->expansion_id);
+            })
+            ->where(function (Builder $query) use ($card) {
+                $query->whereNull('rarity')
+                    ->orWhere('rarity', $card->rarity);
+            })
+            ->orderBy('order_column', 'ASC')
+            ->firstOrNew([
+                'user_id' => $userId,
+            ], []);
+
+        return $rule;
     }
 
     public static function nextOrderColumn(int $userId)
@@ -155,7 +175,7 @@ class Rule extends Model
         $stats->price_formatted = number_format($stats->price, 2, ',', '.');
         $stats->rule_price_formatted = number_format($stats->rule_price, 2, ',', '.');
         $stats->difference = $stats->rule_price - $stats->price;
-        $stats->difference_percent = $stats->difference / $stats->price;
+        $stats->difference_percent = ($stats->price ? $stats->difference / $stats->price : 0);
         $stats->difference_percent_formatted = number_format(($stats->difference_percent * 100), 0, ',', '.');
         $stats->difference_icon = ($stats->difference == 0 ? '' : ($stats->difference > 0 ? '<i class="fas fa-arrow-up text-success"></i>' : '<i class="fas fa-arrow-down text-danger"></i>'));
 

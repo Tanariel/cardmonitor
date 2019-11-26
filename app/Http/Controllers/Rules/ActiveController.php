@@ -20,6 +20,8 @@ class ActiveController extends Controller
             ->save();
 
         if ($request->wantsJson()) {
+            $rule->articleStats = $rule->articleStats;
+
             return $rule->loadCount('articles');
         }
 
@@ -42,6 +44,8 @@ class ActiveController extends Controller
             ->save();
 
         if ($request->wantsJson()) {
+            $rule->articleStats = $rule->articleStats;
+
             return $rule->loadCount('articles');
         }
 

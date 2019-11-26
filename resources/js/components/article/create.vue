@@ -50,12 +50,12 @@
                                 <td class="align-middle" width="150">Artikel</td>
                                 <td class="align-middle" colspan="2" width="100%">
                                     <div>{{ item.local_name }}</div>
-                                <div class="text-muted" v-if="filter.language_id != 1">{{ item.name }}</div>
+                                    <div class="text-muted" v-if="filter.language_id != 1">{{ item.name }}</div>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="align-middle">Lagerplatz</td>
-                                <td class="align-middle">
+                                <td class="align-middle" width="30%">
                                     <div class="form-group mb-0">
                                         <select class="form-control" v-model="form.storage_id">
                                             <option :value="null">Kein Lagerplatz</option>
@@ -64,17 +64,17 @@
                                         <div class="invalid-feedback" v-text="'storage' in errors ? errors.storage[0] : ''"></div>
                                     </div>
                                 </td>
-                                <td></td>
+                                <td width="70%"></td>
                             </tr>
                             <tr>
                                 <td class="align-middle">Anzahl</td>
-                                <td class="align-middle" width="50%">
+                                <td class="align-middle">
                                     <div class="form-group mb-0">
                                         <input class="form-control" type="number" ref="count" v-model="form.count" @keydown.enter="create(true)">
                                         <div class="invalid-feedback" v-text="'count' in errors ? errors.count[0] : ''"></div>
                                     </div>
                                 </td>
-                                <td class="align-middle" width="50%">
+                                <td class="align-middle">
                                     <div class="btn-group btn-group-sm" role="group">
                                         <button class="btn btn-secondary" @click="form.count = 1">1</button>
                                         <button class="btn btn-secondary" @click="form.count = 2">2</button>
@@ -181,13 +181,14 @@
                                     </div>
                                 </td>
                                 <td class="align-middle">
-                                    <div class="btn-group btn-group-sm" role="group">
+                                    <div class="btn-group btn-group-sm" role="group" v-show="isLoadingPrices == false">
                                         <button class="btn btn-secondary" @click="setPrice('low')">LOW</button>
                                         <button class="btn btn-secondary" @click="setPrice('sell')">SELL</button>
                                         <button class="btn btn-secondary" @click="setPrice('trend')">TREND</button>
                                         <button class="btn btn-secondary" @click="setPrice('avg')" :disabled="form.is_foil">AVG</button>
+                                        <button class="btn btn-secondary" @click="setPrice('rule')" :title="item.rule.name" v-if="item.rule.id">REGEL</button>
                                     </div>
-                                    <i class="fas fa-fw fa-spin fa-spinner" v-show="isLoadingPrices"></i>
+                                    <center v-show="isLoadingPrices"><i class="fas fa-fw fa-spin fa-spinner"></i> Lade Preise</center>
                                 </td>
                             </tr>
                         </tbody>
@@ -332,11 +333,13 @@
                                 Vue.set(component.cards, newValue.index, component.item);
                             })
                     }
+                    console.log(newValue.rule.id, newValue[newValue.rule.base_price], newValue.rule.multiplier);
+                    newValue.price_rule = (newValue.rule.id ? newValue[newValue.rule.base_price] * newValue.rule.multiplier : null);
                     this.form.card_id = newValue.id;
                     this.form.language_id = this.filter.language_id;
                     this.form.storage_id = newValue.storage_id || null;
                     this.form.unit_cost_formatted = Number(this.defaultCardCosts[newValue.rarity] || 0).format(2, ',', '');
-                    this.form.unit_price_formatted = Number(newValue.price_trend).format(2, ',', '');
+                    this.form.unit_price_formatted = Number(newValue.price_rule || newValue.price_trend).format(2, ',', '');
                     this.form.is_foil = false;
                     this.form.is_signed = false;
                     this.form.is_playset = false;
