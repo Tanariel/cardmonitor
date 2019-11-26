@@ -22,7 +22,7 @@ class User extends Authenticatable
     use Notifiable;
 
     protected $appends = [
-        'balance_in_euros_formatted',
+        'balance_in_euro_formatted',
     ];
 
     /**
