@@ -18224,3 +18224,13 @@ div#settings > div {
   color: #AAA1FF;
 }
 
+.page-section {
+  padding: 8rem 0;
+}
+
+hr.divider {
+  max-width: 3.25rem;
+  border-width: 0.2rem;
+  border-color: #3490dc;
+}
+

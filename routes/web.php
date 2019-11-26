@@ -14,7 +14,11 @@ use Illuminate\Support\Facades\App;
 */
 
 Route::get('/', function () {
-    return redirect(route('login'));
+
+    abort(404);
+    // TODO: Bilder anpassen
+
+    return view('landing.index');
 });
 
 Route::post('deploy', 'DeploymentController@store');

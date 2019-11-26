@@ -32,14 +32,25 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
-
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <span class="navbar-text ml-auto">
+                    <span class="navbar-text mr-auto">
                         Verwalte dein Cardmarket Konto
                     </span>
+
+                    <!-- Right Side Of Navbar -->
+                    <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                        @guest
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                            </li>
+                        @else
+                            <li class="nav-item">
+                                <a class="nav-link" href="/home">{{ Auth::user()->name }}</a>
+                            </li>
+                        @endguest
+                    </ul>
                 </div>
             </div>
         </nav>

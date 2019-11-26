@@ -59,7 +59,7 @@ class DevCommand extends Command
     protected function createUsers()
     {
         $this->user = User::create([
-            'name' => 'admin',
+            'name' => 'Daniel',
             'email' => 'admin@cardmonitor.de',
             'email_verified_at' => now(),
             'password' => Hash::make('admin'),
