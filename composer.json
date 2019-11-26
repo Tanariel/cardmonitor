@@ -12,6 +12,7 @@
         "cardmonitor/cardmarket-api": "dev-master",
         "cardmonitor/skryfall-api": "dev-master",
         "fideloper/proxy": "^4.0",
+        "kalnoy/nestedset": "^5.0",
         "laravel/framework": "5.8.*",
         "laravel/telescope": "^2.1",
         "laravel/tinker": "^1.0",

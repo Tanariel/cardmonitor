@@ -84,6 +84,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('rule', 'Rules\RuleController');
 
     Route::resource('storage', 'Storages\StorageController');
+    Route::put('storage/{storage}/parent', 'Storages\ParentController@update');
 
     Route::resource('content', 'Storages\ContentController')->except([
         'index',

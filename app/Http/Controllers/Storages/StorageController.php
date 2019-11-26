@@ -20,8 +20,14 @@ class StorageController extends Controller
         if ($request->wantsJson()) {
             $storages = auth()->user()
                 ->storages()
-                ->orderBy('full_name', 'ASC')
+                ->withCount(['contents'])
+                ->withDepth()
+                ->defaultOrder()
                 ->get();
+
+            foreach ($storages as $key => $storage) {
+                $storage->articleStats = $storage->articleStats;
+            }
 
             return $storages;
         }
@@ -60,10 +66,18 @@ class StorageController extends Controller
      */
     public function show(Storage $storage)
     {
+        $storage->load([
+            'contents',
+            'descendants',
+            'parent',
+        ]);
+
+        foreach ($storage->descendants as $key => &$descendant) {
+                $descendant->articleStats = $descendant->articleStats;
+            }
+
         return view($this->baseViewPath . '.show')
-            ->with('model', $storage->load([
-                'contents',
-            ]));
+            ->with('model', $storage);
     }
 
     /**
@@ -75,7 +89,11 @@ class StorageController extends Controller
     public function edit(Storage $storage)
     {
         return view($this->baseViewPath . '.edit')
-            ->with('model', $storage);
+            ->with('model', $storage)
+            ->with('storages', auth()->user()->storages()
+                ->withDepth()
+                ->defaultOrder()
+                ->get());
     }
 
     /**
@@ -87,9 +105,21 @@ class StorageController extends Controller
      */
     public function update(Request $request, Storage $storage)
     {
-        $storage->update($request->validate([
+        $attributes = $request->validate([
             'name' => 'required|string',
-        ]));
+            'parent_id' => 'nullable|exists:storages,id',
+        ]);
+
+        if (is_null($attributes['parent_id'])) {
+            $storage->makeRoot();
+        }
+        else {
+            $storage->appendToNode(Storage::find($attributes['parent_id']));
+        }
+
+        unset($attributes['parent_id']);
+
+        $storage->update($attributes);
 
         if ($request->wantsJson()) {
             return $storage;

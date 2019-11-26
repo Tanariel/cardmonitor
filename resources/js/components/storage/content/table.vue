@@ -3,12 +3,11 @@
         <div class="row">
             <div class="col d-flex align-items-start">
                 <div class="form-group mb-0 mr-1">
-                    <select class="form-control" v-model="form.expansion_id">
-                        <option :value="0">Set wählen</option>
+                    <select class="form-control" v-model="form.expansion_id" @change="create">
+                        <option :value="0">Set hinzufügen</option>
                         <option :value="expansion.id" v-for="expansion in availableExpansions">{{ expansion.name }}</option>
                     </select>
                 </div>
-                <button class="btn btn-primary" @click="create" :disabled="(form.expansion_id == 0)"><i class="fas fa-plus-square"></i></button>
             </div>
         </div>
 
@@ -109,6 +108,7 @@
                     .then(function (response) {
                         component.items.push(response.data);
                         component.form.expansion_id = 0;
+                        Vue.success('Zuordnung hinzugefügt.');
                     })
                     .catch( function (error) {
                         component.errors = error.response.data.errors;

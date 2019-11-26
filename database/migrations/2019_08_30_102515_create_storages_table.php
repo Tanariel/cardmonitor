@@ -17,9 +17,8 @@ class CreateStoragesTable extends Migration
             $table->bigIncrements('id');
 
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('storage_id')->nullable();
 
-            $table->unsignedSmallInteger('level')->default(0);
+            $table->nestedSet();
 
             $table->string('number')->nullable();
             $table->string('name');
@@ -27,7 +26,6 @@ class CreateStoragesTable extends Migration
 
             $table->timestamps();
 
-            $table->foreign('storage_id')->references('id')->on('storages');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }

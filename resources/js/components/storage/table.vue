@@ -34,13 +34,17 @@
                             <label class="form-checkbox" for="checkall"></label>
                             <input id="checkall" type="checkbox" v-model="selectAll">
                         </th>
-                        <th width="85%">Name</th>
+                        <th width="30%">Name</th>
+                        <th width="10%"></th>
+                        <th class="text-right" width="15%">Zuordnungen</th>
+                        <th class="text-right" width="15%">Artikel</th>
+                        <th class="text-right" width="15%">Verkaufspreis</th>
                         <th class="text-right" width="10%">Aktion</th>
                     </tr>
                 </thead>
                 <tbody>
                     <template v-for="(item, index) in items">
-                        <row :item="item" :key="item.id" :uri="uri" :selected="(selected.indexOf(item.id) == -1) ? false : true" @deleted="remove(index)" @input="toggleSelected"></row>
+                        <row :item="item" :storages="items" :key="item.id" :uri="uri" :selected="(selected.indexOf(item.id) == -1) ? false : true" @updated="fetch" @deleted="remove(index)" @input="toggleSelected"></row>
                     </template>
                 </tbody>
             </table>

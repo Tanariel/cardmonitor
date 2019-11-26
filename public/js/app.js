@@ -6115,7 +6115,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -6169,6 +6168,7 @@ __webpack_require__.r(__webpack_exports__);
       axios.post(component.uri, component.form).then(function (response) {
         component.items.push(response.data);
         component.form.expansion_id = 0;
+        Vue.success('Zuordnung hinzugefügt.');
       })["catch"](function (error) {
         component.errors = error.response.data.errors;
         Vue.error('Set konnte nicht erstellt werden!');
@@ -6225,11 +6225,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['item', 'uri', 'selected'],
+  props: ['item', 'uri', 'selected', 'storages'],
   data: function data() {
     return {
-      id: this.item.id
+      id: this.item.id,
+      form: {
+        parent_id: this.item.parent_id
+      }
     };
   },
   methods: {
@@ -6240,6 +6251,17 @@ __webpack_require__.r(__webpack_exports__);
           component.$emit("deleted", component.id); // Vue.success('Kosten wurden gelöscht.');
         } else {// Vue.error('Kosten konnten nicht gelöscht werden.');
           }
+      });
+    },
+    setParent: function setParent() {
+      var component = this;
+      axios.put(component.item.path + '/parent', component.form).then(function (response) {
+        component.errors = {};
+        component.$emit('updated', response.data);
+        Vue.success('Lagerplatz wurde gespeichert.');
+      })["catch"](function (error) {
+        component.errors = error.response.data.errors;
+        Vue.error('Lagerplatz konnte nicht gespeichert werden.');
       });
     },
     link: function link() {
@@ -6261,6 +6283,10 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _row_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./row.vue */ "./resources/js/components/storage/row.vue");
 /* harmony import */ var _filter_search_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../filter/search.vue */ "./resources/js/components/filter/search.vue");
+//
+//
+//
+//
 //
 //
 //
@@ -55195,25 +55221,30 @@ var render = function() {
               ],
               staticClass: "form-control",
               on: {
-                change: function($event) {
-                  var $$selectedVal = Array.prototype.filter
-                    .call($event.target.options, function(o) {
-                      return o.selected
-                    })
-                    .map(function(o) {
-                      var val = "_value" in o ? o._value : o.value
-                      return val
-                    })
-                  _vm.$set(
-                    _vm.form,
-                    "expansion_id",
-                    $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-                  )
-                }
+                change: [
+                  function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.$set(
+                      _vm.form,
+                      "expansion_id",
+                      $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                    )
+                  },
+                  _vm.create
+                ]
               }
             },
             [
-              _c("option", { domProps: { value: 0 } }, [_vm._v("Set wählen")]),
+              _c("option", { domProps: { value: 0 } }, [
+                _vm._v("Set hinzufügen")
+              ]),
               _vm._v(" "),
               _vm._l(_vm.availableExpansions, function(expansion) {
                 return _c("option", { domProps: { value: expansion.id } }, [
@@ -55223,17 +55254,7 @@ var render = function() {
             ],
             2
           )
-        ]),
-        _vm._v(" "),
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-primary",
-            attrs: { disabled: _vm.form.expansion_id == 0 },
-            on: { click: _vm.create }
-          },
-          [_c("i", { staticClass: "fas fa-plus-square" })]
-        )
+        ])
       ])
     ]),
     _vm._v(" "),
@@ -55348,9 +55369,44 @@ var render = function() {
       })
     ]),
     _vm._v(" "),
-    _c("td", { staticClass: "align-middle pointer", on: { click: _vm.link } }, [
-      _vm._v(_vm._s(_vm.item.name))
+    _c("td", {
+      staticClass: "align-middle pointer",
+      domProps: { innerHTML: _vm._s(_vm.item.indentedName) },
+      on: { click: _vm.link }
+    }),
+    _vm._v(" "),
+    _c("td", { staticClass: "align-middle" }, [
+      false
+        ? undefined
+        : _vm._e()
     ]),
+    _vm._v(" "),
+    _c(
+      "td",
+      {
+        staticClass: "align-middle text-right pointer",
+        on: { click: _vm.link }
+      },
+      [_vm._v(_vm._s(_vm.item.contents_count))]
+    ),
+    _vm._v(" "),
+    _c(
+      "td",
+      {
+        staticClass: "align-middle text-right pointer",
+        on: { click: _vm.link }
+      },
+      [_vm._v(_vm._s(_vm.item.articleStats.count_formatted))]
+    ),
+    _vm._v(" "),
+    _c(
+      "td",
+      {
+        staticClass: "align-middle text-right pointer",
+        on: { click: _vm.link }
+      },
+      [_vm._v(_vm._s(_vm.item.articleStats.price_formatted) + " €")]
+    ),
     _vm._v(" "),
     _c("td", { staticClass: "align-middle text-right" }, [
       _c(
@@ -55565,7 +55621,27 @@ var render = function() {
                     })
                   ]),
                   _vm._v(" "),
-                  _c("th", { attrs: { width: "85%" } }, [_vm._v("Name")]),
+                  _c("th", { attrs: { width: "30%" } }, [_vm._v("Name")]),
+                  _vm._v(" "),
+                  _c("th", { attrs: { width: "10%" } }),
+                  _vm._v(" "),
+                  _c(
+                    "th",
+                    { staticClass: "text-right", attrs: { width: "15%" } },
+                    [_vm._v("Zuordnungen")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "th",
+                    { staticClass: "text-right", attrs: { width: "15%" } },
+                    [_vm._v("Artikel")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "th",
+                    { staticClass: "text-right", attrs: { width: "15%" } },
+                    [_vm._v("Verkaufspreis")]
+                  ),
                   _vm._v(" "),
                   _c(
                     "th",
@@ -55584,11 +55660,13 @@ var render = function() {
                         key: item.id,
                         attrs: {
                           item: item,
+                          storages: _vm.items,
                           uri: _vm.uri,
                           selected:
                             _vm.selected.indexOf(item.id) == -1 ? false : true
                         },
                         on: {
+                          updated: _vm.fetch,
                           deleted: function($event) {
                             return _vm.remove(index)
                           },

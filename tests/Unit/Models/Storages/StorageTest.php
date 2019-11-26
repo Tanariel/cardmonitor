@@ -17,6 +17,33 @@ class StorageTest extends TestCase
     /**
      * @test
      */
+    public function it_sets_its_full_name()
+    {
+        $parent = factory(Storage::class)->create([
+            'user_id' => $this->user->id,
+        ]);
+        $child = factory(Storage::class)->create([
+            'user_id' => $this->user->id,
+        ]);
+
+        $child2 = factory(Storage::class)->create([
+            'user_id' => $this->user->id,
+        ]);
+
+        $child->appendToNode($parent)
+            ->save();
+
+        $child2->appendToNode($child)
+            ->save();
+
+        $this->assertEquals($parent->name, $parent->full_name);
+        $this->assertEquals($parent->name . '/' . $child->name, $child->full_name);
+        $this->assertEquals($parent->name . '/' . $child->name . '/' . $child2->name, $child2->full_name);
+    }
+
+    /**
+     * @test
+     */
     public function it_has_many_articles()
     {
         $model = factory(Storage::class)->create();
