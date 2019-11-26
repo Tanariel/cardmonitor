@@ -9,15 +9,16 @@
             <div class="row h-100 align-items-center justify-content-center text-center">
 
                 <div class="col-lg-10 align-self-end">
-
-                    <h1 class="text-uppercase text-white font-weight-bold">Optimiere dein Cardmarket.com Konto</h1>
+                    <h1 class="text-uppercase text-white font-weight-bold">Optimiere dein</h1>
+                    <a href="https://cardmarket.com"><img alt="Cardmarket.com" class="img-fluid" src="{{ Storage::url('cardmarket/CardmarketLogoWhite1.png') }}" width="300px;"></a>
+                    <h1 class="text-uppercase text-white font-weight-bold">Konto</h1>
                     <hr class="divider my-4">
 
                 </div>
 
                 <div class="col-lg-8 align-self-baseline">
 
-                    <p class="text-light font-weight-light mb-5">Spare Zeit und steigere deine Verkäufe!</p>
+                    <h2 class="text-light font-weight-light mb-5">Spare Zeit und steigere deine Verkäufe!</h2>
                     <img class="img-fluid rounded my-3" src="{{ Storage::url('dashboard.png') }}">
                     <a class="btn btn-success mt-5 btn-lg" href="{{ route('register') }}">Starte jetzt</a>
 
@@ -43,11 +44,13 @@
 
                     <div class="mt-5">
 
-                        <i class="fas fa-4x fa-chart-line text-primary mb-4"></i>
-                        <h3 class="h4 mb-2">Behalte den Überblick</h3>
-                        <p class="text-muted mb-2">
-                            Umsatz, Kosten und Gewinn auf einen Blick.
-                        </p>
+                        <a class="text-body text-decoration-none" href="#overview">
+                            <i class="fas fa-4x fa-chart-line text-primary mb-4"></i>
+                            <h3 class="h4 mb-2">Behalte den Überblick</h3>
+                            <p class="text-muted mb-2">
+                                Umsatz, Kosten und Gewinn auf einen Blick.
+                            </p>
+                        </a>
 
                     </div>
 
@@ -57,11 +60,13 @@
 
                     <div class="mt-5">
 
-                        <i class="fas fa-4x fa-shipping-fast text-primary mb-4"></i>
-                        <h3 class="h4 mb-2">Bestellungen vorbereiten</h3>
-                        <p class="text-muted mb-2">
-                            Bereite deine Bestellungen schneller vor.
-                        </p>
+                        <a class="text-body text-decoration-none" href="#order">
+                            <i class="fas fa-4x fa-shipping-fast text-primary mb-4"></i>
+                            <h3 class="h4 mb-2">Bestellungen vorbereiten</h3>
+                            <p class="text-muted mb-2">
+                                Bereite deine Bestellungen schneller vor.
+                            </p>
+                        </a>
 
                     </div>
 
@@ -71,11 +76,13 @@
 
                     <div class="mt-5">
 
-                        <i class="fas fa-4x fa-plus-square text-primary mb-4"></i>
-                        <h3 class="h4 mb-2">Artikel anlegen</h3>
-                        <p class="text-muted mb-2">
-                            Erstelle neue Artikel schneller ohne die Maus zu nutzen.
-                        </p>
+                        <a class="text-body text-decoration-none" href="#article">
+                            <i class="fas fa-4x fa-plus-square text-primary mb-4"></i>
+                            <h3 class="h4 mb-2">Artikel anlegen</h3>
+                            <p class="text-muted mb-2">
+                                Erstelle neue Artikel schneller ohne die Maus zu nutzen.
+                            </p>
+                        </a>
 
                     </div>
 
@@ -85,11 +92,13 @@
 
                     <div class="mt-5">
 
-                        <i class="fas fa-4x fa-euro-sign text-primary mb-4"></i>
-                        <h3 class="h4 mb-2">Verkaufspreise</h3>
-                        <p class="text-muted mb-2">
-                            Ändere die Preise aller deiner Artikel auf Knopfdruck.
-                        </p>
+                        <a class="text-body text-decoration-none" href="#price">
+                            <i class="fas fa-4x fa-euro-sign text-primary mb-4"></i>
+                            <h3 class="h4 mb-2">Verkaufspreise</h3>
+                            <p class="text-muted mb-2">
+                                Ändere die Preise aller deiner Artikel auf Knopfdruck.
+                            </p>
+                        </a>
 
                     </div>
 
@@ -108,7 +117,7 @@
         </div>
     </section>
 
-    <section class="page-section">
+    <section id="overview" class="page-section">
 
         <div class="container">
 
@@ -147,7 +156,7 @@
         </div>
     </section>
 
-    <section class="page-section">
+    <section id="order" class="page-section">
 
         <div class="container">
 
@@ -186,7 +195,7 @@
         </div>
     </section>
 
-    <section class="page-section">
+    <section id="article" class="page-section">
 
         <div class="container">
 
@@ -225,7 +234,7 @@
         </div>
     </section>
 
-    <section class="page-section">
+    <section id="price" class="page-section">
 
         <div class="container">
 
