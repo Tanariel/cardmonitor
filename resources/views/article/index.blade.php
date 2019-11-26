@@ -10,6 +10,7 @@
         :is-syncing-articles="{{ $is_syncing_articles }}"
         :languages="{{ json_encode($languages) }}"
         :rarities="{{ json_encode($rarities) }}"
+        :storages="{{ json_encode($storages) }}"
     ></article-table>
 
 @endsection

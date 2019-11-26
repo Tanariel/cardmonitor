@@ -98,6 +98,7 @@
                         <th class="text-center" width="75">Signiert</th>
                         <th class="text-center" width="75">Playset</th>
                         <th class="">Hinweise</th>
+                        <th>Lagerplatz</th>
                         <th class="text-right">Verkaufspreis</th>
                         <th class="text-right">Einkaufspreis</th>
                         <th class="text-right">Provision</th>
@@ -107,7 +108,7 @@
                 </thead>
                 <tbody>
                     <template v-for="(item, index) in items">
-                        <row :item="item" :key="item.id" :uri="uri" :conditions="conditions" :languages="languages" :selected="(selected.indexOf(item.id) == -1) ? false : true" @input="toggleSelected" @updated="updated(index, $event)" @show="showImgbox($event)" @hide="hideImgbox()" @deleted="remove(index)"></row>
+                        <row :item="item" :key="item.id" :uri="uri" :conditions="conditions" :languages="languages" :storages="storages" :selected="(selected.indexOf(item.id) == -1) ? false : true" @input="toggleSelected" @updated="updated(index, $event)" @show="showImgbox($event)" @hide="hideImgbox()" @deleted="remove(index)"></row>
                     </template>
                 </tbody>
             </table>
@@ -197,6 +198,10 @@
             rarities: {
                 type: Array,
                 required: true,
+            },
+            storages: {
+                required: true,
+                type: Array,
             },
         },
 

@@ -9,6 +9,7 @@ use App\Models\Localizations\Language;
 use App\Models\Orders\Order;
 use App\Models\Rules\Rule;
 use App\Models\Storages\Content;
+use App\Models\Storages\Storage;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -438,6 +439,11 @@ class Article extends Model
     public function rule() : BelongsTo
     {
         return $this->belongsTo(Rule::class, 'rule_id');
+    }
+
+    public function storage() : BelongsTo
+    {
+        return $this->belongsTo(Storage::class);
     }
 
     public function user() : BelongsTo

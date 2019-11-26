@@ -49,6 +49,13 @@
             <input class="form-control" :class="'cardmarket_comments' in errors ? 'is-invalid' : ''" type="text" v-model="form.cardmarket_comments" @keydown.enter="update(false)">
             <div class="invalid-feedback" v-text="'cardmarket_comments' in errors ? errors.cardmarket_comments[0] : ''"></div>
         </td>
+        <td class="align-middle text-center">
+            <select class="form-control" v-model="form.storage_id">
+                <option :value="null">Kein Lagerplatz</option>
+                <option :value="storage.id" v-for="(storage, key) in storages" v-html="storage.indentedName"></option>
+            </select>
+            <div class="invalid-feedback" v-text="'unit_price_formatted' in errors ? errors.unit_price_formatted[0] : ''"></div>
+        </td>
         <td class="align-middle text-right">
             <div class="input-group">
                 <input class="form-control text-right" :class="'unit_price_formatted' in errors ? 'is-invalid' : ''" type="text" v-model="form.unit_price_formatted" @keydown.enter="update(false)">
@@ -124,7 +131,7 @@
             rarity,
         },
 
-        props: ['item', 'uri', 'selected', 'conditions', 'languages'],
+        props: ['item', 'uri', 'selected', 'conditions', 'languages', 'storages'],
 
         // watch: {
         //     'item': {
@@ -162,6 +169,7 @@
                     is_signed: this.item.is_signed,
                     is_playset: this.item.is_playset,
                     sync: false,
+                    storage_id: this.item.storage_id,
                 },
                 errors: {},
             };
@@ -173,6 +181,7 @@
                     cardmarket_comments: newValue.cardmarket_comments,
                     condition: newValue.condition,
                     language_id: newValue.language_id,
+                    storage_id: newValue.storage_id,
                     unit_cost_formatted: newValue.unit_cost_formatted,
                     unit_price_formatted: newValue.unit_price_formatted,
                     provision_formatted: newValue.provision_formatted,

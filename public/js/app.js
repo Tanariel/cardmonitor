@@ -2092,6 +2092,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2141,6 +2155,10 @@ __webpack_require__.r(__webpack_exports__);
     languages: {
       type: Object,
       required: true
+    },
+    storages: {
+      type: Array,
+      required: true
     }
   },
   watch: {
@@ -2151,6 +2169,7 @@ __webpack_require__.r(__webpack_exports__);
         this.form.condition = 'NM';
         this.form.count = 1;
         this.form.language_id = 0;
+        this.form.storage_id = null;
         this.form.unit_cost_formatted = '0,00';
         this.form.unit_price_formatted = '0,00'; // aus user settings (TREND|LOW|...)
 
@@ -2175,6 +2194,7 @@ __webpack_require__.r(__webpack_exports__);
 
         this.form.card_id = newValue.id;
         this.form.language_id = this.filter.language_id;
+        this.form.storage_id = newValue.storage_id || null;
         this.form.unit_cost_formatted = Number(this.defaultCardCosts[newValue.rarity] || 0).format(2, ',', '');
         this.form.unit_price_formatted = Number(newValue.price_trend).format(2, ',', '');
         this.form.is_foil = false;
@@ -2209,6 +2229,7 @@ __webpack_require__.r(__webpack_exports__);
         condition: 'NM',
         count: 1,
         language_id: 0,
+        storage_id: null,
         unit_cost_formatted: '0,00',
         unit_price_formatted: '0,00',
         is_foil: false,
@@ -2432,6 +2453,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2441,7 +2469,7 @@ __webpack_require__.r(__webpack_exports__);
     expansionIcon: _expansion_icon_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
     rarity: _partials_emoji_rarity_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
-  props: ['item', 'uri', 'selected', 'conditions', 'languages'],
+  props: ['item', 'uri', 'selected', 'conditions', 'languages', 'storages'],
   // watch: {
   //     'item': {
   //         hander: function (newValue, oldValue) {
@@ -2476,7 +2504,8 @@ __webpack_require__.r(__webpack_exports__);
         is_foil: this.item.is_foil,
         is_signed: this.item.is_signed,
         is_playset: this.item.is_playset,
-        sync: false
+        sync: false,
+        storage_id: this.item.storage_id
       },
       errors: {}
     };
@@ -2487,6 +2516,7 @@ __webpack_require__.r(__webpack_exports__);
         cardmarket_comments: newValue.cardmarket_comments,
         condition: newValue.condition,
         language_id: newValue.language_id,
+        storage_id: newValue.storage_id,
         unit_cost_formatted: newValue.unit_cost_formatted,
         unit_price_formatted: newValue.unit_price_formatted,
         provision_formatted: newValue.provision_formatted,
@@ -2710,6 +2740,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -2747,6 +2778,10 @@ __webpack_require__.r(__webpack_exports__);
     rarities: {
       type: Array,
       required: true
+    },
+    storages: {
+      required: true,
+      type: Array
     }
   },
   data: function data() {
@@ -47003,6 +47038,78 @@ var render = function() {
                   _vm._v(" "),
                   _c("tr", [
                     _c("td", { staticClass: "align-middle" }, [
+                      _vm._v("Lagerplatz")
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "align-middle" }, [
+                      _c("div", { staticClass: "form-group mb-0" }, [
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.form.storage_id,
+                                expression: "form.storage_id"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.$set(
+                                  _vm.form,
+                                  "storage_id",
+                                  $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                )
+                              }
+                            }
+                          },
+                          [
+                            _c("option", { domProps: { value: null } }, [
+                              _vm._v("Kein Lagerplatz")
+                            ]),
+                            _vm._v(" "),
+                            _vm._l(_vm.storages, function(storage, id) {
+                              return _c("option", {
+                                domProps: {
+                                  value: storage.id,
+                                  innerHTML: _vm._s(storage.indentedName)
+                                }
+                              })
+                            })
+                          ],
+                          2
+                        ),
+                        _vm._v(" "),
+                        _c("div", {
+                          staticClass: "invalid-feedback",
+                          domProps: {
+                            textContent: _vm._s(
+                              "storage" in _vm.errors
+                                ? _vm.errors.storage[0]
+                                : ""
+                            )
+                          }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("td")
+                  ]),
+                  _vm._v(" "),
+                  _c("tr", [
+                    _c("td", { staticClass: "align-middle" }, [
                       _vm._v("Anzahl")
                     ]),
                     _vm._v(" "),
@@ -47901,7 +48008,7 @@ var render = function() {
         [
           _c("thead", [
             _c("tr", [
-              _c("th", [
+              _c("th", { attrs: { width: "25" } }, [
                 _c("label", {
                   staticClass: "form-checkbox",
                   attrs: { for: "checkall" }
@@ -47946,29 +48053,43 @@ var render = function() {
                 })
               ]),
               _vm._v(" "),
-              _c("th", { staticClass: "text-center" }, [_vm._v("Sync")]),
+              _c("th", { staticClass: "text-center", attrs: { width: "50" } }, [
+                _vm._v("Sync")
+              ]),
               _vm._v(" "),
-              _c("th", { staticClass: "text-right" }),
+              _c("th", { staticClass: "text-right", attrs: { width: "50" } }),
               _vm._v(" "),
               _c("th", {}, [_vm._v("Name")]),
               _vm._v(" "),
-              _c("th", { staticClass: "text-right" }, [_vm._v("#")]),
+              _c("th", { staticClass: "text-right", attrs: { width: "50" } }, [
+                _vm._v("#")
+              ]),
               _vm._v(" "),
               _c("th", {}, [_vm._v("Erweiterung")]),
               _vm._v(" "),
-              _c("th", { staticClass: "text-center" }, [_vm._v("Seltenheit")]),
+              _c("th", { staticClass: "text-center", attrs: { width: "75" } }, [
+                _vm._v("Seltenheit")
+              ]),
               _vm._v(" "),
               _c("th", { staticClass: "text-center" }, [_vm._v("Sprache")]),
               _vm._v(" "),
               _c("th", { staticClass: "text-center" }, [_vm._v("Zustand")]),
               _vm._v(" "),
-              _c("th", { staticClass: "text-center" }, [_vm._v("Foil")]),
+              _c("th", { staticClass: "text-center", attrs: { width: "75" } }, [
+                _vm._v("Foil")
+              ]),
               _vm._v(" "),
-              _c("th", { staticClass: "text-center" }, [_vm._v("Signiert")]),
+              _c("th", { staticClass: "text-center", attrs: { width: "75" } }, [
+                _vm._v("Signiert")
+              ]),
               _vm._v(" "),
-              _c("th", { staticClass: "text-center" }, [_vm._v("Playset")]),
+              _c("th", { staticClass: "text-center", attrs: { width: "75" } }, [
+                _vm._v("Playset")
+              ]),
               _vm._v(" "),
               _c("th", {}, [_vm._v("Hinweise")]),
+              _vm._v(" "),
+              _c("th", [_vm._v("Lagerplatz")]),
               _vm._v(" "),
               _c("th", { staticClass: "text-right" }, [
                 _vm._v("Verkaufspreis")
@@ -47985,13 +48106,16 @@ var render = function() {
                 {
                   staticClass: "text-right",
                   attrs: {
-                    title: "Voraussichtlicher Gewinn ohne allgemeine Kosten"
+                    title: "Voraussichtlicher Gewinn ohne allgemeine Kosten",
+                    width: "100"
                   }
                 },
                 [_vm._v("Gewinn")]
               ),
               _vm._v(" "),
-              _c("th", { staticClass: "text-right" }, [_vm._v("Aktion")])
+              _c("th", { staticClass: "text-right", attrs: { width: "150" } }, [
+                _vm._v("Aktion")
+              ])
             ])
           ]),
           _vm._v(" "),
@@ -48005,6 +48129,7 @@ var render = function() {
                   uri: _vm.uri,
                   conditions: _vm.conditions,
                   languages: _vm.languages,
+                  storages: _vm.storages,
                   selected: _vm.selected.indexOf(item.id) == -1 ? false : true
                 },
                 on: {
@@ -48444,6 +48569,66 @@ var render = function() {
               textContent: _vm._s(
                 "cardmarket_comments" in _vm.errors
                   ? _vm.errors.cardmarket_comments[0]
+                  : ""
+              )
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("td", { staticClass: "align-middle text-center" }, [
+          _c(
+            "select",
+            {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.form.storage_id,
+                  expression: "form.storage_id"
+                }
+              ],
+              staticClass: "form-control",
+              on: {
+                change: function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.$set(
+                    _vm.form,
+                    "storage_id",
+                    $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                  )
+                }
+              }
+            },
+            [
+              _c("option", { domProps: { value: null } }, [
+                _vm._v("Kein Lagerplatz")
+              ]),
+              _vm._v(" "),
+              _vm._l(_vm.storages, function(storage, key) {
+                return _c("option", {
+                  domProps: {
+                    value: storage.id,
+                    innerHTML: _vm._s(storage.indentedName)
+                  }
+                })
+              })
+            ],
+            2
+          ),
+          _vm._v(" "),
+          _c("div", {
+            staticClass: "invalid-feedback",
+            domProps: {
+              textContent: _vm._s(
+                "unit_price_formatted" in _vm.errors
+                  ? _vm.errors.unit_price_formatted[0]
                   : ""
               )
             }
@@ -49374,6 +49559,8 @@ var render = function() {
                   _vm._v(" "),
                   _c("th", {}, [_vm._v("Hinweise")]),
                   _vm._v(" "),
+                  _c("th", [_vm._v("Lagerplatz")]),
+                  _vm._v(" "),
                   _c("th", { staticClass: "text-right" }, [
                     _vm._v("Verkaufspreis")
                   ]),
@@ -49419,6 +49606,7 @@ var render = function() {
                           uri: _vm.uri,
                           conditions: _vm.conditions,
                           languages: _vm.languages,
+                          storages: _vm.storages,
                           selected:
                             _vm.selected.indexOf(item.id) == -1 ? false : true
                         },

@@ -59,7 +59,11 @@ class ArticleController extends Controller
             ->with('languages', $languages)
             ->with('rarities', Card::RARITIES)
             ->with('is_applying_rules', auth()->user()->is_applying_rules)
-            ->with('is_syncing_articles', auth()->user()->is_syncing_articles);
+            ->with('is_syncing_articles', auth()->user()->is_syncing_articles)
+            ->with('storages', auth()->user()->storages()
+                ->withDepth()
+                ->defaultOrder()
+                ->get());
     }
 
     /**
@@ -84,7 +88,11 @@ class ArticleController extends Controller
             ->with('conditions', Article::CONDITIONS)
             ->with('defaultCardCosts', $defaultCardCosts)
             ->with('expansions', $expansions)
-            ->with('languages', $languages);
+            ->with('languages', $languages)
+            ->with('storages', auth()->user()->storages()
+                ->withDepth()
+                ->defaultOrder()
+                ->get());
     }
 
     /**
@@ -99,6 +107,7 @@ class ArticleController extends Controller
             'card_id' => 'required|integer',
             'cardmarket_comments' => 'sometimes|nullable|string',
             'language_id' => 'sometimes|required|integer',
+            'storage_id' => 'sometimes|nullable|exists:storages,id',
             'condition' => 'sometimes|required|string',
             // 'bought_at_formatted' => 'required|date_format:"d.m.Y H:i"',
             // 'sold_at_formatted' => 'required|date_format:"d.m.Y H:i"',
@@ -122,6 +131,7 @@ class ArticleController extends Controller
                 'card.localizations',
                 'language',
                 'order',
+                'storage',
             ]);
 
             $articles[] = $article;
@@ -167,6 +177,7 @@ class ArticleController extends Controller
             'cardmarket_comments' => 'sometimes|nullable|string',
             'language_id' => 'sometimes|required|integer',
             'condition' => 'sometimes|required|string',
+            'storage_id' => 'sometimes|nullable|exists:storages,id',
             // 'bought_at_formatted' => 'required|date_format:"d.m.Y H:i"',
             // 'sold_at_formatted' => 'required|date_format:"d.m.Y H:i"',
             'is_foil' => 'sometimes|required|boolean',

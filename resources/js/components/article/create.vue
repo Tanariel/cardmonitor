@@ -54,6 +54,19 @@
                                 </td>
                             </tr>
                             <tr>
+                                <td class="align-middle">Lagerplatz</td>
+                                <td class="align-middle">
+                                    <div class="form-group mb-0">
+                                        <select class="form-control" v-model="form.storage_id">
+                                            <option :value="null">Kein Lagerplatz</option>
+                                            <option :value="storage.id" v-for="(storage, id) in storages" v-html="storage.indentedName"></option>
+                                        </select>
+                                        <div class="invalid-feedback" v-text="'storage' in errors ? errors.storage[0] : ''"></div>
+                                    </div>
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
                                 <td class="align-middle">Anzahl</td>
                                 <td class="align-middle" width="50%">
                                     <div class="form-group mb-0">
@@ -192,31 +205,32 @@
             <table class="table table-hover table-striped" v-show="items.length">
                 <thead>
                     <tr>
-                        <th>
+                        <th width="25">
                             <label class="form-checkbox" for="checkall"></label>
                             <input id="checkall" type="checkbox" v-model="selectAll">
                         </th>
-                        <th class="text-center">Sync</th>
-                        <th class="text-right"></th>
+                        <th class="text-center" width="50">Sync</th>
+                        <th class="text-right" width="50"></th>
                         <th class="">Name</th>
-                        <th class="text-right">#</th>
+                        <th class="text-right" width="50">#</th>
                         <th class="">Erweiterung</th>
-                        <th class="text-center">Seltenheit</th>
+                        <th class="text-center" width="75">Seltenheit</th>
                         <th class="text-center">Sprache</th>
                         <th class="text-center">Zustand</th>
-                        <th class="text-center">Foil</th>
-                        <th class="text-center">Signiert</th>
-                        <th class="text-center">Playset</th>
+                        <th class="text-center" width="75">Foil</th>
+                        <th class="text-center" width="75">Signiert</th>
+                        <th class="text-center" width="75">Playset</th>
                         <th class="">Hinweise</th>
+                        <th>Lagerplatz</th>
                         <th class="text-right">Verkaufspreis</th>
                         <th class="text-right">Einkaufspreis</th>
                         <th class="text-right">Provision</th>
-                        <th class="text-right" title="Voraussichtlicher Gewinn ohne allgemeine Kosten">Gewinn</th>
-                        <th class="text-right">Aktion</th>
+                        <th class="text-right" title="Voraussichtlicher Gewinn ohne allgemeine Kosten" width="100">Gewinn</th>
+                        <th class="text-right" width="150">Aktion</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <row :item="item" :key="item.id" :uri="uri" :conditions="conditions" :languages="languages" :selected="(selected.indexOf(item.id) == -1) ? false : true" v-for="(item, index) in items" @input="toggleSelected" @updated="updated(index, $event)" @show="showImgbox($event)" @hide="hideImgbox()" @deleted="remove(index)"></row>
+                    <row :item="item" :key="item.id" :uri="uri" :conditions="conditions" :languages="languages" :storages="storages" :selected="(selected.indexOf(item.id) == -1) ? false : true" v-for="(item, index) in items" @input="toggleSelected" @updated="updated(index, $event)" @show="showImgbox($event)" @hide="hideImgbox()" @deleted="remove(index)"></row>
                 </tbody>
             </table>
         </div>
@@ -280,6 +294,10 @@
                 type: Object,
                 required: true,
             },
+            storages: {
+                type: Array,
+                required: true,
+            },
         },
 
         watch: {
@@ -290,6 +308,7 @@
                     this.form.condition = 'NM';
                     this.form.count = 1;
                     this.form.language_id = 0;
+                    this.form.storage_id = null;
                     this.form.unit_cost_formatted = '0,00';
                     this.form.unit_price_formatted = '0,00'; // aus user settings (TREND|LOW|...)
                     this.form.is_foil = false;
@@ -315,6 +334,7 @@
                     }
                     this.form.card_id = newValue.id;
                     this.form.language_id = this.filter.language_id;
+                    this.form.storage_id = newValue.storage_id || null;
                     this.form.unit_cost_formatted = Number(this.defaultCardCosts[newValue.rarity] || 0).format(2, ',', '');
                     this.form.unit_price_formatted = Number(newValue.price_trend).format(2, ',', '');
                     this.form.is_foil = false;
@@ -350,6 +370,7 @@
                     condition: 'NM',
                     count: 1,
                     language_id: 0,
+                    storage_id: null,
                     unit_cost_formatted: '0,00',
                     unit_price_formatted: '0,00',
                     is_foil: false,

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Cards;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cards\Card;
+use App\Models\Storages\Content;
 use Illuminate\Http\Request;
 
 class CardController extends Controller
@@ -18,7 +19,7 @@ class CardController extends Controller
     public function index(Request $request)
     {
         if ($request->wantsJson()) {
-            return Card::select('cards.*', 'localizations.name AS local_name')
+            $cards = Card::select('cards.*', 'localizations.name AS local_name')
                 ->with([
                     'expansion'
                 ])
@@ -26,6 +27,12 @@ class CardController extends Controller
                 ->expansion($request->input('expansion_id'))
                 ->orderBy('local_name', 'ASC')
                 ->get();
+
+            foreach ($cards as $key => &$card) {
+                $card->storage_id = Content::findStorageIdByExpansion(auth()->user()->id, $card->expansion_id)->storage_id;
+            }
+
+            return $cards;
         }
     }
 
