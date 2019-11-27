@@ -188,7 +188,7 @@
                                         <button class="btn btn-secondary" @click="setPrice('avg')" :disabled="form.is_foil">AVG</button>
                                         <button class="btn btn-secondary" @click="setPrice('rule')" :title="item.rule.name" v-if="item.rule.id">REGEL</button>
                                     </div>
-                                    <center v-show="isLoadingPrices"><i class="fas fa-fw fa-spin fa-spinner"></i> Lade Preise</center>
+                                    <center v-show="isLoadingPrices"><i class="fas fa-fw fa-spin fa-spinner"></i> Lade aktuelle Preise</center>
                                 </td>
                             </tr>
                         </tbody>
@@ -414,6 +414,7 @@
                         component.filter.searchtext = '';
                         component.item = null;
                         component.filter.shouldFocus = true;
+                        Vue.success('Artikel erstellt' + (sync ? ' und hochgeladen' : '') +'.');
                     })
                      .catch(function (error) {
                         Vue.error('Karten konnten nicht angelegt werden!');

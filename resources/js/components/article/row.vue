@@ -226,7 +226,7 @@
                     .then( function (response) {
                         component.errors = {};
                         component.$emit('updated', response.data);
-                        Vue.success('Artikel gespeichert.');
+                        Vue.success('Artikel gespeichert' + (sync ? ' und hochgeladen' : '') +'.');
                     })
                     .catch(function (error) {
                         component.errors = error.response.data.errors;

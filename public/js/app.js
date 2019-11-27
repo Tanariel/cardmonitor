@@ -2270,6 +2270,7 @@ __webpack_require__.r(__webpack_exports__);
         component.filter.searchtext = '';
         component.item = null;
         component.filter.shouldFocus = true;
+        Vue.success('Artikel erstellt' + (sync ? ' und hochgeladen' : '') + '.');
       })["catch"](function (error) {
         Vue.error('Karten konnten nicht angelegt werden!');
         console.log(error);
@@ -2574,7 +2575,7 @@ __webpack_require__.r(__webpack_exports__);
       axios.put(component.item.path, component.form).then(function (response) {
         component.errors = {};
         component.$emit('updated', response.data);
-        Vue.success('Artikel gespeichert.');
+        Vue.success('Artikel gespeichert' + (sync ? ' und hochgeladen' : '') + '.');
       })["catch"](function (error) {
         component.errors = error.response.data.errors;
         Vue.error('Artikel konnte nicht gespeichert werden.');
@@ -48540,7 +48541,7 @@ var render = function() {
                             _c("i", {
                               staticClass: "fas fa-fw fa-spin fa-spinner"
                             }),
-                            _vm._v(" Lade Preise")
+                            _vm._v(" Lade aktuelle Preise")
                           ]
                         )
                       ],
