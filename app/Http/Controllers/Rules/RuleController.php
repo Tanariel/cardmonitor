@@ -13,6 +13,11 @@ class RuleController extends Controller
 {
     protected $baseViewPath = 'rule';
 
+    public function __construct()
+    {
+        $this->authorizeResource(Rule::class, 'rule');
+    }
+
     /**
      * Display a listing of the resource.
      *

@@ -583,7 +583,7 @@ class Order extends Model
 
     public function getPaidAtFormattedAttribute() : string
     {
-        return $this->paid_at->format('d.m.Y H:i');
+        return (is_null($this->paid_at) ? '' : $this->paid_at->format('d.m.Y H:i'));
     }
 
     public function getShippingAddressTextAttribute() : string

@@ -11,6 +11,11 @@ class OrderController extends Controller
 {
     protected $baseViewPath = 'order';
 
+    public function __construct()
+    {
+        $this->authorizeResource(Order::class, 'order');
+    }
+
     /**
      * Display a listing of the resource.
      *

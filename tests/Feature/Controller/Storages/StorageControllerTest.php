@@ -36,6 +36,16 @@ class StorageControllerTest extends TestCase
     /**
      * @test
      */
+    public function a_user_can_not_see_things_from_a_different_user()
+    {
+        $modelOfADifferentUser = factory($this->className)->create();
+
+        $this->a_user_can_not_see_models_from_a_different_user(['storage' => $modelOfADifferentUser->id]);
+    }
+
+    /**
+     * @test
+     */
     public function a_user_can_see_the_index_view()
     {
         $this->getIndexViewResponse()

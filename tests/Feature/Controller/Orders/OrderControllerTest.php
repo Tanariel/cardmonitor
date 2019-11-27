@@ -23,11 +23,21 @@ class OrderControllerTest extends TestCase
 
         $actions = [
             'index' => [],
-            'show' => ['item' => $id],
-            'edit' => ['item' => $id],
-            'update' => ['item' => $id],
+            'show' => ['order' => $id],
+            'edit' => ['order' => $id],
+            'update' => ['order' => $id],
         ];
         $this->guestsCanNotAccess($actions);
+    }
+
+    /**
+     * @test
+     */
+    public function a_user_can_not_see_things_from_a_different_user()
+    {
+        $modelOfADifferentUser = factory($this->className)->create();
+
+        $this->a_user_can_not_see_models_from_a_different_user(['order' => $modelOfADifferentUser->id]);
     }
 
     /**
@@ -62,44 +72,8 @@ class OrderControllerTest extends TestCase
 
         $model = $this->createModel();
 
-        $this->getShowViewResponse(['item' => $model->id])
+        $this->getShowViewResponse(['order' => $model->id])
             ->assertViewIs($this->baseViewPath . '.show')
             ->assertViewHas('model');
-    }
-
-    /**
-     * @test
-     */
-    public function a_user_can_see_the_edit_view()
-    {
-        $model = $this->createModel();
-
-        $this->getEditViewResponse(['item' => $model->id])
-            ->assertViewIs($this->baseViewPath . '.edit')
-            ->assertViewHas('model');
-    }
-
-    /**
-     * @test
-     */
-    public function a_user_can_update_a_model()
-    {
-        $this->withoutExceptionHandling();
-
-        $model = $this->createModel();
-
-        $this->signIn($this->user);
-
-        $data = [
-            'name' => 'Updated Model',
-        ];
-
-        $response = $this->put(route($this->baseRouteName . '.update', ['item' => $model->id]), $data)
-            ->assertStatus(Response::HTTP_OK)
-            ->assertSessionHasNoErrors();
-
-        $this->assertDatabaseHas($model->getTable(), [
-            'id' => $model->id,
-        ] + $data);
     }
 }

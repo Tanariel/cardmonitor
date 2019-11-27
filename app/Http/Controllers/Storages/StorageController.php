@@ -10,6 +10,11 @@ class StorageController extends Controller
 {
     protected $baseViewPath = 'storage';
 
+    public function __construct()
+    {
+        $this->authorizeResource(Storage::class, 'storage');
+    }
+
     /**
      * Display a listing of the resource.
      *
