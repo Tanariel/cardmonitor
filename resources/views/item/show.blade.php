@@ -51,12 +51,12 @@
         </div>
     @endif
 
-    <div class="card mt-3">
+    <!-- <div class="card mt-3">
         <div class="card-header">Bewegungen</div>
         <div class="card-body">
             <item-transaction-table :model="{{ json_encode($model) }}"></item-transaction-table>
         </div>
-    </div>
+    </div> -->
 
 
 @endsection

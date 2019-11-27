@@ -45,9 +45,7 @@ class ArticleController extends Controller
                 ->paginate();
         }
 
-        $expansions = Expansion::orderBy('name', 'ASC')->get()->mapWithKeys(function ($item) {
-            return [$item['id'] => $item['name']];
-        });
+        $expansions = Expansion::all();
 
         $languages = Language::all()->mapWithKeys(function ($item) {
             return [$item['id'] => $item['name']];
@@ -76,9 +74,7 @@ class ArticleController extends Controller
         $user = auth()->user();
         $defaultCardCosts = ItemCard::defaultCosts($user);
 
-        $expansions = Expansion::orderBy('name', 'ASC')->get()->mapWithKeys(function ($item) {
-            return [$item['id'] => $item['name']];
-        });
+        $expansions = Expansion::all();
 
         $languages = Language::all()->mapWithKeys(function ($item) {
             return [$item['id'] => $item['name']];

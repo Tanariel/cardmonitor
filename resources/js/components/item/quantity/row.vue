@@ -2,7 +2,7 @@
     <tr v-if="isEditing">
         <td class="align-middle pointer">{{ (index + 1) }}</td>
         <td class="align-middle pointer">
-            <input class="form-control" :class="'start' in errors ? 'is-invalid' : ''" type="number" v-model.number="form.start" @keydown.enter="create">
+            <input class="form-control" :class="'start' in errors ? 'is-invalid' : ''" type="number" v-model.number="form.start" @keydown.enter="update">
             <div class="invalid-feedback" v-text="'start' in errors ? errors.start[0] : ''"></div>
         </td>
         <td class="align-middle pointer">
@@ -10,7 +10,7 @@
             <div class="invalid-feedback" v-text="'end' in errors ? errors.end[0] : ''"></div>
         </td>
         <td class="align-middle pointer">
-            <input class="form-control" :class="'quantity_formatted' in errors ? 'is-invalid' : ''" type="text" v-model="form.quantity_formatted" @keydown.enter="create">
+            <input class="form-control" :class="'quantity_formatted' in errors ? 'is-invalid' : ''" type="text" v-model="form.quantity_formatted" @keydown.enter="update">
             <div class="invalid-feedback" v-text="'quantity_formatted' in errors ? errors.quantity_formatted[0] : ''"></div>
         </td>
         <td class="align-middle text-right">

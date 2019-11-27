@@ -83,9 +83,7 @@ class RuleController extends Controller
      */
     public function edit(Rule $rule)
     {
-        $expansions = Expansion::orderBy('name', 'ASC')->get()->mapWithKeys(function ($item) {
-            return [$item['id'] => $item['name']];
-        });
+        $expansions = Expansion::all();
 
         return view($this->baseViewPath . '.edit')
             ->with('basePrices', Article::BASE_PRICES)

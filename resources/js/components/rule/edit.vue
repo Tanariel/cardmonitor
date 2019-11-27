@@ -53,7 +53,7 @@
                             <label for="expansion_id">Erweiterung</label>
                             <select id="expansion_id" class="form-control" v-model="form.expansion_id">
                                 <option :value="null">Alle Erweiterungen</option>
-                                <option :value="id" v-for="(name, id) in expansions">{{ name }}</option>
+                                <option :value="item.id" v-for="(item, key) in sortedExpansions">{{ item.name }}</option>
                             </select>
                             <small>Hinweis</small>
                         </div>
@@ -184,7 +184,7 @@
                 required: true,
             },
             expansions: {
-                type: Object,
+                type: Array,
                 required: true,
             },
             model: {
@@ -194,6 +194,24 @@
             rarities: {
                 type: Array,
                 required: true,
+            },
+        },
+
+        computed: {
+            sortedExpansions: function() {
+                function compare(a, b) {
+                    if (a.name < b.name) {
+                        return -1;
+                    }
+
+                    if (a.name > b.name) {
+                        return 1;
+                    }
+
+                    return 0;
+                }
+
+                return this.expansions.sort(compare);
             },
         },
 

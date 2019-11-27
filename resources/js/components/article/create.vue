@@ -9,7 +9,7 @@
             <div class="form-group">
                 <select class="form-control" v-model="filter.expansion_id" @change="fetch()">
                     <option :value="0">Alle Erweiterungen</option>
-                    <option :value="id" v-for="(name, id) in expansions">{{ name }}</option>
+                    <option :value="item.id" v-for="(item, key) in sortedExpansions">{{ item.name }}</option>
                 </select>
             </div>
             <div class="form-group" style="margin-bottom: 0;">
@@ -256,6 +256,29 @@
             row,
         },
 
+        props: {
+            conditions: {
+                type: Object,
+                required: true,
+            },
+            defaultCardCosts: {
+                type: Object,
+                required: true,
+            },
+            expansions: {
+                type: Array,
+                required: true,
+            },
+            languages: {
+                type: Object,
+                required: true,
+            },
+            storages: {
+                type: Array,
+                required: true,
+            },
+        },
+
         computed: {
             conditionIndex() {
                 return this.conditionKeys.indexOf(this.form.condition);
@@ -276,28 +299,20 @@
                     }
                 },
             },
-        },
+            sortedExpansions: function() {
+                function compare(a, b) {
+                    if (a.name < b.name) {
+                        return -1;
+                    }
 
-        props: {
-            conditions: {
-                type: Object,
-                required: true,
-            },
-            defaultCardCosts: {
-                type: Object,
-                required: true,
-            },
-            expansions: {
-                type: Object,
-                required: true,
-            },
-            languages: {
-                type: Object,
-                required: true,
-            },
-            storages: {
-                type: Array,
-                required: true,
+                    if (a.name > b.name) {
+                        return 1;
+                    }
+
+                    return 0;
+                }
+
+                return this.expansions.sort(compare);
             },
         },
 

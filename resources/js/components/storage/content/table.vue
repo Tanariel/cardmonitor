@@ -4,7 +4,7 @@
             <div class="col d-flex align-items-start">
                 <div class="form-group mb-0 mr-1">
                     <select class="form-control" v-model="form.expansion_id" @change="create">
-                        <option :value="0">Set hinzufügen</option>
+                        <option :value="0">Erweiterung hinzufügen</option>
                         <option :value="expansion.id" v-for="expansion in availableExpansions">{{ expansion.name }}</option>
                     </select>
                 </div>
@@ -95,9 +95,23 @@
                     return total;
                 }, []);
 
-                return this.expansions.filter(function (expansion) {
+                var available = this.expansions.filter(function (expansion) {
                     return (expansion_ids.indexOf(expansion.id) == -1);
                 });
+
+                function compare(a, b) {
+                    if (a.name < b.name) {
+                        return -1;
+                    }
+
+                    if (a.name > b.name) {
+                        return 1;
+                    }
+
+                    return 0;
+                }
+
+                return available.sort(compare);
             },
         },
 

@@ -184,7 +184,7 @@
                 type: Object,
             },
             expansions: {
-                type: Object,
+                type: Array,
                 required: true,
             },
             isApplyingRules: {

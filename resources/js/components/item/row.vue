@@ -9,7 +9,7 @@
 
         <td class="align-middle text-right">
             <div class="btn-group btn-group-sm" role="group">
-                <button type="button" class="btn btn-secondary" title="Bearbeiten" @click="link"><i class="fas fa-edit"></i></button>
+                <a :href="item.editPath" class="btn btn-secondary" title="Bearbeiten"><i class="fas fa-edit"></i></a>
                 <button type="button" class="btn btn-secondary" title="Löschen" @click="destroy" v-if="item.isDeletable"><i class="fas fa-trash"></i></button>
             </div>
         </td>
@@ -34,15 +34,15 @@
                     .then(function (response) {
                         if (response.data.deleted) {
                             component.$emit("deleted", component.id);
-                            // Vue.success('Kosten wurden gelöscht.');
+                            Vue.success('Kosten wurden gelöscht.');
                         }
                         else {
-                            // Vue.error('Kosten konnten nicht gelöscht werden.');
+                            Vue.error('Kosten konnten nicht gelöscht werden.');
                         }
                     });
             },
             link () {
-                location.href = this.item.path + '/edit';
+                location.href = this.item.path;
             }
         },
     };

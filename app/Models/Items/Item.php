@@ -21,6 +21,7 @@ class Item extends Model
     const DECIMALS = 6;
 
     protected $appends = [
+        'editPath',
         'isDeletable',
         'isEditable',
         'path',
@@ -74,7 +75,22 @@ class Item extends Model
 
     public function getPathAttribute()
     {
-        return '/item/' . $this->id;
+        return $this->path('show');
+    }
+
+    public function getEditPathAttribute()
+    {
+        return $this->path('edit');
+    }
+
+    protected function path(string $action = '') : string
+    {
+        return route($this->baseRoute() . '.' . $action, ['item' => $this->id]);
+    }
+
+    protected function baseRoute() : string
+    {
+        return 'item';
     }
 
     public function getIsEditableAttribute()

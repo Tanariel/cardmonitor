@@ -207,20 +207,7 @@
                 </div>
             </div>
 
-            @if (count($model->sales) > 0)
-                <div class="card mb-3">
-                    <div class="card-header">Kosten</div>
-                    <div class="card-body">
-                        @foreach($model->sales as $sale)
-                            <div class="row">
-                                <div class="col-md-4"><b>{{ $sale->item->name }}</b></div>
-                                <div class="col-md-4">{{ number_format($sale->quantity, 2, ',', '.') }} Stück</div>
-                                <div class="col-md-4">{{ number_format(($sale->quantity * $sale->unit_cost), 2, ',', '.') }} €</div>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-            @endif
+            <order-item-table :model="{{ json_encode($model) }}" :customs="{{ json_encode($customs) }}"></order-item-table>
 
         </div>
     </div>

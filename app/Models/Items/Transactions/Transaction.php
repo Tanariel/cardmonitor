@@ -3,6 +3,7 @@
 namespace App\Models\Items\Transactions;
 
 use App\Models\Items\Item;
+use App\Models\Orders\Order;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,6 +15,12 @@ class Transaction extends Model
     use HasChildren;
 
     const DECIMALS = 6;
+
+    protected $appends = [
+        'quantity_formatted',
+        'unit_cost_formatted',
+        'path',
+    ];
 
     protected $casts = [
         'unit_cost' => 'decimal:' . self::DECIMALS,
@@ -40,6 +47,10 @@ class Transaction extends Model
         {
             if (! $model->user_id) {
                 $model->user_id = auth()->user()->id;
+            }
+
+            if (! $model->at) {
+                $model->at = now();
             }
 
             return true;
@@ -69,8 +80,28 @@ class Transaction extends Model
         Arr::forget($this->attributes, 'unit_cost_formatted');
     }
 
+    public function getPathAttribute()
+    {
+        return '/transaction/' . $this->id;
+    }
+
+    public function getQuantityFormattedAttribute($value)
+    {
+        return number_format($this->attributes['quantity'], 2, ',', '');
+    }
+
+    public function getUnitCostFormattedAttribute($value)
+    {
+        return number_format($this->attributes['unit_cost'], 2, ',', '');
+    }
+
     public function item() : BelongsTo
     {
         return $this->belongsTo(Item::class, 'item_id');
+    }
+
+    public function order() : BelongsTo
+    {
+        return $this->belongsTo(Order::class, 'order_id');
     }
 }

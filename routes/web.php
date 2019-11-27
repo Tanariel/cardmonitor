@@ -73,6 +73,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('order/{order}/message', 'Cardmarket\Orders\MessageController@store')->name('order.message.store');
     Route::put('order/{order}/sync', 'Cardmarket\Orders\OrderController@update')->name('order.sync.update');
 
+    Route::post('order/{order}/transactions', 'Orders\TransactionController@store');
+    Route::put('order/{order}/transactions/{transaction}', 'Orders\TransactionController@update');
+    Route::delete('order/{order}/transactions/{transaction}', 'Orders\TransactionController@destroy');
+
     Route::get('rule/apply', 'Rules\ApplyController@index');
     Route::post('rule/apply', 'Rules\ApplyController@store');
     Route::put('rule/sort', 'Rules\SortController@update');
@@ -90,12 +94,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('storage/{storage}/content', 'Storages\ContentController@index')->name('storage.content.index');
     Route::post('storage/{storage}/content', 'Storages\ContentController@store')->name('storage.content.store');
 
-    Route::resource('transaction', 'Items\Transactions\TransactionController')->except([
-        'index',
-        'store',
-    ]);
-    Route::get('item/{item}/transaction', 'Items\Transactions\TransactionController@index')->name('transaction.index');
-    Route::post('item/{item}/transaction', 'Items\Transactions\TransactionController@store')->name('transaction.store');
+    Route::resource('transaction', 'Items\Transactions\TransactionController');
 
     Route::resource('quantity', 'Items\QuantityController')->except([
         'index',

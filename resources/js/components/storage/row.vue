@@ -5,7 +5,7 @@
             <input :checked="selected" type="checkbox" :value="id"  @change="$emit('input', id)" number>
         </td>
         <td class="align-middle pointer" @click="link" v-html="item.indentedName"></td>
-        <td class="align-middle">
+        <td class="align-middle" @click="link">
             <select class="form-control" v-model="form.parent_id" @change="setParent" v-if="false">
                 <option :value="null">Hauptlagerplatz</option>
                 <option :value="storage.id" v-for="(storage, key) in storages" v-if="storage.id != id">{{ storage.name }}</option>

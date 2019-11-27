@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Orders;
 
 use App\Http\Controllers\Controller;
+use App\Models\Items\Custom;
 use App\Models\Orders\Order;
 use Illuminate\Http\Request;
 
@@ -62,6 +63,7 @@ class OrderController extends Controller
     public function show(Order $order)
     {
         return view($this->baseViewPath . '.show')
+            ->with('customs', Custom::where('user_id', $order->user_id)->get())
             ->with('model', $order->load([
                 'articles.language',
                 'buyer',
