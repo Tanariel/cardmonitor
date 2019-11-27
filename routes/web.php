@@ -18,6 +18,8 @@ Route::get('/', function () {
     return view('landing.placeholder');
 });
 
+Route::get('order/{order}/images', 'Images\ImageableController@index');
+
 Route::post('deploy', 'DeploymentController@store');
 
 Auth::routes();
@@ -55,9 +57,7 @@ Route::middleware(['auth'])->group(function () {
         'destroy',
     ]);
 
-    Route::resource('order/{order}/images', 'Images\ImageableController', [
-        'as' => 'order',
-    ]);
+    Route::post('order/{order}/images', 'Images\ImageableController@store');
 
     Route::get('order/sync', 'Cardmarket\Orders\OrderController@index');
     Route::put('order/sync', 'Cardmarket\Orders\OrderController@update')->name('order.sync.update');

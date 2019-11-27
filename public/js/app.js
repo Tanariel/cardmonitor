@@ -2956,7 +2956,7 @@ __webpack_require__.r(__webpack_exports__);
         component.checkIsSyncingArticles();
         Vue.success('Artikel werden im Hintergrund aktualisiert.');
       })["catch"](function (error) {
-        Vue.error('Artikel konnten nicht synchronisiert werden!');
+        Vue.error('Artikel konnten nicht synchronisiert werden! Ist das Cardmarket Konto verbunden?');
         console.log(error);
       })["finally"](function () {});
     },
@@ -3310,7 +3310,7 @@ __webpack_require__.r(__webpack_exports__);
         component.checkIsSyncingArticles();
         Vue.success('Artikel werden im Hintergrund aktualisiert.');
       })["catch"](function (error) {
-        Vue.error('Artikel konnten nicht synchronisiert werden!');
+        Vue.error('Artikel konnten nicht synchronisiert werden! Ist das Cardmarket Konto verbunden?');
         console.log(error);
       })["finally"](function () {});
     }
@@ -3857,6 +3857,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     model: {
@@ -3864,10 +3865,14 @@ __webpack_require__.r(__webpack_exports__);
       required: true
     }
   },
+  mounted: function mounted() {
+    this.height = this.$refs.wrapper.clientHeight;
+  },
   data: function data() {
     return {
       item: this.model.images[0],
-      items: this.model.images
+      items: this.model.images,
+      height: 0
     };
   }
 });
@@ -5188,7 +5193,7 @@ __webpack_require__.r(__webpack_exports__);
         component.checkIsSyncingOrders();
         Vue.success('Bestellungen werden im Hintergrund synchronisiert.');
       })["catch"](function (error) {
-        Vue.error('Bestellungen konnten nicht synchronisiert werden!');
+        Vue.error('Bestellungen konnten nicht synchronisiert werden! Ist das Cardmarket Konto verbunden?');
         console.log(error);
       })["finally"](function () {});
     },
@@ -51576,11 +51581,12 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _vm.items.length
     ? _c("div", [
-        _c("div", { staticClass: "row mb-1" }, [
-          _c("div", { staticClass: "col" }, [
+        _c("div", { staticClass: "col row" }, [
+          _c("div", { ref: "wrapper", staticClass: "col text-center" }, [
             _c("a", { attrs: { href: _vm.item.url } }, [
               _c("img", {
                 staticClass: "img-fluid",
+                style: { height: _vm.height + "px" },
                 attrs: { src: _vm.item.url, alt: "" }
               })
             ])
@@ -51590,11 +51596,15 @@ var render = function() {
         _vm.items.length > 1
           ? _c(
               "div",
-              { staticClass: "row" },
+              {
+                staticClass:
+                  "row align-items-center justify-content-center mt-1"
+              },
               _vm._l(_vm.items, function(image, index) {
                 return _c("div", { staticClass: "col-md-2" }, [
                   _c("img", {
                     staticClass: "img-fluid pointer",
+                    staticStyle: { height: "100px" },
                     attrs: { src: image.url, alt: "" },
                     on: {
                       click: function($event) {
