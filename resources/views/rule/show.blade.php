@@ -100,11 +100,4 @@
 
     </div>
 
-    <div class="card">
-        <div class="card-header">Artikel</div>
-        <div class="card-body">
-
-        </div>
-    </div>
-
 @endsection

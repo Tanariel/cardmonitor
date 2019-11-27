@@ -18,6 +18,7 @@ class CreateCardsTable extends Migration
             $table->unsignedTinyInteger('game_id');
             $table->unsignedBigInteger('expansion_id')->nullable();
             $table->unsignedBigInteger('cardmarket_product_id')->index();
+            $table->unsignedBigInteger('cardmarket_meta_product_id');
             $table->string('skryfall_card_id')->nullable();
             $table->unsignedSmallInteger('reprints_count')->default(0);
             $table->string('name');
