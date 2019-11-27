@@ -34,7 +34,7 @@
 
         mounted() {
 
-            this.height = this.$refs.wrapper.clientHeight;
+            this.height = Math.max(this.$refs.wrapper.clientHeight, 300);
 
         },
 

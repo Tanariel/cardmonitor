@@ -3866,7 +3866,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    this.height = this.$refs.wrapper.clientHeight;
+    this.height = Math.max(this.$refs.wrapper.clientHeight, 300);
   },
   data: function data() {
     return {
