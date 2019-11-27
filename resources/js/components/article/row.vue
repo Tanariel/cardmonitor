@@ -100,6 +100,7 @@
         <td class="align-middle text-center"></td>
         <td class="align-middle text-center"></td>
         <td class="align-middle">{{ item.cardmarket_comments }}</td>
+        <td class="align-middle">{{ item.storage_id ? item.storage.full_name : 'Kein Lagerplatz' }}</td>
         <td class="align-middle text-right">{{ Number(item.unit_price).format(2, ',', '.') }} €</td>
         <td class="align-middle text-right">
             <input class="form-control text-right" :class="'unit_cost_formatted' in errors ? 'is-invalid' : ''" type="text" v-model="form.unit_cost_formatted" @keydown.enter="update(false)">

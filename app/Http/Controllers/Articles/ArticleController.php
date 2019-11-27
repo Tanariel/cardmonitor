@@ -22,12 +22,15 @@ class ArticleController extends Controller
      */
     public function index(Request $request)
     {
+        $user = auth()->user();
+
         if ($request->wantsJson()) {
-            return auth()->user()->articles()
+            return $user->articles()
                 ->select('articles.*')
                 ->join('cards', 'cards.id', 'articles.card_id')
                 ->condition($request->input('condition_sort'), $request->input('condition_operator'))
                 ->expansion($request->input('expansion_id'))
+                ->rule($request->input('rule_id'))
                 ->isFoil($request->input('is_foil'))
                 ->language($request->input('language_id'))
                 ->rarity($request->input('rarity'))
@@ -40,6 +43,7 @@ class ArticleController extends Controller
                     'language',
                     'rule',
                     'order',
+                    'storage',
                 ])
                 ->orderBy('cards.name', 'ASC')
                 ->paginate();
@@ -56,9 +60,10 @@ class ArticleController extends Controller
             ->with('expansions', $expansions)
             ->with('languages', $languages)
             ->with('rarities', Card::RARITIES)
-            ->with('is_applying_rules', auth()->user()->is_applying_rules)
-            ->with('is_syncing_articles', auth()->user()->is_syncing_articles)
-            ->with('storages', auth()->user()->storages()
+            ->with('is_applying_rules', $user->is_applying_rules)
+            ->with('is_syncing_articles', $user->is_syncing_articles)
+            ->with('rules', $user->rules)
+            ->with('storages', $user->storages()
                 ->withDepth()
                 ->defaultOrder()
                 ->get());

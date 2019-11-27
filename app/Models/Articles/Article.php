@@ -496,6 +496,19 @@ class Article extends Model
         return $query->where('cards.rarity', $value);
     }
 
+    public function scopeRule(Builder $query, $value) : Builder
+    {
+        if (is_null($value)) {
+            return $query->whereNull('articles.rule_id');
+        }
+
+        if (! $value) {
+            return $query;
+        }
+
+        return $query->where('articles.rule_id', $value);
+    }
+
     public function scopeSearch(Builder $query, $value) : Builder
     {
         if (! $value) {

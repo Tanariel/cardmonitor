@@ -40,6 +40,9 @@
                     <filter-language :options="languages" v-model="filter.language_id" @input="search"></filter-language>
                 </div>
                 <div class="col-auto">
+                    <filter-rule :options="rules" v-model="filter.rule_id" @input="search" v-if="rules != null"></filter-rule>
+                </div>
+                <div class="col-auto">
                     <div class="form-group">
                         <label for="filter-unit_price_min">Verkaufspreis min</label>
                         <input class="form-control" id="filter-unit_price_min" type="text" v-model="filter.unit_price_min" @input="search">
@@ -64,7 +67,7 @@
                     </div>
                 </div>
 
-                Sync, Erweiterung (nur vorhandene in Artikeln), Seltenheit, Sprache, Zustand (<=,=,>=), Foil, Signiert, Playset, Hinweise, Preis (min, max), Verfügbar (min, max), Verfügbar (Alle?|Verkauf|Angebote)
+                Sync, Erweiterung (nur vorhandene in Artikeln), Zustand (<=,=,>=), Foil, Signiert, Playset, Hinweise, Verfügbar (min, max), Verfügbar (Alle?|Verkauf|Angebote)
                 Regel anwenden -> Filter setzen
 
             </div>
@@ -163,6 +166,7 @@
     import filterRarity from "../filter/rarity.vue";
     import filterLanguage from "../filter/language.vue";
     import filterExpansion from "../filter/expansion.vue";
+    import filterRule from "../filter/rule.vue";
 
     export default {
 
@@ -172,6 +176,7 @@
             filterSearch,
             filterLanguage,
             filterExpansion,
+            filterRule,
         },
 
         props: {
@@ -196,6 +201,10 @@
                 type: Number,
             },
             rarities: {
+                type: Array,
+                required: true,
+            },
+            rules: {
                 type: Array,
                 required: true,
             },
@@ -233,6 +242,8 @@
                     searchtext: '',
                     cardmarket_comments: '',
                     language_id: 0,
+                    expansion_id: 0,
+                    rule_id: 0,
                     unit_price_min: 0,
                     unit_price_max: 0,
                     unit_cost_min: 0,

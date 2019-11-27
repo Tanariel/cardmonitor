@@ -34,7 +34,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="alert alert-dark mt-3" v-else><center>Keine Sets vorhanden</center></div>
+        <div class="alert alert-dark mt-3" v-else><center>Keine Erweiterungen vorhanden</center></div>
     </div>
 </template>
 
