@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 class Rule extends Model
 {
     const DECIMALS = 6;
+    const PRICE_APPLY_IN_CENTS = 100;
 
     protected $appends = [
         'base_price_formatted',
@@ -67,7 +68,7 @@ class Rule extends Model
         {
             $model->articles()->update([
                 'rule_id' => null,
-                'rule_price' => null,
+                'price_rule' => null,
             ]);
         });
     }
@@ -116,7 +117,7 @@ class Rule extends Model
         $attributes = [
             'articles.rule_id' => $this->id,
             'articles.rule_applied_at' => now(),
-            'articles.rule_price' => DB::raw('ROUND(cards.' . $this->base_price . ' * ' . $this->multiplier . ', 2)'),
+            'articles.price_rule' => DB::raw('ROUND(cards.' . $this->base_price . ' * ' . $this->multiplier . ', 2)'),
             // 'articles.rule_difference' => DB::raw('(cards.' . $this->base_price . ' * ' . $this->multiplier . ') - articles.unit_price'),
             // 'articles.rule_difference_percent' => DB::raw('((cards.' . $this->base_price . ' * ' . $this->multiplier . ') - articles.unit_price) / articles.unit_price * 100'),
         ];
@@ -133,7 +134,7 @@ class Rule extends Model
         Article::where('user_id', $userId)
             ->update([
                 'rule_id' => null,
-                'rule_price' => null,
+                'price_rule' => null,
                 'rule_applied_at' => null,
                 'rule_difference' => 0,
                 'rule_difference_percent' => 0,
@@ -165,7 +166,7 @@ class Rule extends Model
     public function getArticleStatsAttribute()
     {
         $stats = DB::table('articles')
-            ->select(DB::raw('COUNT(id) AS count'), DB::raw('SUM(unit_price) AS price'), DB::raw('SUM(rule_price) AS rule_price'))
+            ->select(DB::raw('COUNT(id) AS count'), DB::raw('SUM(unit_price) AS price'), DB::raw('SUM(price_rule) AS price_rule'))
             ->where('user_id', $this->user_id)
             ->where('rule_id', $this->id)
             ->whereNull('order_id')
@@ -173,8 +174,8 @@ class Rule extends Model
 
         $stats->count_formatted = number_format($stats->count, 0, '', '.');
         $stats->price_formatted = number_format($stats->price, 2, ',', '.');
-        $stats->rule_price_formatted = number_format($stats->rule_price, 2, ',', '.');
-        $stats->difference = $stats->rule_price - $stats->price;
+        $stats->price_rule_formatted = number_format($stats->price_rule, 2, ',', '.');
+        $stats->difference = $stats->price_rule - $stats->price;
         $stats->difference_percent = ($stats->price ? $stats->difference / $stats->price : 0);
         $stats->difference_percent_formatted = number_format(($stats->difference_percent * 100), 0, ',', '.');
         $stats->difference_icon = ($stats->difference == 0 ? '' : ($stats->difference > 0 ? '<i class="fas fa-arrow-up text-success"></i>' : '<i class="fas fa-arrow-down text-danger"></i>'));

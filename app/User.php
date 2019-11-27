@@ -70,7 +70,7 @@ class User extends Authenticatable
 
         static::created(function($model)
         {
-            $model->api()->create();
+            $model->setup();
 
             return true;
         });
@@ -87,6 +87,7 @@ class User extends Authenticatable
     }
 
     public function setup() : void {
+        $this->api()->create();
         Item::setup($this);
     }
 

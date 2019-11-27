@@ -60,8 +60,8 @@
             <div class="input-group">
                 <input class="form-control text-right" :class="'unit_price_formatted' in errors ? 'is-invalid' : ''" type="text" v-model="form.unit_price_formatted" @keydown.enter="update(false)">
                 <div class="input-group-append" v-if="item.rule_id">
-                    <span class="input-group-text text-left pointer" :title="'Regel ' + item.rule.name" @click="form.unit_price_formatted = item.rule_price_formatted">
-                        {{ item.rule_price_formatted }}€
+                    <span class="input-group-text text-left pointer" :title="'Regel ' + item.rule.name" @click="form.unit_price_formatted = item.price_rule_formatted">
+                        {{ item.price_rule_formatted }}€
                     </span>
                 </div>
             </div>
@@ -239,12 +239,12 @@
 
 <style>
 
-    .rule_price_wrapper {
+    .price_rule_wrapper {
         white-space: nowrap;
         max-width: 100%;
     }
 
-    .rule_price {
+    .price_rule {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;

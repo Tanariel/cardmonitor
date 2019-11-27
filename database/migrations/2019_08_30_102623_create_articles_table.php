@@ -49,7 +49,7 @@ class CreateArticlesTable extends Migration
             $table->string('sync_error')->nullable();
             $table->dateTime('synced_at')->nullable();
 
-            $table->decimal('rule_price', 15, 6)->nullable();
+            $table->decimal('price_rule', 15, 6)->nullable();
             $table->decimal('rule_difference', 15, 6)->nullable();
             $table->decimal('rule_difference_percent', 5, 2)->nullable();
             $table->dateTime('rule_applied_at')->nullable();

@@ -74,11 +74,12 @@ class ApplyCommand extends Command
         $cardmarketApi = $this->user->cardmarketApi;
 
         $this->user->articles()->whereNotNull('rule_id')
-            // ->where('rule_price', '>=', 0.02)
+            // ->where('price_rule', '>=', 0.02)
             ->whereNull('order_id')
             ->orderBy('cardmarket_article_id', 'ASC')
             ->chunk(100, function ($articles) use ($cardmarketApi) {
                 $articles->sync($cardmarketApi);
+                usleep(50);
         });
     }
 }

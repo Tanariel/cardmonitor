@@ -11489,7 +11489,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.rule_price_wrapper {\n    white-space: nowrap;\n    max-width: 100%;\n}\n.rule_price {\n    white-space: nowrap;\n    overflow: hidden;\n    text-overflow: ellipsis;\n}\n", ""]);
+exports.push([module.i, "\n.price_rule_wrapper {\n    white-space: nowrap;\n    max-width: 100%;\n}\n.price_rule {\n    white-space: nowrap;\n    overflow: hidden;\n    text-overflow: ellipsis;\n}\n", ""]);
 
 // exports
 
@@ -49293,14 +49293,14 @@ var render = function() {
                       on: {
                         click: function($event) {
                           _vm.form.unit_price_formatted =
-                            _vm.item.rule_price_formatted
+                            _vm.item.price_rule_formatted
                         }
                       }
                     },
                     [
                       _vm._v(
                         "\n                    " +
-                          _vm._s(_vm.item.rule_price_formatted) +
+                          _vm._s(_vm.item.price_rule_formatted) +
                           "€\n                "
                       )
                     ]
@@ -55948,7 +55948,7 @@ var render = function() {
         staticClass: "align-middle text-right pointer",
         on: { click: _vm.link }
       },
-      [_vm._v(_vm._s(_vm.item.articleStats.rule_price_formatted) + " €")]
+      [_vm._v(_vm._s(_vm.item.articleStats.price_rule_formatted) + " €")]
     ),
     _vm._v(" "),
     _c("td", {

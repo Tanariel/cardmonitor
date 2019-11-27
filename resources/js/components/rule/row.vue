@@ -21,7 +21,7 @@
         <td class="align-middle pointer" @click="link">{{ item.base_price_formatted }} * {{ item.multiplier_formatted }}</td>
         <td class="align-middle text-right pointer" @click="link">{{ item.articleStats.count }}</td>
         <td class="align-middle text-right pointer" @click="link">{{ item.articleStats.price_formatted }} €</td>
-        <td class="align-middle text-right pointer" @click="link">{{ item.articleStats.rule_price_formatted }} €</td>
+        <td class="align-middle text-right pointer" @click="link">{{ item.articleStats.price_rule_formatted }} €</td>
         <td class="align-middle text-right pointer" @click="link" v-html="item.articleStats.difference_icon + ' ' + item.articleStats.difference_percent_formatted + '%'"></td>
         <td class="align-middle text-right">
             <div class="btn-group btn-group-sm" role="group">

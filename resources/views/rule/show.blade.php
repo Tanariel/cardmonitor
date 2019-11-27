@@ -83,7 +83,7 @@
                     </div>
                     <div class="row">
                         <div class="col-4"><b>Regelpreis</b></div>
-                        <div class="col-4">{{ $model->articleStats->rule_price_formatted }} €</div>
+                        <div class="col-4">{{ $model->articleStats->price_rule_formatted }} €</div>
                         <div class="col-4">
                             @if ($model->articleStats->difference != 0)
                                 {!! $model->articleStats->difference_icon !!} {{ $model->articleStats->difference_percent_formatted }}%

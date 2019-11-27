@@ -30,7 +30,7 @@ class ArticleController extends Controller
             ->get();
 
         $rules = DB::table('articles')
-            ->select(DB::raw('COUNT(id) AS count'), DB::raw('SUM(unit_cost) AS cost'), DB::raw('SUM(rule_price) AS price'))
+            ->select(DB::raw('COUNT(id) AS count'), DB::raw('SUM(unit_cost) AS cost'), DB::raw('SUM(price_rule) AS price'))
             ->where('user_id', $user->id)
             ->whereNull('order_id')
             ->whereNotNull('rule_id')

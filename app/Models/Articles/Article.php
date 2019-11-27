@@ -57,7 +57,7 @@ class Article extends Model
         'sync_icon',
         'unit_cost_formatted',
         'unit_price_formatted',
-        'rule_price_formatted',
+        'price_rule_formatted',
     ];
 
     protected $casts = [
@@ -338,10 +338,10 @@ class Article extends Model
         Arr::forget($this->attributes, 'unit_price_formatted');
     }
 
-    public function setRulePriceFormattedAttribute($value)
+    public function setPriceRuleFormattedAttribute($value)
     {
-        $this->rule_price = number_format(str_replace(',', '.', $value), self::DECIMALS, '.', '');
-        Arr::forget($this->attributes, 'rule_price_formatted');
+        $this->price_rule = number_format(str_replace(',', '.', $value), self::DECIMALS, '.', '');
+        Arr::forget($this->attributes, 'price_rule_formatted');
     }
 
     public function setUnitPriceAttribute($value)
@@ -416,9 +416,9 @@ class Article extends Model
         return number_format($this->unit_price, 2, ',', '');
     }
 
-    public function getRulePriceFormattedAttribute()
+    public function getPriceRuleFormattedAttribute()
     {
-        return number_format($this->rule_price, 2, ',', '');
+        return number_format($this->price_rule, 2, ',', '');
     }
 
     public function card() : BelongsTo
