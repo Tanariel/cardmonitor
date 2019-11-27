@@ -27,6 +27,9 @@
 <style>
     .expansion-icon {
         display: inline-block;
+        flex-grow: 0;
+        flex-shrink: 0;
+        flex-basis: 21px;
         width: 21px;
         height: 21px;
         background-image: url('/storage/expansionicons/expicons.png');

@@ -11166,7 +11166,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.expansion-icon {\n    display: inline-block;\n    width: 21px;\n    height: 21px;\n    background-image: url('/storage/expansionicons/expicons.png');\n}\n.expansion-name {\n    word-break: break-all;\n}\n", ""]);
+exports.push([module.i, "\n.expansion-icon {\n    display: inline-block;\n    flex-grow: 0;\n    flex-shrink: 0;\n    flex-basis: 21px;\n    width: 21px;\n    height: 21px;\n    background-image: url('/storage/expansionicons/expicons.png');\n}\n.expansion-name {\n    word-break: break-all;\n}\n", ""]);
 
 // exports
 
