@@ -66,6 +66,7 @@ class OrderController extends Controller
             ->with('customs', Custom::where('user_id', $order->user_id)->get())
             ->with('model', $order->load([
                 'articles.language',
+                'articles.storage',
                 'buyer',
                 'evaluation',
                 'sales.item',

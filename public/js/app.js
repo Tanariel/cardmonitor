@@ -4782,6 +4782,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -53383,7 +53384,18 @@ var render = function() {
                 _vm.item.is_foil
                   ? _c("i", { staticClass: "fas fa-star text-warning" })
                   : _vm._e()
-              ])
+              ]),
+              _vm._v(" "),
+              _vm.item.storage_id
+                ? _c(
+                    "div",
+                    { staticClass: "mt-2", attrs: { title: "Lagerplatz" } },
+                    [
+                      _c("i", { staticClass: "fas fa-boxes" }),
+                      _vm._v(" " + _vm._s(_vm.item.storage.full_name))
+                    ]
+                  )
+                : _vm._e()
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "col mb-3" }, [

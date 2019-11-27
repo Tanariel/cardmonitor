@@ -14,6 +14,7 @@
                     <div><rarity :value="item.card.rarity"></rarity> ({{ item.card.rarity }})</div>
                     <div><condition :value="item.condition"></condition> ({{ item.condition }})</div>
                     <div><i class="fas fa-star text-warning" v-if="item.is_foil"></i></div>
+                    <div class="mt-2" v-if="item.storage_id" title="Lagerplatz"><i class="fas fa-boxes"></i> {{ item.storage.full_name }}</div>
                 </div>
                 <div class="col mb-3">
                     <div class="form-group">
