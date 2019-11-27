@@ -8,6 +8,7 @@ use App\Models\Cards\Card;
 use App\Models\Expansions\Expansion;
 use App\Models\Items\Card as ItemCard;
 use App\Models\Localizations\Language;
+use App\Models\Rules\Rule;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -62,6 +63,7 @@ class ArticleController extends Controller
             ->with('rarities', Card::RARITIES)
             ->with('is_applying_rules', $user->is_applying_rules)
             ->with('is_syncing_articles', $user->is_syncing_articles)
+            ->with('can_pay_rule_apply', (int) $user->canPay(Rule::PRICE_APPLY_IN_CENTS))
             ->with('rules', $user->rules)
             ->with('storages', $user->storages()
                 ->withDepth()

@@ -22,14 +22,14 @@ class CreateBalancesTable extends Migration
             $table->tinyInteger('multiplier')->default(1);
 
             $table->string('type');
-            $table->string('charge_reaseon')->nullable();
+            $table->string('charge_reason')->nullable();
 
-            $table->string('name');
-            $table->string('iban');
-            $table->string('bic');
-            $table->string('booking_text');
-            $table->text('description');
-            $table->string('eref');
+            $table->string('name')->nullable();
+            $table->string('iban')->nullable();
+            $table->string('bic')->nullable();
+            $table->string('booking_text')->nullable();
+            $table->text('description')->nullable();
+            $table->string('eref')->nullable();
 
             $table->dateTime('received_at');
             $table->timestamps();

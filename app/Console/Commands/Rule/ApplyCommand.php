@@ -43,30 +43,44 @@ class ApplyCommand extends Command
      */
     public function handle()
     {
-        $this->user = User::findOrFail($this->argument('user'));
+        try {
+            $this->user = User::findOrFail($this->argument('user'));
 
-        $this->user->update([
-            'is_applying_rules' => true,
-        ]);
+            if (! $this->user->canPay(Rule::PRICE_APPLY_IN_CENTS)) {
+                return false;
+            }
 
-        $rules = Rule::where('user_id', $this->user->id)
-            ->where('active', true)
-            ->orderBy('order_column', 'ASC')
-            ->get();
+            $this->user->update([
+                'is_applying_rules' => true,
+            ]);
 
-        Rule::reset($this->user->id);
+            $rules = Rule::where('user_id', $this->user->id)
+                ->where('active', true)
+                ->orderBy('order_column', 'ASC')
+                ->get();
 
-        foreach ($rules as $rule) {
-            $rule->apply($this->option('sync'));
+            Rule::reset($this->user->id);
+
+            foreach ($rules as $rule) {
+                $rule->apply($this->option('sync'));
+            }
+
+            if ($this->option('sync')) {
+                $this->sync();
+                $this->user->withdraw(Rule::PRICE_APPLY_IN_CENTS, ApplyCommand::class);
+            }
+
+            $this->user->update([
+                'is_applying_rules' => false,
+            ]);
         }
+        catch (\Exception $e) {
+            $this->user->update([
+                'is_applying_rules' => false,
+            ]);
 
-        if ($this->option('sync')) {
-            $this->sync();
+            throw $e;
         }
-
-        $this->user->update([
-            'is_applying_rules' => false,
-        ]);
     }
 
     protected function sync()

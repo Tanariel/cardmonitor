@@ -152,7 +152,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
                         <button type="button" class="btn btn-secondary" @click="apply(false)">Regeln simulieren</button>
-                        <button type="button" class="btn btn-primary" @click="apply(true)">Regeln anwenden</button>
+                        <button type="button" class="btn btn-primary" :disabled="canPayRuleApply == 0" @click="apply(true)">Regeln anwenden (1 €)</button>
                     </div>
                 </div>
             </div>
@@ -180,6 +180,10 @@
         },
 
         props: {
+            canPayRuleApply: {
+                required: true,
+                type: Number,
+            },
             conditions: {
                 type: Object,
                 required: true,

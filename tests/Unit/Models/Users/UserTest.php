@@ -33,6 +33,38 @@ class UserTest extends TestCase
     /**
      * @test
      */
+    public function it_knows_if_a_user_can_pay_an_amount()
+    {
+        $this->assertFalse($this->user->canPay(100));
+
+        $this->user->balance_in_cents = 100;
+
+        $this->assertTrue($this->user->canPay(100));
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_withdraw_its_balance()
+    {
+        $this->user->balance_in_cents = 100;
+        $this->user->save();
+
+        $this->user->withdraw(100, 'test');
+
+        $this->assertEquals(0, $this->user->fresh()->balance_in_cents);
+        $this->assertDatabaseHas('balances', [
+            'user_id' => $this->user->id,
+            'amount_in_cents' => 100,
+            'type' => 'debit',
+            'multiplier' => -1,
+            'charge_reason' => 'test',
+        ]);
+    }
+
+    /**
+     * @test
+     */
     public function it_has_one_api()
     {
         $model = factory(User::class)->create();

@@ -76,6 +76,40 @@ class User extends Authenticatable
         });
     }
 
+    public function canPay(int $amount_in_cents) : bool
+    {
+        if ($this->id == 1) {
+            return true;
+        }
+
+        return ($this->balance_in_cents >= $amount_in_cents);
+    }
+
+    public function deposit(int $amount_in_cents)
+    {
+
+    }
+
+    public function withdraw(int $amount_in_cents, string $reason)
+    {
+        if ($this->id == 1) {
+            $amount_in_cents = 0;
+        }
+
+        if (! $this->canPay($amount_in_cents)) {
+            return false;
+        }
+
+        Balance::create([
+            'user_id' => $this->id,
+            'amount_in_cents' => $amount_in_cents,
+            'type' => 'debit',
+            'multiplier' => -1,
+            'received_at' => now(),
+            'charge_reason' => $reason,
+        ]);
+    }
+
     public function getCardmarketApiAttribute() : CardmarketApi
     {
         return new CardmarketApi($this->api);
