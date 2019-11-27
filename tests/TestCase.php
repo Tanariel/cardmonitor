@@ -71,6 +71,25 @@ abstract class TestCase extends BaseTestCase
             ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
+    public function a_user_can_not_see_models_from_a_different_user(array $parameters)
+    {
+        $this->signIn();
+
+        $this->a_different_user_gets_a_403('show', 'get', $parameters);
+
+        $this->a_different_user_gets_a_403('edit', 'get', $parameters);
+
+        $this->a_different_user_gets_a_403('update', 'put', $parameters);
+
+        $this->a_different_user_gets_a_403('destroy', 'delete', $parameters);
+    }
+
+    protected function a_different_user_gets_a_403(string $route, string $method = 'get', array $parameters = [])
+    {
+        $response = $this->$method(route($this->baseRouteName . '.' . $route, $parameters))
+            ->assertStatus(Response::HTTP_FORBIDDEN, $route);
+    }
+
     public function getIndexViewResponse(array $parameters = []) : TestResponse
     {
         return $this->getViewResponse('index', $parameters);

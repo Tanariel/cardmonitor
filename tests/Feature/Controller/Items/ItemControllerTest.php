@@ -36,6 +36,16 @@ class ItemControllerTest extends TestCase
     /**
      * @test
      */
+    public function a_user_can_not_see_things_from_a_different_user()
+    {
+        $modelOfADifferentUser = factory($this->className)->create();
+
+        $this->a_user_can_not_see_models_from_a_different_user(['item' => $modelOfADifferentUser->id]);
+    }
+
+    /**
+     * @test
+     */
     public function a_user_can_see_the_index_view()
     {
         $this->getIndexViewResponse()
@@ -115,15 +125,18 @@ class ItemControllerTest extends TestCase
 
         $data = [
             'name' => 'Updated Model',
+            'unit_cost_formatted' => '1,23',
         ];
 
         $response = $this->put(route($this->baseRouteName . '.update', ['item' => $model->id]), $data)
-            ->assertStatus(Response::HTTP_OK)
+            ->assertStatus(Response::HTTP_FOUND)
             ->assertSessionHasNoErrors();
 
         $this->assertDatabaseHas($model->getTable(), [
             'id' => $model->id,
-        ] + $data);
+            'name' => 'Updated Model',
+            'unit_cost' => 1.23,
+        ]);
     }
 
     /**

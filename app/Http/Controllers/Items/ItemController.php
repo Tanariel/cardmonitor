@@ -11,6 +11,11 @@ class ItemController extends Controller
 {
     protected $baseViewPath = 'item';
 
+    public function __construct()
+    {
+        $this->authorizeResource(Item::class, 'item');
+    }
+
     /**
      * Display a listing of the resource.
      *
