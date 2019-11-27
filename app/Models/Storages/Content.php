@@ -2,6 +2,7 @@
 
 namespace App\Models\Storages;
 
+use App\Models\Articles\Article;
 use App\Models\Expansions\Expansion;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -43,6 +44,17 @@ class Content extends Model
         self::$defaultStorages[$expansionId] = $storageId ?: null;
 
         return self::$defaultStorages[$expansionId];
+    }
+
+    public function assign()
+    {
+        Article::join('cards', 'cards.id', '=', 'articles.card_id')
+            ->whereNull('articles.order_id')
+            ->where('articles.user_id', $this->user_id)
+            ->where('cards.expansion_id', $this->storagable_id)
+            ->update([
+                'storage_id' => $this->storage_id,
+            ]);
     }
 
     public function getIsDeletableAttribute() : bool

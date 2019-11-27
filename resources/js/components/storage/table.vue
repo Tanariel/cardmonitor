@@ -15,6 +15,7 @@
                     <filter-search v-model="filter.searchtext" @input="fetch()"></filter-search>
                 </div>
                 <button class="btn btn-secondary ml-1" @click="filter.show = !filter.show"><i class="fas fa-filter"></i></button>
+                <button class="btn btn-secondary ml-1" :disabled="isAssigning" @click="assign">Lagerplätze neu zuweisen</button>
             </div>
         </div>
 
@@ -66,6 +67,7 @@
 
         data () {
             return {
+                isAssigning: false,
                 uri: '/storage',
                 items: [],
                 isLoading: true,
@@ -109,6 +111,21 @@
         },
 
         methods: {
+            assign() {
+                var component = this;
+                component.isAssigning = true;
+                axios.post(component.uri + '/assign')
+                    .then(function (response) {
+                        Vue.success('Lagerplätze wurden neu zugewiesen.');
+                    })
+                    .catch( function (error) {
+                        component.errors = error.response.data.errors;
+                        Vue.error('Lagerplätze konnten nicht neu zugewiesen werden!');
+                    })
+                    .finally( function () {
+                        component.isAssigning = false;
+                });
+            },
             create() {
                 var component = this;
                 axios.post(component.uri, component.form)

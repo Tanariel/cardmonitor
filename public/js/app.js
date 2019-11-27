@@ -6865,6 +6865,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -6874,6 +6875,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
+      isAssigning: false,
       uri: '/storage',
       items: [],
       isLoading: true,
@@ -6910,6 +6912,18 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    assign: function assign() {
+      var component = this;
+      component.isAssigning = true;
+      axios.post(component.uri + '/assign').then(function (response) {
+        Vue.success('Lagerplätze wurden neu zugewiesen.');
+      })["catch"](function (error) {
+        component.errors = error.response.data.errors;
+        Vue.error('Lagerplätze konnten nicht neu zugewiesen werden!');
+      })["finally"](function () {
+        component.isAssigning = false;
+      });
+    },
     create: function create() {
       var component = this;
       axios.post(component.uri, component.form).then(function (response) {
@@ -57101,6 +57115,16 @@ var render = function() {
             }
           },
           [_c("i", { staticClass: "fas fa-filter" })]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-secondary ml-1",
+            attrs: { disabled: _vm.isAssigning },
+            on: { click: _vm.assign }
+          },
+          [_vm._v("Lagerplätze neu zuweisen")]
         )
       ])
     ]),
@@ -76048,14 +76072,15 @@ __webpack_require__.r(__webpack_exports__);
 /*!***************************************************!*\
   !*** ./resources/js/components/storage/table.vue ***!
   \***************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _table_vue_vue_type_template_id_c6fa2c02___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./table.vue?vue&type=template&id=c6fa2c02& */ "./resources/js/components/storage/table.vue?vue&type=template&id=c6fa2c02&");
 /* harmony import */ var _table_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./table.vue?vue&type=script&lang=js& */ "./resources/js/components/storage/table.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _table_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _table_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -76085,7 +76110,7 @@ component.options.__file = "resources/js/components/storage/table.vue"
 /*!****************************************************************************!*\
   !*** ./resources/js/components/storage/table.vue?vue&type=script&lang=js& ***!
   \****************************************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

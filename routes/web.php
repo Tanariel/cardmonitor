@@ -84,6 +84,7 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('rule/{rule}/activate', 'Rules\ActiveController@destroy');
     Route::resource('rule', 'Rules\RuleController');
 
+    Route::post('storage/assign', 'Storages\AssignController@store');
     Route::resource('storage', 'Storages\StorageController');
     Route::put('storage/{storage}/parent', 'Storages\ParentController@update');
 
