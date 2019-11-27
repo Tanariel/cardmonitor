@@ -116,13 +116,13 @@ class Rule extends Model
         $attributes = [
             'articles.rule_id' => $this->id,
             'articles.rule_applied_at' => now(),
-            'articles.rule_price' => DB::raw('(cards.' . $this->base_price . ' * ' . $this->multiplier . ')'),
+            'articles.rule_price' => DB::raw('ROUND(cards.' . $this->base_price . ' * ' . $this->multiplier . ', 2)'),
             // 'articles.rule_difference' => DB::raw('(cards.' . $this->base_price . ' * ' . $this->multiplier . ') - articles.unit_price'),
             // 'articles.rule_difference_percent' => DB::raw('((cards.' . $this->base_price . ' * ' . $this->multiplier . ') - articles.unit_price) / articles.unit_price * 100'),
         ];
 
         if ($sync) {
-            $attributes['unit_price'] = DB::raw('(cards.' . $this->base_price . ' * ' . $this->multiplier . ')');
+            $attributes['unit_price'] = DB::raw('ROUND(cards.' . $this->base_price . ' * ' . $this->multiplier . ', 2)');
         }
 
         $query->update($attributes);
