@@ -66,6 +66,7 @@ class HomeController extends Controller
             ->with('paidOrders', $paidOrders)
             ->with('paidOrders_count', count($paidOrders))
             ->with('api', $user->api)
-            ->with('is_syncing_articles', $user->is_syncing_articles);
+            ->with('is_syncing_articles', $user->is_syncing_articles)
+            ->with('is_syncing_orders', $user->is_syncing_orders);
     }
 }

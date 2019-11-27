@@ -28,39 +28,8 @@
                 </div>
             </div>
         @else
-            @if ($paidOrders_count > 0)
-                <div class="col-12 col-md-6 col-lg-4 col-xl mb-3 mb-xl-0">
-                    <div class="card h-100">
-                        <div class="card-header">Bezahlte Bestellungen</div>
-                        <div class="card-body">
-                            <table class="table table-striped table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Datum</th>
-                                        <th>Bestellung</th>
-                                        <th width="100"></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($paidOrders as $order)
-                                        <tr>
-                                            <td class="align-middle">{{ $order->paid_at }}</td>
-                                            <td class="align-middle">
-                                                <a href="{{ $order->path }}">{{ $order->cardmarket_order_id }}</a>
-                                                <div class="text-muted">{{ $order->buyer->name }}</div>
-                                            </td>
-                                            <td class="align-middle">
-                                                <div>{{ $order->revenue_formatted }} € </div>
-                                                <div>{{ $order->articles_count }} Artikel</div>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            @endif
+
+            <home-order-paid :is-syncing-orders="{{ $is_syncing_orders }}"></home-order-paid>
 
             <home-article-index :is-syncing-articles="{{ $is_syncing_articles }}"></home-article-index>
 

@@ -42,7 +42,13 @@ class OrderController extends Controller
         }
 
         if (is_null($order)) {
-            $this->syncAllOrders($user);
+            $this->processing($user);
+            if ($request->has('state')) {
+                $this->syncStateOrders($user, $request->input('state'));
+            }
+            else {
+                $this->syncAllOrders($user);
+            }
         }
         else {
             $this->syncOrder($order);
@@ -65,11 +71,24 @@ class OrderController extends Controller
         return Order::updateOrCreateFromCardmarket($order->user_id, $cardmarketOrder['order']);
     }
 
-    protected function syncAllOrders(User $user)
+    protected function processing(User $user)
     {
         $user->update([
             'is_syncing_orders' => true,
         ]);
+    }
+
+    protected function syncStateOrders(User $user, string $state)
+    {
+        Artisan::queue('order:sync', [
+            'user' => $user->id,
+            '--actor' => 'seller',
+            '--state' => $state,
+        ]);
+    }
+
+    protected function syncAllOrders(User $user)
+    {
         \App\Jobs\Orders\SyncAll::dispatch($user);
     }
 

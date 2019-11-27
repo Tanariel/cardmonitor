@@ -13,6 +13,7 @@ use App\Models\Storages\Content;
 use App\Models\Users\CardmarketUser;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -48,6 +49,7 @@ class Order extends Model
         'editPath',
         'path',
         'revenue_formatted',
+        'paid_at_formatted',
     ];
 
     protected $dates = [
@@ -579,6 +581,11 @@ class Order extends Model
         return 'order';
     }
 
+    public function getPaidAtFormattedAttribute() : string
+    {
+        return $this->paid_at->format('d.m.Y H:i');
+    }
+
     public function getShippingAddressTextAttribute() : string
     {
         return $this->shipping_name . "\n" . ($this->shipping_extra ? $this->shipping_extra . "\n" : '') . $this->shipping_street . "\n" . $this->shipping_zip . ' ' . $this->shipping_city . "\n" . $this->shipping_country;
@@ -620,6 +627,15 @@ class Order extends Model
     public function seller() : BelongsTo
     {
         return $this->belongsTo(CardmarketUser::class, 'seller_id');
+    }
+
+    public function scopeState(Builder $query, $value) : Builder
+    {
+        if (! $value) {
+            return $query;
+        }
+
+        return $query->where('state', $value);
     }
 
 }

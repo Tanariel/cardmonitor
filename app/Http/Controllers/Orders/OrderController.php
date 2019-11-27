@@ -21,6 +21,7 @@ class OrderController extends Controller
         if ($request->wantsJson()) {
             return auth()->user()
                 ->orders()
+                ->state($request->input('state'))
                 ->with([
                     'buyer',
                     'evaluation'

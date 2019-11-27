@@ -94,6 +94,7 @@ Vue.component('flash-message', require('./components/partials/flashmessage.vue')
 Vue.component('article-create', require('./components/article/create.vue').default);
 Vue.component('article-table', require('./components/article/table.vue').default);
 Vue.component('home-article-index', require('./components/home/article/index.vue').default);
+Vue.component('home-order-paid', require('./components/home/order/paid.vue').default);
 Vue.component('home-order-index', require('./components/home/order/index.vue').default);
 Vue.component('imageable-gallery', require('./components/image/imageable/gallery.vue').default);
 Vue.component('imageable-table', require('./components/image/imageable/table.vue').default);

@@ -19,7 +19,7 @@ class SyncCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'order:sync {--user=} {--actor=seller}  {--state=received}';
+    protected $signature = 'order:sync {user} {--actor=seller}  {--state=received}';
 
     /**
      * The console command description.
@@ -45,6 +45,24 @@ class SyncCommand extends Command
      */
     public function handle()
     {
-        User::find($this->option('user'))->cardmarketApi->syncOrders($this->option('actor'), $this->option('state'));
+        $this->user = User::find($this->argument('user'));
+
+        $this->processing();
+        $this->user->cardmarketApi->syncOrders($this->option('actor'), $this->option('state'));
+        $this->processed();
+    }
+
+    public function processing()
+    {
+        $this->user->update([
+            'is_syncing_orders' => true,
+        ]);
+    }
+
+    public function processed()
+    {
+        $this->user->update([
+            'is_syncing_orders' => false,
+        ]);
     }
 }
