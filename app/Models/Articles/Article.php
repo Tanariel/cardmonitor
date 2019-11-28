@@ -258,24 +258,33 @@ class Article extends Model
 
     public function syncUpdate()
     {
-        $response = $this->user->cardmarketApi->stock->update([$this->toCardmarket()]);
-        if (is_array($response['updatedArticles'])) {
-            $cardmarketArticle = $response['updatedArticles'];
-            $this->update([
-                'cardmarket_article_id' => $cardmarketArticle['idArticle'],
-                'cardmarket_last_edited' => new Carbon($cardmarketArticle['lastEdited']),
-                'synced_at' => now(),
-                'has_sync_error' => false,
-                'sync_error' => null,
-                'should_sync' => false,
-            ]);
+        try {
+            $response = $this->user->cardmarketApi->stock->update([$this->toCardmarket()]);
+            if (is_array($response['updatedArticles'])) {
+                $cardmarketArticle = $response['updatedArticles'];
+                $this->update([
+                    'cardmarket_article_id' => $cardmarketArticle['idArticle'],
+                    'cardmarket_last_edited' => new Carbon($cardmarketArticle['lastEdited']),
+                    'synced_at' => now(),
+                    'has_sync_error' => false,
+                    'sync_error' => null,
+                    'should_sync' => false,
+                ]);
+            }
+            else {
+                $this->update([
+                    'has_sync_error' => true,
+                    'sync_error' => $response['notUpdatedArticles']['error'],
+                    'should_sync' => true,
+                ]);
+            }
         }
-        else {
-            $this->update([
-                'has_sync_error' => true,
-                'sync_error' => $response['notUpdatedArticles']['error'],
-                'should_sync' => true,
-            ]);
+        catch (\Exception $e) {
+
+            dump('article', $this->toCardmarket());
+            dump('response', $response);
+
+            throw $e;
         }
     }
 
