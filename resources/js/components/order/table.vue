@@ -14,7 +14,13 @@
         <form v-if="filter.show" id="filter" class="mt-1">
             <div  class="form-row">
 
-
+                <div class="form-group">
+                    <label for="filter-state">Status</label>
+                    <select class="form-control" id="filter-state" v-model="filter.state" @change="search">
+                        <option :value="null">Alle</option>
+                        <option :value="id" v-for="(name, id) in states">{{ name }}</option>
+                    </select>
+                </div>
 
             </div>
         </form>
@@ -87,6 +93,10 @@
                 required: true,
                 type: Number,
             },
+            states: {
+                required: true,
+                type: Object,
+            },
         },
 
         data () {
@@ -106,6 +116,8 @@
                 filter: {
                     page: 1,
                     searchtext: '',
+                    show: true,
+                    state: null,
                 },
                 selected: [],
             };
@@ -203,6 +215,10 @@
                         Vue.error('Bestellungen konnten nicht geladen werden!');
                         console.log(error);
                     });
+            },
+            search() {
+                this.filter.page = 1;
+                this.fetch();
             },
             toggleSelected (id) {
                 var index = this.selected.indexOf(id);

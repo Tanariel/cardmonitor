@@ -36,6 +36,7 @@ class OrderController extends Controller
         }
 
         return view($this->baseViewPath . '.index')
+            ->with('states', Order::STATES)
             ->with('is_syncing_orders', auth()->user()->is_syncing_orders);
     }
 

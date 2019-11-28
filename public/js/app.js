@@ -5527,6 +5527,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -5538,6 +5544,10 @@ __webpack_require__.r(__webpack_exports__);
     isSyncingOrders: {
       required: true,
       type: Number
+    },
+    states: {
+      required: true,
+      type: Object
     }
   },
   data: function data() {
@@ -5556,7 +5566,9 @@ __webpack_require__.r(__webpack_exports__);
       },
       filter: {
         page: 1,
-        searchtext: ''
+        searchtext: '',
+        show: true,
+        state: null
       },
       selected: []
     };
@@ -5647,6 +5659,10 @@ __webpack_require__.r(__webpack_exports__);
         Vue.error('Bestellungen konnten nicht geladen werden!');
         console.log(error);
       });
+    },
+    search: function search() {
+      this.filter.page = 1;
+      this.fetch();
     },
     toggleSelected: function toggleSelected(id) {
       var index = this.selected.indexOf(id);
@@ -54788,7 +54804,61 @@ var render = function() {
     _vm._v(" "),
     _vm.filter.show
       ? _c("form", { staticClass: "mt-1", attrs: { id: "filter" } }, [
-          _c("div", { staticClass: "form-row" })
+          _c("div", { staticClass: "form-row" }, [
+            _c("div", { staticClass: "form-group" }, [
+              _c("label", { attrs: { for: "filter-state" } }, [
+                _vm._v("Status")
+              ]),
+              _vm._v(" "),
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.filter.state,
+                      expression: "filter.state"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { id: "filter-state" },
+                  on: {
+                    change: [
+                      function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.$set(
+                          _vm.filter,
+                          "state",
+                          $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        )
+                      },
+                      _vm.search
+                    ]
+                  }
+                },
+                [
+                  _c("option", { domProps: { value: null } }, [_vm._v("Alle")]),
+                  _vm._v(" "),
+                  _vm._l(_vm.states, function(name, id) {
+                    return _c("option", { domProps: { value: id } }, [
+                      _vm._v(_vm._s(name))
+                    ])
+                  })
+                ],
+                2
+              )
+            ])
+          ])
         ])
       : _vm._e(),
     _vm._v(" "),

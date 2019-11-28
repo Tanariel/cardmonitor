@@ -36,7 +36,7 @@ class Order extends Model
     ];
 
     const STATES = [
-        'bought' => 'Unbezahlt',
+        // 'bought' => 'Unbezahlt',
         'paid' => 'Bezahlt',
         'sent' => 'Versandt',
         'received' => 'Angekommen',
