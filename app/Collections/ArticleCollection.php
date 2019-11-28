@@ -18,6 +18,7 @@ class ArticleCollection extends Collection
             $response = $cardmarketApi->stock->update($cardmarketArticles);
 
             $notUpdated = $this->setNotUpdated($response['notUpdatedArticles']);
+            $updated = $response['updatedArticles'];
 
             foreach ($this->items as $key => $article) {
                 if (Arr::has($notUpdated, $article->cardmarket_article_id)) {
@@ -29,7 +30,7 @@ class ArticleCollection extends Collection
                 else {
                     $article->calculateProvision();
                     $attributes = [
-                        'cardmarket_article_id' => $response['updatedArticles'][$updated_count]['idArticle'],
+                        'cardmarket_article_id' => $updated[$updated_count]['idArticle'],
                         'has_sync_error' => false,
                         'sync_error' => null,
                     ];
@@ -40,8 +41,10 @@ class ArticleCollection extends Collection
         }
         catch (\Exception $e) {
 
-            dump($cardmarketArticles);
-            dump($notUpdated);
+            dump('cardmarketArticles', $cardmarketArticles);
+            dump('updated_count', $updated_count);
+            dump('updated', $updated);
+            dump('notUpdated', $notUpdated);
 
             throw $e;
         }
