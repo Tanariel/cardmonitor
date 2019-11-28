@@ -33,6 +33,14 @@ class UserTest extends TestCase
     /**
      * @test
      */
+    public function it_sends_a_mail_when_created()
+    {
+
+    }
+
+    /**
+     * @test
+     */
     public function it_knows_if_a_user_can_pay_an_amount()
     {
         $this->assertFalse($this->user->canPay(100));

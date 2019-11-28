@@ -1,25 +1,25 @@
 <?php
 
-namespace App\Console\Commands\User\Balance;
+namespace App\Console\Commands\Mail;
 
-use App\Support\Users\FinTs;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Mail;
 
-class ImportCommand extends Command
+class TestCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'user:balance:import';
+    protected $signature = 'mail:test';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Imports new bank transactions';
+    protected $description = 'Sends a test mail';
 
     /**
      * Create a new command instance.
@@ -38,7 +38,7 @@ class ImportCommand extends Command
      */
     public function handle()
     {
-        $fints = new FinTs();
-        $fints->import(now()->sub(5, 'days'), now());
+        Mail::to(config('app.mail'))
+            ->send(new \App\Mail\Test());
     }
 }

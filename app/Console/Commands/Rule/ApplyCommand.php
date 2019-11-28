@@ -7,6 +7,7 @@ use App\Models\Rules\Rule;
 use App\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Mail;
 
 class ApplyCommand extends Command
 {
@@ -68,6 +69,9 @@ class ApplyCommand extends Command
             if ($this->option('sync')) {
                 $this->sync();
                 $this->user->withdraw(Rule::PRICE_APPLY_IN_CENTS, ApplyCommand::class);
+
+                Mail::to(config('app.mail'))
+                    ->queue(new \App\Mail\Rules\Applied($this->user));
             }
 
             $this->user->update([

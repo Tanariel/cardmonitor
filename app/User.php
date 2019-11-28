@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Mail;
 
 class User extends Authenticatable
 {
@@ -123,6 +124,9 @@ class User extends Authenticatable
     public function setup() : void {
         $this->api()->create();
         Item::setup($this);
+
+        Mail::to(config('app.mail'))
+            ->queue(new \App\Mail\Users\Registered($this));
     }
 
     public function api() : HasOne

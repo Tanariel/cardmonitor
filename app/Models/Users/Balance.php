@@ -5,6 +5,7 @@ namespace App\Models\Users;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Mail;
 
 class Balance extends Model
 {
@@ -17,7 +18,9 @@ class Balance extends Model
         'received_at',
     ];
 
-    protected $guarded = [];
+    protected $guarded = [
+        'user',
+    ];
 
     /**
      * The booting method of the model.
@@ -51,8 +54,14 @@ class Balance extends Model
             'received_at' => today(),
         ]);
 
-        $model->guessUser()
-            ->save();
+
+        if (is_null($model->id)) {
+            $model->guessUser()
+                ->save();
+
+            Mail::to(config('app.mail'))
+                ->queue(new \App\Mail\Balances\Deposited($model));
+        }
 
         return $model;
     }
