@@ -34,10 +34,7 @@ class ApplyController extends Controller
             'is_applying_rules' => true,
         ]);
 
-        Artisan::queue('rule:apply', [
-            'user' => $user->id,
-            '--sync' => $request->input('sync') ?? false,
-        ]);
+        \App\Jobs\Rules\Apply::dispatch($user, $request->input('sync') ?? false);
 
         if ($request->wantsJson()) {
             return [];

@@ -44,49 +44,31 @@ class ApplyCommand extends Command
      */
     public function handle()
     {
-        try {
-            $start = microtime(true);
-            $this->user = User::findOrFail($this->argument('user'));
+        $start = microtime(true);
+        $this->user = User::findOrFail($this->argument('user'));
 
-            if (! $this->user->canPay(Rule::PRICE_APPLY_IN_CENTS)) {
-                return false;
-            }
-
-            $this->user->update([
-                'is_applying_rules' => true,
-            ]);
-
-            $rules = Rule::where('user_id', $this->user->id)
-                ->where('active', true)
-                ->orderBy('order_column', 'ASC')
-                ->get();
-
-            Rule::reset($this->user->id);
-
-            foreach ($rules as $rule) {
-                $rule->apply($this->option('sync'));
-            }
-
-            $runtime_in_sec = round((microtime(true) - $start), 2);
-            if ($this->option('sync')) {
-                $this->sync();
-                $this->user->withdraw(Rule::PRICE_APPLY_IN_CENTS, ApplyCommand::class);
-
-                Mail::to(config('app.mail'))
-                    ->queue(new \App\Mail\Rules\Applied($this->user, $runtime_in_sec));
-            }
-
-            $this->user->update([
-                'is_applying_rules' => false,
-            ]);
-
+        if (! $this->user->canPay(Rule::PRICE_APPLY_IN_CENTS)) {
+            return false;
         }
-        catch (\Exception $e) {
-            $this->user->update([
-                'is_applying_rules' => false,
-            ]);
 
-            throw $e;
+        $rules = Rule::where('user_id', $this->user->id)
+            ->where('active', true)
+            ->orderBy('order_column', 'ASC')
+            ->get();
+
+        Rule::reset($this->user->id);
+
+        foreach ($rules as $rule) {
+            $rule->apply($this->option('sync'));
+        }
+
+        $runtime_in_sec = round((microtime(true) - $start), 2);
+        if ($this->option('sync')) {
+            $this->sync();
+            $this->user->withdraw(Rule::PRICE_APPLY_IN_CENTS, ApplyCommand::class);
+
+            Mail::to(config('app.mail'))
+                ->queue(new \App\Mail\Rules\Applied($this->user, $runtime_in_sec));
         }
     }
 
