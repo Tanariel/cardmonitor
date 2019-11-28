@@ -6,7 +6,7 @@
         <h2 class="col"><a class="text-body" href="/item">Lagerplatz</a> > {{ $model->full_name }}</h2>
         <div class="d-flex align-items-center">
             <a href="{{ $model->editPath }}" class="btn btn-primary" title="Bearbeiten"><i class="fas fa-edit"></i></a>
-            <a href="/storage" class="btn btn-secondary ml-1">Übersicht</a>
+            <a href="/storages" class="btn btn-secondary ml-1">Übersicht</a>
             @if ($model->isDeletable())
                 <form action="{{ $model->path }}" class="ml-1" method="POST">
                     @csrf

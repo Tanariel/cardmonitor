@@ -66,7 +66,7 @@ class Storage extends Model
 
     public function isDeletable() : bool
     {
-        return (! $this->articles()->exists() && ! $this->descendants()->exists());
+        return (! $this->articles()->exists() && ! $this->descendants()->exists() && ! $this->contents()->exists());
     }
 
     public function getArticleStatsAttribute()
