@@ -110,7 +110,7 @@ class Storage extends Model
 
     protected function baseRoute() : string
     {
-        return 'storage';
+        return 'storages';
     }
 
     public function getIsDeletableAttribute()

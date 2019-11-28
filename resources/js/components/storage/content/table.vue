@@ -80,7 +80,7 @@
                     component.expansions = response.data;
                 })
                 .catch(function (error) {
-                    Vue.error('Sets konnten nicht geladen werden!');
+                    Vue.error('Erweiterungen konnten nicht geladen werden!');
                     console.log(error);
                 });
 
@@ -140,7 +140,7 @@
                         component.isLoading = false;
                     })
                     .catch(function (error) {
-                        Vue.error('Sets konnten nicht geladen werden!');
+                        Vue.error('Erweiterungen konnten nicht geladen werden!');
                         console.log(error);
                     });
             },
@@ -149,7 +149,7 @@
             },
             remove(index) {
                 this.items.splice(index, 1);
-                Vue.success('Set gelöscht.');
+                Vue.success('Erweiterungen gelöscht.');
             },
         },
     };

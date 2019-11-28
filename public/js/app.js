@@ -6663,7 +6663,7 @@ __webpack_require__.r(__webpack_exports__);
     }).then(function (response) {
       component.expansions = response.data;
     })["catch"](function (error) {
-      Vue.error('Sets konnten nicht geladen werden!');
+      Vue.error('Erweiterungen konnten nicht geladen werden!');
       console.log(error);
     });
     this.fetch();
@@ -6714,7 +6714,7 @@ __webpack_require__.r(__webpack_exports__);
         component.items = response.data;
         component.isLoading = false;
       })["catch"](function (error) {
-        Vue.error('Sets konnten nicht geladen werden!');
+        Vue.error('Erweiterungen konnten nicht geladen werden!');
         console.log(error);
       });
     },
@@ -6723,7 +6723,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     remove: function remove(index) {
       this.items.splice(index, 1);
-      Vue.success('Set gelöscht.');
+      Vue.success('Erweiterungen gelöscht.');
     }
   }
 });
@@ -6880,7 +6880,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       isAssigning: false,
-      uri: '/storage',
+      uri: '/storages',
       items: [],
       isLoading: true,
       filter: {},

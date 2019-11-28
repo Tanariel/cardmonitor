@@ -68,7 +68,7 @@
         data () {
             return {
                 isAssigning: false,
-                uri: '/storage',
+                uri: '/storages',
                 items: [],
                 isLoading: true,
                 filter: {

@@ -84,16 +84,16 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('rule/{rule}/activate', 'Rules\ActiveController@destroy');
     Route::resource('rule', 'Rules\RuleController');
 
-    Route::post('storage/assign', 'Storages\AssignController@store');
-    Route::resource('storage', 'Storages\StorageController');
-    Route::put('storage/{storage}/parent', 'Storages\ParentController@update');
+    Route::post('storages/assign', 'Storages\AssignController@store');
+    Route::resource('storages', 'Storages\StorageController');
+    Route::put('storages/{storage}/parent', 'Storages\ParentController@update');
 
     Route::resource('content', 'Storages\ContentController')->except([
         'index',
         'store',
     ]);
-    Route::get('storage/{storage}/content', 'Storages\ContentController@index')->name('storage.content.index');
-    Route::post('storage/{storage}/content', 'Storages\ContentController@store')->name('storage.content.store');
+    Route::get('storages/{storage}/content', 'Storages\ContentController@index')->name('storage.content.index');
+    Route::post('storages/{storage}/content', 'Storages\ContentController@store')->name('storage.content.store');
 
     Route::resource('transaction', 'Items\Transactions\TransactionController');
 
