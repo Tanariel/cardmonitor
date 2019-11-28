@@ -28,10 +28,10 @@
                     .then(function (response) {
                         if (response.data.deleted) {
                             component.$emit("deleted", component.id);
-                            Vue.success('Set wurden gelöscht.');
+                            Vue.success('Erweiterung wurde gelöscht.');
                         }
                         else {
-                            Vue.error('Set konnten nicht gelöscht werden.');
+                            Vue.error('Erweiterung konnte nicht gelöscht werden.');
                         }
                 });
             },

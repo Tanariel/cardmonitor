@@ -10,38 +10,51 @@ class ArticleCollection extends Collection
 {
     public function sync(CardmarketApi $cardmarketApi)
     {
-        $cardmarketArticles = [];
-        $notUpdated = [];
-        $count = 0;
-        $updated_count = 0;
+        try {
+            $updated_count = 0;
+            $cardmarketArticles = $this->toCardmarket();
+            $count = count($cardmarketArticles);
 
+            $response = $cardmarketApi->stock->update($cardmarketArticles);
+
+            $notUpdated = $this->setNotUpdated($response['notUpdatedArticles']);
+
+            foreach ($this->items as $key => $article) {
+                if (Arr::has($notUpdated, $article->cardmarket_article_id)) {
+                    $attributes = [
+                        'has_sync_error' => true,
+                        'sync_error' => $notUpdated[$article->cardmarket_article_id]['error'],
+                    ];
+                }
+                else {
+                    $article->calculateProvision();
+                    $attributes = [
+                        'cardmarket_article_id' => $response['updatedArticles'][$updated_count]['idArticle'],
+                        'has_sync_error' => false,
+                        'sync_error' => null,
+                    ];
+                    $updated_count++;
+                }
+                $article->update($attributes);
+            }
+        }
+        catch (\Exception $e) {
+
+            dump($cardmarketArticles);
+            dump($notUpdated);
+
+            throw $e;
+        }
+    }
+
+    public function toCardmarket() : array
+    {
+        $cardmarketArticles = [];
         foreach ($this->items as $key => $article) {
             $cardmarketArticles[$key] = $article->toCardmarket();
-            $count++;
         }
 
-        $response = $cardmarketApi->stock->update($cardmarketArticles);
-
-        $notUpdated = $this->setNotUpdated($response['notUpdatedArticles']);
-
-        foreach ($this->items as $key => $article) {
-            if (Arr::has($notUpdated, $article->cardmarket_article_id)) {
-                $attributes = [
-                    'has_sync_error' => true,
-                    'sync_error' => $notUpdated[$article->cardmarket_article_id]['error'],
-                ];
-            }
-            else {
-                $article->calculateProvision();
-                $attributes = [
-                    'cardmarket_article_id' => $response['updatedArticles'][$updated_count]['idArticle'],
-                    'has_sync_error' => false,
-                    'sync_error' => null,
-                ];
-                $updated_count++;
-            }
-            $article->update($attributes);
-        }
+        return $cardmarketArticles;
     }
 
     protected function setNotUpdated($notUpdatedArticles) : array

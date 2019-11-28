@@ -6571,9 +6571,9 @@ __webpack_require__.r(__webpack_exports__);
       axios["delete"]('/content/' + component.id).then(function (response) {
         if (response.data.deleted) {
           component.$emit("deleted", component.id);
-          Vue.success('Set wurden gelöscht.');
+          Vue.success('Erweiterung wurde gelöscht.');
         } else {
-          Vue.error('Set konnten nicht gelöscht werden.');
+          Vue.error('Erweiterung konnte nicht gelöscht werden.');
         }
       });
     }
@@ -50693,7 +50693,7 @@ var staticRenderFns = [
         { staticClass: "alert alert-danger", attrs: { role: "alert" } },
         [
           _vm._v(
-            "\n                        Es werden Preise in deinem Cardmarket Konto verändert! Versichere dich vorher, ob alle Regeln angewendet weden, wie Du es möchtest!"
+            "\n                        Es werden Preise in deinem Cardmarket Konto verändert! Versichere dich vorher, ob alle Regeln angewendet werden, wie Du es möchtest!"
           ),
           _c("br"),
           _c("br"),

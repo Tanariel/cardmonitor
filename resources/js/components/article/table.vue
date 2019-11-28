@@ -145,7 +145,7 @@
                     <div class="modal-body">
                         <p>Möchtest du alle aktiven Regeln anweden und in deinem Cardmarket Konto speichern?</p>
                         <div class="alert alert-danger" role="alert">
-                            Es werden Preise in deinem Cardmarket Konto verändert! Versichere dich vorher, ob alle Regeln angewendet weden, wie Du es möchtest!<br /><br />
+                            Es werden Preise in deinem Cardmarket Konto verändert! Versichere dich vorher, ob alle Regeln angewendet werden, wie Du es möchtest!<br /><br />
                             Ausführung auf eigne Gefahr!
                         </div>
                     </div>
