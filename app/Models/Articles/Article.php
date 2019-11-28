@@ -271,7 +271,7 @@ class Article extends Model
                     'should_sync' => false,
                 ]);
             }
-            else {
+            elseif (is_array($response['notUpdatedArticles'])) {
                 $this->update([
                     'has_sync_error' => true,
                     'sync_error' => $response['notUpdatedArticles']['error'],
