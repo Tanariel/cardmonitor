@@ -6,7 +6,7 @@
             </div>
             <div class="col-auto d-flex">
                 <div class="form-group" style="margin-bottom: 0;">
-                    <filter-search v-model="filter.searchtext" @input="fetch()"></filter-search>
+                    <filter-search v-model="filter.searchtext" @input="search()"></filter-search>
                 </div>
                 <button class="btn btn-secondary ml-1" @click="filter.show = !filter.show"><i class="fas fa-filter"></i></button>
                 <button class="btn btn-secondary ml-1" @click="sync" :disabled="syncing.status == 1"><i class="fas fa-sync" :class="{'fa-spin': syncing.status == 1}"></i></button>

@@ -5531,8 +5531,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -49907,7 +49905,7 @@ var render = function() {
             _c("filter-search", {
               on: {
                 input: function($event) {
-                  return _vm.fetch()
+                  return _vm.search()
                 }
               },
               model: {
@@ -54757,7 +54755,7 @@ var render = function() {
             _c("filter-search", {
               on: {
                 input: function($event) {
-                  return _vm.fetch()
+                  return _vm.search()
                 }
               },
               model: {
@@ -54978,23 +54976,19 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "tbody",
-                [
-                  _vm._l(_vm.items, function(item, index) {
-                    return [
-                      _c("row", {
-                        key: item.id,
-                        attrs: {
-                          item: item,
-                          uri: _vm.uri,
-                          selected:
-                            _vm.selected.indexOf(item.id) == -1 ? false : true
-                        },
-                        on: { input: _vm.toggleSelected }
-                      })
-                    ]
+                _vm._l(_vm.items, function(item, index) {
+                  return _c("row", {
+                    key: item.id,
+                    attrs: {
+                      item: item,
+                      uri: _vm.uri,
+                      selected:
+                        _vm.selected.indexOf(item.id) == -1 ? false : true
+                    },
+                    on: { input: _vm.toggleSelected }
                   })
-                ],
-                2
+                }),
+                1
               )
             ]
           )

@@ -631,6 +631,20 @@ class Order extends Model
         return $this->belongsTo(CardmarketUser::class, 'seller_id');
     }
 
+    public function scopeSearch(Builder $query, $value) : Builder
+    {
+        if (! $value) {
+            return $query;
+        }
+
+        return $query->join('cardmarket_users', function ($join) {
+            $join->on('orders.buyer_id', '=', 'cardmarket_users.id');
+        })->where( function ($query) use ($value) {
+            return $query->where('orders.cardmarket_order_id', 'like', '%' . $value . '%')
+                ->orWhere('cardmarket_users.name', 'like', '%' . $value . '%');
+        })->groupBy('cardmarket_order_id');
+    }
+
     public function scopeState(Builder $query, $value) : Builder
     {
         if (! $value) {
