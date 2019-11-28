@@ -64,7 +64,6 @@ class DevCommand extends Command
             'email_verified_at' => now(),
             'password' => Hash::make('admin'),
         ]);
-        $this->user->setup();
 
         $user = User::create([
             'name' => 'Cardmarket',
@@ -72,7 +71,6 @@ class DevCommand extends Command
             'email_verified_at' => now(),
             'password' => Hash::make('cardmarket'),
         ]);
-        $user->setup();
 
     }
 
