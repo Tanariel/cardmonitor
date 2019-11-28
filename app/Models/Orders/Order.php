@@ -556,6 +556,8 @@ class Order extends Model
             $message .= url($this->path . '/images') . "\n\n";
         }
 
+        $message .= "Ich verschicke sie heute Nachmittag.\n\n";
+
         $message .= "Viele Grüße\n" . $this->seller->firstname;
 
         return $message;
