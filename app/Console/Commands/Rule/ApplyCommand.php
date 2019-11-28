@@ -68,11 +68,11 @@ class ApplyCommand extends Command
 
             $runtime_in_sec = round((microtime(true) - LARAVEL_START), 2);
             if ($this->option('sync')) {
-                $this->sync();
+                $synced_count = $this->sync();
                 $this->user->withdraw(Rule::PRICE_APPLY_IN_CENTS, ApplyCommand::class);
 
                 Mail::to(config('app.mail'))
-                    ->queue(new \App\Mail\Rules\Applied($this->user, $runtime_in_sec));
+                    ->queue(new \App\Mail\Rules\Applied($this->user, $runtime_in_sec, $synced_count));
             }
 
             $this->user->update([
@@ -89,19 +89,23 @@ class ApplyCommand extends Command
         }
     }
 
-    protected function sync()
+    protected function sync() : int
     {
+        $count = 0;
         $cardmarketApi = $this->user->cardmarketApi;
 
         $this->user->articles()->whereNotNull('rule_id')
             // ->where('price_rule', '>=', 0.02)
             ->whereNull('order_id')
             ->orderBy('cardmarket_article_id', 'ASC')
-            ->chunkById(100, function ($articles) use ($cardmarketApi) {
+            ->chunkById(100, function ($articles) use ($cardmarketApi, &$count) {
                 foreach ($articles as $article) {
                     $article->syncUpdate();
+                    $count++;
                 }
                 usleep(50);
         });
+
+        return $count;
     }
 }
