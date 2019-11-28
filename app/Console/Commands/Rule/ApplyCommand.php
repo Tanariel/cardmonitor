@@ -66,17 +66,19 @@ class ApplyCommand extends Command
                 $rule->apply($this->option('sync'));
             }
 
+            $runtime_in_sec = round((microtime(true) - LARAVEL_START), 2);
             if ($this->option('sync')) {
                 $this->sync();
                 $this->user->withdraw(Rule::PRICE_APPLY_IN_CENTS, ApplyCommand::class);
 
                 Mail::to(config('app.mail'))
-                    ->queue(new \App\Mail\Rules\Applied($this->user));
+                    ->queue(new \App\Mail\Rules\Applied($this->user, $runtime_in_sec));
             }
 
             $this->user->update([
                 'is_applying_rules' => false,
             ]);
+
         }
         catch (\Exception $e) {
             $this->user->update([

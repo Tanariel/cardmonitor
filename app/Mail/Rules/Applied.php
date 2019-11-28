@@ -13,15 +13,17 @@ class Applied extends Mailable
     use Queueable, SerializesModels;
 
     public $user;
+    public $runtime_in_sec;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(User $user)
+    public function __construct(User $user, float $runtime_in_sec)
     {
         $this->user = $user;
+        $this->runtime_in_sec = $runtime_in_sec;
     }
 
     /**
