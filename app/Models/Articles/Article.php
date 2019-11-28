@@ -278,6 +278,13 @@ class Article extends Model
                     'should_sync' => true,
                 ]);
             }
+            else {
+                $this->update([
+                    'has_sync_error' => true,
+                    'sync_error' => 'Artikel nicht vorhanden. Alle Artikel synchronisieren.',
+                    'should_sync' => true,
+                ]);
+            }
         }
         catch (\Exception $e) {
 
