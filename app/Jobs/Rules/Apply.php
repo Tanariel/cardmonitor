@@ -45,7 +45,7 @@ class Apply implements ShouldQueue
 
         try {
             $this->processing();
-            Artisan::queue('rule:apply', [
+            Artisan::call('rule:apply', [
                 'user' => $this->user->id,
                 '--sync' => $this->sync,
             ]);
