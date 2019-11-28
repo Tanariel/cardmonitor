@@ -1,7 +1,7 @@
 @component('mail::message')
 # Test
 
-Die ist ein Testnachricht.
+Dies ist ein Testnachricht.
 
 {{ config('app.name') }}
 @endcomponent
