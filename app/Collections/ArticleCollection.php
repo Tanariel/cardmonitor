@@ -45,6 +45,7 @@ class ArticleCollection extends Collection
             dump('updated_count', $updated_count);
             dump('updated', $updated);
             dump('notUpdated', $notUpdated);
+            dump('response', $response);
 
             throw $e;
         }
