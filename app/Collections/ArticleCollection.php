@@ -12,6 +12,7 @@ class ArticleCollection extends Collection
     {
         try {
             $updated_count = 0;
+            $updatesArticleCount = 0;
             $cardmarketArticles = $this->toCardmarket();
             $count = count($cardmarketArticles);
 
@@ -29,12 +30,18 @@ class ArticleCollection extends Collection
                 }
                 else {
                     $article->calculateProvision();
+                    if ($updatesArticleCount == 0) {
+                        $updatesArticleCount = $updated[$updated_count]['count'];
+                    }
                     $attributes = [
                         'cardmarket_article_id' => $updated[$updated_count]['idArticle'],
                         'has_sync_error' => false,
                         'sync_error' => null,
                     ];
-                    $updated_count++;
+                    $updatesArticleCount--;
+                    if ($updatesArticleCount == 0) {
+                        $updated_count++;
+                    }
                 }
                 $article->update($attributes);
             }
