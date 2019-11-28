@@ -96,7 +96,9 @@ class ApplyCommand extends Command
             ->whereNull('order_id')
             ->orderBy('cardmarket_article_id', 'ASC')
             ->chunk(100, function ($articles) use ($cardmarketApi) {
-                $articles->sync($cardmarketApi);
+                foreach ($articles as $article) {
+                    $article->syncUpdate();
+                }
                 usleep(50);
         });
     }
