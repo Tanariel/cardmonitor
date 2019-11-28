@@ -97,7 +97,6 @@ class ApplyCommand extends Command
         $this->user->articles()->whereNotNull('rule_id')
             // ->where('price_rule', '>=', 0.02)
             ->whereNull('order_id')
-            ->orderBy('cardmarket_article_id', 'ASC')
             ->chunkById(100, function ($articles) use ($cardmarketApi, &$count) {
                 foreach ($articles as $article) {
                     $article->syncUpdate();
