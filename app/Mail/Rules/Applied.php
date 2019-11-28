@@ -14,18 +14,16 @@ class Applied extends Mailable
 
     public $user;
     public $runtime_in_sec;
-    public $synced_count;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(User $user, float $runtime_in_sec, int $synced_count)
+    public function __construct(User $user, float $runtime_in_sec)
     {
         $this->user = $user;
         $this->runtime_in_sec = $runtime_in_sec;
-        $this->synced_count = $synced_count;
     }
 
     /**

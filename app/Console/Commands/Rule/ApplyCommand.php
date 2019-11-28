@@ -45,6 +45,7 @@ class ApplyCommand extends Command
     public function handle()
     {
         try {
+            $start = microtime(true);
             $this->user = User::findOrFail($this->argument('user'));
 
             if (! $this->user->canPay(Rule::PRICE_APPLY_IN_CENTS)) {
@@ -66,13 +67,13 @@ class ApplyCommand extends Command
                 $rule->apply($this->option('sync'));
             }
 
-            $runtime_in_sec = round((microtime(true) - LARAVEL_START), 2);
+            $runtime_in_sec = round((microtime(true) - $start), 2);
             if ($this->option('sync')) {
-                $synced_count = $this->sync();
+                $this->sync();
                 $this->user->withdraw(Rule::PRICE_APPLY_IN_CENTS, ApplyCommand::class);
 
                 Mail::to(config('app.mail'))
-                    ->queue(new \App\Mail\Rules\Applied($this->user, $runtime_in_sec, $synced_count));
+                    ->queue(new \App\Mail\Rules\Applied($this->user, $runtime_in_sec));
             }
 
             $this->user->update([
@@ -89,22 +90,18 @@ class ApplyCommand extends Command
         }
     }
 
-    protected function sync() : int
+    protected function sync()
     {
-        $count = 0;
         $cardmarketApi = $this->user->cardmarketApi;
 
         $this->user->articles()->whereNotNull('rule_id')
             // ->where('price_rule', '>=', 0.02)
             ->whereNull('order_id')
-            ->chunkById(100, function ($articles) use ($cardmarketApi, &$count) {
+            ->chunkById(1000, function ($articles) use ($cardmarketApi) {
                 foreach ($articles as $article) {
                     $article->syncUpdate();
-                    $count++;
                 }
-                usleep(50);
+                // usleep(50);
         });
-
-        return $count;
     }
 }
