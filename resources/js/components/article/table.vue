@@ -21,6 +21,17 @@
 
                 <div class="col-auto">
                     <div class="form-group">
+                        <label for="filter-sync">Sync</label>
+                        <select class="form-control" id="filter-sync" v-model="filter.sync" @change="search">
+                            <option :value="-1">Alle</option>
+                            <option :value="1">Fehler</option>
+                            <option :value="0">Keine Fehler</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-auto">
+                    <div class="form-group">
                         <label for="filter-sold">Verkauft</label>
                         <select class="form-control" id="filter-sold" v-model="filter.sold" @change="search">
                             <option :value="-1">Alle</option>
@@ -253,6 +264,7 @@
                     unit_cost_min: 0,
                     unit_cost_max: 0,
                     sold: 0,
+                    sync: -1,
                 },
                 selected: [],
                 errors: {},

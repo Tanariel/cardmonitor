@@ -2763,6 +2763,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2850,7 +2861,8 @@ __webpack_require__.r(__webpack_exports__);
         unit_price_max: 0,
         unit_cost_min: 0,
         unit_cost_max: 0,
-        sold: 0
+        sold: 0,
+        sync: -1
       },
       selected: [],
       errors: {}
@@ -49954,6 +49966,63 @@ var render = function() {
     _vm.filter.show
       ? _c("form", { staticClass: "mt-1", attrs: { id: "filter" } }, [
           _c("div", { staticClass: "form-row" }, [
+            _c("div", { staticClass: "col-auto" }, [
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "filter-sync" } }, [
+                  _vm._v("Sync")
+                ]),
+                _vm._v(" "),
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.filter.sync,
+                        expression: "filter.sync"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { id: "filter-sync" },
+                    on: {
+                      change: [
+                        function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.filter,
+                            "sync",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        },
+                        _vm.search
+                      ]
+                    }
+                  },
+                  [
+                    _c("option", { domProps: { value: -1 } }, [_vm._v("Alle")]),
+                    _vm._v(" "),
+                    _c("option", { domProps: { value: 1 } }, [
+                      _vm._v("Fehler")
+                    ]),
+                    _vm._v(" "),
+                    _c("option", { domProps: { value: 0 } }, [
+                      _vm._v("Keine Fehler")
+                    ])
+                  ]
+                )
+              ])
+            ]),
+            _vm._v(" "),
             _c("div", { staticClass: "col-auto" }, [
               _c("div", { staticClass: "form-group" }, [
                 _c("label", { attrs: { for: "filter-sold" } }, [

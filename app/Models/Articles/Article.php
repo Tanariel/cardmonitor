@@ -577,4 +577,13 @@ class Article extends Model
 
         return $query;
     }
+
+    public function scopeSync(Builder $query, $value) : Builder
+    {
+        if ($value == -1 || is_null($value)) {
+            return $query;
+        }
+
+        return $query->where('articles.has_sync_error', $value);
+    }
 }

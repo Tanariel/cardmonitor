@@ -39,6 +39,7 @@ class ArticleController extends Controller
                 ->unitCost($request->input('unit_cost_min'), $request->input('unit_cost_max'))
                 ->search($request->input('searchtext'))
                 ->sold($request->input('sold'))
+                ->sync($request->input('sync'))
                 ->with([
                     'card.expansion',
                     'language',
