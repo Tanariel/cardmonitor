@@ -1,6 +1,6 @@
 <template>
     <tr>
-        <td class="align-middle text-left">{{ item.storagable.name }}</td>
+        <td class="align-middle text-left"><expansion-icon :expansion="item.storagable"></expansion-icon></td>
         <td class="align-middle text-right">
             <div class="btn-group btn-group-sm" role="group">
                 <button type="button" class="btn btn-secondary" title="Löschen" @click="destroy"><i class="fas fa-trash"></i></button>
@@ -10,7 +10,13 @@
 </template>
 
 <script>
+    import expansionIcon from '../../expansion/icon.vue';
+
     export default {
+
+        components: {
+            expansionIcon,
+        },
 
         props: ['item', 'uri', 'index'],
 
