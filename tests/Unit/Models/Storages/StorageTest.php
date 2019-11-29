@@ -44,6 +44,44 @@ class StorageTest extends TestCase
     /**
      * @test
      */
+    public function it_can_set_its_descendants_full_names()
+    {
+        $parent = factory(Storage::class)->create([
+            'user_id' => $this->user->id,
+            'name' => 'parent',
+        ]);
+
+        $child = factory(Storage::class)->create([
+            'user_id' => $this->user->id,
+            'name' => 'child 1',
+        ]);
+
+        $child2 = factory(Storage::class)->create([
+            'user_id' => $this->user->id,
+            'name' => 'child 2',
+        ]);
+
+        $child->appendToNode($parent)
+            ->save();
+
+        $child2->appendToNode($child)
+            ->save();
+
+        $newName = 'New Parent Name';
+        $parent->update([
+            'name' => $newName,
+        ]);
+
+        $child = $child->fresh();
+        $child2 = $child2->fresh();
+
+        $this->assertEquals($newName . '/' . $child->name, $child->full_name);
+        $this->assertEquals($newName . '/' . $child->name . '/' . $child2->name, $child2->full_name);
+    }
+
+    /**
+     * @test
+     */
     public function it_has_many_articles()
     {
         $model = factory(Storage::class)->create();

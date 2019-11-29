@@ -6,6 +6,7 @@ use App\Models\Articles\Article;
 use App\Models\Storages\Content;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 class Storage extends Model
@@ -49,7 +50,17 @@ class Storage extends Model
 
         static::updating(function($model)
         {
-            $model->setFullName();
+            if (Arr::has($model->attributes, 'name')) {
+                $model->setFullName();
+            }
+
+            return true;
+        });
+
+        static::updated(function($model)
+        {
+            self::fixTree($model);
+            $model->setChildrenFullName();
 
             return true;
         });
@@ -71,7 +82,6 @@ class Storage extends Model
 
     public function getArticleStatsAttribute()
     {
-        // TODO: Decendants count
         $ids = $this->descendants()->pluck('id');
         $ids[] = $this->id;
 
@@ -118,10 +128,28 @@ class Storage extends Model
         return $this->isDeletable();
     }
 
-    public function setFullName()
+    public function setDescendantsFullName()
     {
-        $prefix = join('/', $this->ancestors()->pluck('name')->toArray());
+        foreach ($this->descendants as $key => $descendant) {
+            $descendant->setFullName()
+                ->save();
+        }
+    }
+
+    public function setChildrenFullName()
+    {
+        foreach ($this->children as $key => $child) {
+            $child->setFullName()
+                ->save();
+        }
+    }
+
+    public function setFullName() : self
+    {
+        $prefix = join('/', $this->ancestors()->defaultOrder()->pluck('name')->toArray());
         $this->attributes['full_name'] = ($prefix ? $prefix . '/' : '') . $this->attributes['name'];
+
+        return $this;
     }
 
     public function articles() : HasMany
