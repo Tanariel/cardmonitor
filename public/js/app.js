@@ -2107,6 +2107,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 
@@ -2328,9 +2330,13 @@ __webpack_require__.r(__webpack_exports__);
     },
     keydown: function keydown(event) {// console.log(event);
     },
-    showImgbox: function showImgbox(src, top) {
+    showImgbox: function showImgbox(_ref) {
+      var src = _ref.src,
+          top = _ref.top,
+          left = _ref.left;
       this.imgbox.src = src;
       this.imgbox.top = top;
+      this.imgbox.left = left;
       this.imgbox.show = true;
     },
     hideImgbox: function hideImgbox() {
@@ -2488,26 +2494,6 @@ __webpack_require__.r(__webpack_exports__);
     rarity: _partials_emoji_rarity_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   props: ['item', 'uri', 'selected', 'conditions', 'languages', 'storages'],
-  // watch: {
-  //     'item': {
-  //         hander: function (newValue, oldValue) {
-  //             console.log('watch 1', 'newval: ', newValue, '   oldVal:', oldValue)
-  //             // this.form = {
-  //             //     cardmarket_comments: newValue.cardmarket_comments,
-  //             //     condition: newValue.condition,
-  //             //     language_id: newValue.language_id,
-  //             //     unit_cost_formatted: newValue.unit_cost_formatted,
-  //             //     unit_price_formatted: newValue.unit_price_formatted,
-  //             //     provision_formatted: newValue.provision_formatted,
-  //             //     is_foil: newValue.is_foil,
-  //             //     is_signed: newValue.is_signed,
-  //             //     is_playset: newValue.is_playset,
-  //             //     sync: false,
-  //             // };
-  //         },
-  //         deep: true,
-  //     },
-  // },
   data: function data() {
     return {
       id: this.item.id,
@@ -2549,9 +2535,11 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     show: function show(event) {
+      var position = this.GetScreenCordinates(event.target);
       this.$emit('show', {
         src: this.item.card.imagePath,
-        top: event.layerY + 50 + 'px'
+        top: position.y - 200 + 'px',
+        left: position.x - document.getElementById('nav').offsetLeft - 150 + 'px'
       });
     },
     toShow: function toShow() {
@@ -2580,6 +2568,24 @@ __webpack_require__.r(__webpack_exports__);
         component.errors = error.response.data.errors;
         Vue.error('Artikel konnte nicht gespeichert werden.');
       });
+    },
+    GetScreenCordinates: function GetScreenCordinates(obj) {
+      var p = {};
+      p.x = obj.offsetLeft;
+      p.y = obj.offsetTop;
+
+      while (obj.offsetParent) {
+        p.x = p.x + obj.offsetParent.offsetLeft;
+        p.y = p.y + obj.offsetParent.offsetTop;
+
+        if (obj == document.getElementsByTagName("body")[0]) {
+          break;
+        } else {
+          obj = obj.offsetParent;
+        }
+      }
+
+      return p;
     }
   }
 });
@@ -2842,6 +2848,8 @@ __webpack_require__.r(__webpack_exports__);
       },
       imgbox: {
         src: null,
+        top: 0,
+        left: 0,
         show: true
       },
       paginate: {
@@ -3023,9 +3031,11 @@ __webpack_require__.r(__webpack_exports__);
     },
     showImgbox: function showImgbox(_ref) {
       var src = _ref.src,
-          top = _ref.top;
+          top = _ref.top,
+          left = _ref.left;
       this.imgbox.src = src;
       this.imgbox.top = top;
+      this.imgbox.left = left;
       this.imgbox.show = true;
     },
     hideImgbox: function hideImgbox() {
@@ -3066,11 +3076,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     expansion: {
       required: true,
       type: Object
+    },
+    showName: {
+      required: false,
+      "default": true
     }
   },
   computed: {
@@ -3102,7 +3117,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['initialValue', 'options'],
+  props: {
+    initialValue: {
+      required: false
+    },
+    options: {
+      required: true
+    }
+  },
   computed: {
     sortedOptions: function sortedOptions() {
       function compare(a, b) {
@@ -4863,7 +4885,8 @@ __webpack_require__.r(__webpack_exports__);
     show: function show(event) {
       this.$emit('show', {
         src: this.item.card.imagePath,
-        top: event.layerY + 325 + 'px'
+        top: event.y - 425 + 'px',
+        left: event.x - document.getElementById('nav').offsetLeft - 175 + 'px'
       });
     },
     toShow: function toShow() {
@@ -5160,9 +5183,11 @@ __webpack_require__.r(__webpack_exports__);
     },
     showImgbox: function showImgbox(_ref) {
       var src = _ref.src,
-          top = _ref.top;
+          top = _ref.top,
+          left = _ref.left;
       this.imgbox.src = src;
       this.imgbox.top = top;
+      this.imgbox.left = left;
       this.imgbox.show = true;
     },
     hideImgbox: function hideImgbox() {
@@ -47712,10 +47737,11 @@ var render = function() {
                               staticClass: "fas fa-image",
                               on: {
                                 mouseover: function($event) {
-                                  _vm.showImgbox(
-                                    card.imagePath,
-                                    $event.layerY + 100 + "px"
-                                  )
+                                  _vm.showImgbox({
+                                    src: card.imagePath,
+                                    top: $event.layerY + 100 + "px",
+                                    left: $event.layerX + 50 + "px"
+                                  })
                                 },
                                 mouseout: _vm.hideImgbox
                               }
@@ -48791,7 +48817,7 @@ var render = function() {
     _vm._v(" "),
     _c("div", { staticClass: "col mt-3" }, [
       _c(
-        "table",
+        "div",
         {
           directives: [
             {
@@ -48801,154 +48827,170 @@ var render = function() {
               expression: "items.length"
             }
           ],
-          staticClass: "table table-hover table-striped"
+          staticClass: "table-responsive"
         },
         [
-          _c("thead", [
-            _c("tr", [
-              _c("th", { attrs: { width: "25" } }, [
-                _c("label", {
-                  staticClass: "form-checkbox",
-                  attrs: { for: "checkall" }
-                }),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.selectAll,
-                      expression: "selectAll"
+          _c("table", { staticClass: "table table-hover table-striped" }, [
+            _c("thead", [
+              _c("tr", [
+                _c("th", { attrs: { width: "25" } }, [
+                  _c("label", {
+                    staticClass: "form-checkbox",
+                    attrs: { for: "checkall" }
+                  }),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.selectAll,
+                        expression: "selectAll"
+                      }
+                    ],
+                    attrs: { id: "checkall", type: "checkbox" },
+                    domProps: {
+                      checked: Array.isArray(_vm.selectAll)
+                        ? _vm._i(_vm.selectAll, null) > -1
+                        : _vm.selectAll
+                    },
+                    on: {
+                      change: function($event) {
+                        var $$a = _vm.selectAll,
+                          $$el = $event.target,
+                          $$c = $$el.checked ? true : false
+                        if (Array.isArray($$a)) {
+                          var $$v = null,
+                            $$i = _vm._i($$a, $$v)
+                          if ($$el.checked) {
+                            $$i < 0 && (_vm.selectAll = $$a.concat([$$v]))
+                          } else {
+                            $$i > -1 &&
+                              (_vm.selectAll = $$a
+                                .slice(0, $$i)
+                                .concat($$a.slice($$i + 1)))
+                          }
+                        } else {
+                          _vm.selectAll = $$c
+                        }
+                      }
                     }
-                  ],
-                  attrs: { id: "checkall", type: "checkbox" },
-                  domProps: {
-                    checked: Array.isArray(_vm.selectAll)
-                      ? _vm._i(_vm.selectAll, null) > -1
-                      : _vm.selectAll
+                  })
+                ]),
+                _vm._v(" "),
+                _c(
+                  "th",
+                  { staticClass: "text-center", attrs: { width: "50" } },
+                  [_vm._v("Sync")]
+                ),
+                _vm._v(" "),
+                _c("th", { staticClass: "text-right", attrs: { width: "50" } }),
+                _vm._v(" "),
+                _c("th", {}, [_vm._v("Name")]),
+                _vm._v(" "),
+                _c(
+                  "th",
+                  { staticClass: "text-right", attrs: { width: "50" } },
+                  [_vm._v("#")]
+                ),
+                _vm._v(" "),
+                _c("th", {}),
+                _vm._v(" "),
+                _c(
+                  "th",
+                  { staticClass: "text-center", attrs: { width: "75" } },
+                  [_vm._v("Seltenheit")]
+                ),
+                _vm._v(" "),
+                _c("th", { staticClass: "text-center" }, [_vm._v("Sprache")]),
+                _vm._v(" "),
+                _c("th", { staticClass: "text-center" }, [_vm._v("Zustand")]),
+                _vm._v(" "),
+                _c(
+                  "th",
+                  { staticClass: "text-center", attrs: { width: "75" } },
+                  [_vm._v("Foil")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "th",
+                  { staticClass: "text-center", attrs: { width: "75" } },
+                  [_vm._v("Signiert")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "th",
+                  { staticClass: "text-center", attrs: { width: "75" } },
+                  [_vm._v("Playset")]
+                ),
+                _vm._v(" "),
+                _c("th", {}, [_vm._v("Hinweise")]),
+                _vm._v(" "),
+                _c("th", [_vm._v("Lagerplatz")]),
+                _vm._v(" "),
+                _c("th", { staticClass: "text-right" }, [
+                  _vm._v("Verkaufspreis")
+                ]),
+                _vm._v(" "),
+                _c("th", { staticClass: "text-right" }, [
+                  _vm._v("Einkaufspreis")
+                ]),
+                _vm._v(" "),
+                _c("th", { staticClass: "text-right" }, [_vm._v("Provision")]),
+                _vm._v(" "),
+                _c(
+                  "th",
+                  {
+                    staticClass: "text-right",
+                    attrs: {
+                      title: "Voraussichtlicher Gewinn ohne allgemeine Kosten",
+                      width: "100"
+                    }
+                  },
+                  [_vm._v("Gewinn")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "th",
+                  { staticClass: "text-right", attrs: { width: "150" } },
+                  [_vm._v("Aktion")]
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _c(
+              "tbody",
+              _vm._l(_vm.items, function(item, index) {
+                return _c("row", {
+                  key: item.id,
+                  attrs: {
+                    item: item,
+                    uri: _vm.uri,
+                    conditions: _vm.conditions,
+                    languages: _vm.languages,
+                    storages: _vm.storages,
+                    selected: _vm.selected.indexOf(item.id) == -1 ? false : true
                   },
                   on: {
-                    change: function($event) {
-                      var $$a = _vm.selectAll,
-                        $$el = $event.target,
-                        $$c = $$el.checked ? true : false
-                      if (Array.isArray($$a)) {
-                        var $$v = null,
-                          $$i = _vm._i($$a, $$v)
-                        if ($$el.checked) {
-                          $$i < 0 && (_vm.selectAll = $$a.concat([$$v]))
-                        } else {
-                          $$i > -1 &&
-                            (_vm.selectAll = $$a
-                              .slice(0, $$i)
-                              .concat($$a.slice($$i + 1)))
-                        }
-                      } else {
-                        _vm.selectAll = $$c
-                      }
+                    input: _vm.toggleSelected,
+                    updated: function($event) {
+                      return _vm.updated(index, $event)
+                    },
+                    show: function($event) {
+                      return _vm.showImgbox($event)
+                    },
+                    hide: function($event) {
+                      return _vm.hideImgbox()
+                    },
+                    deleted: function($event) {
+                      return _vm.remove(index)
                     }
                   }
                 })
-              ]),
-              _vm._v(" "),
-              _c("th", { staticClass: "text-center", attrs: { width: "50" } }, [
-                _vm._v("Sync")
-              ]),
-              _vm._v(" "),
-              _c("th", { staticClass: "text-right", attrs: { width: "50" } }),
-              _vm._v(" "),
-              _c("th", {}, [_vm._v("Name")]),
-              _vm._v(" "),
-              _c("th", { staticClass: "text-right", attrs: { width: "50" } }, [
-                _vm._v("#")
-              ]),
-              _vm._v(" "),
-              _c("th", {}, [_vm._v("Erweiterung")]),
-              _vm._v(" "),
-              _c("th", { staticClass: "text-center", attrs: { width: "75" } }, [
-                _vm._v("Seltenheit")
-              ]),
-              _vm._v(" "),
-              _c("th", { staticClass: "text-center" }, [_vm._v("Sprache")]),
-              _vm._v(" "),
-              _c("th", { staticClass: "text-center" }, [_vm._v("Zustand")]),
-              _vm._v(" "),
-              _c("th", { staticClass: "text-center", attrs: { width: "75" } }, [
-                _vm._v("Foil")
-              ]),
-              _vm._v(" "),
-              _c("th", { staticClass: "text-center", attrs: { width: "75" } }, [
-                _vm._v("Signiert")
-              ]),
-              _vm._v(" "),
-              _c("th", { staticClass: "text-center", attrs: { width: "75" } }, [
-                _vm._v("Playset")
-              ]),
-              _vm._v(" "),
-              _c("th", {}, [_vm._v("Hinweise")]),
-              _vm._v(" "),
-              _c("th", [_vm._v("Lagerplatz")]),
-              _vm._v(" "),
-              _c("th", { staticClass: "text-right" }, [
-                _vm._v("Verkaufspreis")
-              ]),
-              _vm._v(" "),
-              _c("th", { staticClass: "text-right" }, [
-                _vm._v("Einkaufspreis")
-              ]),
-              _vm._v(" "),
-              _c("th", { staticClass: "text-right" }, [_vm._v("Provision")]),
-              _vm._v(" "),
-              _c(
-                "th",
-                {
-                  staticClass: "text-right",
-                  attrs: {
-                    title: "Voraussichtlicher Gewinn ohne allgemeine Kosten",
-                    width: "100"
-                  }
-                },
-                [_vm._v("Gewinn")]
-              ),
-              _vm._v(" "),
-              _c("th", { staticClass: "text-right", attrs: { width: "150" } }, [
-                _vm._v("Aktion")
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c(
-            "tbody",
-            _vm._l(_vm.items, function(item, index) {
-              return _c("row", {
-                key: item.id,
-                attrs: {
-                  item: item,
-                  uri: _vm.uri,
-                  conditions: _vm.conditions,
-                  languages: _vm.languages,
-                  storages: _vm.storages,
-                  selected: _vm.selected.indexOf(item.id) == -1 ? false : true
-                },
-                on: {
-                  input: _vm.toggleSelected,
-                  updated: function($event) {
-                    return _vm.updated(index, $event)
-                  },
-                  show: function($event) {
-                    return _vm.showImgbox($event)
-                  },
-                  hide: function($event) {
-                    return _vm.hideImgbox()
-                  },
-                  deleted: function($event) {
-                    return _vm.remove(index)
-                  }
-                }
-              })
-            }),
-            1
-          )
+              }),
+              1
+            )
+          ])
         ]
       )
     ]),
@@ -48956,8 +48998,8 @@ var render = function() {
     _c(
       "div",
       {
-        staticStyle: { position: "absolute", left: "100px" },
-        style: { top: _vm.imgbox.top },
+        staticStyle: { position: "absolute" },
+        style: { top: _vm.imgbox.top, left: _vm.imgbox.left },
         attrs: { id: "imgbox" }
       },
       [
@@ -49000,7 +49042,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _vm.isEditing
     ? _c("tr", [
-        _c("td", { staticClass: "align-middle" }, [
+        _c("td", { staticClass: "align-middle text-center" }, [
           _c("div", { staticClass: "form-group form-check mb-0" }, [
             _c("input", {
               staticClass: "form-check-input",
@@ -49059,10 +49101,10 @@ var render = function() {
         _vm._v(" "),
         _c(
           "td",
-          { staticClass: "align-middle" },
+          { staticClass: "align-middle text-center" },
           [
             _c("expansion-icon", {
-              attrs: { expansion: _vm.item.card.expansion }
+              attrs: { expansion: _vm.item.card.expansion, "show-name": false }
             })
           ],
           1
@@ -49615,7 +49657,7 @@ var render = function() {
         ])
       ])
     : _c("tr", [
-        _c("td", { staticClass: "align-middle" }, [
+        _c("td", { staticClass: "align-middle text-center" }, [
           _c("label", { staticClass: "form-checkbox" }),
           _vm._v(" "),
           _c("input", {
@@ -49665,10 +49707,10 @@ var render = function() {
         _vm._v(" "),
         _c(
           "td",
-          { staticClass: "align-middle" },
+          { staticClass: "align-middle text-center" },
           [
             _c("expansion-icon", {
-              attrs: { expansion: _vm.item.card.expansion }
+              attrs: { expansion: _vm.item.card.expansion, "show-name": false }
             })
           ],
           1
@@ -50349,61 +50391,60 @@ var render = function() {
             [
               _c("thead", [
                 _c("tr", [
-                  _c("th", { attrs: { width: "25" } }, [
-                    _c("label", {
-                      staticClass: "form-checkbox",
-                      attrs: { for: "checkall" }
-                    }),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.selectAll,
-                          expression: "selectAll"
-                        }
-                      ],
-                      attrs: { id: "checkall", type: "checkbox" },
-                      domProps: {
-                        checked: Array.isArray(_vm.selectAll)
-                          ? _vm._i(_vm.selectAll, null) > -1
-                          : _vm.selectAll
-                      },
-                      on: {
-                        change: function($event) {
-                          var $$a = _vm.selectAll,
-                            $$el = $event.target,
-                            $$c = $$el.checked ? true : false
-                          if (Array.isArray($$a)) {
-                            var $$v = null,
-                              $$i = _vm._i($$a, $$v)
-                            if ($$el.checked) {
-                              $$i < 0 && (_vm.selectAll = $$a.concat([$$v]))
-                            } else {
-                              $$i > -1 &&
-                                (_vm.selectAll = $$a
-                                  .slice(0, $$i)
-                                  .concat($$a.slice($$i + 1)))
-                            }
-                          } else {
-                            _vm.selectAll = $$c
-                          }
-                        }
-                      }
-                    })
-                  ]),
-                  _vm._v(" "),
                   _c(
                     "th",
-                    { staticClass: "text-center", attrs: { width: "50" } },
-                    [_vm._v("Sync")]
+                    { staticClass: "align-middle text-center w-checkbox" },
+                    [
+                      _c("label", {
+                        staticClass: "form-checkbox",
+                        attrs: { for: "checkall" }
+                      }),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.selectAll,
+                            expression: "selectAll"
+                          }
+                        ],
+                        attrs: { id: "checkall", type: "checkbox" },
+                        domProps: {
+                          checked: Array.isArray(_vm.selectAll)
+                            ? _vm._i(_vm.selectAll, null) > -1
+                            : _vm.selectAll
+                        },
+                        on: {
+                          change: function($event) {
+                            var $$a = _vm.selectAll,
+                              $$el = $event.target,
+                              $$c = $$el.checked ? true : false
+                            if (Array.isArray($$a)) {
+                              var $$v = null,
+                                $$i = _vm._i($$a, $$v)
+                              if ($$el.checked) {
+                                $$i < 0 && (_vm.selectAll = $$a.concat([$$v]))
+                              } else {
+                                $$i > -1 &&
+                                  (_vm.selectAll = $$a
+                                    .slice(0, $$i)
+                                    .concat($$a.slice($$i + 1)))
+                              }
+                            } else {
+                              _vm.selectAll = $$c
+                            }
+                          }
+                        }
+                      })
+                    ]
                   ),
                   _vm._v(" "),
-                  _c("th", {
-                    staticClass: "text-right",
-                    attrs: { width: "50" }
-                  }),
+                  _c("th", { staticClass: "text-center w-icon" }, [
+                    _vm._v("Sync")
+                  ]),
+                  _vm._v(" "),
+                  _c("th", { staticClass: "text-right w-icon" }),
                   _vm._v(" "),
                   _c("th", {}, [_vm._v("Name")]),
                   _vm._v(" "),
@@ -50413,35 +50454,25 @@ var render = function() {
                     [_vm._v("#")]
                   ),
                   _vm._v(" "),
-                  _c("th", {}, [_vm._v("Erweiterung")]),
+                  _c("th", { staticClass: "w-icon" }),
                   _vm._v(" "),
-                  _c(
-                    "th",
-                    { staticClass: "text-center", attrs: { width: "75" } },
-                    [_vm._v("Seltenheit")]
-                  ),
+                  _c("th", { staticClass: "text-center w-icon" }),
                   _vm._v(" "),
                   _c("th", { staticClass: "text-center" }, [_vm._v("Sprache")]),
                   _vm._v(" "),
                   _c("th", { staticClass: "text-center" }, [_vm._v("Zustand")]),
                   _vm._v(" "),
-                  _c(
-                    "th",
-                    { staticClass: "text-center", attrs: { width: "75" } },
-                    [_vm._v("Foil")]
-                  ),
+                  _c("th", { staticClass: "text-center w-checkbox" }, [
+                    _vm._v("Foil")
+                  ]),
                   _vm._v(" "),
-                  _c(
-                    "th",
-                    { staticClass: "text-center", attrs: { width: "75" } },
-                    [_vm._v("Signiert")]
-                  ),
+                  _c("th", { staticClass: "text-center w-checkbox" }, [
+                    _vm._v("Signiert")
+                  ]),
                   _vm._v(" "),
-                  _c(
-                    "th",
-                    { staticClass: "text-center", attrs: { width: "75" } },
-                    [_vm._v("Playset")]
-                  ),
+                  _c("th", { staticClass: "text-center w-checkbox" }, [
+                    _vm._v("Playset")
+                  ]),
                   _vm._v(" "),
                   _c("th", {}, [_vm._v("Hinweise")]),
                   _vm._v(" "),
@@ -50637,8 +50668,8 @@ var render = function() {
     _c(
       "div",
       {
-        staticStyle: { position: "absolute", left: "200px" },
-        style: { top: _vm.imgbox.top },
+        staticStyle: { position: "absolute" },
+        style: { top: _vm.imgbox.top, left: _vm.imgbox.left },
         attrs: { id: "imgbox" }
       },
       [
@@ -50809,20 +50840,28 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "d-flex align-items-center justify-content-space-between" },
-    [
-      _c("span", {
-        staticClass: "expansion-icon mr-2",
-        style: { "background-position": _vm.bachgroundPosition }
-      }),
-      _vm._v(" "),
-      _c("span", { staticClass: "expansion-name" }, [
-        _vm._v(_vm._s(_vm.expansion.name))
-      ])
-    ]
-  )
+  return _vm.showName
+    ? _c(
+        "div",
+        {
+          staticClass: "d-flex align-items-center justify-content-space-between"
+        },
+        [
+          _c("span", {
+            staticClass: "expansion-icon mr-2",
+            style: { "background-position": _vm.bachgroundPosition }
+          }),
+          _vm._v(" "),
+          _c("span", { staticClass: "expansion-name" }, [
+            _vm._v(_vm._s(_vm.expansion.name))
+          ])
+        ]
+      )
+    : _c("span", {
+        staticClass: "expansion-icon",
+        style: { "background-position": _vm.bachgroundPosition },
+        attrs: { title: _vm.expansion.name }
+      })
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -54085,8 +54124,8 @@ var render = function() {
     _c(
       "div",
       {
-        staticStyle: { position: "absolute", left: "225px" },
-        style: { top: _vm.imgbox.top },
+        staticStyle: { position: "absolute" },
+        style: { top: _vm.imgbox.top, left: _vm.imgbox.left },
         attrs: { id: "imgbox" }
       },
       [
@@ -73674,14 +73713,15 @@ __webpack_require__.r(__webpack_exports__);
 /*!******************************************************!*\
   !*** ./resources/js/components/filter/expansion.vue ***!
   \******************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _expansion_vue_vue_type_template_id_0da11133___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./expansion.vue?vue&type=template&id=0da11133& */ "./resources/js/components/filter/expansion.vue?vue&type=template&id=0da11133&");
 /* harmony import */ var _expansion_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./expansion.vue?vue&type=script&lang=js& */ "./resources/js/components/filter/expansion.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _expansion_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _expansion_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -73711,7 +73751,7 @@ component.options.__file = "resources/js/components/filter/expansion.vue"
 /*!*******************************************************************************!*\
   !*** ./resources/js/components/filter/expansion.vue?vue&type=script&lang=js& ***!
   \*******************************************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

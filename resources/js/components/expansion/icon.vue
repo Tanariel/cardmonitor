@@ -1,8 +1,9 @@
 <template>
-    <div class="d-flex align-items-center justify-content-space-between">
+    <div class="d-flex align-items-center justify-content-space-between" v-if="showName">
         <span class="expansion-icon mr-2" :style="{ 'background-position': bachgroundPosition }"></span>
         <span class="expansion-name">{{ expansion.name }}</span>
     </div>
+    <span class="expansion-icon" :title="expansion.name" :style="{ 'background-position': bachgroundPosition }" v-else></span>
 </template>
 
 <script>
@@ -12,6 +13,10 @@
             expansion: {
                 required: true,
                 type: Object,
+            },
+            showName: {
+                required: false,
+                default: true,
             },
         },
 

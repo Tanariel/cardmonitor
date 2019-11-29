@@ -28,7 +28,7 @@
                 <table class="table table-hover table-striped" v-else-if="cards.length">
                     <tbody>
                         <tr v-for="(card, index) in cards" @click="setItem(card, index)">
-                            <td class="align-middle text-center pointer" width="50"><i class="fas fa-image" @mouseover="showImgbox(card.imagePath, ($event.layerY + 100) + 'px')" @mouseout="hideImgbox"></i></td>
+                            <td class="align-middle text-center pointer" width="50"><i class="fas fa-image" @mouseover="showImgbox({src: card.imagePath, top: ($event.layerY + 100) + 'px', left: ($event.layerX + 50) + 'px'})" @mouseout="hideImgbox"></i></td>
                             <td class="align-middle pointer"><expansion-icon :expansion="card.expansion"></expansion-icon></td>
                             <td class="align-middle text-center" width="50"><rarity :value="card.rarity"></rarity></td>
                             <td class="align-middle pointer">
@@ -203,39 +203,41 @@
             </div>
         </div>
         <div class="col mt-3">
-            <table class="table table-hover table-striped" v-show="items.length">
-                <thead>
-                    <tr>
-                        <th width="25">
-                            <label class="form-checkbox" for="checkall"></label>
-                            <input id="checkall" type="checkbox" v-model="selectAll">
-                        </th>
-                        <th class="text-center" width="50">Sync</th>
-                        <th class="text-right" width="50"></th>
-                        <th class="">Name</th>
-                        <th class="text-right" width="50">#</th>
-                        <th class="">Erweiterung</th>
-                        <th class="text-center" width="75">Seltenheit</th>
-                        <th class="text-center">Sprache</th>
-                        <th class="text-center">Zustand</th>
-                        <th class="text-center" width="75">Foil</th>
-                        <th class="text-center" width="75">Signiert</th>
-                        <th class="text-center" width="75">Playset</th>
-                        <th class="">Hinweise</th>
-                        <th>Lagerplatz</th>
-                        <th class="text-right">Verkaufspreis</th>
-                        <th class="text-right">Einkaufspreis</th>
-                        <th class="text-right">Provision</th>
-                        <th class="text-right" title="Voraussichtlicher Gewinn ohne allgemeine Kosten" width="100">Gewinn</th>
-                        <th class="text-right" width="150">Aktion</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <row :item="item" :key="item.id" :uri="uri" :conditions="conditions" :languages="languages" :storages="storages" :selected="(selected.indexOf(item.id) == -1) ? false : true" v-for="(item, index) in items" @input="toggleSelected" @updated="updated(index, $event)" @show="showImgbox($event)" @hide="hideImgbox()" @deleted="remove(index)"></row>
-                </tbody>
-            </table>
+            <div class="table-responsive" v-show="items.length">
+                <table class="table table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th width="25">
+                                <label class="form-checkbox" for="checkall"></label>
+                                <input id="checkall" type="checkbox" v-model="selectAll">
+                            </th>
+                            <th class="text-center" width="50">Sync</th>
+                            <th class="text-right" width="50"></th>
+                            <th class="">Name</th>
+                            <th class="text-right" width="50">#</th>
+                            <th class=""></th>
+                            <th class="text-center" width="75">Seltenheit</th>
+                            <th class="text-center">Sprache</th>
+                            <th class="text-center">Zustand</th>
+                            <th class="text-center" width="75">Foil</th>
+                            <th class="text-center" width="75">Signiert</th>
+                            <th class="text-center" width="75">Playset</th>
+                            <th class="">Hinweise</th>
+                            <th>Lagerplatz</th>
+                            <th class="text-right">Verkaufspreis</th>
+                            <th class="text-right">Einkaufspreis</th>
+                            <th class="text-right">Provision</th>
+                            <th class="text-right" title="Voraussichtlicher Gewinn ohne allgemeine Kosten" width="100">Gewinn</th>
+                            <th class="text-right" width="150">Aktion</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <row :item="item" :key="item.id" :uri="uri" :conditions="conditions" :languages="languages" :storages="storages" :selected="(selected.indexOf(item.id) == -1) ? false : true" v-for="(item, index) in items" @input="toggleSelected" @updated="updated(index, $event)" @show="showImgbox($event)" @hide="hideImgbox()" @deleted="remove(index)"></row>
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <div id="imgbox" style="position: absolute; left: 100px;" :style="{ top: imgbox.top }">
+        <div id="imgbox" style="position: absolute;" :style="{ top: imgbox.top, left: imgbox.left, }">
             <img :src="imgbox.src" v-show="imgbox.show">
         </div>
     </div>
@@ -473,9 +475,10 @@
             keydown(event) {
                 // console.log(event);
             },
-            showImgbox(src, top) {
+            showImgbox({src, top, left}) {
                 this.imgbox.src = src;
                 this.imgbox.top = top;
+                this.imgbox.left = left;
                 this.imgbox.show = true;
             },
             hideImgbox() {

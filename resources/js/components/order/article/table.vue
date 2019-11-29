@@ -64,7 +64,7 @@
             </table>
         </div>
         <div class="alert alert-dark mt-3" v-else><center>Keine Artikel vorhanden</center></div>
-        <div id="imgbox" style="position: absolute; left: 225px;" :style="{ top: imgbox.top }">
+        <div id="imgbox" style="position: absolute;" :style="{ top: imgbox.top,  left: imgbox.left }">
             <img :src="imgbox.src" v-show="imgbox.show">
         </div>
     </div>
@@ -149,9 +149,10 @@
                     item: item,
                 });
             },
-            showImgbox({src, top}) {
+            showImgbox({src, top, left}) {
                 this.imgbox.src = src;
                 this.imgbox.top = top;
+                this.imgbox.left = left;
                 this.imgbox.show = true;
             },
             hideImgbox() {

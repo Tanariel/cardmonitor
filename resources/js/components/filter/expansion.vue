@@ -10,10 +10,14 @@
 
 <script>
     export default {
-        props: [
-            'initialValue',
-            'options',
-        ],
+        props: {
+            initialValue: {
+                required: false,
+            },
+            options: {
+                required: true,
+            },
+        },
 
         computed: {
             sortedOptions: function() {

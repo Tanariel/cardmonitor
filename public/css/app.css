@@ -18234,3 +18234,8 @@ hr.divider {
   border-color: #3490dc;
 }
 
+.w-checkbox,
+.w-icon {
+  width: 75px;
+}
+

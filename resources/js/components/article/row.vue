@@ -1,6 +1,6 @@
 <template>
     <tr v-if="isEditing">
-        <td class="align-middle">
+        <td class="align-middle text-center">
             <div class="form-group form-check mb-0">
                 <input :checked="selected" class="form-check-input" type="checkbox" :value="id" @change="$emit('input', id)" number>
                 <label class="form-check-label"></label>
@@ -13,7 +13,7 @@
             <div class="text-muted" v-if="item.language_id != 1">{{ item.card.name }}</div>
         </td>
         <td class="align-middle text-right">{{ item.card.number }}</td>
-        <td class="align-middle"><expansion-icon :expansion="item.card.expansion"></expansion-icon></td>
+        <td class="align-middle text-center"><expansion-icon :expansion="item.card.expansion" :show-name="false"></expansion-icon></td>
         <td class="align-middle text-center"><rarity :value="item.card.rarity"></rarity></td>
         <td class="align-middle text-center">
             <select class="form-control" v-model="form.language_id">
@@ -82,7 +82,7 @@
         </td>
     </tr>
     <tr v-else>
-        <td class="align-middle">
+        <td class="align-middle text-center">
             <label class="form-checkbox"></label>
             <input :checked="selected" type="checkbox" :value="id"  @change="$emit('input', id)" number>
         </td>
@@ -92,7 +92,7 @@
             <span class="flag-icon" :class="'flag-icon-' + item.language.code" :title="item.language.name"></span> {{ item.localName }}
             <div class="text-muted" v-if="item.language_id != 1">{{ item.card.name }}</div></td>
         <td class="align-middle text-right">{{ item.card.number }}</td>
-        <td class="align-middle"><expansion-icon :expansion="item.card.expansion"></expansion-icon></td>
+        <td class="align-middle text-center"><expansion-icon :expansion="item.card.expansion" :show-name="false"></expansion-icon></td>
         <td class="align-middle text-center"><rarity :value="item.card.rarity"></rarity></td>
         <td class="align-middle text-center"><span class="flag-icon" :class="'flag-icon-' + item.language.code" :title="item.language.name"></span></td>
         <td class="align-middle text-center"><condition :value="item.condition"></condition></td>
@@ -133,27 +133,6 @@
         },
 
         props: ['item', 'uri', 'selected', 'conditions', 'languages', 'storages'],
-
-        // watch: {
-        //     'item': {
-        //         hander: function (newValue, oldValue) {
-        //             console.log('watch 1', 'newval: ', newValue, '   oldVal:', oldValue)
-        //             // this.form = {
-        //             //     cardmarket_comments: newValue.cardmarket_comments,
-        //             //     condition: newValue.condition,
-        //             //     language_id: newValue.language_id,
-        //             //     unit_cost_formatted: newValue.unit_cost_formatted,
-        //             //     unit_price_formatted: newValue.unit_price_formatted,
-        //             //     provision_formatted: newValue.provision_formatted,
-        //             //     is_foil: newValue.is_foil,
-        //             //     is_signed: newValue.is_signed,
-        //             //     is_playset: newValue.is_playset,
-        //             //     sync: false,
-        //             // };
-        //         },
-        //         deep: true,
-        //     },
-        // },
 
         data () {
             return {
@@ -198,9 +177,11 @@
 
         methods: {
             show(event) {
+                var position = this.GetScreenCordinates(event.target);
                 this.$emit('show', {
                     src: this.item.card.imagePath,
-                    top: (event.layerY + 50) + 'px',
+                    top: (position.y - 200) + 'px',
+                    left: (position.x - document.getElementById('nav').offsetLeft - 150) + 'px',
                 });
             },
             toShow() {
@@ -232,6 +213,22 @@
                         component.errors = error.response.data.errors;
                         Vue.error('Artikel konnte nicht gespeichert werden.');
                 });
+            },
+            GetScreenCordinates(obj) {
+                var p = {};
+                p.x = obj.offsetLeft;
+                p.y = obj.offsetTop;
+                while (obj.offsetParent) {
+                    p.x = p.x + obj.offsetParent.offsetLeft;
+                    p.y = p.y + obj.offsetParent.offsetTop;
+                    if (obj == document.getElementsByTagName("body")[0]) {
+                        break;
+                    }
+                    else {
+                        obj = obj.offsetParent;
+                    }
+                }
+                return p;
             },
         },
     };

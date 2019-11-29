@@ -96,21 +96,21 @@
             <table class="table table-hover table-striped bg-white">
                 <thead>
                     <tr>
-                        <th width="25">
+                        <th class="align-middle text-center w-checkbox">
                             <label class="form-checkbox" for="checkall"></label>
                             <input id="checkall" type="checkbox" v-model="selectAll">
                         </th>
-                        <th class="text-center" width="50">Sync</th>
-                        <th class="text-right" width="50"></th>
+                        <th class="text-center w-icon">Sync</th>
+                        <th class="text-right w-icon"></th>
                         <th class="">Name</th>
                         <th class="text-right" width="50">#</th>
-                        <th class="">Erweiterung</th>
-                        <th class="text-center" width="75">Seltenheit</th>
+                        <th class="w-icon"></th>
+                        <th class="text-center w-icon"></th>
                         <th class="text-center">Sprache</th>
                         <th class="text-center">Zustand</th>
-                        <th class="text-center" width="75">Foil</th>
-                        <th class="text-center" width="75">Signiert</th>
-                        <th class="text-center" width="75">Playset</th>
+                        <th class="text-center w-checkbox">Foil</th>
+                        <th class="text-center w-checkbox">Signiert</th>
+                        <th class="text-center w-checkbox">Playset</th>
                         <th class="">Hinweise</th>
                         <th>Lagerplatz</th>
                         <th class="text-right">Verkaufspreis</th>
@@ -141,7 +141,7 @@
                 </li>
             </ul>
         </nav>
-        <div id="imgbox" style="position: absolute; left: 200px;" :style="{ top: imgbox.top }">
+        <div id="imgbox" style="position: absolute; " :style="{ top: imgbox.top, left: imgbox.left, }">
             <img :src="imgbox.src" v-show="imgbox.show">
         </div>
         <div class="modal fade" id="confirm-rule-apply" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -244,6 +244,8 @@
                 },
                 imgbox: {
                     src: null,
+                    top: 0,
+                    left: 0,
                     show: true,
                 },
                 paginate: {
@@ -443,9 +445,10 @@
                     this.selected.splice(index, 1);
                 }
             },
-            showImgbox({src, top}) {
+            showImgbox({src, top, left}) {
                 this.imgbox.src = src;
                 this.imgbox.top = top;
+                this.imgbox.left = left;
                 this.imgbox.show = true;
             },
             hideImgbox() {

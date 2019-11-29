@@ -62,7 +62,8 @@
             show(event) {
                 this.$emit('show', {
                     src: this.item.card.imagePath,
-                    top: (event.layerY + 325) + 'px',
+                    top: (event.y - 425) + 'px',
+                    left: (event.x - document.getElementById('nav').offsetLeft - 175) + 'px',
                 });
             },
             toShow() {
