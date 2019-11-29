@@ -6753,7 +6753,7 @@ __webpack_require__.r(__webpack_exports__);
     create: function create() {
       var component = this;
       axios.post(component.uri, component.form).then(function (response) {
-        component.items.push(response.data);
+        component.items.unshift(response.data);
         component.form.expansion_id = 0;
         Vue.success('Zuordnung hinzugefügt.');
       })["catch"](function (error) {
