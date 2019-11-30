@@ -67,8 +67,6 @@ class DevCommand extends Command
             'password' => Hash::make('admin'),
         ]);
 
-        $this->createStorageDaniel();
-
         $user = User::create([
             'name' => 'Cardmarket',
             'email' => 'cardmarket@cardmonitor.de',
