@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <div class="d-flex">
+    <div class="d-flex mb-1">
         <h2 class="col"><a class="text-body" href="/storages">Lagerplatz</a> > {{ $model->full_name }}</h2>
         <div class="d-flex align-items-center">
             <a href="{{ $model->editPath }}" class="btn btn-primary" title="Bearbeiten"><i class="fas fa-edit"></i></a>
@@ -18,7 +18,7 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row align-items-stretch">
 
         <div class="col-md-6 mb-3">
             <div class="card">
@@ -60,7 +60,7 @@
 
     </div>
 
-    <div class="row">
+    <div class="row align-items-stretch">
 
         <div class="col-12 col-md-6 mb-3">
             <div class="card">

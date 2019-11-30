@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <div class="d-flex">
+    <div class="d-flex mb-1">
         <h2 class="col"><a class="text-body" href="/item">Kosten</a> > {{ $model->name }}</h2>
         <div class="d-flex align-items-center">
             @if ($model->isEditable())

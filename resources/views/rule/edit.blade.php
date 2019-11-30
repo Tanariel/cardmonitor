@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <div class="d-flex">
+    <div class="d-flex mb-1">
         <h2 class="col"><a class="text-body" href="/item">Regel</a> > {{ $model->name }}</h2>
         <div class="d-flex align-items-center">
             <a href="{{ $model->path }}" class="btn btn-secondary ml-1">Übersicht</a>

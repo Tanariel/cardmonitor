@@ -2194,6 +2194,7 @@ pre code {
 }
 
 .no-gutters > .col,
+.no-gutters > .col-info,
 .no-gutters > .col-value,
 .no-gutters > .col-label,
 .no-gutters > [class*=col-] {
@@ -2258,6 +2259,7 @@ pre code {
 .col-sm-2,
 .col-sm-1,
 .col,
+.col-info,
 .col-value,
 .col-label,
 .col-auto,
@@ -2280,6 +2282,7 @@ pre code {
 }
 
 .col,
+.col-info,
 .col-value,
 .col-label {
   flex-basis: 0;
@@ -3692,6 +3695,7 @@ textarea.form-control {
 }
 
 .form-row > .col,
+.form-row > .col-info,
 .form-row > .col-value,
 .form-row > .col-label,
 .form-row > [class*=col-] {
@@ -8584,7 +8588,8 @@ button.bg-dark:focus {
 }
 
 @media (min-width: 768px) {
-  .d-md-none {
+  .d-md-none,
+  .col-info {
     display: none !important;
   }
 
@@ -8634,7 +8639,8 @@ button.bg-dark:focus {
     display: inline-block !important;
   }
 
-  .d-lg-block {
+  .d-lg-block,
+  .col-info {
     display: block !important;
   }
 
@@ -18242,9 +18248,12 @@ hr.divider {
   border-color: #3490dc;
 }
 
-.w-checkbox,
+.w-checkbox {
+  width: 50px;
+}
+
 .w-icon {
-  width: 75px;
+  width: 50px;
 }
 
 .text-overflow-ellipsis,

@@ -205,9 +205,12 @@ hr.divider {
     border-color: $blue;
 }
 
-.w-checkbox,
+.w-checkbox {
+    width: 50px;
+}
+
 .w-icon {
-    width: 75px;
+    width: 50px;
 }
 
 .text-overflow-ellipsis {
@@ -223,4 +226,10 @@ hr.divider {
 
 .col-value {
     @extend .col;
+}
+
+.col-info {
+    @extend .col;
+    @extend .d-md-none;
+    @extend .d-lg-block;
 }

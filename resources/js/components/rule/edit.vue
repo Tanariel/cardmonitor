@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="row align-items-stretch mb-3">
-            <div class="col">
+            <div class="col-md-6 mb-3 mb-md-0">
                 <div class="card h-100">
                     <div class="card-header">{{ form.name }}</div>
                     <div class="card-body d-flex">
@@ -15,16 +15,10 @@
                                 <textarea class="form-control" placeholder="Beschreibung" v-model="form.description"></textarea>
                             </div>
                         </div>
-                        <div class="col">
-
-                        </div>
-                        <div class="col">
-
-                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col">
+            <div class="col-md-6">
                 <div class="card h-100">
                     <div class="card-header">Preis</div>
                     <div class="card-body">
@@ -47,8 +41,8 @@
         <div>
             <div class="card mb-3">
                 <div class="card-header">Karten</div>
-                <div class="card-body d-flex">
-                    <div class="col">
+                <div class="card-body row">
+                    <div class="col-12 col-lg">
                         <div class="form-group">
                             <label for="expansion_id">Erweiterung</label>
                             <select id="expansion_id" class="form-control" v-model="form.expansion_id">
@@ -66,7 +60,7 @@
                             <small>Hinweis</small>
                         </div>
                     </div>
-                    <div class="col">
+                    <div class="col-12 col-lg">
                         <div class="form-group">
                             <label for="price_above_formatted">Preis von</label>
                             <input type="text" class="form-control" v-model="form.price_above_formatted">
@@ -78,7 +72,7 @@
                             <small>Hinweis</small>
                         </div>
                     </div>
-                    <div class="col d-flex flex-column">
+                    <div class="col-12 col-lg d-flex flex-column">
                         <div class="col d-flex justify-content-center align-items-center">
                                 <div class="col form-group form-check">
                                     <input type="checkbox" class="form-check-input" id="is_foil" v-model="form.is_foil">

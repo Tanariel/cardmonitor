@@ -6125,12 +6125,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     basePrices: {
@@ -55325,7 +55319,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", [
     _c("div", { staticClass: "row align-items-stretch mb-3" }, [
-      _c("div", { staticClass: "col" }, [
+      _c("div", { staticClass: "col-md-6 mb-3 mb-md-0" }, [
         _c("div", { staticClass: "card h-100" }, [
           _c("div", { staticClass: "card-header" }, [
             _vm._v(_vm._s(_vm.form.name))
@@ -55386,16 +55380,12 @@ var render = function() {
                   }
                 })
               ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col" }),
-            _vm._v(" "),
-            _c("div", { staticClass: "col" })
+            ])
           ])
         ])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "col" }, [
+      _c("div", { staticClass: "col-md-6" }, [
         _c("div", { staticClass: "card h-100" }, [
           _c("div", { staticClass: "card-header" }, [_vm._v("Preis")]),
           _vm._v(" "),
@@ -55491,8 +55481,8 @@ var render = function() {
       _c("div", { staticClass: "card mb-3" }, [
         _c("div", { staticClass: "card-header" }, [_vm._v("Karten")]),
         _vm._v(" "),
-        _c("div", { staticClass: "card-body d-flex" }, [
-          _c("div", { staticClass: "col" }, [
+        _c("div", { staticClass: "card-body row" }, [
+          _c("div", { staticClass: "col-12 col-lg" }, [
             _c("div", { staticClass: "form-group" }, [
               _c("label", { attrs: { for: "expansion_id" } }, [
                 _vm._v("Erweiterung")
@@ -55602,7 +55592,7 @@ var render = function() {
             ])
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "col" }, [
+          _c("div", { staticClass: "col-12 col-lg" }, [
             _c("div", { staticClass: "form-group" }, [
               _c("label", { attrs: { for: "price_above_formatted" } }, [
                 _vm._v("Preis von")
@@ -55672,7 +55662,7 @@ var render = function() {
             ])
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "col d-flex flex-column" }, [
+          _c("div", { staticClass: "col-12 col-lg d-flex flex-column" }, [
             _c(
               "div",
               {
@@ -56349,6 +56339,7 @@ var render = function() {
       _vm.item.active == 1
         ? _c("i", {
             staticClass: "fas fa-play pointer text-success",
+            attrs: { title: "deaktivieren" },
             on: { click: _vm.deactivate }
           })
         : _vm._e(),
@@ -56356,6 +56347,7 @@ var render = function() {
       _vm.item.active == 0
         ? _c("i", {
             staticClass: "fas fa-pause pointer text-danger",
+            attrs: { title: "aktivieren" },
             on: { click: _vm.activate }
           })
         : _vm._e()
@@ -56367,7 +56359,10 @@ var render = function() {
     _vm._v(" "),
     _c(
       "td",
-      { staticClass: "align-middle pointer", on: { click: _vm.link } },
+      {
+        staticClass: "align-middle pointer d-none d-sm-table-cell",
+        on: { click: _vm.link }
+      },
       [
         _vm.item.expansion_id
           ? _c("expansion-icon", { attrs: { expansion: _vm.item.expansion } })
@@ -56379,7 +56374,7 @@ var render = function() {
     _c(
       "td",
       {
-        staticClass: "align-middle text-center pointer",
+        staticClass: "align-middle text-center d-none d-sm-table-cell pointer",
         on: { click: _vm.link }
       },
       [
@@ -56390,18 +56385,25 @@ var render = function() {
       1
     ),
     _vm._v(" "),
-    _c("td", { staticClass: "align-middle pointer", on: { click: _vm.link } }, [
-      _vm._v(
-        _vm._s(_vm.item.base_price_formatted) +
-          " * " +
-          _vm._s(_vm.item.multiplier_formatted)
-      )
-    ]),
+    _c(
+      "td",
+      {
+        staticClass: "align-middle d-none d-sm-table-cell pointer",
+        on: { click: _vm.link }
+      },
+      [
+        _vm._v(
+          _vm._s(_vm.item.base_price_formatted) +
+            " * " +
+            _vm._s(_vm.item.multiplier_formatted)
+        )
+      ]
+    ),
     _vm._v(" "),
     _c(
       "td",
       {
-        staticClass: "align-middle text-right pointer",
+        staticClass: "align-middle text-right d-none d-xl-table-cell pointer",
         on: { click: _vm.link }
       },
       [_vm._v(_vm._s(_vm.item.articleStats.count))]
@@ -56410,7 +56412,7 @@ var render = function() {
     _c(
       "td",
       {
-        staticClass: "align-middle text-right pointer",
+        staticClass: "align-middle text-right d-none d-xl-table-cell pointer",
         on: { click: _vm.link }
       },
       [_vm._v(_vm._s(_vm.item.articleStats.price_formatted) + " €")]
@@ -56419,14 +56421,14 @@ var render = function() {
     _c(
       "td",
       {
-        staticClass: "align-middle text-right pointer",
+        staticClass: "align-middle text-right d-none d-lg-table-cell pointer",
         on: { click: _vm.link }
       },
       [_vm._v(_vm._s(_vm.item.articleStats.price_rule_formatted) + " €")]
     ),
     _vm._v(" "),
     _c("td", {
-      staticClass: "align-middle text-right pointer",
+      staticClass: "align-middle text-right d-none d-md-table-cell pointer",
       domProps: {
         innerHTML: _vm._s(
           _vm.item.articleStats.difference_icon +
@@ -56504,7 +56506,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", [
     _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col d-flex align-items-start" }, [
+      _c("div", { staticClass: "col d-flex align-items-start mb-1 mb-sm-0" }, [
         _c("div", { staticClass: "form-group mb-0 mr-1" }, [
           _c("div", [
             _c("input", {
@@ -56587,8 +56589,11 @@ var render = function() {
         _c(
           "button",
           {
-            staticClass: "btn btn-secondary ml-1",
-            attrs: { disabled: _vm.applying.status == 1 },
+            staticClass: "btn btn-secondary text-overflow-ellipsis ml-1",
+            attrs: {
+              title: "Regeln simulieren",
+              disabled: _vm.applying.status == 1
+            },
             on: { click: _vm.apply }
           },
           [
@@ -56638,98 +56643,122 @@ var render = function() {
             [
               _c("thead", [
                 _c("tr", [
-                  _c("th", { attrs: { width: "50" } }),
+                  _c("th", { staticClass: "w-icon" }),
                   _vm._v(" "),
-                  _c(
-                    "th",
-                    { staticClass: "text-center", attrs: { width: "50" } },
-                    [
-                      _c("label", {
-                        staticClass: "form-checkbox",
-                        attrs: { for: "checkall" }
-                      }),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.selectAll,
-                            expression: "selectAll"
-                          }
-                        ],
-                        attrs: { id: "checkall", type: "checkbox" },
-                        domProps: {
-                          checked: Array.isArray(_vm.selectAll)
-                            ? _vm._i(_vm.selectAll, null) > -1
-                            : _vm.selectAll
-                        },
-                        on: {
-                          change: function($event) {
-                            var $$a = _vm.selectAll,
-                              $$el = $event.target,
-                              $$c = $$el.checked ? true : false
-                            if (Array.isArray($$a)) {
-                              var $$v = null,
-                                $$i = _vm._i($$a, $$v)
-                              if ($$el.checked) {
-                                $$i < 0 && (_vm.selectAll = $$a.concat([$$v]))
-                              } else {
-                                $$i > -1 &&
-                                  (_vm.selectAll = $$a
-                                    .slice(0, $$i)
-                                    .concat($$a.slice($$i + 1)))
-                              }
+                  _c("th", { staticClass: "text-center w-checkbox" }, [
+                    _c("label", {
+                      staticClass: "form-checkbox",
+                      attrs: { for: "checkall" }
+                    }),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.selectAll,
+                          expression: "selectAll"
+                        }
+                      ],
+                      attrs: { id: "checkall", type: "checkbox" },
+                      domProps: {
+                        checked: Array.isArray(_vm.selectAll)
+                          ? _vm._i(_vm.selectAll, null) > -1
+                          : _vm.selectAll
+                      },
+                      on: {
+                        change: function($event) {
+                          var $$a = _vm.selectAll,
+                            $$el = $event.target,
+                            $$c = $$el.checked ? true : false
+                          if (Array.isArray($$a)) {
+                            var $$v = null,
+                              $$i = _vm._i($$a, $$v)
+                            if ($$el.checked) {
+                              $$i < 0 && (_vm.selectAll = $$a.concat([$$v]))
                             } else {
-                              _vm.selectAll = $$c
+                              $$i > -1 &&
+                                (_vm.selectAll = $$a
+                                  .slice(0, $$i)
+                                  .concat($$a.slice($$i + 1)))
                             }
+                          } else {
+                            _vm.selectAll = $$c
                           }
                         }
-                      })
-                    ]
-                  ),
+                      }
+                    })
+                  ]),
                   _vm._v(" "),
-                  _c(
-                    "th",
-                    { staticClass: "text-center", attrs: { width: "5%" } },
-                    [_vm._v("Status")]
-                  ),
+                  _c("th", { staticClass: "text-center w-icon" }),
                   _vm._v(" "),
                   _c("th", { attrs: { width: "20%" } }, [_vm._v("Name")]),
                   _vm._v(" "),
-                  _c("th", { attrs: { width: "15%" } }, [
-                    _vm._v("Erweiterung")
-                  ]),
+                  _c(
+                    "th",
+                    {
+                      staticClass:
+                        "d-none d-sm-table-cell text-overflow-ellipsis",
+                      attrs: { width: "15%" }
+                    },
+                    [_vm._v("Erweiterung")]
+                  ),
                   _vm._v(" "),
                   _c(
                     "th",
-                    { staticClass: "text-center", attrs: { width: "10%" } },
+                    {
+                      staticClass:
+                        "text-center d-none d-sm-table-cell text-overflow-ellipsis",
+                      attrs: { width: "10%" }
+                    },
                     [_vm._v("Seltenheit")]
                   ),
                   _vm._v(" "),
-                  _c("th", { attrs: { width: "10%" } }, [_vm._v("Preis")]),
+                  _c(
+                    "th",
+                    {
+                      staticClass: "d-none d-sm-table-cell",
+                      attrs: { width: "10%" }
+                    },
+                    [_vm._v("Preis")]
+                  ),
                   _vm._v(" "),
                   _c(
                     "th",
-                    { staticClass: "text-right", attrs: { width: "10%" } },
+                    {
+                      staticClass: "text-right d-none d-xl-table-cell",
+                      attrs: { width: "10%" }
+                    },
                     [_vm._v("Artikel")]
                   ),
                   _vm._v(" "),
                   _c(
                     "th",
-                    { staticClass: "text-right", attrs: { width: "10%" } },
+                    {
+                      staticClass:
+                        "text-right d-none d-xl-table-cell text-overflow-ellipsis",
+                      attrs: { width: "10%" }
+                    },
                     [_vm._v("Verkaufspreis")]
                   ),
                   _vm._v(" "),
                   _c(
                     "th",
-                    { staticClass: "text-right", attrs: { width: "10%" } },
+                    {
+                      staticClass:
+                        "text-right d-none d-lg-table-cell text-overflow-ellipsis",
+                      attrs: { width: "10%" }
+                    },
                     [_vm._v("Regelpreis")]
                   ),
                   _vm._v(" "),
                   _c(
                     "th",
-                    { staticClass: "text-right", attrs: { width: "5%" } },
+                    {
+                      staticClass:
+                        "text-right d-none d-md-table-cell text-overflow-ellipsis",
+                      attrs: { width: "5%" }
+                    },
                     [_vm._v("Differenz")]
                   ),
                   _vm._v(" "),

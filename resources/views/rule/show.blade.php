@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <div class="d-flex">
+    <div class="d-flex mb-1">
         <h2 class="col"><a class="text-body" href="/item">Regel</a> > {{ $model->name }}</h2>
         <div class="d-flex align-items-center">
             <a href="{{ $model->editPath }}" class="btn btn-primary" title="Bearbeiten"><i class="fas fa-edit"></i></a>
@@ -26,8 +26,8 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="row">
-                                <div class="col-4"><b>Name</b></div>
-                                <div class="col-8">{{ $model->name }}</div>
+                                <div class="col-label"><b>Name</b></div>
+                                <div class="col-value">{{ $model->name }}</div>
                             </div>
                             <div>
                                 {!! nl2br($model->description) !!}
@@ -35,16 +35,16 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="row">
-                                <div class="col-4"><b>Erweiterung</b></div>
-                                <div class="col-8">{{ $model->expansion_id ? $model->expansion->name : 'Alle' }}</div>
+                                <div class="col-label"><b>Erweiterung</b></div>
+                                <div class="col-value">{{ $model->expansion_id ? $model->expansion->name : 'Alle' }}</div>
                             </div>
                             <div class="row">
-                                <div class="col-4"><b>Seltenheit</b></div>
-                                <div class="col-8">{{ $model->rarity ?? 'Alle' }}</div>
+                                <div class="col-label"><b>Seltenheit</b></div>
+                                <div class="col-value">{{ $model->rarity ?? 'Alle' }}</div>
                             </div>
                             <div class="row">
-                                <div class="col-4"><b>Preis</b></div>
-                                <div class="col-8">{{ $model->base_price_formatted }} * {{ $model->multiplier_formatted }}</div>
+                                <div class="col-label"><b>Preis</b></div>
+                                <div class="col-value">{{ $model->base_price_formatted }} * {{ $model->multiplier_formatted }}</div>
                             </div>
                         </div>
                     </div>
@@ -74,17 +74,19 @@
                 <div class="card-header">Artikel</div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-4"><b>Artikel</b></div>
-                        <div class="col-8">{{ $model->articleStats->count_formatted }}</div>
+                        <div class="col-label"><b>Artikel</b></div>
+                        <div class="col-value">{{ $model->articleStats->count_formatted }}</div>
+                        <div class="col-info"></div>
                     </div>
                     <div class="row">
-                        <div class="col-4"><b>Verkaufspreis</b></div>
-                        <div class="col-8">{{ $model->articleStats->price_formatted }} €</div>
+                        <div class="col-label"><b>Verkaufspreis</b></div>
+                        <div class="col-value">{{ $model->articleStats->price_formatted }} €</div>
+                        <div class="col-info"></div>
                     </div>
                     <div class="row">
-                        <div class="col-4"><b>Regelpreis</b></div>
-                        <div class="col-4">{{ $model->articleStats->price_rule_formatted }} €</div>
-                        <div class="col-4">
+                        <div class="col-label"><b>Regelpreis</b></div>
+                        <div class="col-value">{{ $model->articleStats->price_rule_formatted }} €</div>
+                        <div class="col-info">
                             @if ($model->articleStats->difference != 0)
                                 {!! $model->articleStats->difference_icon !!} {{ $model->articleStats->difference_percent_formatted }}%
                             @endif

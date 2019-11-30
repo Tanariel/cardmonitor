@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="row">
-            <div class="col d-flex align-items-start">
+            <div class="col d-flex align-items-start mb-1 mb-sm-0">
                 <div class="form-group mb-0 mr-1">
                     <div>
                         <input type="text" class="form-control" :class="'name' in errors ? 'is-invalid' : ''" v-model="form.name" placeholder="Name" @keydown.enter="create">
@@ -15,7 +15,7 @@
                     <filter-search v-model="filter.searchtext" @input="fetch()"></filter-search>
                 </div>
                 <button class="btn btn-secondary ml-1" @click="filter.show = !filter.show" v-if="false"><i class="fas fa-filter"></i></button>
-                <button class="btn btn-secondary ml-1" @click="apply" :disabled="applying.status == 1"><i class="fas fa-spinner fa-spin mr-1" v-show="applying.status == 1"></i>Regeln simulieren</button>
+                <button class="btn btn-secondary text-overflow-ellipsis ml-1" @click="apply" title="Regeln simulieren" :disabled="applying.status == 1"><i class="fas fa-spinner fa-spin mr-1" v-show="applying.status == 1"></i>Regeln simulieren</button>
             </div>
         </div>
 
@@ -39,20 +39,20 @@
             <table class="table table-hover table-striped bg-white">
                 <thead>
                     <tr>
-                        <th width="50"></th>
-                        <th class="text-center" width="50">
+                        <th class="w-icon"></th>
+                        <th class="text-center w-checkbox">
                             <label class="form-checkbox" for="checkall"></label>
                             <input id="checkall" type="checkbox" v-model="selectAll">
                         </th>
-                        <th class="text-center" width="5%">Status</th>
+                        <th class="text-center w-icon"></th>
                         <th width="20%">Name</th>
-                        <th width="15%">Erweiterung</th>
-                        <th class="text-center" width="10%">Seltenheit</th>
-                        <th width="10%">Preis</th>
-                        <th class="text-right" width="10%">Artikel</th>
-                        <th class="text-right" width="10%">Verkaufspreis</th>
-                        <th class="text-right" width="10%">Regelpreis</th>
-                        <th class="text-right" width="5%">Differenz</th>
+                        <th class="d-none d-sm-table-cell text-overflow-ellipsis" width="15%">Erweiterung</th>
+                        <th class="text-center d-none d-sm-table-cell text-overflow-ellipsis" width="10%">Seltenheit</th>
+                        <th class="d-none d-sm-table-cell" width="10%">Preis</th>
+                        <th class="text-right d-none d-xl-table-cell" width="10%">Artikel</th>
+                        <th class="text-right d-none d-xl-table-cell text-overflow-ellipsis" width="10%">Verkaufspreis</th>
+                        <th class="text-right d-none d-lg-table-cell text-overflow-ellipsis" width="10%">Regelpreis</th>
+                        <th class="text-right d-none d-md-table-cell text-overflow-ellipsis" width="5%">Differenz</th>
                         <th class="text-right" width="5%">Aktion</th>
                     </tr>
                 </thead>

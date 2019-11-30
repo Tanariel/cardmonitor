@@ -6,23 +6,23 @@
             <input :checked="selected" type="checkbox" :value="id"  @change="$emit('input', id)" number>
         </td>
         <td class="align-middle text-center">
-            <i class="fas fa-play pointer text-success" @click="deactivate" v-if="item.active == 1"></i>
-            <i class="fas fa-pause pointer text-danger" @click="activate" v-if="item.active == 0"></i>
+            <i class="fas fa-play pointer text-success" title="deaktivieren" @click="deactivate" v-if="item.active == 1"></i>
+            <i class="fas fa-pause pointer text-danger" title="aktivieren" @click="activate" v-if="item.active == 0"></i>
         </td>
         <td class="align-middle pointer" @click="link">{{ item.name }}</td>
-        <td class="align-middle pointer" @click="link">
+        <td class="align-middle pointer d-none d-sm-table-cell" @click="link">
             <expansion-icon :expansion="item.expansion" v-if="item.expansion_id"></expansion-icon>
             <span v-else>Alle</span>
         </td>
-        <td class="align-middle text-center pointer" @click="link">
+        <td class="align-middle text-center d-none d-sm-table-cell pointer" @click="link">
             <rarity :value="item.rarity" v-if="item.rarity"></rarity>
             <span v-else>Alle</span>
         </td>
-        <td class="align-middle pointer" @click="link">{{ item.base_price_formatted }} * {{ item.multiplier_formatted }}</td>
-        <td class="align-middle text-right pointer" @click="link">{{ item.articleStats.count }}</td>
-        <td class="align-middle text-right pointer" @click="link">{{ item.articleStats.price_formatted }} €</td>
-        <td class="align-middle text-right pointer" @click="link">{{ item.articleStats.price_rule_formatted }} €</td>
-        <td class="align-middle text-right pointer" @click="link" v-html="item.articleStats.difference_icon + ' ' + item.articleStats.difference_percent_formatted + '%'"></td>
+        <td class="align-middle d-none d-sm-table-cell pointer" @click="link">{{ item.base_price_formatted }} * {{ item.multiplier_formatted }}</td>
+        <td class="align-middle text-right d-none d-xl-table-cell pointer" @click="link">{{ item.articleStats.count }}</td>
+        <td class="align-middle text-right d-none d-xl-table-cell pointer" @click="link">{{ item.articleStats.price_formatted }} €</td>
+        <td class="align-middle text-right d-none d-lg-table-cell pointer" @click="link">{{ item.articleStats.price_rule_formatted }} €</td>
+        <td class="align-middle text-right d-none d-md-table-cell pointer" @click="link" v-html="item.articleStats.difference_icon + ' ' + item.articleStats.difference_percent_formatted + '%'"></td>
         <td class="align-middle text-right">
             <div class="btn-group btn-group-sm" role="group">
                 <a :href="item.editPath" type="button" class="btn btn-secondary" title="Bearbeiten" @click="link"><i class="fas fa-edit"></i></a>
