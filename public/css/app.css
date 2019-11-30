@@ -2194,6 +2194,8 @@ pre code {
 }
 
 .no-gutters > .col,
+.no-gutters > .col-value,
+.no-gutters > .col-label,
 .no-gutters > [class*=col-] {
   padding-right: 0;
   padding-left: 0;
@@ -2256,6 +2258,8 @@ pre code {
 .col-sm-2,
 .col-sm-1,
 .col,
+.col-value,
+.col-label,
 .col-auto,
 .col-12,
 .col-11,
@@ -2275,7 +2279,9 @@ pre code {
   padding-left: 15px;
 }
 
-.col {
+.col,
+.col-value,
+.col-label {
   flex-basis: 0;
   flex-grow: 1;
   max-width: 100%;
@@ -3686,6 +3692,8 @@ textarea.form-control {
 }
 
 .form-row > .col,
+.form-row > .col-value,
+.form-row > .col-label,
 .form-row > [class*=col-] {
   padding-right: 5px;
   padding-left: 5px;
@@ -18237,5 +18245,12 @@ hr.divider {
 .w-checkbox,
 .w-icon {
   width: 75px;
+}
+
+.text-overflow-ellipsis,
+.col-label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 

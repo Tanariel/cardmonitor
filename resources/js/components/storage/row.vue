@@ -5,15 +5,9 @@
             <input :checked="selected" type="checkbox" :value="id"  @change="$emit('input', id)" number>
         </td>
         <td class="align-middle pointer" @click="link" v-html="item.indentedName"></td>
-        <td class="align-middle" @click="link">
-            <select class="form-control" v-model="form.parent_id" @change="setParent" v-if="false">
-                <option :value="null">Hauptlagerplatz</option>
-                <option :value="storage.id" v-for="(storage, key) in storages" v-if="storage.id != id">{{ storage.name }}</option>
-            </select>
-        </td>
-        <td class="align-middle text-right pointer" @click="link">{{ item.contents_count }}</td>
-        <td class="align-middle text-right pointer" @click="link">{{ item.articleStats.count_formatted }}</td>
-        <td class="align-middle text-right pointer" @click="link">{{ item.articleStats.price_formatted }} €</td>
+        <td class="align-middle text-right pointer d-none d-md-table-cell" @click="link">{{ item.contents_count }}</td>
+        <td class="align-middle text-right pointer d-none d-sm-table-cell" @click="link">{{ item.articleStats.count_formatted }}</td>
+        <td class="align-middle text-right pointer d-none d-sm-table-cell" @click="link">{{ item.articleStats.price_formatted }} €</td>
         <td class="align-middle text-right">
             <div class="btn-group btn-group-sm" role="group">
                 <a :href="item.editPath" class="btn btn-secondary" title="Bearbeiten"><i class="fas fa-edit"></i></a>

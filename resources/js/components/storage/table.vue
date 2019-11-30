@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="row">
-            <div class="col d-flex align-items-start">
+            <div class="col d-flex align-items-start mb-1 mb-sm-0">
                 <div class="form-group mb-0 mr-1">
                     <div>
                         <input type="text" class="form-control" :class="'name' in errors ? 'is-invalid' : ''" v-model="form.name" placeholder="Name" @keydown.enter="create">
@@ -15,7 +15,7 @@
                     <filter-search v-model="filter.searchtext" @input="fetch()"></filter-search>
                 </div>
                 <button class="btn btn-secondary ml-1" @click="filter.show = !filter.show"><i class="fas fa-filter"></i></button>
-                <button class="btn btn-secondary ml-1" :disabled="isAssigning" @click="assign">Lagerplätze neu zuweisen</button>
+                <button class="btn btn-secondary text-overflow-ellipsis ml-1" :disabled="isAssigning" title="Lagerplätze neu zuweisen" @click="assign">Lagerplätze neu zuweisen</button>
             </div>
         </div>
 
@@ -35,11 +35,10 @@
                             <label class="form-checkbox" for="checkall"></label>
                             <input id="checkall" type="checkbox" v-model="selectAll">
                         </th>
-                        <th width="30%">Name</th>
-                        <th width="10%"></th>
-                        <th class="text-right" width="15%">Zuordnungen</th>
-                        <th class="text-right" width="15%">Artikel</th>
-                        <th class="text-right" width="15%">Verkaufspreis</th>
+                        <th width="40%">Name</th>
+                        <th class="text-right d-none d-md-table-cell" width="15%">Zuordnungen</th>
+                        <th class="text-right d-none d-sm-table-cell" width="15%">Artikel</th>
+                        <th class="text-right d-none d-sm-table-cell" width="15%">Verkaufspreis</th>
                         <th class="text-right" width="10%">Aktion</th>
                     </tr>
                 </thead>

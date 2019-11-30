@@ -209,3 +209,18 @@ hr.divider {
 .w-icon {
     width: 75px;
 }
+
+.text-overflow-ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.col-label {
+    @extend .col;
+    @extend .text-overflow-ellipsis;
+}
+
+.col-value {
+    @extend .col;
+}

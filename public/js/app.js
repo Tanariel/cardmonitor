@@ -6814,12 +6814,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['item', 'uri', 'selected', 'storages'],
   data: function data() {
@@ -6870,7 +6864,6 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _row_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./row.vue */ "./resources/js/components/storage/row.vue");
 /* harmony import */ var _filter_search_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../filter/search.vue */ "./resources/js/components/filter/search.vue");
-//
 //
 //
 //
@@ -57134,16 +57127,10 @@ var render = function() {
       on: { click: _vm.link }
     }),
     _vm._v(" "),
-    _c("td", { staticClass: "align-middle", on: { click: _vm.link } }, [
-      false
-        ? undefined
-        : _vm._e()
-    ]),
-    _vm._v(" "),
     _c(
       "td",
       {
-        staticClass: "align-middle text-right pointer",
+        staticClass: "align-middle text-right pointer d-none d-md-table-cell",
         on: { click: _vm.link }
       },
       [_vm._v(_vm._s(_vm.item.contents_count))]
@@ -57152,7 +57139,7 @@ var render = function() {
     _c(
       "td",
       {
-        staticClass: "align-middle text-right pointer",
+        staticClass: "align-middle text-right pointer d-none d-sm-table-cell",
         on: { click: _vm.link }
       },
       [_vm._v(_vm._s(_vm.item.articleStats.count_formatted))]
@@ -57161,7 +57148,7 @@ var render = function() {
     _c(
       "td",
       {
-        staticClass: "align-middle text-right pointer",
+        staticClass: "align-middle text-right pointer d-none d-sm-table-cell",
         on: { click: _vm.link }
       },
       [_vm._v(_vm._s(_vm.item.articleStats.price_formatted) + " €")]
@@ -57221,7 +57208,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", [
     _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col d-flex align-items-start" }, [
+      _c("div", { staticClass: "col d-flex align-items-start mb-1 mb-sm-0" }, [
         _c("div", { staticClass: "form-group mb-0 mr-1" }, [
           _c("div", [
             _c("input", {
@@ -57313,8 +57300,11 @@ var render = function() {
         _c(
           "button",
           {
-            staticClass: "btn btn-secondary ml-1",
-            attrs: { disabled: _vm.isAssigning },
+            staticClass: "btn btn-secondary text-overflow-ellipsis ml-1",
+            attrs: {
+              disabled: _vm.isAssigning,
+              title: "Lagerplätze neu zuweisen"
+            },
             on: { click: _vm.assign }
           },
           [_vm._v("Lagerplätze neu zuweisen")]
@@ -57390,25 +57380,32 @@ var render = function() {
                     })
                   ]),
                   _vm._v(" "),
-                  _c("th", { attrs: { width: "30%" } }, [_vm._v("Name")]),
-                  _vm._v(" "),
-                  _c("th", { attrs: { width: "10%" } }),
+                  _c("th", { attrs: { width: "40%" } }, [_vm._v("Name")]),
                   _vm._v(" "),
                   _c(
                     "th",
-                    { staticClass: "text-right", attrs: { width: "15%" } },
+                    {
+                      staticClass: "text-right d-none d-md-table-cell",
+                      attrs: { width: "15%" }
+                    },
                     [_vm._v("Zuordnungen")]
                   ),
                   _vm._v(" "),
                   _c(
                     "th",
-                    { staticClass: "text-right", attrs: { width: "15%" } },
+                    {
+                      staticClass: "text-right d-none d-sm-table-cell",
+                      attrs: { width: "15%" }
+                    },
                     [_vm._v("Artikel")]
                   ),
                   _vm._v(" "),
                   _c(
                     "th",
-                    { staticClass: "text-right", attrs: { width: "15%" } },
+                    {
+                      staticClass: "text-right d-none d-sm-table-cell",
+                      attrs: { width: "15%" }
+                    },
                     [_vm._v("Verkaufspreis")]
                   ),
                   _vm._v(" "),
