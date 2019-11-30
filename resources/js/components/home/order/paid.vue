@@ -1,5 +1,5 @@
 <template>
-    <div class="col-12 col-md-6 col-lg-4 col-xl mb-3 mb-xl-0 d-none d-xl-block" v-if="items.length > 0">
+    <div class="" v-if="items.length > 0">
         <div class="card h-100">
             <div class="card-header d-flex">
                 <div class="col">Bezahlte Bestellungen</div>
@@ -16,13 +16,6 @@
                     </center>
                 </div>
                 <table class="table table-striped table-hover" v-else>
-                    <thead>
-                        <tr>
-                            <th>Datum</th>
-                            <th>Bestellung</th>
-                            <th width="100"></th>
-                        </tr>
-                    </thead>
                     <tbody>
                         <tr v-for="(item, key) in items">
                             <td class="align-middle">{{ item.paid_at_formatted }}</td>

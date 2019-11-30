@@ -29,11 +29,11 @@
             </div>
         @else
 
-            <home-order-paid :is-syncing-orders="{{ $is_syncing_orders }}"></home-order-paid>
+            <home-order-paid class="col-12 mb-3" :is-syncing-orders="{{ $is_syncing_orders }}"></home-order-paid>
 
-            <home-article-index :is-syncing-articles="{{ $is_syncing_articles }}"></home-article-index>
+            <home-article-index class="col-12 col-lg mb-3 mb-xl-0" :is-syncing-articles="{{ $is_syncing_articles }}"></home-article-index>
 
-            <div class="col-12 col-md-6 col-lg-4 col-xl mb-3 mb-xl-0">
+            <div class="col-12 col-xl d-none d-xl-block">
                 <div class="card h-100">
                     <div class="card-header">Letzte Bewertungen</div>
                     <div class="card-body" style="max-height: 250px; overflow: auto;">

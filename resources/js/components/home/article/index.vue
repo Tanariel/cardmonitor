@@ -1,5 +1,5 @@
 <template>
-    <div class="col-12 col-md-6 col-lg-4 col-xl mb-3 mb-xl-0 d-none d-xl-block">
+    <div>
         <div class="card h-100">
             <div class="card-header">Artikel</div>
             <div class="card-body">
@@ -17,33 +17,33 @@
                         <thead>
                             <tr>
                                 <th></th>
-                                <th class="text-right">Anzahl</th>
-                                <th class="text-right">Einkauf</th>
-                                <th class="text-right">Verkauf</th>
-                                <th class="text-right">Differenz</th>
+                                <th class="text-right text-overflow-ellipsis">Anzahl</th>
+                                <th class="text-right d-none d-xl-table-cell text-overflow-ellipsis">Einkauf</th>
+                                <th class="text-right text-overflow-ellipsis">Verkauf</th>
+                                <th class="text-right d-none d-lg-table-cell text-overflow-ellipsis">Differenz</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Angebote</td>
+                                <td class="text-overflow-ellipsis">Angebote</td>
                                 <td class="text-right">{{ Number(articles.offers.count).format(0, '', '.') }}</td>
-                                <td class="text-right">{{ Number(articles.offers.cost).format(2, ',', '.') }} €</td>
+                                <td class="text-right d-none d-xl-table-cell">{{ Number(articles.offers.cost).format(2, ',', '.') }} €</td>
                                 <td class="text-right">{{ Number(articles.offers.price).format(2, ',', '.') }} €</td>
-                                <td class="text-right">{{ Number(articles.offers.price - articles.offers.cost).format(2, ',', '.') }} €</td>
+                                <td class="text-right d-none d-lg-table-cell">{{ Number(articles.offers.price - articles.offers.cost).format(2, ',', '.') }} €</td>
                             </tr>
                             <tr>
-                                <td>Regeln</td>
+                                <td class="text-overflow-ellipsis">Regeln</td>
                                 <td class="text-right">{{ Number(articles.rules.count).format(0, '', '.') }}</td>
-                                <td class="text-right">{{ Number(articles.rules.cost).format(2, ',', '.') }} €</td>
+                                <td class="text-right d-none d-xl-table-cell">{{ Number(articles.rules.cost).format(2, ',', '.') }} €</td>
                                 <td class="text-right">{{ Number(articles.rules.price).format(2, ',', '.') }} €</td>
-                                <td class="text-right">{{ Number(articles.rules.price - articles.rules.cost).format(2, ',', '.') }} €</td>
+                                <td class="text-right d-none d-lg-table-cell">{{ Number(articles.rules.price - articles.rules.cost).format(2, ',', '.') }} €</td>
                             </tr>
                             <tr>
-                                <td>Verkäufe</td>
+                                <td class="text-overflow-ellipsis">Verkäufe</td>
                                 <td class="text-right">{{ Number(articles.sold.count).format(0, '', '.') }}</td>
-                                <td class="text-right">{{ Number(articles.sold.cost).format(2, ',', '.') }} €</td>
+                                <td class="text-right d-none d-xl-table-cell">{{ Number(articles.sold.cost).format(2, ',', '.') }} €</td>
                                 <td class="text-right">{{ Number(articles.sold.price).format(2, ',', '.') }} €</td>
-                                <td class="text-right">{{ Number(articles.sold.price - articles.sold.cost).format(2, ',', '.') }} €</td>
+                                <td class="text-right d-none d-lg-table-cell">{{ Number(articles.sold.price - articles.sold.cost).format(2, ',', '.') }} €</td>
                             </tr>
                         </tbody>
                     </table>

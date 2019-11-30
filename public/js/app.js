@@ -3728,13 +3728,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     isSyncingOrders: {
@@ -51205,73 +51198,72 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    {
-      staticClass:
-        "col-12 col-md-6 col-lg-4 col-xl mb-3 mb-xl-0 d-none d-xl-block"
-    },
-    [
-      _c("div", { staticClass: "card h-100" }, [
-        _c("div", { staticClass: "card-header" }, [_vm._v("Artikel")]),
-        _vm._v(" "),
-        _c("div", { staticClass: "card-body" }, [
-          _vm.isLoading
-            ? _c(
-                "div",
-                { staticClass: "mt-3 p-5" },
-                [
-                  _c("center", [
-                    _c("span", { staticStyle: { "font-size": "48px" } }, [
-                      _c("i", { staticClass: "fas fa-spinner fa-spin" }),
-                      _c("br")
+  return _c("div", [
+    _c("div", { staticClass: "card h-100" }, [
+      _c("div", { staticClass: "card-header" }, [_vm._v("Artikel")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-body" }, [
+        _vm.isLoading
+          ? _c(
+              "div",
+              { staticClass: "mt-3 p-5" },
+              [
+                _c("center", [
+                  _c("span", { staticStyle: { "font-size": "48px" } }, [
+                    _c("i", { staticClass: "fas fa-spinner fa-spin" }),
+                    _c("br")
+                  ]),
+                  _vm._v(" "),
+                  _vm.syncing.status == 1
+                    ? _c("span", [_vm._v("Synchronisiere Artikel")])
+                    : _c("span", [_vm._v("Lade Daten..")])
+                ])
+              ],
+              1
+            )
+          : _vm.articles.offers.count > 0
+          ? _c("div", [
+              _c("table", { staticClass: "table" }, [
+                _vm._m(0),
+                _vm._v(" "),
+                _c("tbody", [
+                  _c("tr", [
+                    _c("td", { staticClass: "text-overflow-ellipsis" }, [
+                      _vm._v("Angebote")
                     ]),
                     _vm._v(" "),
-                    _vm.syncing.status == 1
-                      ? _c("span", [_vm._v("Synchronisiere Artikel")])
-                      : _c("span", [_vm._v("Lade Daten..")])
-                  ])
-                ],
-                1
-              )
-            : _vm.articles.offers.count > 0
-            ? _c("div", [
-                _c("table", { staticClass: "table" }, [
-                  _vm._m(0),
-                  _vm._v(" "),
-                  _c("tbody", [
-                    _c("tr", [
-                      _c("td", [_vm._v("Angebote")]),
-                      _vm._v(" "),
-                      _c("td", { staticClass: "text-right" }, [
-                        _vm._v(
-                          _vm._s(
-                            Number(_vm.articles.offers.count).format(0, "", ".")
-                          )
+                    _c("td", { staticClass: "text-right" }, [
+                      _vm._v(
+                        _vm._s(
+                          Number(_vm.articles.offers.count).format(0, "", ".")
                         )
-                      ]),
-                      _vm._v(" "),
-                      _c("td", { staticClass: "text-right" }, [
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      { staticClass: "text-right d-none d-xl-table-cell" },
+                      [
                         _vm._v(
                           _vm._s(
                             Number(_vm.articles.offers.cost).format(2, ",", ".")
                           ) + " €"
                         )
-                      ]),
-                      _vm._v(" "),
-                      _c("td", { staticClass: "text-right" }, [
-                        _vm._v(
-                          _vm._s(
-                            Number(_vm.articles.offers.price).format(
-                              2,
-                              ",",
-                              "."
-                            )
-                          ) + " €"
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("td", { staticClass: "text-right" }, [
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-right" }, [
+                      _vm._v(
+                        _vm._s(
+                          Number(_vm.articles.offers.price).format(2, ",", ".")
+                        ) + " €"
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      { staticClass: "text-right d-none d-lg-table-cell" },
+                      [
                         _vm._v(
                           _vm._s(
                             Number(
@@ -51280,37 +51272,47 @@ var render = function() {
                             ).format(2, ",", ".")
                           ) + " €"
                         )
-                      ])
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("tr", [
+                    _c("td", { staticClass: "text-overflow-ellipsis" }, [
+                      _vm._v("Regeln")
                     ]),
                     _vm._v(" "),
-                    _c("tr", [
-                      _c("td", [_vm._v("Regeln")]),
-                      _vm._v(" "),
-                      _c("td", { staticClass: "text-right" }, [
-                        _vm._v(
-                          _vm._s(
-                            Number(_vm.articles.rules.count).format(0, "", ".")
-                          )
+                    _c("td", { staticClass: "text-right" }, [
+                      _vm._v(
+                        _vm._s(
+                          Number(_vm.articles.rules.count).format(0, "", ".")
                         )
-                      ]),
-                      _vm._v(" "),
-                      _c("td", { staticClass: "text-right" }, [
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      { staticClass: "text-right d-none d-xl-table-cell" },
+                      [
                         _vm._v(
                           _vm._s(
                             Number(_vm.articles.rules.cost).format(2, ",", ".")
                           ) + " €"
                         )
-                      ]),
-                      _vm._v(" "),
-                      _c("td", { staticClass: "text-right" }, [
-                        _vm._v(
-                          _vm._s(
-                            Number(_vm.articles.rules.price).format(2, ",", ".")
-                          ) + " €"
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("td", { staticClass: "text-right" }, [
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-right" }, [
+                      _vm._v(
+                        _vm._s(
+                          Number(_vm.articles.rules.price).format(2, ",", ".")
+                        ) + " €"
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      { staticClass: "text-right d-none d-lg-table-cell" },
+                      [
                         _vm._v(
                           _vm._s(
                             Number(
@@ -51318,37 +51320,47 @@ var render = function() {
                             ).format(2, ",", ".")
                           ) + " €"
                         )
-                      ])
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("tr", [
+                    _c("td", { staticClass: "text-overflow-ellipsis" }, [
+                      _vm._v("Verkäufe")
                     ]),
                     _vm._v(" "),
-                    _c("tr", [
-                      _c("td", [_vm._v("Verkäufe")]),
-                      _vm._v(" "),
-                      _c("td", { staticClass: "text-right" }, [
-                        _vm._v(
-                          _vm._s(
-                            Number(_vm.articles.sold.count).format(0, "", ".")
-                          )
+                    _c("td", { staticClass: "text-right" }, [
+                      _vm._v(
+                        _vm._s(
+                          Number(_vm.articles.sold.count).format(0, "", ".")
                         )
-                      ]),
-                      _vm._v(" "),
-                      _c("td", { staticClass: "text-right" }, [
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      { staticClass: "text-right d-none d-xl-table-cell" },
+                      [
                         _vm._v(
                           _vm._s(
                             Number(_vm.articles.sold.cost).format(2, ",", ".")
                           ) + " €"
                         )
-                      ]),
-                      _vm._v(" "),
-                      _c("td", { staticClass: "text-right" }, [
-                        _vm._v(
-                          _vm._s(
-                            Number(_vm.articles.sold.price).format(2, ",", ".")
-                          ) + " €"
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("td", { staticClass: "text-right" }, [
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-right" }, [
+                      _vm._v(
+                        _vm._s(
+                          Number(_vm.articles.sold.price).format(2, ",", ".")
+                        ) + " €"
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      { staticClass: "text-right d-none d-lg-table-cell" },
+                      [
                         _vm._v(
                           _vm._s(
                             Number(
@@ -51356,46 +51368,45 @@ var render = function() {
                             ).format(2, ",", ".")
                           ) + " €"
                         )
-                      ])
-                    ])
+                      ]
+                    )
                   ])
                 ])
               ])
-            : _c(
-                "div",
-                {
-                  staticClass:
-                    "d-flex align-items-center justify-content-center"
-                },
-                [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-secondary ml-1",
-                      attrs: { disabled: _vm.syncing.status == 1 },
-                      on: { click: _vm.sync }
-                    },
-                    [
-                      _c("i", {
-                        directives: [
-                          {
-                            name: "show",
-                            rawName: "v-show",
-                            value: _vm.syncing.status == 1,
-                            expression: "syncing.status == 1"
-                          }
-                        ],
-                        staticClass: "fas fa-spinner fa-spin mr-1"
-                      }),
-                      _vm._v(" Artikel synchronisieren\n                ")
-                    ]
-                  )
-                ]
-              )
-        ])
+            ])
+          : _c(
+              "div",
+              {
+                staticClass: "d-flex align-items-center justify-content-center"
+              },
+              [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary ml-1",
+                    attrs: { disabled: _vm.syncing.status == 1 },
+                    on: { click: _vm.sync }
+                  },
+                  [
+                    _c("i", {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.syncing.status == 1,
+                          expression: "syncing.status == 1"
+                        }
+                      ],
+                      staticClass: "fas fa-spinner fa-spin mr-1"
+                    }),
+                    _vm._v(" Artikel synchronisieren\n                ")
+                  ]
+                )
+              ]
+            )
       ])
-    ]
-  )
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
@@ -51406,13 +51417,31 @@ var staticRenderFns = [
       _c("tr", [
         _c("th"),
         _vm._v(" "),
-        _c("th", { staticClass: "text-right" }, [_vm._v("Anzahl")]),
+        _c("th", { staticClass: "text-right text-overflow-ellipsis" }, [
+          _vm._v("Anzahl")
+        ]),
         _vm._v(" "),
-        _c("th", { staticClass: "text-right" }, [_vm._v("Einkauf")]),
+        _c(
+          "th",
+          {
+            staticClass:
+              "text-right d-none d-xl-table-cell text-overflow-ellipsis"
+          },
+          [_vm._v("Einkauf")]
+        ),
         _vm._v(" "),
-        _c("th", { staticClass: "text-right" }, [_vm._v("Verkauf")]),
+        _c("th", { staticClass: "text-right text-overflow-ellipsis" }, [
+          _vm._v("Verkauf")
+        ]),
         _vm._v(" "),
-        _c("th", { staticClass: "text-right" }, [_vm._v("Differenz")])
+        _c(
+          "th",
+          {
+            staticClass:
+              "text-right d-none d-lg-table-cell text-overflow-ellipsis"
+          },
+          [_vm._v("Differenz")]
+        )
       ])
     ])
   }
@@ -51884,107 +51913,83 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _vm.items.length > 0
-    ? _c(
-        "div",
-        {
-          staticClass:
-            "col-12 col-md-6 col-lg-4 col-xl mb-3 mb-xl-0 d-none d-xl-block"
-        },
-        [
-          _c("div", { staticClass: "card h-100" }, [
-            _c("div", { staticClass: "card-header d-flex" }, [
-              _c("div", { staticClass: "col" }, [
-                _vm._v("Bezahlte Bestellungen")
-              ]),
-              _vm._v(" "),
-              _c("div", [
-                _c("i", {
-                  staticClass: "fas fa-sync pointer",
-                  class: { "fa-spin": _vm.syncing.status == 1 },
-                  on: { click: _vm.sync }
-                })
-              ])
+    ? _c("div", {}, [
+        _c("div", { staticClass: "card h-100" }, [
+          _c("div", { staticClass: "card-header d-flex" }, [
+            _c("div", { staticClass: "col" }, [
+              _vm._v("Bezahlte Bestellungen")
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "card-body" }, [
-              _vm.isLoading
-                ? _c(
-                    "div",
-                    { staticClass: "mt-3 p-5" },
-                    [
-                      _c("center", [
-                        _c("span", { staticStyle: { "font-size": "48px" } }, [
-                          _c("i", { staticClass: "fas fa-spinner fa-spin" }),
-                          _c("br")
-                        ]),
-                        _vm._v(
-                          "\n                    Lade Daten..\n                "
-                        )
-                      ])
-                    ],
-                    1
-                  )
-                : _c(
-                    "table",
-                    { staticClass: "table table-striped table-hover" },
-                    [
-                      _vm._m(0),
-                      _vm._v(" "),
-                      _c(
-                        "tbody",
-                        _vm._l(_vm.items, function(item, key) {
-                          return _c("tr", [
-                            _c("td", { staticClass: "align-middle" }, [
-                              _vm._v(_vm._s(item.paid_at_formatted))
+            _c("div", [
+              _c("i", {
+                staticClass: "fas fa-sync pointer",
+                class: { "fa-spin": _vm.syncing.status == 1 },
+                on: { click: _vm.sync }
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-body" }, [
+            _vm.isLoading
+              ? _c(
+                  "div",
+                  { staticClass: "mt-3 p-5" },
+                  [
+                    _c("center", [
+                      _c("span", { staticStyle: { "font-size": "48px" } }, [
+                        _c("i", { staticClass: "fas fa-spinner fa-spin" }),
+                        _c("br")
+                      ]),
+                      _vm._v(
+                        "\n                    Lade Daten..\n                "
+                      )
+                    ])
+                  ],
+                  1
+                )
+              : _c(
+                  "table",
+                  { staticClass: "table table-striped table-hover" },
+                  [
+                    _c(
+                      "tbody",
+                      _vm._l(_vm.items, function(item, key) {
+                        return _c("tr", [
+                          _c("td", { staticClass: "align-middle" }, [
+                            _vm._v(_vm._s(item.paid_at_formatted))
+                          ]),
+                          _vm._v(" "),
+                          _c("td", { staticClass: "align-middle" }, [
+                            _c("a", { attrs: { href: item.path } }, [
+                              _vm._v(_vm._s(item.cardmarket_order_id))
                             ]),
                             _vm._v(" "),
-                            _c("td", { staticClass: "align-middle" }, [
-                              _c("a", { attrs: { href: item.path } }, [
-                                _vm._v(_vm._s(item.cardmarket_order_id))
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "text-muted" }, [
-                                _vm._v(_vm._s(item.buyer.name))
-                              ])
+                            _c("div", { staticClass: "text-muted" }, [
+                              _vm._v(_vm._s(item.buyer.name))
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("td", { staticClass: "align-middle" }, [
+                            _c("div", [
+                              _vm._v(_vm._s(item.revenue_formatted) + " € ")
                             ]),
                             _vm._v(" "),
-                            _c("td", { staticClass: "align-middle" }, [
-                              _c("div", [
-                                _vm._v(_vm._s(item.revenue_formatted) + " € ")
-                              ]),
-                              _vm._v(" "),
-                              _c("div", [
-                                _vm._v(_vm._s(item.articles_count) + " Artikel")
-                              ])
+                            _c("div", [
+                              _vm._v(_vm._s(item.articles_count) + " Artikel")
                             ])
                           ])
-                        }),
-                        0
-                      )
-                    ]
-                  )
-            ])
+                        ])
+                      }),
+                      0
+                    )
+                  ]
+                )
           ])
-        ]
-      )
+        ])
+      ])
     : _vm._e()
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", [_vm._v("Datum")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Bestellung")]),
-        _vm._v(" "),
-        _c("th", { attrs: { width: "100" } })
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
