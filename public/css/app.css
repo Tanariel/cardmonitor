@@ -18260,6 +18260,14 @@ hr.divider {
   width: 100px;
 }
 
+.w-formatted-number {
+  width: 100px;
+}
+
+.w-action {
+  width: 150px;
+}
+
 .text-overflow-ellipsis,
 .col-label {
   white-space: nowrap;

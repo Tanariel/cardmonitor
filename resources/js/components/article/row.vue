@@ -1,62 +1,48 @@
 <template>
     <tr v-if="isEditing">
-        <td class="align-middle text-center">
-            <div class="form-group form-check mb-0">
-                <input :checked="selected" class="form-check-input" type="checkbox" :value="id" @change="$emit('input', id)" number>
-                <label class="form-check-label"></label>
-            </div>
-        </td>
-        <td class="align-middle text-center"><i class="fas fa-fw" :class="item.sync_icon" :title="item.sync_error || 'Karte synchronisiert'"></i></td>
-        <td class="align-middle text-center pointer"><i class="fas fa-image" @mouseover="show($event)" @mouseout="$emit('hide')"></i></td>
+        <td class="align-middle d-none d-lg-table-cell text-center"><i class="fas fa-fw" :class="item.sync_icon" :title="item.sync_error || 'Karte synchronisiert'"></i></td>
+        <td class="align-middle d-none d-xl-table-cell text-center pointer"><i class="fas fa-image" @mouseover="show($event)" @mouseout="$emit('hide')"></i></td>
         <td class="align-middle">
-            <span class="flag-icon" :class="'flag-icon-' + item.language.code" :title="item.language.name"></span> {{ item.localName }}
-            <div class="text-muted" v-if="item.language_id != 1">{{ item.card.name }}</div>
+            <span class="flag-icon" :class="'flag-icon-' + item.language.code" :title="item.language.name"></span> {{ item.localName }} ({{ item.card.number }})
+            <div class="d-none d-xl-table-cell text-muted" v-if="item.language_id != 1">{{ item.card.name }}</div>
         </td>
-        <td class="align-middle text-right">{{ item.card.number }}</td>
         <td class="align-middle text-center"><expansion-icon :expansion="item.card.expansion" :show-name="false"></expansion-icon></td>
-        <td class="align-middle text-center"><rarity :value="item.card.rarity"></rarity></td>
-        <td class="align-middle text-center">
+        <td class="align-middle d-none d-xl-table-cell text-center"><rarity :value="item.card.rarity"></rarity></td>
+        <td class="align-middle d-none d-lg-table-cell text-center">
             <select class="form-control" v-model="form.language_id">
                 <option :value="language_id" v-for="(name, language_id) in languages">{{ name }}</option>
             </select>
             <div class="invalid-feedback" v-text="'unit_price_formatted' in errors ? errors.unit_price_formatted[0] : ''"></div>
         </td>
-        <td class="align-middle text-center">
+        <td class="align-middle d-none d-lg-table-cell text-center">
             <select class="form-control" v-model="form.condition">
                 <option :value="id" v-for="(name, id) in conditions">{{ name }}</option>
             </select>
             <div class="invalid-feedback" v-text="'condition' in errors ? errors.condition[0] : ''"></div>
         </td>
-        <td class="align-middle text-center">
+
+        <td class="align-middle d-none d-xl-table-cell">
             <div class="form-group form-check mb-0">
                 <input class="form-check-input" type="checkbox" id="is_foil" v-model="form.is_foil">
-                <label class="form-check-label" for="is_foil"></label>
+                <label class="form-check-label" for="is_foil">Foil</label>
             </div>
-        </td>
-        <td class="align-middle text-center">
             <div class="form-group form-check mb-0">
                 <input class="form-check-input" type="checkbox" id="is_signed" v-model="form.is_signed">
-                <label class="form-check-label" for="is_signed"></label>
+                <label class="form-check-label" for="is_signed">Signed</label>
             </div>
-        </td>
-        <td class="align-middle text-center">
             <div class="form-group form-check mb-0">
                 <input class="form-check-input" type="checkbox" id="is_playset" v-model="form.is_playset">
-                <label class="form-check-label" for="is_playset"></label>
+                <label class="form-check-label" for="is_playset">Playset</label>
             </div>
         </td>
-        <td class="align-middle">
-            <input class="form-control" :class="'cardmarket_comments' in errors ? 'is-invalid' : ''" type="text" v-model="form.cardmarket_comments" @keydown.enter="update(false)">
-            <div class="invalid-feedback" v-text="'cardmarket_comments' in errors ? errors.cardmarket_comments[0] : ''"></div>
-        </td>
-        <td class="align-middle text-center">
+        <td class="align-middle d-none d-xl-table-cell text-center">
             <select class="form-control" v-model="form.storage_id">
                 <option :value="null">Kein Lagerplatz</option>
                 <option :value="storage.id" v-for="(storage, key) in storages" v-html="storage.indentedName"></option>
             </select>
             <div class="invalid-feedback" v-text="'unit_price_formatted' in errors ? errors.unit_price_formatted[0] : ''"></div>
         </td>
-        <td class="align-middle text-right">
+        <td class="align-middle d-none d-sm-table-cell text-right">
             <div class="input-group">
                 <input class="form-control text-right" :class="'unit_price_formatted' in errors ? 'is-invalid' : ''" type="text" v-model="form.unit_price_formatted" @keydown.enter="update(false)">
                 <div class="input-group-append" v-if="item.rule_id">
@@ -67,13 +53,13 @@
             </div>
             <div class="invalid-feedback" v-text="'unit_price_formatted' in errors ? errors.unit_price_formatted[0] : ''"></div>
         </td>
-        <td class="align-middle text-right">
+        <td class="align-middle d-none d-xl-table-cell text-right">
             <input class="form-control text-right" :class="'unit_cost_formatted' in errors ? 'is-invalid' : ''" type="text" v-model="form.unit_cost_formatted" @keydown.enter="update(false)">
             <div class="invalid-feedback" v-text="'unit_cost_formatted' in errors ? errors.unit_cost_formatted[0] : ''"></div>
         </td>
-        <td class="align-middle text-right">{{ Number(item.provision).format(2, ',', '.') }} €</td>
-        <td class="align-middle text-right pointer">{{ Number(item.unit_price - item.unit_cost - item.provision).format(2, ',', '.') }} €</td>
-        <td class="align-middle text-right">
+        <td class="align-middle d-none d-xl-table-cell text-right">{{ Number(item.provision).format(2, ',', '.') }} €</td>
+        <td class="align-middle text-right d-none d-xl-table-cell pointer">{{ Number(item.unit_price - item.unit_cost - item.provision).format(2, ',', '.') }} €</td>
+        <td class="align-middle d-none d-sm-table-cell text-right">
             <div class="btn-group btn-group-sm" role="group">
                 <button type="button" class="btn btn-secondary" title="Speichern" @click="update(false)"><i class="fas fa-fw fa-save"></i></button>
                 <button type="button" class="btn btn-secondary" title="Speichern & Exportieren" @click="update(true)"><i class="fas fa-fw fa-cloud-upload-alt"></i></button>
@@ -82,37 +68,33 @@
         </td>
     </tr>
     <tr v-else>
-        <td class="align-middle text-center">
-            <label class="form-checkbox"></label>
-            <input :checked="selected" type="checkbox" :value="id"  @change="$emit('input', id)" number>
-        </td>
-        <td class="align-middle text-center"><i class="fas fa-fw fa-euro-sign text-success" title="Verkauft"></i></td>
-        <td class="align-middle pointer"><i class="fas fa-image" @mouseover="show($event)" @mouseout="$emit('hide')"></i></td>
+        <td class="align-middle d-none d-lg-table-cell text-center"><i class="fas fa-fw fa-euro-sign text-success" title="Verkauft"></i></td>
+        <td class="align-middle d-none d-xl-table-cell pointer"><i class="fas fa-image" @mouseover="show($event)" @mouseout="$emit('hide')"></i></td>
         <td class="align-middle">
-            <span class="flag-icon" :class="'flag-icon-' + item.language.code" :title="item.language.name"></span> {{ item.localName }}
+            <span class="flag-icon" :class="'flag-icon-' + item.language.code" :title="item.language.name"></span> {{ item.localName }} ({{ item.card.number }})
             <div class="text-muted" v-if="item.language_id != 1">{{ item.card.name }}</div></td>
-        <td class="align-middle text-right">{{ item.card.number }}</td>
         <td class="align-middle text-center"><expansion-icon :expansion="item.card.expansion" :show-name="false"></expansion-icon></td>
-        <td class="align-middle text-center"><rarity :value="item.card.rarity"></rarity></td>
-        <td class="align-middle text-center"><span class="flag-icon" :class="'flag-icon-' + item.language.code" :title="item.language.name"></span></td>
-        <td class="align-middle text-center"><condition :value="item.condition"></condition></td>
-        <td class="align-middle text-center"><i class="fas fa-star text-warning" v-if="item.is_foil"></i></td>
-        <td class="align-middle text-center"></td>
-        <td class="align-middle text-center"></td>
-        <td class="align-middle">{{ item.cardmarket_comments }}</td>
-        <td class="align-middle">{{ item.storage_id ? item.storage.full_name : 'Kein Lagerplatz' }}</td>
-        <td class="align-middle text-right">{{ Number(item.unit_price).format(2, ',', '.') }} €</td>
-        <td class="align-middle text-right">
+        <td class="align-middle d-none d-xl-table-cell text-center"><rarity :value="item.card.rarity"></rarity></td>
+        <td class="align-middle d-none d-lg-table-cell text-center"><span class="flag-icon" :class="'flag-icon-' + item.language.code" :title="item.language.name"></span></td>
+        <td class="align-middle d-none d-lg-table-cell text-center"><condition :value="item.condition"></condition></td>
+        <td class="align-middle d-none d-xl-table-cell text-center">
+            <i class="fas fa-star text-warning" v-if="item.is_foil"></i>
+            <span v-if="item.is_signed">S</span>
+            <span v-if="item.is_playset">P</span>
+        </td>
+        <td class="align-middle d-none d-xl-table-cell">{{ item.storage_id ? item.storage.full_name : 'Kein Lagerplatz' }}</td>
+        <td class="align-middle d-none d-sm-table-cell text-right">{{ Number(item.unit_price).format(2, ',', '.') }} €</td>
+        <td class="align-middle d-none d-xl-table-cell text-right">
             <input class="form-control text-right" :class="'unit_cost_formatted' in errors ? 'is-invalid' : ''" type="text" v-model="form.unit_cost_formatted" @keydown.enter="update(false)">
             <div class="invalid-feedback" v-text="'unit_cost_formatted' in errors ? errors.unit_cost_formatted[0] : ''"></div>
         </td>
-        <td class="align-middle text-right">
+        <td class="align-middle d-none d-xl-table-cell text-right">
             <input class="form-control text-right" :class="'provision_formatted' in errors ? 'is-invalid' : ''" type="text" v-model="form.provision_formatted" @keydown.enter="update">
             <div class="invalid-feedback" v-text="'provision_formatted' in errors ? errors.provision_formatted[0] : ''"></div></td>
-        <td class="align-middle text-right pointer">{{ Number(item.unit_price - item.unit_cost - item.provision).format(2, ',', '.') }} €</td>
-        <td class="align-middle text-right">
+        <td class="align-middle d-none d-xl-table-cell text-right pointer">{{ Number(item.unit_price - item.unit_cost - item.provision).format(2, ',', '.') }} €</td>
+        <td class="align-middle d-none d-sm-table-cell text-right">
             <div class="btn-group btn-group-sm" role="group">
-                <a class="btn btn-secondary" :href="item.order.path" :title="'Bestellung ' + item.order.cardmarket_order_id"><i class="fas fa-box"></i></a>
+                <a class="btn btn-secondary" :href="item.orders[0].path" :title="'Bestellung ' + item.orders[0].cardmarket_order_id"><i class="fas fa-box"></i></a>
                 <button type="button" class="btn btn-secondary" title="Speichern" @click="update(false)"><i class="fas fa-fw fa-save"></i></button>
             </div>
         </td>
@@ -137,7 +119,8 @@
         data () {
             return {
                 id: this.item.id,
-                isEditing: (this.item.order_id ? false : true),
+                isEditing: (this.item.sold_at ? false : true),
+                isAdvancedEditing: false,
                 form: {
                     cardmarket_comments: this.item.cardmarket_comments,
                     condition: this.item.condition,

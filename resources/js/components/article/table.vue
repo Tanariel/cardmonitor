@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="row">
-            <div class="col">
+            <div class="col mb-1 mb-sm-0">
                 <a href="/article/create" class="btn btn-primary"><i class="fas fa-plus-square"></i></a>
             </div>
             <div class="col-auto d-flex">
@@ -10,7 +10,7 @@
                 </div>
                 <button class="btn btn-secondary ml-1" @click="filter.show = !filter.show"><i class="fas fa-filter"></i></button>
                 <button class="btn btn-secondary ml-1" @click="sync" :disabled="syncing.status == 1"><i class="fas fa-sync" :class="{'fa-spin': syncing.status == 1}"></i></button>
-                <button type="button" class="btn btn-primary ml-1" data-toggle="modal" data-target="#confirm-rule-apply" :disabled="applying.status == 1">
+                <button type="button" class="btn btn-primary text-overflow-ellipsis ml-1" title="Regeln anwenden" data-toggle="modal" data-target="#confirm-rule-apply" :disabled="applying.status == 1">
                     <i class="fas fa-spinner fa-spin mr-1" v-show="applying.status == 1"></i>Regeln anwenden
                 </button>
             </div>
@@ -96,28 +96,20 @@
             <table class="table table-hover table-striped bg-white">
                 <thead>
                     <tr>
-                        <th class="align-middle text-center w-checkbox">
-                            <label class="form-checkbox" for="checkall"></label>
-                            <input id="checkall" type="checkbox" v-model="selectAll">
-                        </th>
-                        <th class="text-center w-icon">Sync</th>
-                        <th class="text-right w-icon"></th>
+                        <th class="text-center d-none d-lg-table-cell w-icon">Sync</th>
+                        <th class="text-right d-none d-xl-table-cell w-icon"></th>
                         <th class="">Name</th>
-                        <th class="text-right" width="50">#</th>
                         <th class="w-icon"></th>
-                        <th class="text-center w-icon"></th>
-                        <th class="text-center">Sprache</th>
-                        <th class="text-center">Zustand</th>
-                        <th class="text-center w-checkbox">Foil</th>
-                        <th class="text-center w-checkbox">Signiert</th>
-                        <th class="text-center w-checkbox">Playset</th>
-                        <th class="">Hinweise</th>
-                        <th>Lagerplatz</th>
-                        <th class="text-right">Verkaufspreis</th>
-                        <th class="text-right">Einkaufspreis</th>
-                        <th class="text-right">Provision</th>
-                        <th class="text-right" title="Voraussichtlicher Gewinn ohne allgemeine Kosten" width="100">Gewinn</th>
-                        <th class="text-right" width="150">Aktion</th>
+                        <th class="text-center d-none d-xl-table-cell w-icon"></th>
+                        <th class="text-center d-none d-lg-table-cell">Sprache</th>
+                        <th class="text-center d-none d-lg-table-cell">Zustand</th>
+                        <th class="d-none d-xl-table-cell" style="width: 100px;"></th>
+                        <th class="d-none d-xl-table-cell">Lagerplatz</th>
+                        <th class="text-right d-none d-sm-table-cell">Verkaufspreis</th>
+                        <th class="text-right d-none d-xl-table-cell">Einkaufspreis</th>
+                        <th class="text-right d-none d-xl-table-cell w-formatted-number">Provision</th>
+                        <th class="text-right d-none d-xl-table-cell w-formatted-number" title="Voraussichtlicher Gewinn ohne allgemeine Kosten" width="100">Gewinn</th>
+                        <th class="text-right d-none d-sm-table-cell w-action">Aktion</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -254,7 +246,7 @@
                     lastPage: 0,
                 },
                 filter: {
-                    show: true,
+                    show: false,
                     page: 1,
                     searchtext: '',
                     cardmarket_comments: '',
@@ -265,7 +257,7 @@
                     unit_price_max: 0,
                     unit_cost_min: 0,
                     unit_cost_max: 0,
-                    sold: 0,
+                    sold: -1,
                     sync: -1,
                 },
                 selected: [],

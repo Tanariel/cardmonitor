@@ -28,9 +28,9 @@
                 <table class="table table-hover table-striped" v-else-if="cards.length">
                     <tbody>
                         <tr v-for="(card, index) in cards" @click="setItem(card, index)">
-                            <td class="align-middle text-center pointer" width="50"><i class="fas fa-image" @mouseover="showImgbox({src: card.imagePath, top: ($event.layerY + 100) + 'px', left: ($event.layerX + 50) + 'px'})" @mouseout="hideImgbox"></i></td>
-                            <td class="align-middle pointer"><expansion-icon :expansion="card.expansion"></expansion-icon></td>
-                            <td class="align-middle text-center" width="50"><rarity :value="card.rarity"></rarity></td>
+                            <td class="align-middle text-center pointer w-icon"><i class="fas fa-image" @mouseover="showImgbox({src: card.imagePath, top: ($event.layerY + 100) + 'px', left: ($event.layerX + 50) + 'px'})" @mouseout="hideImgbox"></i></td>
+                            <td class="align-middle pointer w-icon"><expansion-icon :expansion="card.expansion" :show-name="false"></expansion-icon></td>
+                            <td class="align-middle text-center w-icon"><rarity :value="card.rarity"></rarity></td>
                             <td class="align-middle pointer">
                                 <div>{{ card.local_name }}</div>
                                 <div class="text-muted" v-if="filter.language_id != 1">{{ card.name }}</div>
@@ -46,7 +46,14 @@
                 <div class="col">
                     <table class="table table-striped">
                         <tbody>
-                            <tr>
+                            <tr class="d-sm-none d-table-row">
+                                <td class="align-middle" width="150">Artikel</td>
+                                <td class="align-middle" width="100%">
+                                    <div>{{ item.local_name }}</div>
+                                    <div class="text-muted" v-if="filter.language_id != 1">{{ item.name }}</div>
+                                </td>
+                            </tr>
+                            <tr class="d-none d-sm-table-row">
                                 <td class="align-middle" width="150">Artikel</td>
                                 <td class="align-middle" colspan="2" width="100%">
                                     <div>{{ item.local_name }}</div>
@@ -64,7 +71,7 @@
                                         <div class="invalid-feedback" v-text="'storage' in errors ? errors.storage[0] : ''"></div>
                                     </div>
                                 </td>
-                                <td width="70%"></td>
+                                <td class="d-none d-sm-table-cell" width="70%"></td>
                             </tr>
                             <tr>
                                 <td class="align-middle">Anzahl</td>
@@ -74,7 +81,7 @@
                                         <div class="invalid-feedback" v-text="'count' in errors ? errors.count[0] : ''"></div>
                                     </div>
                                 </td>
-                                <td class="align-middle">
+                                <td class="align-middle d-none d-sm-table-cell">
                                     <div class="btn-group btn-group-sm" role="group">
                                         <button class="btn btn-secondary" @click="form.count = 1">1</button>
                                         <button class="btn btn-secondary" @click="form.count = 2">2</button>
@@ -93,7 +100,7 @@
                                         <div class="invalid-feedback" v-text="'language_id' in errors ? errors.language_id[0] : ''"></div>
                                     </div>
                                 </td>
-                                <td></td>
+                                <td class="d-none d-sm-table-cell"></td>
                             </tr>
                             <tr>
                                 <td class="align-middle">Zustand</td>
@@ -105,7 +112,7 @@
                                         <div class="invalid-feedback" v-text="'condition' in errors ? errors.condition[0] : ''"></div>
                                     </div>
                                 </td>
-                                <td class="align-middle">
+                                <td class="align-middle d-none d-sm-table-cell">
                                     <div class="btn-group btn-group-sm" role="group">
                                         <button class="btn btn-secondary" @click="form.condition = conditionKeys[conditionIndex - 1]" :disabled="conditionIndex == 0">+</button>
                                         <button class="btn btn-secondary" @click="form.condition = conditionKeys[conditionIndex + 1]" :disabled="conditionIndex == 6">-</button>
@@ -120,7 +127,7 @@
                                         <label class="form-check-label" for="is_foil"></label>
                                     </div>
                                 </td>
-                                <td class="align-middle"></td>
+                                <td class="align-middle d-none d-sm-table-cell"></td>
                             </tr>
                             <tr>
                                 <td class="align-middle">Signiert?</td>
@@ -130,7 +137,7 @@
                                         <label class="form-check-label" for="is_signed"></label>
                                     </div>
                                 </td>
-                                <td class="align-middle"></td>
+                                <td class="align-middle d-none d-sm-table-cell"></td>
                             </tr>
                             <tr>
                                 <td class="align-middle">Playset?</td>
@@ -140,7 +147,7 @@
                                         <label class="form-check-label" for="is_playset"></label>
                                     </div>
                                 </td>
-                                <td class="align-middle"></td>
+                                <td class="align-middle d-none d-sm-table-cell"></td>
                             </tr>
                             <tr>
                                 <td class="align-middle">Altered?</td>
@@ -150,7 +157,7 @@
                                         <label class="form-check-label" for="is_altered"></label>
                                     </div>
                                 </td>
-                                <td class="align-middle"></td>
+                                <td class="align-middle d-none d-sm-table-cell"></td>
                             </tr>
                             <tr>
                                 <td class="align-middle">Hinweise</td>
@@ -170,7 +177,7 @@
                                         <div class="invalid-feedback" v-text="'unit_cost_formatted' in errors ? errors.unit_cost_formatted[0] : ''"></div>
                                     </div>
                                 </td>
-                                <td></td>
+                                <td class="align-middle d-none d-sm-table-cell"></td>
                             </tr>
                             <tr>
                                 <td class="align-middle">Preis</td>
@@ -179,8 +186,8 @@
                                         <input class="form-control text-right" :class="'unit_price_formatted' in errors ? 'is-invalid' : ''" type="text" v-model="form.unit_price_formatted" @keydown.enter="create(false)">
                                         <div class="invalid-feedback" v-text="'unit_price_formatted' in errors ? errors.unit_price_formatted[0] : ''"></div>
                                     </div>
-                                </td>
-                                <td class="align-middle">
+                                </td class="align-middle d-none d-sm-table-cell">
+                                <td class="align-middle d-none d-sm-table-cell">
                                     <div class="btn-group btn-group-sm" role="group" v-show="isLoadingPrices == false">
                                         <button class="btn btn-secondary" @click="setPrice('low')">LOW</button>
                                         <button class="btn btn-secondary" @click="setPrice('sell')">SELL</button>
@@ -197,7 +204,7 @@
                     <button class="btn btn-primary" title="Anlegen & Exportieren" @click="create(true)"><i class="fas fa-fw fa-cloud-upload-alt"></i></button>
                     <button class="btn btn-secondary" title="Abbrechen" @click="item = null"><i class="fas fa-fw fa-times"></i></button>
                 </div>
-                <div class="col">
+                <div class="col-xl d-none d-xl-block">
                     <img :src="item.imagePath">
                 </div>
             </div>
@@ -207,28 +214,20 @@
                 <table class="table table-hover table-striped">
                     <thead>
                         <tr>
-                            <th width="25">
-                                <label class="form-checkbox" for="checkall"></label>
-                                <input id="checkall" type="checkbox" v-model="selectAll">
-                            </th>
-                            <th class="text-center" width="50">Sync</th>
-                            <th class="text-right" width="50"></th>
+                            <th class="text-center d-none d-lg-table-cell w-icon">Sync</th>
+                            <th class="text-right d-none d-xl-table-cell w-icon"></th>
                             <th class="">Name</th>
-                            <th class="text-right" width="50">#</th>
-                            <th class=""></th>
-                            <th class="text-center" width="75">Seltenheit</th>
-                            <th class="text-center">Sprache</th>
-                            <th class="text-center">Zustand</th>
-                            <th class="text-center" width="75">Foil</th>
-                            <th class="text-center" width="75">Signiert</th>
-                            <th class="text-center" width="75">Playset</th>
-                            <th class="">Hinweise</th>
-                            <th>Lagerplatz</th>
-                            <th class="text-right">Verkaufspreis</th>
-                            <th class="text-right">Einkaufspreis</th>
-                            <th class="text-right">Provision</th>
-                            <th class="text-right" title="Voraussichtlicher Gewinn ohne allgemeine Kosten" width="100">Gewinn</th>
-                            <th class="text-right" width="150">Aktion</th>
+                            <th class="w-icon"></th>
+                            <th class="text-center d-none d-xl-table-cell w-icon"></th>
+                            <th class="text-center d-none d-lg-table-cell">Sprache</th>
+                            <th class="text-center d-none d-lg-table-cell">Zustand</th>
+                            <th class="d-none d-xl-table-cell" style="width: 100px;"></th>
+                            <th class="d-none d-xl-table-cell">Lagerplatz</th>
+                            <th class="text-right d-none d-sm-table-cell">Verkaufspreis</th>
+                            <th class="text-right d-none d-xl-table-cell">Einkaufspreis</th>
+                            <th class="text-right d-none d-xl-table-cell w-formatted-number">Provision</th>
+                            <th class="text-right d-none d-xl-table-cell w-formatted-number" title="Voraussichtlicher Gewinn ohne allgemeine Kosten" width="100">Gewinn</th>
+                            <th class="text-right d-none d-sm-table-cell w-action">Aktion</th>
                         </tr>
                     </thead>
                     <tbody>

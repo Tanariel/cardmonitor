@@ -2108,7 +2108,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 
 
@@ -2466,24 +2465,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -2497,7 +2478,8 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       id: this.item.id,
-      isEditing: this.item.order_id ? false : true,
+      isEditing: this.item.sold_at ? false : true,
+      isAdvancedEditing: false,
       form: {
         cardmarket_comments: this.item.cardmarket_comments,
         condition: this.item.condition,
@@ -2772,14 +2754,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -2858,7 +2832,7 @@ __webpack_require__.r(__webpack_exports__);
         lastPage: 0
       },
       filter: {
-        show: true,
+        show: false,
         page: 1,
         searchtext: '',
         cardmarket_comments: '',
@@ -2869,7 +2843,7 @@ __webpack_require__.r(__webpack_exports__);
         unit_price_max: 0,
         unit_cost_min: 0,
         unit_cost_max: 0,
-        sold: 0,
+        sold: -1,
         sync: -1
       },
       selected: [],
@@ -47707,8 +47681,8 @@ var render = function() {
                         _c(
                           "td",
                           {
-                            staticClass: "align-middle text-center pointer",
-                            attrs: { width: "50" }
+                            staticClass:
+                              "align-middle text-center pointer w-icon"
                           },
                           [
                             _c("i", {
@@ -47729,10 +47703,13 @@ var render = function() {
                         _vm._v(" "),
                         _c(
                           "td",
-                          { staticClass: "align-middle pointer" },
+                          { staticClass: "align-middle pointer w-icon" },
                           [
                             _c("expansion-icon", {
-                              attrs: { expansion: card.expansion }
+                              attrs: {
+                                expansion: card.expansion,
+                                "show-name": false
+                              }
                             })
                           ],
                           1
@@ -47740,10 +47717,7 @@ var render = function() {
                         _vm._v(" "),
                         _c(
                           "td",
-                          {
-                            staticClass: "align-middle text-center",
-                            attrs: { width: "50" }
-                          },
+                          { staticClass: "align-middle text-center w-icon" },
                           [_c("rarity", { attrs: { value: card.rarity } })],
                           1
                         ),
@@ -47779,7 +47753,29 @@ var render = function() {
             _c("div", { staticClass: "col" }, [
               _c("table", { staticClass: "table table-striped" }, [
                 _c("tbody", [
-                  _c("tr", [
+                  _c("tr", { staticClass: "d-sm-none d-table-row" }, [
+                    _c(
+                      "td",
+                      { staticClass: "align-middle", attrs: { width: "150" } },
+                      [_vm._v("Artikel")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      { staticClass: "align-middle", attrs: { width: "100%" } },
+                      [
+                        _c("div", [_vm._v(_vm._s(_vm.item.local_name))]),
+                        _vm._v(" "),
+                        _vm.filter.language_id != 1
+                          ? _c("div", { staticClass: "text-muted" }, [
+                              _vm._v(_vm._s(_vm.item.name))
+                            ])
+                          : _vm._e()
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("tr", { staticClass: "d-none d-sm-table-row" }, [
                     _c(
                       "td",
                       { staticClass: "align-middle", attrs: { width: "150" } },
@@ -47878,7 +47874,10 @@ var render = function() {
                       ]
                     ),
                     _vm._v(" "),
-                    _c("td", { attrs: { width: "70%" } })
+                    _c("td", {
+                      staticClass: "d-none d-sm-table-cell",
+                      attrs: { width: "70%" }
+                    })
                   ]),
                   _vm._v(" "),
                   _c("tr", [
@@ -47937,68 +47936,72 @@ var render = function() {
                       ])
                     ]),
                     _vm._v(" "),
-                    _c("td", { staticClass: "align-middle" }, [
-                      _c(
-                        "div",
-                        {
-                          staticClass: "btn-group btn-group-sm",
-                          attrs: { role: "group" }
-                        },
-                        [
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-secondary",
-                              on: {
-                                click: function($event) {
-                                  _vm.form.count = 1
+                    _c(
+                      "td",
+                      { staticClass: "align-middle d-none d-sm-table-cell" },
+                      [
+                        _c(
+                          "div",
+                          {
+                            staticClass: "btn-group btn-group-sm",
+                            attrs: { role: "group" }
+                          },
+                          [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-secondary",
+                                on: {
+                                  click: function($event) {
+                                    _vm.form.count = 1
+                                  }
                                 }
-                              }
-                            },
-                            [_vm._v("1")]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-secondary",
-                              on: {
-                                click: function($event) {
-                                  _vm.form.count = 2
+                              },
+                              [_vm._v("1")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-secondary",
+                                on: {
+                                  click: function($event) {
+                                    _vm.form.count = 2
+                                  }
                                 }
-                              }
-                            },
-                            [_vm._v("2")]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-secondary",
-                              on: {
-                                click: function($event) {
-                                  _vm.form.count = 3
+                              },
+                              [_vm._v("2")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-secondary",
+                                on: {
+                                  click: function($event) {
+                                    _vm.form.count = 3
+                                  }
                                 }
-                              }
-                            },
-                            [_vm._v("3")]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-secondary",
-                              on: {
-                                click: function($event) {
-                                  _vm.form.count = 4
+                              },
+                              [_vm._v("3")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-secondary",
+                                on: {
+                                  click: function($event) {
+                                    _vm.form.count = 4
+                                  }
                                 }
-                              }
-                            },
-                            [_vm._v("4")]
-                          )
-                        ]
-                      )
-                    ])
+                              },
+                              [_vm._v("4")]
+                            )
+                          ]
+                        )
+                      ]
+                    )
                   ]),
                   _vm._v(" "),
                   _c("tr", [
@@ -48061,7 +48064,7 @@ var render = function() {
                       ])
                     ]),
                     _vm._v(" "),
-                    _c("td")
+                    _c("td", { staticClass: "d-none d-sm-table-cell" })
                   ]),
                   _vm._v(" "),
                   _c("tr", [
@@ -48124,46 +48127,50 @@ var render = function() {
                       ])
                     ]),
                     _vm._v(" "),
-                    _c("td", { staticClass: "align-middle" }, [
-                      _c(
-                        "div",
-                        {
-                          staticClass: "btn-group btn-group-sm",
-                          attrs: { role: "group" }
-                        },
-                        [
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-secondary",
-                              attrs: { disabled: _vm.conditionIndex == 0 },
-                              on: {
-                                click: function($event) {
-                                  _vm.form.condition =
-                                    _vm.conditionKeys[_vm.conditionIndex - 1]
+                    _c(
+                      "td",
+                      { staticClass: "align-middle d-none d-sm-table-cell" },
+                      [
+                        _c(
+                          "div",
+                          {
+                            staticClass: "btn-group btn-group-sm",
+                            attrs: { role: "group" }
+                          },
+                          [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-secondary",
+                                attrs: { disabled: _vm.conditionIndex == 0 },
+                                on: {
+                                  click: function($event) {
+                                    _vm.form.condition =
+                                      _vm.conditionKeys[_vm.conditionIndex - 1]
+                                  }
                                 }
-                              }
-                            },
-                            [_vm._v("+")]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-secondary",
-                              attrs: { disabled: _vm.conditionIndex == 6 },
-                              on: {
-                                click: function($event) {
-                                  _vm.form.condition =
-                                    _vm.conditionKeys[_vm.conditionIndex + 1]
+                              },
+                              [_vm._v("+")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-secondary",
+                                attrs: { disabled: _vm.conditionIndex == 6 },
+                                on: {
+                                  click: function($event) {
+                                    _vm.form.condition =
+                                      _vm.conditionKeys[_vm.conditionIndex + 1]
+                                  }
                                 }
-                              }
-                            },
-                            [_vm._v("-")]
-                          )
-                        ]
-                      )
-                    ])
+                              },
+                              [_vm._v("-")]
+                            )
+                          ]
+                        )
+                      ]
+                    )
                   ]),
                   _vm._v(" "),
                   _c("tr", [
@@ -48228,7 +48235,9 @@ var render = function() {
                       ])
                     ]),
                     _vm._v(" "),
-                    _c("td", { staticClass: "align-middle" })
+                    _c("td", {
+                      staticClass: "align-middle d-none d-sm-table-cell"
+                    })
                   ]),
                   _vm._v(" "),
                   _c("tr", [
@@ -48293,7 +48302,9 @@ var render = function() {
                       ])
                     ]),
                     _vm._v(" "),
-                    _c("td", { staticClass: "align-middle" })
+                    _c("td", {
+                      staticClass: "align-middle d-none d-sm-table-cell"
+                    })
                   ]),
                   _vm._v(" "),
                   _c("tr", [
@@ -48358,7 +48369,9 @@ var render = function() {
                       ])
                     ]),
                     _vm._v(" "),
-                    _c("td", { staticClass: "align-middle" })
+                    _c("td", {
+                      staticClass: "align-middle d-none d-sm-table-cell"
+                    })
                   ]),
                   _vm._v(" "),
                   _c("tr", [
@@ -48423,7 +48436,9 @@ var render = function() {
                       ])
                     ]),
                     _vm._v(" "),
-                    _c("td", { staticClass: "align-middle" })
+                    _c("td", {
+                      staticClass: "align-middle d-none d-sm-table-cell"
+                    })
                   ]),
                   _vm._v(" "),
                   _c("tr", [
@@ -48559,7 +48574,9 @@ var render = function() {
                       ])
                     ]),
                     _vm._v(" "),
-                    _c("td")
+                    _c("td", {
+                      staticClass: "align-middle d-none d-sm-table-cell"
+                    })
                   ]),
                   _vm._v(" "),
                   _c("tr", [
@@ -48629,7 +48646,7 @@ var render = function() {
                     _vm._v(" "),
                     _c(
                       "td",
-                      { staticClass: "align-middle" },
+                      { staticClass: "align-middle d-none d-sm-table-cell" },
                       [
                         _c(
                           "div",
@@ -48786,7 +48803,7 @@ var render = function() {
               )
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "col" }, [
+            _c("div", { staticClass: "col-xl d-none d-xl-block" }, [
               _c("img", { attrs: { src: _vm.item.imagePath } })
             ])
           ])
@@ -48809,132 +48826,7 @@ var render = function() {
         },
         [
           _c("table", { staticClass: "table table-hover table-striped" }, [
-            _c("thead", [
-              _c("tr", [
-                _c("th", { attrs: { width: "25" } }, [
-                  _c("label", {
-                    staticClass: "form-checkbox",
-                    attrs: { for: "checkall" }
-                  }),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.selectAll,
-                        expression: "selectAll"
-                      }
-                    ],
-                    attrs: { id: "checkall", type: "checkbox" },
-                    domProps: {
-                      checked: Array.isArray(_vm.selectAll)
-                        ? _vm._i(_vm.selectAll, null) > -1
-                        : _vm.selectAll
-                    },
-                    on: {
-                      change: function($event) {
-                        var $$a = _vm.selectAll,
-                          $$el = $event.target,
-                          $$c = $$el.checked ? true : false
-                        if (Array.isArray($$a)) {
-                          var $$v = null,
-                            $$i = _vm._i($$a, $$v)
-                          if ($$el.checked) {
-                            $$i < 0 && (_vm.selectAll = $$a.concat([$$v]))
-                          } else {
-                            $$i > -1 &&
-                              (_vm.selectAll = $$a
-                                .slice(0, $$i)
-                                .concat($$a.slice($$i + 1)))
-                          }
-                        } else {
-                          _vm.selectAll = $$c
-                        }
-                      }
-                    }
-                  })
-                ]),
-                _vm._v(" "),
-                _c(
-                  "th",
-                  { staticClass: "text-center", attrs: { width: "50" } },
-                  [_vm._v("Sync")]
-                ),
-                _vm._v(" "),
-                _c("th", { staticClass: "text-right", attrs: { width: "50" } }),
-                _vm._v(" "),
-                _c("th", {}, [_vm._v("Name")]),
-                _vm._v(" "),
-                _c(
-                  "th",
-                  { staticClass: "text-right", attrs: { width: "50" } },
-                  [_vm._v("#")]
-                ),
-                _vm._v(" "),
-                _c("th", {}),
-                _vm._v(" "),
-                _c(
-                  "th",
-                  { staticClass: "text-center", attrs: { width: "75" } },
-                  [_vm._v("Seltenheit")]
-                ),
-                _vm._v(" "),
-                _c("th", { staticClass: "text-center" }, [_vm._v("Sprache")]),
-                _vm._v(" "),
-                _c("th", { staticClass: "text-center" }, [_vm._v("Zustand")]),
-                _vm._v(" "),
-                _c(
-                  "th",
-                  { staticClass: "text-center", attrs: { width: "75" } },
-                  [_vm._v("Foil")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "th",
-                  { staticClass: "text-center", attrs: { width: "75" } },
-                  [_vm._v("Signiert")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "th",
-                  { staticClass: "text-center", attrs: { width: "75" } },
-                  [_vm._v("Playset")]
-                ),
-                _vm._v(" "),
-                _c("th", {}, [_vm._v("Hinweise")]),
-                _vm._v(" "),
-                _c("th", [_vm._v("Lagerplatz")]),
-                _vm._v(" "),
-                _c("th", { staticClass: "text-right" }, [
-                  _vm._v("Verkaufspreis")
-                ]),
-                _vm._v(" "),
-                _c("th", { staticClass: "text-right" }, [
-                  _vm._v("Einkaufspreis")
-                ]),
-                _vm._v(" "),
-                _c("th", { staticClass: "text-right" }, [_vm._v("Provision")]),
-                _vm._v(" "),
-                _c(
-                  "th",
-                  {
-                    staticClass: "text-right",
-                    attrs: {
-                      title: "Voraussichtlicher Gewinn ohne allgemeine Kosten",
-                      width: "100"
-                    }
-                  },
-                  [_vm._v("Gewinn")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "th",
-                  { staticClass: "text-right", attrs: { width: "150" } },
-                  [_vm._v("Aktion")]
-                )
-              ])
-            ]),
+            _vm._m(0),
             _vm._v(" "),
             _c(
               "tbody",
@@ -48996,7 +48888,79 @@ var render = function() {
     )
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { staticClass: "text-center d-none d-lg-table-cell w-icon" }, [
+          _vm._v("Sync")
+        ]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-right d-none d-xl-table-cell w-icon" }),
+        _vm._v(" "),
+        _c("th", {}, [_vm._v("Name")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w-icon" }),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-center d-none d-xl-table-cell w-icon" }),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-center d-none d-lg-table-cell" }, [
+          _vm._v("Sprache")
+        ]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-center d-none d-lg-table-cell" }, [
+          _vm._v("Zustand")
+        ]),
+        _vm._v(" "),
+        _c("th", {
+          staticClass: "d-none d-xl-table-cell",
+          staticStyle: { width: "100px" }
+        }),
+        _vm._v(" "),
+        _c("th", { staticClass: "d-none d-xl-table-cell" }, [
+          _vm._v("Lagerplatz")
+        ]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-right d-none d-sm-table-cell" }, [
+          _vm._v("Verkaufspreis")
+        ]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-right d-none d-xl-table-cell" }, [
+          _vm._v("Einkaufspreis")
+        ]),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass: "text-right d-none d-xl-table-cell w-formatted-number"
+          },
+          [_vm._v("Provision")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass: "text-right d-none d-xl-table-cell w-formatted-number",
+            attrs: {
+              title: "Voraussichtlicher Gewinn ohne allgemeine Kosten",
+              width: "100"
+            }
+          },
+          [_vm._v("Gewinn")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          { staticClass: "text-right d-none d-sm-table-cell w-action" },
+          [_vm._v("Aktion")]
+        )
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -49020,44 +48984,38 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _vm.isEditing
     ? _c("tr", [
-        _c("td", { staticClass: "align-middle text-center" }, [
-          _c("div", { staticClass: "form-group form-check mb-0" }, [
-            _c("input", {
-              staticClass: "form-check-input",
-              attrs: { type: "checkbox", number: "" },
-              domProps: { checked: _vm.selected, value: _vm.id },
+        _c(
+          "td",
+          { staticClass: "align-middle d-none d-lg-table-cell text-center" },
+          [
+            _c("i", {
+              staticClass: "fas fa-fw",
+              class: _vm.item.sync_icon,
+              attrs: { title: _vm.item.sync_error || "Karte synchronisiert" }
+            })
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "td",
+          {
+            staticClass:
+              "align-middle d-none d-xl-table-cell text-center pointer"
+          },
+          [
+            _c("i", {
+              staticClass: "fas fa-image",
               on: {
-                change: function($event) {
-                  return _vm.$emit("input", _vm.id)
+                mouseover: function($event) {
+                  return _vm.show($event)
+                },
+                mouseout: function($event) {
+                  return _vm.$emit("hide")
                 }
               }
-            }),
-            _vm._v(" "),
-            _c("label", { staticClass: "form-check-label" })
-          ])
-        ]),
-        _vm._v(" "),
-        _c("td", { staticClass: "align-middle text-center" }, [
-          _c("i", {
-            staticClass: "fas fa-fw",
-            class: _vm.item.sync_icon,
-            attrs: { title: _vm.item.sync_error || "Karte synchronisiert" }
-          })
-        ]),
-        _vm._v(" "),
-        _c("td", { staticClass: "align-middle text-center pointer" }, [
-          _c("i", {
-            staticClass: "fas fa-image",
-            on: {
-              mouseover: function($event) {
-                return _vm.show($event)
-              },
-              mouseout: function($event) {
-                return _vm.$emit("hide")
-              }
-            }
-          })
-        ]),
+            })
+          ]
+        ),
         _vm._v(" "),
         _c("td", { staticClass: "align-middle" }, [
           _c("span", {
@@ -49065,16 +49023,18 @@ var render = function() {
             class: "flag-icon-" + _vm.item.language.code,
             attrs: { title: _vm.item.language.name }
           }),
-          _vm._v(" " + _vm._s(_vm.item.localName) + "\n        "),
+          _vm._v(
+            " " +
+              _vm._s(_vm.item.localName) +
+              " (" +
+              _vm._s(_vm.item.card.number) +
+              ")\n        "
+          ),
           _vm.item.language_id != 1
-            ? _c("div", { staticClass: "text-muted" }, [
+            ? _c("div", { staticClass: "d-none d-xl-table-cell text-muted" }, [
                 _vm._v(_vm._s(_vm.item.card.name))
               ])
             : _vm._e()
-        ]),
-        _vm._v(" "),
-        _c("td", { staticClass: "align-middle text-right" }, [
-          _vm._v(_vm._s(_vm.item.card.number))
         ]),
         _vm._v(" "),
         _c(
@@ -49090,112 +49050,120 @@ var render = function() {
         _vm._v(" "),
         _c(
           "td",
-          { staticClass: "align-middle text-center" },
+          { staticClass: "align-middle d-none d-xl-table-cell text-center" },
           [_c("rarity", { attrs: { value: _vm.item.card.rarity } })],
           1
         ),
         _vm._v(" "),
-        _c("td", { staticClass: "align-middle text-center" }, [
-          _c(
-            "select",
-            {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.form.language_id,
-                  expression: "form.language_id"
+        _c(
+          "td",
+          { staticClass: "align-middle d-none d-lg-table-cell text-center" },
+          [
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.form.language_id,
+                    expression: "form.language_id"
+                  }
+                ],
+                staticClass: "form-control",
+                on: {
+                  change: function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.$set(
+                      _vm.form,
+                      "language_id",
+                      $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                    )
+                  }
                 }
-              ],
-              staticClass: "form-control",
-              on: {
-                change: function($event) {
-                  var $$selectedVal = Array.prototype.filter
-                    .call($event.target.options, function(o) {
-                      return o.selected
-                    })
-                    .map(function(o) {
-                      var val = "_value" in o ? o._value : o.value
-                      return val
-                    })
-                  _vm.$set(
-                    _vm.form,
-                    "language_id",
-                    $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-                  )
-                }
+              },
+              _vm._l(_vm.languages, function(name, language_id) {
+                return _c("option", { domProps: { value: language_id } }, [
+                  _vm._v(_vm._s(name))
+                ])
+              }),
+              0
+            ),
+            _vm._v(" "),
+            _c("div", {
+              staticClass: "invalid-feedback",
+              domProps: {
+                textContent: _vm._s(
+                  "unit_price_formatted" in _vm.errors
+                    ? _vm.errors.unit_price_formatted[0]
+                    : ""
+                )
               }
-            },
-            _vm._l(_vm.languages, function(name, language_id) {
-              return _c("option", { domProps: { value: language_id } }, [
-                _vm._v(_vm._s(name))
-              ])
-            }),
-            0
-          ),
-          _vm._v(" "),
-          _c("div", {
-            staticClass: "invalid-feedback",
-            domProps: {
-              textContent: _vm._s(
-                "unit_price_formatted" in _vm.errors
-                  ? _vm.errors.unit_price_formatted[0]
-                  : ""
-              )
-            }
-          })
-        ]),
+            })
+          ]
+        ),
         _vm._v(" "),
-        _c("td", { staticClass: "align-middle text-center" }, [
-          _c(
-            "select",
-            {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.form.condition,
-                  expression: "form.condition"
+        _c(
+          "td",
+          { staticClass: "align-middle d-none d-lg-table-cell text-center" },
+          [
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.form.condition,
+                    expression: "form.condition"
+                  }
+                ],
+                staticClass: "form-control",
+                on: {
+                  change: function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.$set(
+                      _vm.form,
+                      "condition",
+                      $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                    )
+                  }
                 }
-              ],
-              staticClass: "form-control",
-              on: {
-                change: function($event) {
-                  var $$selectedVal = Array.prototype.filter
-                    .call($event.target.options, function(o) {
-                      return o.selected
-                    })
-                    .map(function(o) {
-                      var val = "_value" in o ? o._value : o.value
-                      return val
-                    })
-                  _vm.$set(
-                    _vm.form,
-                    "condition",
-                    $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-                  )
-                }
+              },
+              _vm._l(_vm.conditions, function(name, id) {
+                return _c("option", { domProps: { value: id } }, [
+                  _vm._v(_vm._s(name))
+                ])
+              }),
+              0
+            ),
+            _vm._v(" "),
+            _c("div", {
+              staticClass: "invalid-feedback",
+              domProps: {
+                textContent: _vm._s(
+                  "condition" in _vm.errors ? _vm.errors.condition[0] : ""
+                )
               }
-            },
-            _vm._l(_vm.conditions, function(name, id) {
-              return _c("option", { domProps: { value: id } }, [
-                _vm._v(_vm._s(name))
-              ])
-            }),
-            0
-          ),
-          _vm._v(" "),
-          _c("div", {
-            staticClass: "invalid-feedback",
-            domProps: {
-              textContent: _vm._s(
-                "condition" in _vm.errors ? _vm.errors.condition[0] : ""
-              )
-            }
-          })
-        ]),
+            })
+          ]
+        ),
         _vm._v(" "),
-        _c("td", { staticClass: "align-middle text-center" }, [
+        _c("td", { staticClass: "align-middle d-none d-xl-table-cell" }, [
           _c("div", { staticClass: "form-group form-check mb-0" }, [
             _c("input", {
               directives: [
@@ -49239,14 +49207,13 @@ var render = function() {
               }
             }),
             _vm._v(" "),
-            _c("label", {
-              staticClass: "form-check-label",
-              attrs: { for: "is_foil" }
-            })
-          ])
-        ]),
-        _vm._v(" "),
-        _c("td", { staticClass: "align-middle text-center" }, [
+            _c(
+              "label",
+              { staticClass: "form-check-label", attrs: { for: "is_foil" } },
+              [_vm._v("Foil")]
+            )
+          ]),
+          _vm._v(" "),
           _c("div", { staticClass: "form-group form-check mb-0" }, [
             _c("input", {
               directives: [
@@ -49290,14 +49257,13 @@ var render = function() {
               }
             }),
             _vm._v(" "),
-            _c("label", {
-              staticClass: "form-check-label",
-              attrs: { for: "is_signed" }
-            })
-          ])
-        ]),
-        _vm._v(" "),
-        _c("td", { staticClass: "align-middle text-center" }, [
+            _c(
+              "label",
+              { staticClass: "form-check-label", attrs: { for: "is_signed" } },
+              [_vm._v("Signed")]
+            )
+          ]),
+          _vm._v(" "),
           _c("div", { staticClass: "form-group form-check mb-0" }, [
             _c("input", {
               directives: [
@@ -49341,133 +49307,175 @@ var render = function() {
               }
             }),
             _vm._v(" "),
-            _c("label", {
-              staticClass: "form-check-label",
-              attrs: { for: "is_playset" }
-            })
+            _c(
+              "label",
+              { staticClass: "form-check-label", attrs: { for: "is_playset" } },
+              [_vm._v("Playset")]
+            )
           ])
         ]),
         _vm._v(" "),
-        _c("td", { staticClass: "align-middle" }, [
-          _c("input", {
-            directives: [
+        _c(
+          "td",
+          { staticClass: "align-middle d-none d-xl-table-cell text-center" },
+          [
+            _c(
+              "select",
               {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.form.cardmarket_comments,
-                expression: "form.cardmarket_comments"
-              }
-            ],
-            staticClass: "form-control",
-            class: "cardmarket_comments" in _vm.errors ? "is-invalid" : "",
-            attrs: { type: "text" },
-            domProps: { value: _vm.form.cardmarket_comments },
-            on: {
-              keydown: function($event) {
-                if (
-                  !$event.type.indexOf("key") &&
-                  _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
-                ) {
-                  return null
-                }
-                return _vm.update(false)
-              },
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.$set(_vm.form, "cardmarket_comments", $event.target.value)
-              }
-            }
-          }),
-          _vm._v(" "),
-          _c("div", {
-            staticClass: "invalid-feedback",
-            domProps: {
-              textContent: _vm._s(
-                "cardmarket_comments" in _vm.errors
-                  ? _vm.errors.cardmarket_comments[0]
-                  : ""
-              )
-            }
-          })
-        ]),
-        _vm._v(" "),
-        _c("td", { staticClass: "align-middle text-center" }, [
-          _c(
-            "select",
-            {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.form.storage_id,
-                  expression: "form.storage_id"
-                }
-              ],
-              staticClass: "form-control",
-              on: {
-                change: function($event) {
-                  var $$selectedVal = Array.prototype.filter
-                    .call($event.target.options, function(o) {
-                      return o.selected
-                    })
-                    .map(function(o) {
-                      var val = "_value" in o ? o._value : o.value
-                      return val
-                    })
-                  _vm.$set(
-                    _vm.form,
-                    "storage_id",
-                    $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-                  )
-                }
-              }
-            },
-            [
-              _c("option", { domProps: { value: null } }, [
-                _vm._v("Kein Lagerplatz")
-              ]),
-              _vm._v(" "),
-              _vm._l(_vm.storages, function(storage, key) {
-                return _c("option", {
-                  domProps: {
-                    value: storage.id,
-                    innerHTML: _vm._s(storage.indentedName)
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.form.storage_id,
+                    expression: "form.storage_id"
                   }
+                ],
+                staticClass: "form-control",
+                on: {
+                  change: function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.$set(
+                      _vm.form,
+                      "storage_id",
+                      $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                    )
+                  }
+                }
+              },
+              [
+                _c("option", { domProps: { value: null } }, [
+                  _vm._v("Kein Lagerplatz")
+                ]),
+                _vm._v(" "),
+                _vm._l(_vm.storages, function(storage, key) {
+                  return _c("option", {
+                    domProps: {
+                      value: storage.id,
+                      innerHTML: _vm._s(storage.indentedName)
+                    }
+                  })
                 })
-              })
-            ],
-            2
-          ),
-          _vm._v(" "),
-          _c("div", {
-            staticClass: "invalid-feedback",
-            domProps: {
-              textContent: _vm._s(
-                "unit_price_formatted" in _vm.errors
-                  ? _vm.errors.unit_price_formatted[0]
-                  : ""
-              )
-            }
-          })
-        ]),
+              ],
+              2
+            ),
+            _vm._v(" "),
+            _c("div", {
+              staticClass: "invalid-feedback",
+              domProps: {
+                textContent: _vm._s(
+                  "unit_price_formatted" in _vm.errors
+                    ? _vm.errors.unit_price_formatted[0]
+                    : ""
+                )
+              }
+            })
+          ]
+        ),
         _vm._v(" "),
-        _c("td", { staticClass: "align-middle text-right" }, [
-          _c("div", { staticClass: "input-group" }, [
+        _c(
+          "td",
+          { staticClass: "align-middle d-none d-sm-table-cell text-right" },
+          [
+            _c("div", { staticClass: "input-group" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.form.unit_price_formatted,
+                    expression: "form.unit_price_formatted"
+                  }
+                ],
+                staticClass: "form-control text-right",
+                class: "unit_price_formatted" in _vm.errors ? "is-invalid" : "",
+                attrs: { type: "text" },
+                domProps: { value: _vm.form.unit_price_formatted },
+                on: {
+                  keydown: function($event) {
+                    if (
+                      !$event.type.indexOf("key") &&
+                      _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                    ) {
+                      return null
+                    }
+                    return _vm.update(false)
+                  },
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(
+                      _vm.form,
+                      "unit_price_formatted",
+                      $event.target.value
+                    )
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _vm.item.rule_id
+                ? _c("div", { staticClass: "input-group-append" }, [
+                    _c(
+                      "span",
+                      {
+                        staticClass: "input-group-text text-left pointer",
+                        attrs: { title: "Regel " + _vm.item.rule.name },
+                        on: {
+                          click: function($event) {
+                            _vm.form.unit_price_formatted =
+                              _vm.item.price_rule_formatted
+                          }
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                    " +
+                            _vm._s(_vm.item.price_rule_formatted) +
+                            "€\n                "
+                        )
+                      ]
+                    )
+                  ])
+                : _vm._e()
+            ]),
+            _vm._v(" "),
+            _c("div", {
+              staticClass: "invalid-feedback",
+              domProps: {
+                textContent: _vm._s(
+                  "unit_price_formatted" in _vm.errors
+                    ? _vm.errors.unit_price_formatted[0]
+                    : ""
+                )
+              }
+            })
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "td",
+          { staticClass: "align-middle d-none d-xl-table-cell text-right" },
+          [
             _c("input", {
               directives: [
                 {
                   name: "model",
                   rawName: "v-model",
-                  value: _vm.form.unit_price_formatted,
-                  expression: "form.unit_price_formatted"
+                  value: _vm.form.unit_cost_formatted,
+                  expression: "form.unit_cost_formatted"
                 }
               ],
               staticClass: "form-control text-right",
-              class: "unit_price_formatted" in _vm.errors ? "is-invalid" : "",
+              class: "unit_cost_formatted" in _vm.errors ? "is-invalid" : "",
               attrs: { type: "text" },
-              domProps: { value: _vm.form.unit_price_formatted },
+              domProps: { value: _vm.form.unit_cost_formatted },
               on: {
                 keydown: function($event) {
                   if (
@@ -49482,188 +49490,124 @@ var render = function() {
                   if ($event.target.composing) {
                     return
                   }
-                  _vm.$set(
-                    _vm.form,
-                    "unit_price_formatted",
-                    $event.target.value
-                  )
+                  _vm.$set(_vm.form, "unit_cost_formatted", $event.target.value)
                 }
               }
             }),
             _vm._v(" "),
-            _vm.item.rule_id
-              ? _c("div", { staticClass: "input-group-append" }, [
-                  _c(
-                    "span",
-                    {
-                      staticClass: "input-group-text text-left pointer",
-                      attrs: { title: "Regel " + _vm.item.rule.name },
-                      on: {
-                        click: function($event) {
-                          _vm.form.unit_price_formatted =
-                            _vm.item.price_rule_formatted
-                        }
-                      }
-                    },
-                    [
-                      _vm._v(
-                        "\n                    " +
-                          _vm._s(_vm.item.price_rule_formatted) +
-                          "€\n                "
-                      )
-                    ]
-                  )
-                ])
-              : _vm._e()
-          ]),
-          _vm._v(" "),
-          _c("div", {
-            staticClass: "invalid-feedback",
-            domProps: {
-              textContent: _vm._s(
-                "unit_price_formatted" in _vm.errors
-                  ? _vm.errors.unit_price_formatted[0]
-                  : ""
-              )
-            }
-          })
-        ]),
+            _c("div", {
+              staticClass: "invalid-feedback",
+              domProps: {
+                textContent: _vm._s(
+                  "unit_cost_formatted" in _vm.errors
+                    ? _vm.errors.unit_cost_formatted[0]
+                    : ""
+                )
+              }
+            })
+          ]
+        ),
         _vm._v(" "),
-        _c("td", { staticClass: "align-middle text-right" }, [
-          _c("input", {
-            directives: [
+        _c(
+          "td",
+          { staticClass: "align-middle d-none d-xl-table-cell text-right" },
+          [
+            _vm._v(
+              _vm._s(Number(_vm.item.provision).format(2, ",", ".")) + " €"
+            )
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "td",
+          {
+            staticClass:
+              "align-middle text-right d-none d-xl-table-cell pointer"
+          },
+          [
+            _vm._v(
+              _vm._s(
+                Number(
+                  _vm.item.unit_price - _vm.item.unit_cost - _vm.item.provision
+                ).format(2, ",", ".")
+              ) + " €"
+            )
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "td",
+          { staticClass: "align-middle d-none d-sm-table-cell text-right" },
+          [
+            _c(
+              "div",
               {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.form.unit_cost_formatted,
-                expression: "form.unit_cost_formatted"
-              }
-            ],
-            staticClass: "form-control text-right",
-            class: "unit_cost_formatted" in _vm.errors ? "is-invalid" : "",
-            attrs: { type: "text" },
-            domProps: { value: _vm.form.unit_cost_formatted },
-            on: {
-              keydown: function($event) {
-                if (
-                  !$event.type.indexOf("key") &&
-                  _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
-                ) {
-                  return null
-                }
-                return _vm.update(false)
+                staticClass: "btn-group btn-group-sm",
+                attrs: { role: "group" }
               },
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.$set(_vm.form, "unit_cost_formatted", $event.target.value)
-              }
-            }
-          }),
-          _vm._v(" "),
-          _c("div", {
-            staticClass: "invalid-feedback",
-            domProps: {
-              textContent: _vm._s(
-                "unit_cost_formatted" in _vm.errors
-                  ? _vm.errors.unit_cost_formatted[0]
-                  : ""
-              )
-            }
-          })
-        ]),
-        _vm._v(" "),
-        _c("td", { staticClass: "align-middle text-right" }, [
-          _vm._v(_vm._s(Number(_vm.item.provision).format(2, ",", ".")) + " €")
-        ]),
-        _vm._v(" "),
-        _c("td", { staticClass: "align-middle text-right pointer" }, [
-          _vm._v(
-            _vm._s(
-              Number(
-                _vm.item.unit_price - _vm.item.unit_cost - _vm.item.provision
-              ).format(2, ",", ".")
-            ) + " €"
-          )
-        ]),
-        _vm._v(" "),
-        _c("td", { staticClass: "align-middle text-right" }, [
-          _c(
-            "div",
-            { staticClass: "btn-group btn-group-sm", attrs: { role: "group" } },
-            [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-secondary",
-                  attrs: { type: "button", title: "Speichern" },
-                  on: {
-                    click: function($event) {
-                      return _vm.update(false)
+              [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    attrs: { type: "button", title: "Speichern" },
+                    on: {
+                      click: function($event) {
+                        return _vm.update(false)
+                      }
                     }
-                  }
-                },
-                [_c("i", { staticClass: "fas fa-fw fa-save" })]
-              ),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-secondary",
-                  attrs: { type: "button", title: "Speichern & Exportieren" },
-                  on: {
-                    click: function($event) {
-                      return _vm.update(true)
+                  },
+                  [_c("i", { staticClass: "fas fa-fw fa-save" })]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    attrs: { type: "button", title: "Speichern & Exportieren" },
+                    on: {
+                      click: function($event) {
+                        return _vm.update(true)
+                      }
                     }
-                  }
-                },
-                [_c("i", { staticClass: "fas fa-fw fa-cloud-upload-alt" })]
-              ),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-secondary",
-                  attrs: { type: "button", title: "Löschen" },
-                  on: { click: _vm.destroy }
-                },
-                [_c("i", { staticClass: "fas fa-fw fa-trash" })]
-              )
-            ]
-          )
-        ])
+                  },
+                  [_c("i", { staticClass: "fas fa-fw fa-cloud-upload-alt" })]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    attrs: { type: "button", title: "Löschen" },
+                    on: { click: _vm.destroy }
+                  },
+                  [_c("i", { staticClass: "fas fa-fw fa-trash" })]
+                )
+              ]
+            )
+          ]
+        )
       ])
     : _c("tr", [
-        _c("td", { staticClass: "align-middle text-center" }, [
-          _c("label", { staticClass: "form-checkbox" }),
-          _vm._v(" "),
-          _c("input", {
-            attrs: { type: "checkbox", number: "" },
-            domProps: { checked: _vm.selected, value: _vm.id },
-            on: {
-              change: function($event) {
-                return _vm.$emit("input", _vm.id)
-              }
-            }
-          })
-        ]),
-        _vm._v(" "),
         _vm._m(0),
         _vm._v(" "),
-        _c("td", { staticClass: "align-middle pointer" }, [
-          _c("i", {
-            staticClass: "fas fa-image",
-            on: {
-              mouseover: function($event) {
-                return _vm.show($event)
-              },
-              mouseout: function($event) {
-                return _vm.$emit("hide")
+        _c(
+          "td",
+          { staticClass: "align-middle d-none d-xl-table-cell pointer" },
+          [
+            _c("i", {
+              staticClass: "fas fa-image",
+              on: {
+                mouseover: function($event) {
+                  return _vm.show($event)
+                },
+                mouseout: function($event) {
+                  return _vm.$emit("hide")
+                }
               }
-            }
-          })
-        ]),
+            })
+          ]
+        ),
         _vm._v(" "),
         _c("td", { staticClass: "align-middle" }, [
           _c("span", {
@@ -49671,16 +49615,18 @@ var render = function() {
             class: "flag-icon-" + _vm.item.language.code,
             attrs: { title: _vm.item.language.name }
           }),
-          _vm._v(" " + _vm._s(_vm.item.localName) + "\n        "),
+          _vm._v(
+            " " +
+              _vm._s(_vm.item.localName) +
+              " (" +
+              _vm._s(_vm.item.card.number) +
+              ")\n        "
+          ),
           _vm.item.language_id != 1
             ? _c("div", { staticClass: "text-muted" }, [
                 _vm._v(_vm._s(_vm.item.card.name))
               ])
             : _vm._e()
-        ]),
-        _vm._v(" "),
-        _c("td", { staticClass: "align-middle text-right" }, [
-          _vm._v(_vm._s(_vm.item.card.number))
         ]),
         _vm._v(" "),
         _c(
@@ -49696,41 +49642,45 @@ var render = function() {
         _vm._v(" "),
         _c(
           "td",
-          { staticClass: "align-middle text-center" },
+          { staticClass: "align-middle d-none d-xl-table-cell text-center" },
           [_c("rarity", { attrs: { value: _vm.item.card.rarity } })],
           1
         ),
         _vm._v(" "),
-        _c("td", { staticClass: "align-middle text-center" }, [
-          _c("span", {
-            staticClass: "flag-icon",
-            class: "flag-icon-" + _vm.item.language.code,
-            attrs: { title: _vm.item.language.name }
-          })
-        ]),
+        _c(
+          "td",
+          { staticClass: "align-middle d-none d-lg-table-cell text-center" },
+          [
+            _c("span", {
+              staticClass: "flag-icon",
+              class: "flag-icon-" + _vm.item.language.code,
+              attrs: { title: _vm.item.language.name }
+            })
+          ]
+        ),
         _vm._v(" "),
         _c(
           "td",
-          { staticClass: "align-middle text-center" },
+          { staticClass: "align-middle d-none d-lg-table-cell text-center" },
           [_c("condition", { attrs: { value: _vm.item.condition } })],
           1
         ),
         _vm._v(" "),
-        _c("td", { staticClass: "align-middle text-center" }, [
-          _vm.item.is_foil
-            ? _c("i", { staticClass: "fas fa-star text-warning" })
-            : _vm._e()
-        ]),
+        _c(
+          "td",
+          { staticClass: "align-middle d-none d-xl-table-cell text-center" },
+          [
+            _vm.item.is_foil
+              ? _c("i", { staticClass: "fas fa-star text-warning" })
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.item.is_signed ? _c("span", [_vm._v("S")]) : _vm._e(),
+            _vm._v(" "),
+            _vm.item.is_playset ? _c("span", [_vm._v("P")]) : _vm._e()
+          ]
+        ),
         _vm._v(" "),
-        _c("td", { staticClass: "align-middle text-center" }),
-        _vm._v(" "),
-        _c("td", { staticClass: "align-middle text-center" }),
-        _vm._v(" "),
-        _c("td", { staticClass: "align-middle" }, [
-          _vm._v(_vm._s(_vm.item.cardmarket_comments))
-        ]),
-        _vm._v(" "),
-        _c("td", { staticClass: "align-middle" }, [
+        _c("td", { staticClass: "align-middle d-none d-xl-table-cell" }, [
           _vm._v(
             _vm._s(
               _vm.item.storage_id
@@ -49740,143 +49690,172 @@ var render = function() {
           )
         ]),
         _vm._v(" "),
-        _c("td", { staticClass: "align-middle text-right" }, [
-          _vm._v(_vm._s(Number(_vm.item.unit_price).format(2, ",", ".")) + " €")
-        ]),
+        _c(
+          "td",
+          { staticClass: "align-middle d-none d-sm-table-cell text-right" },
+          [
+            _vm._v(
+              _vm._s(Number(_vm.item.unit_price).format(2, ",", ".")) + " €"
+            )
+          ]
+        ),
         _vm._v(" "),
-        _c("td", { staticClass: "align-middle text-right" }, [
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.form.unit_cost_formatted,
-                expression: "form.unit_cost_formatted"
-              }
-            ],
-            staticClass: "form-control text-right",
-            class: "unit_cost_formatted" in _vm.errors ? "is-invalid" : "",
-            attrs: { type: "text" },
-            domProps: { value: _vm.form.unit_cost_formatted },
-            on: {
-              keydown: function($event) {
-                if (
-                  !$event.type.indexOf("key") &&
-                  _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
-                ) {
-                  return null
-                }
-                return _vm.update(false)
-              },
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.$set(_vm.form, "unit_cost_formatted", $event.target.value)
-              }
-            }
-          }),
-          _vm._v(" "),
-          _c("div", {
-            staticClass: "invalid-feedback",
-            domProps: {
-              textContent: _vm._s(
-                "unit_cost_formatted" in _vm.errors
-                  ? _vm.errors.unit_cost_formatted[0]
-                  : ""
-              )
-            }
-          })
-        ]),
-        _vm._v(" "),
-        _c("td", { staticClass: "align-middle text-right" }, [
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.form.provision_formatted,
-                expression: "form.provision_formatted"
-              }
-            ],
-            staticClass: "form-control text-right",
-            class: "provision_formatted" in _vm.errors ? "is-invalid" : "",
-            attrs: { type: "text" },
-            domProps: { value: _vm.form.provision_formatted },
-            on: {
-              keydown: function($event) {
-                if (
-                  !$event.type.indexOf("key") &&
-                  _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
-                ) {
-                  return null
-                }
-                return _vm.update($event)
-              },
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.$set(_vm.form, "provision_formatted", $event.target.value)
-              }
-            }
-          }),
-          _vm._v(" "),
-          _c("div", {
-            staticClass: "invalid-feedback",
-            domProps: {
-              textContent: _vm._s(
-                "provision_formatted" in _vm.errors
-                  ? _vm.errors.provision_formatted[0]
-                  : ""
-              )
-            }
-          })
-        ]),
-        _vm._v(" "),
-        _c("td", { staticClass: "align-middle text-right pointer" }, [
-          _vm._v(
-            _vm._s(
-              Number(
-                _vm.item.unit_price - _vm.item.unit_cost - _vm.item.provision
-              ).format(2, ",", ".")
-            ) + " €"
-          )
-        ]),
-        _vm._v(" "),
-        _c("td", { staticClass: "align-middle text-right" }, [
-          _c(
-            "div",
-            { staticClass: "btn-group btn-group-sm", attrs: { role: "group" } },
-            [
-              _c(
-                "a",
+        _c(
+          "td",
+          { staticClass: "align-middle d-none d-xl-table-cell text-right" },
+          [
+            _c("input", {
+              directives: [
                 {
-                  staticClass: "btn btn-secondary",
-                  attrs: {
-                    href: _vm.item.order.path,
-                    title: "Bestellung " + _vm.item.order.cardmarket_order_id
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.form.unit_cost_formatted,
+                  expression: "form.unit_cost_formatted"
+                }
+              ],
+              staticClass: "form-control text-right",
+              class: "unit_cost_formatted" in _vm.errors ? "is-invalid" : "",
+              attrs: { type: "text" },
+              domProps: { value: _vm.form.unit_cost_formatted },
+              on: {
+                keydown: function($event) {
+                  if (
+                    !$event.type.indexOf("key") &&
+                    _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                  ) {
+                    return null
                   }
+                  return _vm.update(false)
                 },
-                [_c("i", { staticClass: "fas fa-box" })]
-              ),
-              _vm._v(" "),
-              _c(
-                "button",
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.form, "unit_cost_formatted", $event.target.value)
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("div", {
+              staticClass: "invalid-feedback",
+              domProps: {
+                textContent: _vm._s(
+                  "unit_cost_formatted" in _vm.errors
+                    ? _vm.errors.unit_cost_formatted[0]
+                    : ""
+                )
+              }
+            })
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "td",
+          { staticClass: "align-middle d-none d-xl-table-cell text-right" },
+          [
+            _c("input", {
+              directives: [
                 {
-                  staticClass: "btn btn-secondary",
-                  attrs: { type: "button", title: "Speichern" },
-                  on: {
-                    click: function($event) {
-                      return _vm.update(false)
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.form.provision_formatted,
+                  expression: "form.provision_formatted"
+                }
+              ],
+              staticClass: "form-control text-right",
+              class: "provision_formatted" in _vm.errors ? "is-invalid" : "",
+              attrs: { type: "text" },
+              domProps: { value: _vm.form.provision_formatted },
+              on: {
+                keydown: function($event) {
+                  if (
+                    !$event.type.indexOf("key") &&
+                    _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                  ) {
+                    return null
+                  }
+                  return _vm.update($event)
+                },
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.form, "provision_formatted", $event.target.value)
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("div", {
+              staticClass: "invalid-feedback",
+              domProps: {
+                textContent: _vm._s(
+                  "provision_formatted" in _vm.errors
+                    ? _vm.errors.provision_formatted[0]
+                    : ""
+                )
+              }
+            })
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "td",
+          {
+            staticClass:
+              "align-middle d-none d-xl-table-cell text-right pointer"
+          },
+          [
+            _vm._v(
+              _vm._s(
+                Number(
+                  _vm.item.unit_price - _vm.item.unit_cost - _vm.item.provision
+                ).format(2, ",", ".")
+              ) + " €"
+            )
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "td",
+          { staticClass: "align-middle d-none d-sm-table-cell text-right" },
+          [
+            _c(
+              "div",
+              {
+                staticClass: "btn-group btn-group-sm",
+                attrs: { role: "group" }
+              },
+              [
+                _c(
+                  "a",
+                  {
+                    staticClass: "btn btn-secondary",
+                    attrs: {
+                      href: _vm.item.orders[0].path,
+                      title:
+                        "Bestellung " + _vm.item.orders[0].cardmarket_order_id
                     }
-                  }
-                },
-                [_c("i", { staticClass: "fas fa-fw fa-save" })]
-              )
-            ]
-          )
-        ])
+                  },
+                  [_c("i", { staticClass: "fas fa-box" })]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    attrs: { type: "button", title: "Speichern" },
+                    on: {
+                      click: function($event) {
+                        return _vm.update(false)
+                      }
+                    }
+                  },
+                  [_c("i", { staticClass: "fas fa-fw fa-save" })]
+                )
+              ]
+            )
+          ]
+        )
       ])
 }
 var staticRenderFns = [
@@ -49884,12 +49863,16 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", { staticClass: "align-middle text-center" }, [
-      _c("i", {
-        staticClass: "fas fa-fw fa-euro-sign text-success",
-        attrs: { title: "Verkauft" }
-      })
-    ])
+    return _c(
+      "td",
+      { staticClass: "align-middle d-none d-lg-table-cell text-center" },
+      [
+        _c("i", {
+          staticClass: "fas fa-fw fa-euro-sign text-success",
+          attrs: { title: "Verkauft" }
+        })
+      ]
+    )
   }
 ]
 render._withStripped = true
@@ -49971,9 +49954,10 @@ var render = function() {
         _c(
           "button",
           {
-            staticClass: "btn btn-primary ml-1",
+            staticClass: "btn btn-primary text-overflow-ellipsis ml-1",
             attrs: {
               type: "button",
+              title: "Regeln anwenden",
               "data-toggle": "modal",
               "data-target": "#confirm-rule-apply",
               disabled: _vm.applying.status == 1
@@ -50367,127 +50351,7 @@ var render = function() {
             "table",
             { staticClass: "table table-hover table-striped bg-white" },
             [
-              _c("thead", [
-                _c("tr", [
-                  _c(
-                    "th",
-                    { staticClass: "align-middle text-center w-checkbox" },
-                    [
-                      _c("label", {
-                        staticClass: "form-checkbox",
-                        attrs: { for: "checkall" }
-                      }),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.selectAll,
-                            expression: "selectAll"
-                          }
-                        ],
-                        attrs: { id: "checkall", type: "checkbox" },
-                        domProps: {
-                          checked: Array.isArray(_vm.selectAll)
-                            ? _vm._i(_vm.selectAll, null) > -1
-                            : _vm.selectAll
-                        },
-                        on: {
-                          change: function($event) {
-                            var $$a = _vm.selectAll,
-                              $$el = $event.target,
-                              $$c = $$el.checked ? true : false
-                            if (Array.isArray($$a)) {
-                              var $$v = null,
-                                $$i = _vm._i($$a, $$v)
-                              if ($$el.checked) {
-                                $$i < 0 && (_vm.selectAll = $$a.concat([$$v]))
-                              } else {
-                                $$i > -1 &&
-                                  (_vm.selectAll = $$a
-                                    .slice(0, $$i)
-                                    .concat($$a.slice($$i + 1)))
-                              }
-                            } else {
-                              _vm.selectAll = $$c
-                            }
-                          }
-                        }
-                      })
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c("th", { staticClass: "text-center w-icon" }, [
-                    _vm._v("Sync")
-                  ]),
-                  _vm._v(" "),
-                  _c("th", { staticClass: "text-right w-icon" }),
-                  _vm._v(" "),
-                  _c("th", {}, [_vm._v("Name")]),
-                  _vm._v(" "),
-                  _c(
-                    "th",
-                    { staticClass: "text-right", attrs: { width: "50" } },
-                    [_vm._v("#")]
-                  ),
-                  _vm._v(" "),
-                  _c("th", { staticClass: "w-icon" }),
-                  _vm._v(" "),
-                  _c("th", { staticClass: "text-center w-icon" }),
-                  _vm._v(" "),
-                  _c("th", { staticClass: "text-center" }, [_vm._v("Sprache")]),
-                  _vm._v(" "),
-                  _c("th", { staticClass: "text-center" }, [_vm._v("Zustand")]),
-                  _vm._v(" "),
-                  _c("th", { staticClass: "text-center w-checkbox" }, [
-                    _vm._v("Foil")
-                  ]),
-                  _vm._v(" "),
-                  _c("th", { staticClass: "text-center w-checkbox" }, [
-                    _vm._v("Signiert")
-                  ]),
-                  _vm._v(" "),
-                  _c("th", { staticClass: "text-center w-checkbox" }, [
-                    _vm._v("Playset")
-                  ]),
-                  _vm._v(" "),
-                  _c("th", {}, [_vm._v("Hinweise")]),
-                  _vm._v(" "),
-                  _c("th", [_vm._v("Lagerplatz")]),
-                  _vm._v(" "),
-                  _c("th", { staticClass: "text-right" }, [
-                    _vm._v("Verkaufspreis")
-                  ]),
-                  _vm._v(" "),
-                  _c("th", { staticClass: "text-right" }, [
-                    _vm._v("Einkaufspreis")
-                  ]),
-                  _vm._v(" "),
-                  _c("th", { staticClass: "text-right" }, [
-                    _vm._v("Provision")
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "th",
-                    {
-                      staticClass: "text-right",
-                      attrs: {
-                        title:
-                          "Voraussichtlicher Gewinn ohne allgemeine Kosten",
-                        width: "100"
-                      }
-                    },
-                    [_vm._v("Gewinn")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "th",
-                    { staticClass: "text-right", attrs: { width: "150" } },
-                    [_vm._v("Aktion")]
-                  )
-                ])
-              ]),
+              _vm._m(1),
               _vm._v(" "),
               _c(
                 "tbody",
@@ -50683,9 +50547,9 @@ var render = function() {
           { staticClass: "modal-dialog", attrs: { role: "document" } },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(1),
-              _vm._v(" "),
               _vm._m(2),
+              _vm._v(" "),
+              _vm._m(3),
               _vm._v(" "),
               _c("div", { staticClass: "modal-footer" }, [
                 _c(
@@ -50740,12 +50604,83 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col" }, [
+    return _c("div", { staticClass: "col mb-1 mb-sm-0" }, [
       _c(
         "a",
         { staticClass: "btn btn-primary", attrs: { href: "/article/create" } },
         [_c("i", { staticClass: "fas fa-plus-square" })]
       )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { staticClass: "text-center d-none d-lg-table-cell w-icon" }, [
+          _vm._v("Sync")
+        ]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-right d-none d-xl-table-cell w-icon" }),
+        _vm._v(" "),
+        _c("th", {}, [_vm._v("Name")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "w-icon" }),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-center d-none d-xl-table-cell w-icon" }),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-center d-none d-lg-table-cell" }, [
+          _vm._v("Sprache")
+        ]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-center d-none d-lg-table-cell" }, [
+          _vm._v("Zustand")
+        ]),
+        _vm._v(" "),
+        _c("th", {
+          staticClass: "d-none d-xl-table-cell",
+          staticStyle: { width: "100px" }
+        }),
+        _vm._v(" "),
+        _c("th", { staticClass: "d-none d-xl-table-cell" }, [
+          _vm._v("Lagerplatz")
+        ]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-right d-none d-sm-table-cell" }, [
+          _vm._v("Verkaufspreis")
+        ]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-right d-none d-xl-table-cell" }, [
+          _vm._v("Einkaufspreis")
+        ]),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass: "text-right d-none d-xl-table-cell w-formatted-number"
+          },
+          [_vm._v("Provision")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass: "text-right d-none d-xl-table-cell w-formatted-number",
+            attrs: {
+              title: "Voraussichtlicher Gewinn ohne allgemeine Kosten",
+              width: "100"
+            }
+          },
+          [_vm._v("Gewinn")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          { staticClass: "text-right d-none d-sm-table-cell w-action" },
+          [_vm._v("Aktion")]
+        )
+      ])
     ])
   },
   function() {
