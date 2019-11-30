@@ -102,7 +102,7 @@ class Rule extends Model
         // TODO: Update Article with rule price
         $query = Article::join('cards', 'cards.id', '=', 'articles.card_id')
             ->whereNull('articles.rule_id')
-            ->whereNull('order_id')
+            ->whereNull('sold_at')
             ->where('articles.unit_price', '>=', $this->price_above)
             ->where('articles.unit_price', '<=', $this->price_below);
 
@@ -169,7 +169,7 @@ class Rule extends Model
             ->select(DB::raw('COUNT(id) AS count'), DB::raw('SUM(unit_price) AS price'), DB::raw('SUM(price_rule) AS price_rule'))
             ->where('user_id', $this->user_id)
             ->where('rule_id', $this->id)
-            ->whereNull('order_id')
+            ->whereNull('sold_at')
             ->first();
 
         $stats->count_formatted = number_format($stats->count, 0, '', '.');

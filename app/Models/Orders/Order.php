@@ -396,8 +396,10 @@ class Order extends Model
     protected function addArticleFromCardmarket(array $cardmarketArticle)
     {
         // Card vorhanden?
+
+
         // Article finden, wenn nicht vorhanden
-        $articles = Article::where('order_id', $this->id)
+        $articles = $this->articles()
             ->where('cardmarket_article_id', $cardmarketArticle['idArticle'])
             ->where('user_id', $this->user_id)
             ->limit($cardmarketArticle['count'])
@@ -409,8 +411,8 @@ class Order extends Model
         }
 
         // Article mit cardmarket_article_id
-        $articles_count = Article::where('articles.user_id', $this->user_id)
-            ->whereNull('order_id')
+        $articles = Article::where('articles.user_id', $this->user_id)
+            ->whereNull('sold_at')
             ->where('articles.cardmarket_article_id', $cardmarketArticle['idArticle'])
             ->where('articles.language_id', $cardmarketArticle['language']['idLanguage'])
             ->where('articles.condition', $cardmarketArticle['condition'])
@@ -420,18 +422,22 @@ class Order extends Model
             ->where('is_altered', $cardmarketArticle['isAltered'])
             ->where('is_playset', $cardmarketArticle['isPlayset'])
             ->limit($articles_left_count)
-            ->update([
-                'articles.order_id' => $this->id,
+            ->get();
+        foreach ($articles as $key => $article) {
+            $this->articles()->attach($article->id);
+            $article->update([
                 'articles.sold_at' => $this->paid_at,
             ]);
+        }
+        $articles_count = count($articles);
         $articles_left_count -= $articles_count;
         if ($articles_left_count == 0) {
             return;
         }
 
-        $articles_count = Article::join('cards', 'cards.id', '=', 'articles.card_id')
+        $articles = Article::join('cards', 'cards.id', '=', 'articles.card_id')
             ->where('articles.user_id', $this->user_id)
-            ->whereNull('order_id')
+            ->whereNull('articles.sold_at')
             ->where('cards.cardmarket_product_id', $cardmarketArticle['idProduct'])
             ->where('articles.language_id', $cardmarketArticle['language']['idLanguage'])
             ->where('articles.condition', $cardmarketArticle['condition'])
@@ -441,11 +447,15 @@ class Order extends Model
             ->where('is_altered', $cardmarketArticle['isAltered'])
             ->where('is_playset', $cardmarketArticle['isPlayset'])
             ->limit($articles_left_count)
-            ->update([
-                'articles.order_id' => $this->id,
-                'articles.cardmarket_article_id' => $cardmarketArticle['idArticle'],
+            ->get();
+        foreach ($articles as $key => $article) {
+            $this->articles()->attach($article->id);
+            $article->update([
                 'articles.sold_at' => $this->paid_at,
+                'articles.cardmarket_article_id' => $cardmarketArticle['idArticle'],
             ]);
+        }
+        $articles_count = count($articles);
         $articles_left_count -= $articles_count;
         if ($articles_left_count == 0) {
             return;
@@ -598,12 +608,13 @@ class Order extends Model
         return Arr::get(self::STATES, $this->state, '');
     }
 
-    public function articles() : HasMany
+    public function articles() : BelongsToMany
     {
-        return $this->hasMany(Article::class, 'order_id')->with([
+        return $this->belongsToMany(Article::class)->with([
             'card.localizations',
             'card.expansion',
-        ]);
+        ])
+        ->withTimestamps();
     }
 
     public function buyer() : BelongsTo

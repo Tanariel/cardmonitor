@@ -44,7 +44,7 @@ class ArticleController extends Controller
                     'card.expansion',
                     'language',
                     'rule',
-                    'order',
+                    'orders',
                     'storage',
                 ])
                 ->orderBy('cards.name', 'ASC')
@@ -134,7 +134,7 @@ class ArticleController extends Controller
                 'card.expansion',
                 'card.localizations',
                 'language',
-                'order',
+                'orders',
                 'storage',
             ]);
 
@@ -194,9 +194,11 @@ class ArticleController extends Controller
             'state_comments' => 'sometimes|nullable|string',
         ]));
 
-        if ($article->order_id) {
-            $article->order->calculateProfits()
-                ->save();
+        if (count($article->orders)) {
+            foreach ($article->orders as $key => $order) {
+                $order->calculateProfits()
+                    ->save();
+            }
         }
 
         if ($request->input('sync')) {
@@ -207,7 +209,7 @@ class ArticleController extends Controller
             'card.expansion',
             'card.localizations',
             'language',
-            'order',
+            'orders',
         ]);
     }
 

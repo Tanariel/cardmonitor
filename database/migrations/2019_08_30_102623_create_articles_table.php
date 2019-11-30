@@ -20,7 +20,6 @@ class CreateArticlesTable extends Migration
             $table->unsignedBigInteger('card_id');
             $table->unsignedTinyInteger('language_id');
 
-            $table->unsignedBigInteger('order_id')->nullable();
             $table->unsignedBigInteger('storage_id')->nullable();
             $table->unsignedBigInteger('rule_id')->nullable();
 
@@ -59,7 +58,6 @@ class CreateArticlesTable extends Migration
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('card_id')->references('id')->on('cards')->onDelete('cascade');
-            $table->foreign('order_id')->references('id')->on('orders');
             $table->foreign('language_id')->references('id')->on('languages');
             $table->foreign('storage_id')->references('id')->on('storages');
             $table->foreign('rule_id')->references('id')->on('rules');

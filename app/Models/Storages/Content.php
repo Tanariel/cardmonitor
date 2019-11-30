@@ -49,7 +49,7 @@ class Content extends Model
     public function assign()
     {
         Article::join('cards', 'cards.id', '=', 'articles.card_id')
-            ->whereNull('articles.order_id')
+            ->whereNull('articles.sold_at')
             ->where('articles.user_id', $this->user_id)
             ->where('cards.expansion_id', $this->storagable_id)
             ->update([

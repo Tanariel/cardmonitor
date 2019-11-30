@@ -15,6 +15,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -142,7 +143,7 @@ class Article extends Model
     public static function reindex(int $cardmarket_article_id, int $start = 1) : int
     {
         $collection = self::where('cardmarket_article_id', $cardmarket_article_id)
-            ->whereNull('order_id')->orderBy('index', 'ASC')->get();
+            ->whereNull('sold_at')->orderBy('index', 'ASC')->get();
 
         $i = 0;
         foreach ($collection as $model) {
@@ -447,9 +448,9 @@ class Article extends Model
         return $this->belongsTo(Language::class);
     }
 
-    public function order() : BelongsTo
+    public function orders() : BelongsToMany
     {
-        return $this->belongsTo(Order::class);
+        return $this->belongsToMany(Order::class);
     }
 
     public function rule() : BelongsTo
@@ -542,11 +543,11 @@ class Article extends Model
     public function scopeSold(Builder $query, $value) : Builder
     {
         if ($value == 1) {
-            return $query->whereNotNull('order_id');
+            return $query->whereNotNull('sold_at');
         }
 
         if ($value == 0) {
-            return $query->whereNull('order_id');
+            return $query->whereNull('sold_at');
         }
 
         return $query;

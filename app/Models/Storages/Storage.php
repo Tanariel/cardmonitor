@@ -85,7 +85,7 @@ class Storage extends Model
             ->select(DB::raw('COUNT(id) AS count'), DB::raw('SUM(unit_price) AS price'))
             ->where('user_id', $this->user_id)
             ->whereIn('storage_id',$ids)
-            ->whereNull('order_id')
+            ->whereNull('sold_at')
             ->first();
 
         $stats->count_formatted = number_format($stats->count, 0, '', '.');
