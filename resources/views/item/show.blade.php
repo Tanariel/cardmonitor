@@ -28,12 +28,12 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="row">
-                                <div class="col-md-4"><b>Name</b></div>
-                                <div class="col-md-8">{{ $model->name }}</div>
+                                <div class="col-label"><b>Name</b></div>
+                                <div class="col-value">{{ $model->name }}</div>
                             </div>
                             <div class="row">
-                                <div class="col-md-4"><b>Kosten / Einheit</b></div>
-                                <div class="col-md-8">{{ number_format($model->unit_cost, 2, ',', '.') }} €</div>
+                                <div class="col-label"><b>Kosten / Einheit</b></div>
+                                <div class="col-value">{{ number_format($model->unit_cost, 2, ',', '.') }} €</div>
                             </div>
                         </div>
                     </div>

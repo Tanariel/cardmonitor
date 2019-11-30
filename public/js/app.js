@@ -53075,9 +53075,14 @@ var render = function() {
       _vm._v(_vm._s(_vm.item.name))
     ]),
     _vm._v(" "),
-    _c("td", { staticClass: "align-middle pointer", on: { click: _vm.link } }, [
-      _vm._v(_vm._s(Number(_vm.item.unit_cost).toFixed(2)) + " €")
-    ]),
+    _c(
+      "td",
+      {
+        staticClass: "align-middle d-none d-sm-table-cell pointer",
+        on: { click: _vm.link }
+      },
+      [_vm._v(_vm._s(Number(_vm.item.unit_cost).toFixed(2)) + " €")]
+    ),
     _vm._v(" "),
     _c("td", { staticClass: "align-middle text-right" }, [
       _c(
@@ -53133,7 +53138,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", [
     _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col d-flex align-items-start" }, [
+      _c("div", { staticClass: "col d-flex align-items-start mb-1 mb-sm-0" }, [
         _c("div", { staticClass: "form-group mb-0 mr-1" }, [
           _c("div", [
             _c("input", {
@@ -53224,7 +53229,11 @@ var render = function() {
         _vm._v(" "),
         _c(
           "button",
-          { staticClass: "btn btn-secondary ml-1", on: { click: _vm.reload } },
+          {
+            staticClass: "btn btn-secondary text-overflow-ellipsis ml-1",
+            attrs: { title: "Kosten neu berechnen" },
+            on: { click: _vm.reload }
+          },
           [_vm._v("Kosten neu berechnen")]
         )
       ])
@@ -53300,7 +53309,14 @@ var render = function() {
                   _vm._v(" "),
                   _c("th", { attrs: { width: "55%" } }, [_vm._v("Datum")]),
                   _vm._v(" "),
-                  _c("th", { attrs: { width: "30%" } }, [_vm._v("Kosten")]),
+                  _c(
+                    "th",
+                    {
+                      staticClass: " d-none d-sm-table-cell",
+                      attrs: { width: "30%" }
+                    },
+                    [_vm._v("Kosten")]
+                  ),
                   _vm._v(" "),
                   _c(
                     "th",

@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="row">
-            <div class="col d-flex align-items-start">
+            <div class="col d-flex align-items-start mb-1 mb-sm-0">
                 <div class="form-group mb-0 mr-1">
                     <div>
                         <input type="text" class="form-control" :class="'name' in errors ? 'is-invalid' : ''" v-model="form.name" placeholder="Name" @keydown.enter="create">
@@ -15,7 +15,7 @@
                     <filter-search v-model="filter.searchtext" @input="fetch()"></filter-search>
                 </div>
                 <button class="btn btn-secondary ml-1" @click="filter.show = !filter.show"><i class="fas fa-filter"></i></button>
-                <button class="btn btn-secondary ml-1" @click="reload">Kosten neu berechnen</button>
+                <button class="btn btn-secondary text-overflow-ellipsis ml-1" title="Kosten neu berechnen" @click="reload">Kosten neu berechnen</button>
             </div>
         </div>
 
@@ -36,7 +36,7 @@
                             <input id="checkall" type="checkbox" v-model="selectAll">
                         </th>
                         <th width="55%">Datum</th>
-                        <th width="30%">Kosten</th>
+                        <th class=" d-none d-sm-table-cell" width="30%">Kosten</th>
                         <th class="text-right" width="10%">Aktion</th>
                     </tr>
                 </thead>

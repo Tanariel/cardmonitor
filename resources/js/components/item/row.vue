@@ -5,7 +5,7 @@
             <input :checked="selected" type="checkbox" :value="id"  @change="$emit('input', id)" number>
         </td>
         <td class="align-middle pointer" @click="link">{{ item.name }}</td>
-        <td class="align-middle pointer" @click="link">{{ Number(item.unit_cost).toFixed(2) }} €</td>
+        <td class="align-middle d-none d-sm-table-cell pointer" @click="link">{{ Number(item.unit_cost).toFixed(2) }} €</td>
 
         <td class="align-middle text-right">
             <div class="btn-group btn-group-sm" role="group">
