@@ -25,10 +25,10 @@
             </div>
         </div>
         <div class="card-body row">
-            <div class="col-md-8">
+            <div class="col col-xl-6">
                 <highcharts :options="chartOptions" v-if="statistics.orders_count > 0"></highcharts>
             </div>
-            <div class="col-md-4">
+            <div class="col-xl-6 d-none d-xl-block">
                 <table class="table table-hover table-striped" v-if="statistics.orders_count > 0">
                     <thead>
                         <tr>

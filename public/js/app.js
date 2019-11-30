@@ -51636,7 +51636,7 @@ var render = function() {
     _c("div", { staticClass: "card-body row" }, [
       _c(
         "div",
-        { staticClass: "col-md-8" },
+        { staticClass: "col col-xl-6" },
         [
           _vm.statistics.orders_count > 0
             ? _c("highcharts", { attrs: { options: _vm.chartOptions } })
@@ -51645,7 +51645,7 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _c("div", { staticClass: "col-md-4" }, [
+      _c("div", { staticClass: "col-xl-6 d-none d-xl-block" }, [
         _vm.statistics.orders_count > 0
           ? _c("table", { staticClass: "table table-hover table-striped" }, [
               _vm._m(0),
@@ -52097,7 +52097,7 @@ var render = function() {
     _c("div", { staticClass: "card-body row" }, [
       _c(
         "div",
-        { staticClass: "col-md-8" },
+        { staticClass: "col col-xl-6" },
         [
           _vm.statistics.orders_count > 0
             ? _c("highcharts", { attrs: { options: _vm.chartOptions } })
@@ -52106,7 +52106,7 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _c("div", { staticClass: "col-md-4" }, [
+      _c("div", { staticClass: "col-xl-6 d-none d-xl-block" }, [
         _vm.statistics.orders_count > 0
           ? _c("table", { staticClass: "table table-hover table-striped" }, [
               _vm._m(0),
