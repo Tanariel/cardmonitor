@@ -14,9 +14,14 @@ use Illuminate\Support\Facades\App;
 */
 
 Route::get('/', function () {
-    // TODO: Bilder anpassen
-    return view('landing.placeholder');
+    return view('landing.index');
 });
+
+Route::get('/impressum', function () {
+    return view('impressum');
+});
+
+Route::post('/contact', 'ContactController@store');
 
 Route::get('order/{order}/images', 'Images\ImageableController@index');
 

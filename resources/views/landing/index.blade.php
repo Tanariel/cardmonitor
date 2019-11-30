@@ -19,7 +19,7 @@
                 <div class="col-lg-8 align-self-baseline">
 
                     <h2 class="text-light font-weight-light mb-5">Spare Zeit und steigere deine Verkäufe!</h2>
-                    <img class="img-fluid rounded my-3" src="{{ Storage::url('dashboard.png') }}">
+                    <img class="img-fluid rounded my-3" src="{{ Storage::url('landing/dashboard.png') }}">
                     <a class="btn btn-success mt-5 btn-lg" href="{{ route('register') }}">Starte jetzt</a>
 
                 </div>
@@ -129,17 +129,17 @@
 
                 <div class="col">
 
-                    <img class="img-fluid rounded my-3" src="{{ Storage::url('article-create.png') }}">
+                    <img class="img-fluid rounded my-3" src="{{ Storage::url('landing/overview.png') }}">
 
                 </div>
 
                 <div class="col d-flex flex-column justify-content-center text-center">
 
-                    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore</p>
+                    <p>Alle Verkäufe, Kosten und Gewinne nach Zeitraum auf einen Blick.</p>
 
-                    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore</p>
+                    <p>Als Chart und Tabelle.</p>
 
-                    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore</p>
+                    <p>Dazu der aktuele Wert der angebotenen Karten, neue bezahlte Bestellungen und die aktuellen Bewertungen.</p>
 
                 </div>
 
@@ -168,17 +168,17 @@
 
                 <div class="col d-flex flex-column justify-content-center text-center">
 
-                    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore</p>
+                    <p>Gehe alle Karten der Bestellung durch und halte möglich Probleme fest. Du siehst alle Infos zur aktuellen Karte inklusive Lagerplatz.</p>
 
-                    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore</p>
+                    <p>Lade Bilder zu deiner Bestellung hoch.</p>
 
-                    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore</p>
+                    <p>Verschicke eine automatisch generierte Nachricht mit Link zur Bildergalerie und eventuellen Problemen an den Käufer.</p>
 
                 </div>
 
                 <div class="col">
 
-                    <img class="img-fluid rounded my-3" src="{{ Storage::url('article-create.png') }}">
+                    <img class="img-fluid rounded my-3" src="{{ Storage::url('landing/order.png') }}">
 
                 </div>
 
@@ -207,17 +207,17 @@
 
                 <div class="col">
 
-                    <img class="img-fluid rounded my-3" src="{{ Storage::url('article-create.png') }}">
+                    <img class="img-fluid rounded my-3" src="{{ Storage::url('landing/article.png') }}">
 
                 </div>
 
                 <div class="col d-flex flex-column justify-content-center text-center">
 
-                    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore</p>
+                    <p>Lege Artikel schneller an, ohne die Maus zu benutzen.</p>
 
-                    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore</p>
+                    <p>Setze Standard Werte um sämtliche Angaben automatisch auszufüllen.</p>
 
-                    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore</p>
+                    <p>Es werden automatisch die aktuellsten Preise von Cardmarket.com vorgeschlagen.</p>
 
                 </div>
 
@@ -246,17 +246,17 @@
 
                 <div class="col d-flex flex-column justify-content-center text-center">
 
-                    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore</p>
+                    <p>Erstelle beliebig viele Regeln um deine Verkaufspreise anzupassen.</p>
 
-                    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore</p>
+                    <p>Führe alle Regeln gesammelt aus und aktualisiere so sämtlich Preise deiner angebotenen Karten.</p>
 
-                    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore</p>
+                    <p>Das Ausführen der Regeln kostet 1€, du kannst die Regeln so oft du möchtest simulieren.</p>
 
                 </div>
 
                 <div class="col">
 
-                    <img class="img-fluid rounded my-3" src="{{ Storage::url('article-create.png') }}">
+                    <img class="img-fluid rounded my-3" src="{{ Storage::url('landing/price.png') }}">
 
                 </div>
 

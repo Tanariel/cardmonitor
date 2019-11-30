@@ -10,14 +10,14 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ mix('js/app.js') }}" defer></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">
@@ -39,12 +39,12 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
                         @guest
-                            <!-- <li class="nav-item">
+                            <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                            </li> -->
+                            </li>
                         @else
                             <li class="nav-item">
                                 <a class="nav-link" href="/home">{{ Auth::user()->name }}</a>
@@ -58,6 +58,15 @@
         <main class="py-4">
             @yield('content')
         </main>
+
+        <footer class="p-5 bg-dark text-white">
+            <div class="container text-center">
+                <div>Cardmonitor - made with <i class="fas fa-fw fa-heart"></i></div>
+                <a class="text-white" href="/impressum">Impressum & Datenschutz</a>
+            </div>
+        </footer>
+
+        <flash-message :initial-message="{{ session()->has('status') ? json_encode(session('status')) : 'null' }}"></flash-message>
     </div>
 </body>
 </html>

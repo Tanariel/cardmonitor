@@ -14,14 +14,14 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ mix('js/app.js') }}" defer></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
     <div class="wrapper" id="app">
@@ -39,10 +39,7 @@
             </ul>
             <div class="px-3 text-white text-center"><p>Alle Daten sind von <a href="https://www.cardmarket.eu">Cardmarket</a></p></div>
             <div class="bg-secondary text-white p-2 d-flex justify-content-around">
-                <div><i class="fas fa-bars pointer"></i></div>
-                <div><i class="fas fa-bars pointer"></i></div>
-                <div><i class="fas fa-bars pointer"></i></div>
-                <div><i class="fas fa-bars pointer"></i></div>
+                <a class="text-white" href="/impressum">Impressum & Datenschutz</a>
             </div>
         </nav>
 
