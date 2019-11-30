@@ -18256,6 +18256,10 @@ hr.divider {
   width: 50px;
 }
 
+.w-datetime {
+  width: 100px;
+}
+
 .text-overflow-ellipsis,
 .col-label {
   white-space: nowrap;

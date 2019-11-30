@@ -5439,8 +5439,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -5472,11 +5470,6 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _row_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./row.vue */ "./resources/js/components/order/row.vue");
 /* harmony import */ var _filter_search_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../filter/search.vue */ "./resources/js/components/filter/search.vue");
-//
-//
-//
-//
-//
 //
 //
 //
@@ -54621,36 +54614,27 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("tr", [
-    _c("td", { staticClass: "align-middle" }, [
-      _c("label", { staticClass: "form-checkbox" }),
+    _c(
+      "td",
+      {
+        staticClass: "align-middle d-none d-sm-table-cell pointer",
+        on: { click: _vm.link }
+      },
+      [_vm._v(_vm._s(_vm.item.paid_at))]
+    ),
+    _vm._v(" "),
+    _c("td", { staticClass: "align-middle pointer", on: { click: _vm.link } }, [
+      _c("div", [_vm._v(_vm._s(_vm.item.cardmarket_order_id))]),
       _vm._v(" "),
-      _c("input", {
-        attrs: { type: "checkbox", number: "" },
-        domProps: { checked: _vm.selected, value: _vm.id },
-        on: {
-          change: function($event) {
-            return _vm.$emit("input", _vm.id)
-          }
-        }
-      })
-    ]),
-    _vm._v(" "),
-    _c("td", { staticClass: "align-middle pointer", on: { click: _vm.link } }, [
-      _vm._v(_vm._s(_vm.item.paid_at))
-    ]),
-    _vm._v(" "),
-    _c("td", { staticClass: "align-middle pointer", on: { click: _vm.link } }, [
-      _vm._v(_vm._s(_vm.item.cardmarket_order_id))
-    ]),
-    _vm._v(" "),
-    _c("td", { staticClass: "align-middle pointer", on: { click: _vm.link } }, [
-      _vm._v(_vm._s(_vm.item.buyer.name))
+      _c("div", { staticClass: "text-muted" }, [
+        _vm._v(_vm._s(_vm.item.buyer.name))
+      ])
     ]),
     _vm._v(" "),
     _c(
       "td",
       {
-        staticClass: "align-middle text-right pointer",
+        staticClass: "align-middle d-none d-md-table-cell text-right pointer",
         on: { click: _vm.link }
       },
       [_vm._v(_vm._s(_vm.item.articles_count))]
@@ -54659,7 +54643,7 @@ var render = function() {
     _c(
       "td",
       {
-        staticClass: "align-middle text-right pointer",
+        staticClass: "align-middle d-none d-md-table-cell text-right pointer",
         on: { click: _vm.link }
       },
       [_vm._v(_vm._s(Number(_vm.item.revenue).toFixed(2)) + " €")]
@@ -54668,7 +54652,7 @@ var render = function() {
     _c(
       "td",
       {
-        staticClass: "align-middle text-right pointer",
+        staticClass: "align-middle d-none d-xl-table-cell text-right pointer",
         on: { click: _vm.link }
       },
       [_vm._v(_vm._s(Number(_vm.item.cost).toFixed(2)) + " €")]
@@ -54677,20 +54661,25 @@ var render = function() {
     _c(
       "td",
       {
-        staticClass: "align-middle text-right pointer",
+        staticClass: "align-middle d-none d-xl-table-cell text-right pointer",
         on: { click: _vm.link }
       },
       [_vm._v(_vm._s(Number(_vm.item.profit).toFixed(2)) + " €")]
     ),
     _vm._v(" "),
-    _c("td", { staticClass: "align-middle pointer", on: { click: _vm.link } }, [
-      _vm._v(_vm._s(_vm.item.state))
-    ]),
+    _c(
+      "td",
+      {
+        staticClass: "align-middle d-none d-md-table-cell pointer",
+        on: { click: _vm.link }
+      },
+      [_vm._v(_vm._s(_vm.item.state))]
+    ),
     _vm._v(" "),
     _c(
       "td",
       {
-        staticClass: "align-middle text-center pointer",
+        staticClass: "align-middle d-none d-lg-table-cell text-center pointer",
         attrs: { title: "Allgemeine Bewertung" },
         on: { click: _vm.link }
       },
@@ -54705,7 +54694,7 @@ var render = function() {
     _c(
       "td",
       {
-        staticClass: "align-middle text-center pointer",
+        staticClass: "align-middle d-none d-lg-table-cell text-center pointer",
         attrs: { title: "Beschreibung der Artikelzustände" },
         on: { click: _vm.link }
       },
@@ -54724,7 +54713,7 @@ var render = function() {
     _c(
       "td",
       {
-        staticClass: "align-middle text-center pointer",
+        staticClass: "align-middle d-none d-lg-table-cell text-center pointer",
         attrs: { title: "Verpackung der Bestellung" },
         on: { click: _vm.link }
       },
@@ -54933,98 +54922,7 @@ var render = function() {
             "table",
             { staticClass: "table table-hover table-striped bg-white" },
             [
-              _c("thead", [
-                _c("tr", [
-                  _c("th", { attrs: { width: "5%" } }, [
-                    _c("label", {
-                      staticClass: "form-checkbox",
-                      attrs: { for: "checkall" }
-                    }),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.selectAll,
-                          expression: "selectAll"
-                        }
-                      ],
-                      attrs: { id: "checkall", type: "checkbox" },
-                      domProps: {
-                        checked: Array.isArray(_vm.selectAll)
-                          ? _vm._i(_vm.selectAll, null) > -1
-                          : _vm.selectAll
-                      },
-                      on: {
-                        change: function($event) {
-                          var $$a = _vm.selectAll,
-                            $$el = $event.target,
-                            $$c = $$el.checked ? true : false
-                          if (Array.isArray($$a)) {
-                            var $$v = null,
-                              $$i = _vm._i($$a, $$v)
-                            if ($$el.checked) {
-                              $$i < 0 && (_vm.selectAll = $$a.concat([$$v]))
-                            } else {
-                              $$i > -1 &&
-                                (_vm.selectAll = $$a
-                                  .slice(0, $$i)
-                                  .concat($$a.slice($$i + 1)))
-                            }
-                          } else {
-                            _vm.selectAll = $$c
-                          }
-                        }
-                      }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c("th", { attrs: { width: "5%" } }, [_vm._v("Datum")]),
-                  _vm._v(" "),
-                  _c("th", { attrs: { width: "5%" } }, [_vm._v("#")]),
-                  _vm._v(" "),
-                  _c("th", { attrs: { width: "10%" } }, [_vm._v("Käufer")]),
-                  _vm._v(" "),
-                  _c(
-                    "th",
-                    { staticClass: "text-right", attrs: { width: "10%" } },
-                    [_vm._v("Karten")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "th",
-                    { staticClass: "text-right", attrs: { width: "10%" } },
-                    [_vm._v("Umsatz")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "th",
-                    { staticClass: "text-right", attrs: { width: "10%" } },
-                    [_vm._v("Kosten")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "th",
-                    { staticClass: "text-right", attrs: { width: "10%" } },
-                    [_vm._v("Gewinn")]
-                  ),
-                  _vm._v(" "),
-                  _c("th", { attrs: { width: "15%" } }, [_vm._v("Status")]),
-                  _vm._v(" "),
-                  _c(
-                    "th",
-                    { staticClass: "text-center", attrs: { colspan: "3" } },
-                    [_vm._v("Bewertung")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "th",
-                    { staticClass: "text-right", attrs: { width: "10%" } },
-                    [_vm._v("Aktion")]
-                  )
-                ])
-              ]),
+              _vm._m(0),
               _vm._v(" "),
               _c(
                 "tbody",
@@ -55160,7 +55058,79 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c(
+          "th",
+          { staticClass: "d-none d-sm-table-cell", attrs: { width: "10%" } },
+          [_vm._v("Datum")]
+        ),
+        _vm._v(" "),
+        _c("th", { attrs: { width: "15%" } }, [_vm._v("Bestellung")]),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass: "text-right d-none d-md-table-cell",
+            attrs: { width: "10%" }
+          },
+          [_vm._v("Karten")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass: "text-right d-none d-md-table-cell",
+            attrs: { width: "10%" }
+          },
+          [_vm._v("Umsatz")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass: "text-right d-none d-xl-table-cell",
+            attrs: { width: "10%" }
+          },
+          [_vm._v("Kosten")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass: "text-right d-none d-xl-table-cell",
+            attrs: { width: "10%" }
+          },
+          [_vm._v("Gewinn")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          { staticClass: "d-none d-md-table-cell", attrs: { width: "15%" } },
+          [_vm._v("Status")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass: "text-center d-none d-lg-table-cell",
+            attrs: { colspan: "3", width: "10%" }
+          },
+          [_vm._v("Bewertung")]
+        ),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-right", attrs: { width: "10%" } }, [
+          _vm._v("Aktion")
+        ])
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 
