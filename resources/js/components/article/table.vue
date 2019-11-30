@@ -147,6 +147,7 @@
                     </div>
                     <div class="modal-body">
                         <p>Möchtest du alle aktiven Regeln anweden und in deinem Cardmarket Konto speichern?</p>
+                        <p>Der Prozess läuft maximal 1 Stunde. Das entspricht etwa 30.000 Artikeln</p>
                         <div class="alert alert-danger" role="alert">
                             Es werden Preise in deinem Cardmarket Konto verändert! Versichere dich vorher, ob alle Regeln angewendet werden, wie Du es möchtest!<br /><br />
                             Ausführung auf eigne Gefahr!
@@ -257,7 +258,7 @@
                     unit_price_max: 0,
                     unit_cost_min: 0,
                     unit_cost_max: 0,
-                    sold: -1,
+                    sold: 0,
                     sync: -1,
                 },
                 selected: [],

@@ -2754,6 +2754,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -2843,7 +2844,7 @@ __webpack_require__.r(__webpack_exports__);
         unit_price_max: 0,
         unit_cost_min: 0,
         unit_cost_max: 0,
-        sold: -1,
+        sold: 0,
         sync: -1
       },
       selected: [],
@@ -50740,6 +50741,12 @@ var staticRenderFns = [
       _c("p", [
         _vm._v(
           "Möchtest du alle aktiven Regeln anweden und in deinem Cardmarket Konto speichern?"
+        )
+      ]),
+      _vm._v(" "),
+      _c("p", [
+        _vm._v(
+          "Der Prozess läuft maximal 1 Stunde. Das entspricht etwa 30.000 Artikeln"
         )
       ]),
       _vm._v(" "),
