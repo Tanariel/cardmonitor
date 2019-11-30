@@ -57079,9 +57079,15 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", [_vm._v("Erweiterung")]),
+        _c("th", { staticClass: "align-middle", attrs: { width: "80%" } }, [
+          _vm._v("Erweiterung")
+        ]),
         _vm._v(" "),
-        _c("th", { staticClass: "text-right" }, [_vm._v("Aktion")])
+        _c(
+          "th",
+          { staticClass: "align-middle text-right", attrs: { width: "20%" } },
+          [_vm._v("Aktion")]
+        )
       ])
     ])
   }

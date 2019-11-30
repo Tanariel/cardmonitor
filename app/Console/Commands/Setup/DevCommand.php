@@ -6,6 +6,7 @@ use App\Models\Apis\Api;
 use App\Models\Cards\Card;
 use App\Models\Expansions\Expansion;
 use App\Models\Localizations\Language;
+use App\Models\Storages\Storage;
 use App\User;
 use Carbon\Carbon;
 use Cardmonitor\Cardmarket\Api as CardmarketApi;
@@ -54,6 +55,7 @@ class DevCommand extends Command
         $this->createUsers();
         $this->createCards();
         Artisan::call('card:price:sync');
+        Artisan::call('storage:setup');
     }
 
     protected function createUsers()
@@ -64,6 +66,8 @@ class DevCommand extends Command
             'email_verified_at' => now(),
             'password' => Hash::make('admin'),
         ]);
+
+        $this->createStorageDaniel();
 
         $user = User::create([
             'name' => 'Cardmarket',

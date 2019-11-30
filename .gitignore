@@ -12,3 +12,6 @@ npm-debug.log
 yarn-error.log
 .env.production
 worker.log
+database/data/content_storage.csv
+database/data/query_result.csv
+database/data/storages.csv

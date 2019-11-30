@@ -23,8 +23,8 @@
             <table class="table table-hover table-striped bg-white">
                 <thead>
                     <tr>
-                        <th>Erweiterung</th>
-                        <th class="text-right">Aktion</th>
+                        <th class="align-middle" width="80%">Erweiterung</th>
+                        <th class="align-middle text-right" width="20%">Aktion</th>
                     </tr>
                 </thead>
                 <tbody>

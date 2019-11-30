@@ -22,10 +22,6 @@ class Storage extends Model
 
     protected $guarded = [
         'id',
-        'parent_id',
-        'lft',
-        'rgt',
-        'depth',
     ];
 
     /**
