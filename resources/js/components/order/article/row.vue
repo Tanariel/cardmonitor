@@ -1,28 +1,28 @@
 <template>
     <tr>
-        <td class="align-middle pointer" @click="toShow">{{ (index + 1) }}</td>
+        <td class="align-middle d-none d-sm-table-cell pointer" @click="toShow">{{ (index + 1) }}</td>
         <td class="align-middle text-center pointer" @click="toShow"><i class="fas fa-fw" :class="item.state_icon" :title="item.state_comments"></i></td>
-        <td class="align-middle"><i class="fas fa-image pointer" @mouseover="show($event)" @mouseout="$emit('hide')"></i></td>
-        <td class="align-middle pointer" @click="toShow"><span class="flag-icon" :class="'flag-icon-' + item.language.code" :title="item.language.name"></span> {{ item.localName }}</td>
-        <td class="align-middle text-right pointer" @click="toShow">{{ item.card.number }}</td>
-        <td class="align-middle pointer" @click="toShow"><expansion-icon :expansion="item.card.expansion"></expansion-icon></td>
-        <td class="align-middle text-center pointer" @click="toShow"><rarity :value="item.card.rarity"></rarity></td>
-        <td class="align-middle text-center pointer" @click="toShow"><condition :value="item.condition"></condition></td>
         <td class="align-middle pointer" @click="toShow">
+            <div><span class="flag-icon" :class="'flag-icon-' + item.language.code" :title="item.language.name"></span> {{ item.localName }} ({{ item.card.number }})</div>
+            <div v-if="item.cardmarket_comments">{{ item.cardmarket_comments }}</div>
+        </td>
+        <td class="align-middle pointer" @click="toShow"><expansion-icon :expansion="item.card.expansion" :show-name="false"></expansion-icon></td>
+        <td class="align-middle d-none d-lg-table-cell text-center pointer" @click="toShow"><rarity :value="item.card.rarity"></rarity></td>
+        <td class="align-middle d-none d-xl-table-cell text-center pointer" @click="toShow"><condition :value="item.condition"></condition></td>
+        <td class="align-middle d-none d-lg-table-cell pointer" @click="toShow">
             <i class="fas fa-star text-warning" v-if="item.is_foil"></i>
         </td>
-        <td class="align-middle pointer" @click="toShow">{{ item.cardmarket_comments }}</td>
-        <td class="align-middle text-right pointer" @click="toShow">{{ Number(item.unit_price).format(2, ',', '.') }} €</td>
-        <td class="align-middle text-right">
+        <td class="align-middle d-none d-sm-table-cell text-right pointer" @click="toShow">{{ Number(item.unit_price).format(2, ',', '.') }} €</td>
+        <td class="align-middle d-none d-xl-table-cell text-right">
             <input class="form-control text-right" :class="'unit_cost_formatted' in errors ? 'is-invalid' : ''" type="text" v-model="form.unit_cost_formatted" @keydown.enter="update">
             <div class="invalid-feedback" v-text="'unit_cost_formatted' in errors ? errors.unit_cost_formatted[0] : ''"></div>
         </td>
-        <td class="align-middle text-right">
+        <td class="align-middle d-none d-xl-table-cell text-right">
             <input class="form-control text-right" :class="'provision_formatted' in errors ? 'is-invalid' : ''" type="text" v-model="form.provision_formatted" @keydown.enter="update">
             <div class="invalid-feedback" v-text="'provision_formatted' in errors ? errors.provision_formatted[0] : ''"></div>
         </td>
-        <td class="align-middle text-right pointer" @click="toShow">{{ Number(item.unit_price - item.unit_cost - item.provision).format(2, ',', '.') }} €</td>
-        <td class="align-middle text-right">
+        <td class="align-middle d-none d-xl-table-cell text-right pointer" @click="toShow">{{ Number(item.unit_price - item.unit_cost - item.provision).format(2, ',', '.') }} €</td>
+        <td class="align-middle d-none d-sm-table-cell text-right">
             <div class="btn-group btn-group-sm" role="group">
                 <button type="button" class="btn btn-secondary" title="Anzeigen" @click="toShow"><i class="fas fa-fw fa-eye"></i></button>
                 <button type="button" class="btn btn-secondary" title="Speichern" @click="update"><i class="fas fa-fw fa-save"></i></button>

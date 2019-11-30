@@ -1,16 +1,16 @@
 <template>
     <tr v-if="isEditing">
-        <td class="align-middle">{{ item.item.name }}</td>
-        <td class="align-middle text-right">
+        <td class="align-middle w-100"><a class="text-body" :href="item.item.path">{{ item.item.name }}</a></td>
+        <td class="align-middle d-none d-sm-table-cell text-right w-formatted-number">
             <input class="form-control" :class="'quantity_formatted' in errors ? 'is-invalid' : ''" type="text" v-model="form.quantity_formatted" @keydown.enter="update">
             <div class="invalid-feedback" v-text="'quantity_formatted' in errors ? errors.quantity_formatted[0] : ''"></div>
         </td>
-        <td class="align-middle text-right">
+        <td class="align-middle d-none d-sm-table-cell text-right w-formatted-number">
             <input class="form-control" :class="'unit_cost_formatted' in errors ? 'is-invalid' : ''" type="text" v-model="form.unit_cost_formatted" @keydown.enter="update">
             <div class="invalid-feedback" v-text="'unit_cost_formatted' in errors ? errors.unit_cost_formatted[0] : ''"></div>
         </td>
-        <td class="align-middle text-right">{{ Number(calculated_price).format( 2, ',', '.') }} €</td>
-        <td class="align-middle text-right">
+        <td class="align-middle text-right w-formatted-number">{{ Number(calculated_price).format( 2, ',', '.') }} €</td>
+        <td class="align-middle d-none d-sm-table-cell text-right w-action">
             <div class="btn-group btn-group-sm" role="group">
                 <button type="button" class="btn btn-primary" title="Speichern" @click="update"><i class="fas fa-fw fa-save"></i></button>
                 <button type="button" class="btn btn-secondary" title="Löschen" @click="isEditing = false"><i class="fas fa-fw fa-times"></i></button>
@@ -18,11 +18,11 @@
         </td>
     </tr>
     <tr v-else>
-        <td class="align-middle pointer"><a :href="item.item.path">{{ item.item.name }}</a></td>
-        <td class="align-middle text-right pointer" @click="isEditing = true">{{ Number(item.quantity).format(2, ',', '.') }} Stück</td>
-        <td class="align-middle text-right pointer">{{ Number(item.unit_cost).format(2, ',', '.') }} €/Stück</td>
-        <td class="align-middle text-right pointer" @click="isEditing = true">{{ Number(item.quantity * item.unit_cost).format( 2, ',', '.') }} €</td>
-        <td class="align-middle text-right">
+        <td class="align-middle w-100"><a class="text-body" :href="item.item.path">{{ item.item.name }}</a></td>
+        <td class="align-middle d-none d-sm-table-cell text-right pointer w-formatted-number" @click="isEditing = true">{{ Number(item.quantity).format(2, ',', '.') }} Stück</td>
+        <td class="align-middle d-none d-sm-table-cell text-right pointer w-formatted-number">{{ Number(item.unit_cost).format(2, ',', '.') }} €/Stück</td>
+        <td class="align-middle text-right pointer w-formatted-number" @click="isEditing = true">{{ Number(item.quantity * item.unit_cost).format( 2, ',', '.') }} €</td>
+        <td class="align-middle text-right d-none d-sm-table-cell w-action">
             <div class="btn-group btn-group-sm" role="group">
                 <button type="button" class="btn btn-secondary" title="Speichern" @click="isEditing = true"><i class="fas fa-fw fa-edit"></i></button>
                 <button type="button" class="btn btn-secondary" title="Löschen" @click="destroy"><i class="fas fa-fw fa-trash"></i></button>

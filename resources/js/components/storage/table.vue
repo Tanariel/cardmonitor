@@ -39,7 +39,7 @@
                         <th class="text-right d-none d-md-table-cell" width="15%">Zuordnungen</th>
                         <th class="text-right d-none d-sm-table-cell" width="15%">Artikel</th>
                         <th class="text-right d-none d-sm-table-cell" width="15%">Verkaufspreis</th>
-                        <th class="text-right" width="10%">Aktion</th>
+                        <th class="text-right w-action">Aktion</th>
                     </tr>
                 </thead>
                 <tbody>

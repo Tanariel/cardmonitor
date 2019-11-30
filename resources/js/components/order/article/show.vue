@@ -4,7 +4,7 @@
             Alle Karten bearbeitet <span v-show="counts.problem > 0">({{ counts.problem }} {{ counts.problem == 1 ? 'Problem' : 'Probleme' }})</span>
         </div>
         <div class="row mb-3">
-            <div class="col text-center p-3">
+            <div class="col-12 col-sm text-center p-3">
                 <img class="img-fluid" :src="item.card.imagePath">
             </div>
             <div class="col d-flex flex-column">
@@ -16,7 +16,7 @@
                     <div><i class="fas fa-star text-warning" v-if="item.is_foil"></i></div>
                     <div class="mt-2" v-if="item.storage_id" title="Lagerplatz"><i class="fas fa-boxes"></i> {{ item.storage.full_name }}</div>
                 </div>
-                <div class="col mb-3">
+                <div class="col-12 col-sm mb-3">
                     <div class="form-group">
                         <label for="state_comment_boilerplate">Probleme?</label>
                         <select class="form-control" id="state_comment_boilerplate" placeholder="Problem auswählen" @change="form.state_comments += $event.target.value">
@@ -35,9 +35,9 @@
                     <i class="fas fa-fw mb-3" :class="item.state_icon" :title="item.state_comments"></i> {{ item.state_comments }}
                 </div>
                 <div class="d-flex justify-content-between">
-                    <button class="btn btn-danger" @click="next(true, 1)">Nächste Karte (Status Problem)</button>
+                    <button class="btn btn-danger text-overflow-ellipsis" title="Nächste Karte (Status Problem)" @click="next(true, 1)">Nächste Karte (Status Problem)</button>
                     <button class="btn btn-light" @click="next(false)">Weiter</button>
-                    <button class="btn btn-primary" @click="next(true, 0)">Nächste Karte (Status OK)</button>
+                    <button class="btn btn-primary text-overflow-ellipsis" title="Nächste Karte (Status OK)" @click="next(true, 0)">Nächste Karte (Status OK)</button>
                 </div>
             </div>
         </div>

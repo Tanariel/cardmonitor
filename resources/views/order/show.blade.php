@@ -3,7 +3,7 @@
 @section('content')
 
     <div class="d-flex mb-3">
-        <h2 class="col"><a class="text-body" href="/order">Bestellung</a> > {{ $model->cardmarket_order_id }} - {{ $model->stateFormatted }}</h2>
+        <h2 class="col mb-0"><a class="text-body" href="/order">Bestellung</a><span class="d-none d-md-inline"> > {{ $model->cardmarket_order_id }}<span class="d-none d-lg-inline"> - {{ $model->stateFormatted }}</span></span></h2>
         <div class="d-flex align-items-center">
             <button class="btn btn-secondary ml-1" data-toggle="modal" data-target="#message-create" data-model-id="{{ $model->id }}"><i class="fas fa-envelope"></i></button>
             @if ($model->state == 'paid')
@@ -23,34 +23,34 @@
         </div>
     </div>
 
-    <div class="row mb-3">
+    <div class="row align-items-stretch mb-3">
 
-        <div class="col">
-            <div class="card font-weight-bold text-light">
+        <div class="col-6 col-sm mb-3 mb-sm-0">
+            <div class="card font-weight-bold text-light h-100">
                 <div class="card-body {{ (is_null($model->bought_at) ? '' : 'bg-primary') }}">
                     Unbezahlt{{ (is_null($model->bought_at) ? '' : ' : ' . $model->bought_at->format('d.m.Y H:i'))}}
                 </div>
             </div>
         </div>
 
-        <div class="col">
-            <div class="card font-weight-bold text-light">
+        <div class="col-6 col-sm mb-3 mb-sm-0">
+            <div class="card font-weight-bold text-light h-100">
                 <div class="card-body {{ (is_null($model->paid_at) ? '' : 'bg-primary') }}">
                     Bezahlt{{ (is_null($model->paid_at) ? '' : ' : ' . $model->paid_at->format('d.m.Y H:i'))}}
                 </div>
             </div>
         </div>
 
-        <div class="col">
-            <div class="card font-weight-bold text-light">
+        <div class="col-6 col-sm">
+            <div class="card font-weight-bold text-light h-100">
                 <div class="card-body {{ (is_null($model->sent_at) ? '' : 'bg-primary') }}">
                     Versandt{{ (is_null($model->sent_at) ? '' : ' : ' . $model->sent_at->format('d.m.Y H:i'))}}
                 </div>
             </div>
         </div>
 
-        <div class="col">
-            <div class="card font-weight-bold text-light">
+        <div class="col-6 col-sm">
+            <div class="card font-weight-bold text-light h-100">
                 <div class="card-body {{ (is_null($model->received_at) ? '' : 'bg-primary') }}">
                     Angekommen{{ (is_null($model->received_at) ? '' : ' : ' . $model->received_at->format('d.m.Y H:i'))}}
                 </div>
@@ -67,51 +67,51 @@
                 <div class="card-header">{{ $model->cardmarket_order_id }}</div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-lg-6">
+                        <div class="col-md-6">
                             <div class="row">
-                                <div class="col-md-4"><b>Bestellnummer</b></div>
-                                <div class="col-md-8">{{ $model->cardmarket_order_id }}</div>
+                                <div class="col-label"><b>Bestellnummer</b></div>
+                                <div class="col-value">{{ $model->cardmarket_order_id }}</div>
                             </div>
                             <div class="row">
-                                <div class="col-md-4"><b>Käufer</b></div>
-                                <div class="col-md-8">{{ $model->buyer->username }}</div>
+                                <div class="col-label"><b>Käufer</b></div>
+                                <div class="col-value">{{ $model->buyer->username }}</div>
                             </div>
                             <div class="row">
-                                <div class="col-md-4"><b>Verkäufer</b></div>
-                                <div class="col-md-8">{{ $model->seller->username }}</div>
+                                <div class="col-label"><b>Verkäufer</b></div>
+                                <div class="col-value">{{ $model->seller->username }}</div>
                             </div>
                             <div class="row">
-                                <div class="col-md-4"><b>Karten</b></div>
-                                <div class="col-md-8">{{ $model->articles_count }}</div>
+                                <div class="col-label"><b>Karten</b></div>
+                                <div class="col-value">{{ $model->articles_count }}</div>
                             </div>
                             @if ($model->evaluation)
                                 <div class="row">
-                                    <div class="col-md-4">&nbsp;</div>
-                                    <div class="col-md-8"></div>
+                                    <div class="col-label">&nbsp;</div>
+                                    <div class="col-value"></div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-4"><b>Allgemeine Bewertung</b></div>
-                                    <div class="col-md-8">{{ $model->evaluation->grade }}</div>
+                                    <div class="col-label"><b>Allgemeine Bewertung</b></div>
+                                    <div class="col-value">{{ $model->evaluation->grade }}</div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-4"><b>Beschreibung der Artikelzustände</b></div>
-                                    <div class="col-md-8">{{ $model->evaluation->item_description }}</div>
+                                    <div class="col-label"><b>Beschreibung der Artikelzustände</b></div>
+                                    <div class="col-value">{{ $model->evaluation->item_description }}</div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-4"><b>Verpackung der Bestellung</b></div>
-                                    <div class="col-md-8">{{ $model->evaluation->packaging }}</div>
+                                    <div class="col-label"><b>Verpackung der Bestellung</b></div>
+                                    <div class="col-value">{{ $model->evaluation->packaging }}</div>
                                 </div>
                                 @if ($model->evaluation->comment)
                                     <div class="row">
-                                        <div class="col-md-4"><b>Komentar</b></div>
-                                        <div class="col-md-8">{{ $model->evaluation->comment }}</div>
+                                        <div class="col-label"><b>Komentar</b></div>
+                                        <div class="col-value">{{ $model->evaluation->comment }}</div>
                                     </div>
                                 @endif
                                 @if (! empty($model->evaluation->complaint))
                                     @foreach ($model->evaluation->complaint as $complaint)
                                         <div class="row">
-                                            <div class="col-md-4 font-weight-bold text-danger">{{ ($loop->first ? 'Beschwerden' : '') }}</div>
-                                            <div class="col-md-8">{{ $complaint }}</div>
+                                            <div class="col-label font-weight-bold text-danger">{{ ($loop->first ? 'Beschwerden' : '') }}</div>
+                                            <div class="col-value">{{ $complaint }}</div>
                                         </div>
                                     @endforeach
                                 @endif
@@ -146,60 +146,60 @@
                 <div class="card-header">Kalkulation</div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-lg-6">
+                        <div class="col-md-6">
                             <div class="row">
-                                <div class="col-md-4"><b>Umsatz</b></div>
-                                <div class="col-md-8"><b>{{ number_format($model->revenue, 2, ',', '.') }} €</b></div>
+                                <div class="col-label"><b>Umsatz</b></div>
+                                <div class="col-value"><b>{{ number_format($model->revenue, 2, ',', '.') }} €</b></div>
                             </div>
                             <div class="row">
-                                <div class="col-md-4">Karten</div>
-                                <div class="col-md-8">{{ number_format($model->articles_revenue, 2, ',', '.') }} €</div>
+                                <div class="col-label">Karten</div>
+                                <div class="col-value">{{ number_format($model->articles_revenue, 2, ',', '.') }} €</div>
                             </div>
                             <div class="row">
-                                <div class="col-md-4">Versand</div>
-                                <div class="col-md-8">{{ number_format($model->shipment_revenue, 2, ',', '.') }} €</div>
+                                <div class="col-label">Versand</div>
+                                <div class="col-value">{{ number_format($model->shipment_revenue, 2, ',', '.') }} €</div>
                             </div>
                             <div class="row">
-                                <div class="col-md-4">&nbsp;</div>
-                                <div class="col-md-8"></div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-4"><b>Kosten</b></div>
-                                <div class="col-md-8"><b>{{ number_format($model->cost, 2, ',', '.') }} €</b></div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4">Karten</div>
-                                <div class="col-md-8">{{ number_format($model->articles_cost, 2, ',', '.') }} €</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4">Provision</div>
-                                <div class="col-md-8">{{ number_format($model->provision, 2, ',', '.') }} €</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4">Versand</div>
-                                <div class="col-md-8">{{ number_format($model->shipment_cost, 2, ',', '.') }} €</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4">Sontiges</div>
-                                <div class="col-md-8">{{ number_format($model->items_cost, 2, ',', '.') }} €</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4">&nbsp;</div>
-                                <div class="col-md-8"></div>
+                                <div class="col-label">&nbsp;</div>
+                                <div class="col-value"></div>
                             </div>
 
                             <div class="row">
-                                <div class="col-md-4"><b>Gewinn</b></div>
-                                <div class="col-md-8"><b>{{ number_format($model->profit, 2, ',', '.') }} €</b></div>
+                                <div class="col-label"><b>Kosten</b></div>
+                                <div class="col-value"><b>{{ number_format($model->cost, 2, ',', '.') }} €</b></div>
                             </div>
                             <div class="row">
-                                <div class="col-md-4">Karten</div>
-                                <div class="col-md-8">{{ number_format($model->articles_profit, 2, ',', '.') }} €</div>
+                                <div class="col-label">Karten</div>
+                                <div class="col-value">{{ number_format($model->articles_cost, 2, ',', '.') }} €</div>
                             </div>
                             <div class="row">
-                                <div class="col-md-4">Versand</div>
-                                <div class="col-md-8">{{ number_format($model->shipment_profit, 2, ',', '.') }} €</div>
+                                <div class="col-label">Provision</div>
+                                <div class="col-value">{{ number_format($model->provision, 2, ',', '.') }} €</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-label">Versand</div>
+                                <div class="col-value">{{ number_format($model->shipment_cost, 2, ',', '.') }} €</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-label">Sontiges</div>
+                                <div class="col-value">{{ number_format($model->items_cost, 2, ',', '.') }} €</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-label">&nbsp;</div>
+                                <div class="col-value"></div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-label"><b>Gewinn</b></div>
+                                <div class="col-value"><b>{{ number_format($model->profit, 2, ',', '.') }} €</b></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-label">Karten</div>
+                                <div class="col-value">{{ number_format($model->articles_profit, 2, ',', '.') }} €</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-label">Versand</div>
+                                <div class="col-value">{{ number_format($model->shipment_profit, 2, ',', '.') }} €</div>
                             </div>
 
                         </div>
@@ -207,10 +207,11 @@
                 </div>
             </div>
 
-            <order-item-table :model="{{ json_encode($model) }}" :customs="{{ json_encode($customs) }}"></order-item-table>
 
         </div>
     </div>
+
+    <order-item-table :model="{{ json_encode($model) }}" :customs="{{ json_encode($customs) }}"></order-item-table>
 
     <div class="card">
         <div class="card-header">Artikel</div>

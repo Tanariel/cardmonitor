@@ -3,7 +3,7 @@
 @section('content')
 
     <div class="d-flex mb-1">
-        <h2 class="col"><a class="text-body" href="/item">Regel</a> > {{ $model->name }}</h2>
+        <h2 class="col mb-0"><a class="text-body" href="/item">Regel</a><span class="d-none d-md-inline"> > {{ $model->name }}</span></h2>
         <div class="d-flex align-items-center">
             <a href="{{ $model->editPath }}" class="btn btn-primary" title="Bearbeiten"><i class="fas fa-edit"></i></a>
             <a href="/rule" class="btn btn-secondary ml-1">Übersicht</a>

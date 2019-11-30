@@ -12,21 +12,18 @@
             <table class="table table-hover table-striped bg-white">
                 <thead>
                     <tr>
-                        <th width="100"></th>
-                        <th width="75" class="text-center">Status</th>
-                        <th width="75" class="text-right"></th>
+                        <th class="d-none d-sm-table-cell" width="75"></th>
+                        <th class="text-center w-icon"></th>
                         <th class="">Name</th>
-                        <th class="text-right">#</th>
-                        <th class="">Erweiterung</th>
-                        <th class="text-center">Seltenheit</th>
-                        <th class="text-center">Zustand</th>
-                        <th class="">Extra</th>
-                        <th class="">Hinweise</th>
-                        <th class="text-right">Verkaufspreis</th>
-                        <th class="text-right">Einkaufspreis</th>
-                        <th class="text-right">Provision</th>
-                        <th class="text-right" title="Gewinn ohne allgemeine Kosten">Gewinn</th>
-                        <th class="text-right" width="10%">Aktion</th>
+                        <th class="w-icon"></th>
+                        <th class="text-center d-none d-lg-table-cell w-icon"></th>
+                        <th class="text-center d-none d-xl-table-cell w-icon"></th>
+                        <th class="d-none d-lg-table-cell" style="width: 100px;"></th>
+                        <th class="text-right d-none d-sm-table-cell w-formatted-number">VK</th>
+                        <th class="text-right d-none d-xl-table-cell w-formatted-number">EK</th>
+                        <th class="text-right d-none d-xl-table-cell w-formatted-number">Provision</th>
+                        <th class="text-right d-none d-xl-table-cell w-formatted-number" title="Gewinn ohne allgemeine Kosten">Gewinn</th>
+                        <th class="text-right d-none d-sm-table-cell w-action">Aktion</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -36,29 +33,60 @@
                 </tbody>
                 <tfoot>
                     <tr v-show="counts.open > 0">
-                        <td><b>Offen</b></td>
+                        <td class="d-none d-sm-table-cell"><b>Offen</b></td>
                         <td class="text-center"><b>{{ counts.open }}</b></td>
-                        <td colspan="13"></td>
+                        <td class=""></td>
+                        <td class=""></td>
+                        <td class="d-none d-lg-table-cell"></td>
+                        <td class="d-none d-xl-table-cell"></td>
+                        <td class="d-none d-lg-table-cell"></td>
+                        <td class="d-none d-sm-table-cell"></td>
+                        <td class="d-none d-xl-table-cell"></td>
+                        <td class="d-none d-xl-table-cell"></td>
+                        <td class="d-none d-xl-table-cell"></td>
+                        <td class="d-none d-sm-table-cell"></td>
                     </tr>
                     <tr v-show="counts.problem > 0">
-                        <td><b>Probleme</b></td>
+                        <td class="d-none d-sm-table-cell"><b>Probleme</b></td>
                         <td class="text-center"><b>{{ counts.problem }}</b></td>
-                        <td colspan="13"></td>
+                        <td class=""></td>
+                        <td class=""></td>
+                        <td class="d-none d-lg-table-cell"></td>
+                        <td class="d-none d-xl-table-cell"></td>
+                        <td class="d-none d-lg-table-cell"></td>
+                        <td class="d-none d-sm-table-cell"></td>
+                        <td class="d-none d-xl-table-cell"></td>
+                        <td class="d-none d-xl-table-cell"></td>
+                        <td class="d-none d-xl-table-cell"></td>
+                        <td class="d-none d-sm-table-cell"></td>
                     </tr>
                     <tr v-show="counts.ok > 0">
-                        <td><b>OK</b></td>
+                        <td class="d-none d-sm-table-cell"><b>OK</b></td>
                         <td class="text-center"><b>{{ counts.ok }}</b></td>
-                        <td colspan="13"></td>
+                        <td class=""></td>
+                        <td class=""></td>
+                        <td class="d-none d-lg-table-cell"></td>
+                        <td class="d-none d-xl-table-cell"></td>
+                        <td class="d-none d-lg-table-cell"></td>
+                        <td class="d-none d-sm-table-cell"></td>
+                        <td class="d-none d-xl-table-cell"></td>
+                        <td class="d-none d-xl-table-cell"></td>
+                        <td class="d-none d-xl-table-cell"></td>
+                        <td class="d-none d-sm-table-cell"></td>
                     </tr>
                     <tr>
-                        <td><b>Gesamt</b></td>
+                        <td class="d-none d-sm-table-cell"><b></b></td>
                         <td class="text-center"><b>{{ counts.all }}</b></td>
-                        <td colspan="8"></td>
-                        <td class="text-right font-weight-bold">{{ sums.unit_price.toFixed(2) }} €</td>
-                        <td class="text-right font-weight-bold">{{ sums.unit_cost.toFixed(2) }} €</td>
-                        <td class="text-right font-weight-bold">{{ sums.provision.toFixed(2) }} €</td>
-                        <td class="text-right font-weight-bold">{{ sums.profit.toFixed(2) }} €</td>
-                        <td></td>
+                        <td class=""></td>
+                        <td class=""></td>
+                        <td class="d-none d-lg-table-cell"></td>
+                        <td class="d-none d-xl-table-cell"></td>
+                        <td class="d-none d-lg-table-cell"></td>
+                        <td class="d-none d-sm-table-cell text-right font-weight-bold">{{ sums.unit_price.toFixed(2) }} €</td>
+                        <td class="d-none d-xl-table-cell text-right font-weight-bold">{{ sums.unit_cost.toFixed(2) }} €</td>
+                        <td class="d-none d-xl-table-cell text-right font-weight-bold">{{ sums.provision.toFixed(2) }} €</td>
+                        <td class="d-none d-xl-table-cell text-right font-weight-bold">{{ sums.profit.toFixed(2) }} €</td>
+                        <td class="d-none d-sm-table-cell"></td>
                     </tr>
                 </tfoot>
             </table>

@@ -105,9 +105,9 @@
                         <th class="text-center d-none d-lg-table-cell">Zustand</th>
                         <th class="d-none d-xl-table-cell" style="width: 100px;"></th>
                         <th class="d-none d-xl-table-cell">Lagerplatz</th>
-                        <th class="text-right d-none d-sm-table-cell">Verkaufspreis</th>
-                        <th class="text-right d-none d-xl-table-cell">Einkaufspreis</th>
-                        <th class="text-right d-none d-xl-table-cell w-formatted-number">Provision</th>
+                        <th class="text-right d-none d-sm-table-cell">VK</th>
+                        <th class="text-right d-none d-lg-table-cell">EK</th>
+                        <th class="text-right d-none d-lg-table-cell w-formatted-number">Provision</th>
                         <th class="text-right d-none d-xl-table-cell w-formatted-number" title="Voraussichtlicher Gewinn ohne allgemeine Kosten" width="100">Gewinn</th>
                         <th class="text-right d-none d-sm-table-cell w-action">Aktion</th>
                     </tr>

@@ -3,7 +3,7 @@
 @section('content')
 
     <div class="d-flex">
-        <h2 class="col"><a class="text-body" href="/item">Kosten</a> > {{ $model->name }}</h2>
+        <h2 class="col mb-0"><a class="text-body" href="/item">Kosten</a><span class="d-none d-md-inline"> > {{ $model->name }}</span></h2>
         <div class="d-flex align-items-center">
             <a href="{{ $model->path }}" class="btn btn-secondary ml-1">Übersicht</a>
         </div>

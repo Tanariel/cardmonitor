@@ -5079,6 +5079,34 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -50648,17 +50676,17 @@ var staticRenderFns = [
         ]),
         _vm._v(" "),
         _c("th", { staticClass: "text-right d-none d-sm-table-cell" }, [
-          _vm._v("Verkaufspreis")
+          _vm._v("VK")
         ]),
         _vm._v(" "),
-        _c("th", { staticClass: "text-right d-none d-xl-table-cell" }, [
-          _vm._v("Einkaufspreis")
+        _c("th", { staticClass: "text-right d-none d-lg-table-cell" }, [
+          _vm._v("EK")
         ]),
         _vm._v(" "),
         _c(
           "th",
           {
-            staticClass: "text-right d-none d-xl-table-cell w-formatted-number"
+            staticClass: "text-right d-none d-lg-table-cell w-formatted-number"
           },
           [_vm._v("Provision")]
         ),
@@ -53368,7 +53396,10 @@ var render = function() {
   return _c("tr", [
     _c(
       "td",
-      { staticClass: "align-middle pointer", on: { click: _vm.toShow } },
+      {
+        staticClass: "align-middle d-none d-sm-table-cell pointer",
+        on: { click: _vm.toShow }
+      },
       [_vm._v(_vm._s(_vm.index + 1))]
     ),
     _vm._v(" "),
@@ -53387,53 +53418,46 @@ var render = function() {
       ]
     ),
     _vm._v(" "),
-    _c("td", { staticClass: "align-middle" }, [
-      _c("i", {
-        staticClass: "fas fa-image pointer",
-        on: {
-          mouseover: function($event) {
-            return _vm.show($event)
-          },
-          mouseout: function($event) {
-            return _vm.$emit("hide")
-          }
-        }
-      })
-    ]),
-    _vm._v(" "),
     _c(
       "td",
       { staticClass: "align-middle pointer", on: { click: _vm.toShow } },
       [
-        _c("span", {
-          staticClass: "flag-icon",
-          class: "flag-icon-" + _vm.item.language.code,
-          attrs: { title: _vm.item.language.name }
-        }),
-        _vm._v(" " + _vm._s(_vm.item.localName))
+        _c("div", [
+          _c("span", {
+            staticClass: "flag-icon",
+            class: "flag-icon-" + _vm.item.language.code,
+            attrs: { title: _vm.item.language.name }
+          }),
+          _vm._v(
+            " " +
+              _vm._s(_vm.item.localName) +
+              " (" +
+              _vm._s(_vm.item.card.number) +
+              ")"
+          )
+        ]),
+        _vm._v(" "),
+        _vm.item.cardmarket_comments
+          ? _c("div", [_vm._v(_vm._s(_vm.item.cardmarket_comments))])
+          : _vm._e()
       ]
     ),
     _vm._v(" "),
     _c(
       "td",
-      {
-        staticClass: "align-middle text-right pointer",
-        on: { click: _vm.toShow }
-      },
-      [_vm._v(_vm._s(_vm.item.card.number))]
-    ),
-    _vm._v(" "),
-    _c(
-      "td",
       { staticClass: "align-middle pointer", on: { click: _vm.toShow } },
-      [_c("expansion-icon", { attrs: { expansion: _vm.item.card.expansion } })],
+      [
+        _c("expansion-icon", {
+          attrs: { expansion: _vm.item.card.expansion, "show-name": false }
+        })
+      ],
       1
     ),
     _vm._v(" "),
     _c(
       "td",
       {
-        staticClass: "align-middle text-center pointer",
+        staticClass: "align-middle d-none d-lg-table-cell text-center pointer",
         on: { click: _vm.toShow }
       },
       [_c("rarity", { attrs: { value: _vm.item.card.rarity } })],
@@ -53443,7 +53467,7 @@ var render = function() {
     _c(
       "td",
       {
-        staticClass: "align-middle text-center pointer",
+        staticClass: "align-middle d-none d-xl-table-cell text-center pointer",
         on: { click: _vm.toShow }
       },
       [_c("condition", { attrs: { value: _vm.item.condition } })],
@@ -53452,7 +53476,10 @@ var render = function() {
     _vm._v(" "),
     _c(
       "td",
-      { staticClass: "align-middle pointer", on: { click: _vm.toShow } },
+      {
+        staticClass: "align-middle d-none d-lg-table-cell pointer",
+        on: { click: _vm.toShow }
+      },
       [
         _vm.item.is_foil
           ? _c("i", { staticClass: "fas fa-star text-warning" })
@@ -53462,113 +53489,115 @@ var render = function() {
     _vm._v(" "),
     _c(
       "td",
-      { staticClass: "align-middle pointer", on: { click: _vm.toShow } },
-      [_vm._v(_vm._s(_vm.item.cardmarket_comments))]
-    ),
-    _vm._v(" "),
-    _c(
-      "td",
       {
-        staticClass: "align-middle text-right pointer",
+        staticClass: "align-middle d-none d-sm-table-cell text-right pointer",
         on: { click: _vm.toShow }
       },
       [_vm._v(_vm._s(Number(_vm.item.unit_price).format(2, ",", ".")) + " €")]
     ),
     _vm._v(" "),
-    _c("td", { staticClass: "align-middle text-right" }, [
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.form.unit_cost_formatted,
-            expression: "form.unit_cost_formatted"
-          }
-        ],
-        staticClass: "form-control text-right",
-        class: "unit_cost_formatted" in _vm.errors ? "is-invalid" : "",
-        attrs: { type: "text" },
-        domProps: { value: _vm.form.unit_cost_formatted },
-        on: {
-          keydown: function($event) {
-            if (
-              !$event.type.indexOf("key") &&
-              _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
-            ) {
-              return null
+    _c(
+      "td",
+      { staticClass: "align-middle d-none d-xl-table-cell text-right" },
+      [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.form.unit_cost_formatted,
+              expression: "form.unit_cost_formatted"
             }
-            return _vm.update($event)
-          },
-          input: function($event) {
-            if ($event.target.composing) {
-              return
+          ],
+          staticClass: "form-control text-right",
+          class: "unit_cost_formatted" in _vm.errors ? "is-invalid" : "",
+          attrs: { type: "text" },
+          domProps: { value: _vm.form.unit_cost_formatted },
+          on: {
+            keydown: function($event) {
+              if (
+                !$event.type.indexOf("key") &&
+                _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+              ) {
+                return null
+              }
+              return _vm.update($event)
+            },
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.$set(_vm.form, "unit_cost_formatted", $event.target.value)
             }
-            _vm.$set(_vm.form, "unit_cost_formatted", $event.target.value)
           }
-        }
-      }),
-      _vm._v(" "),
-      _c("div", {
-        staticClass: "invalid-feedback",
-        domProps: {
-          textContent: _vm._s(
-            "unit_cost_formatted" in _vm.errors
-              ? _vm.errors.unit_cost_formatted[0]
-              : ""
-          )
-        }
-      })
-    ]),
+        }),
+        _vm._v(" "),
+        _c("div", {
+          staticClass: "invalid-feedback",
+          domProps: {
+            textContent: _vm._s(
+              "unit_cost_formatted" in _vm.errors
+                ? _vm.errors.unit_cost_formatted[0]
+                : ""
+            )
+          }
+        })
+      ]
+    ),
     _vm._v(" "),
-    _c("td", { staticClass: "align-middle text-right" }, [
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.form.provision_formatted,
-            expression: "form.provision_formatted"
-          }
-        ],
-        staticClass: "form-control text-right",
-        class: "provision_formatted" in _vm.errors ? "is-invalid" : "",
-        attrs: { type: "text" },
-        domProps: { value: _vm.form.provision_formatted },
-        on: {
-          keydown: function($event) {
-            if (
-              !$event.type.indexOf("key") &&
-              _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
-            ) {
-              return null
+    _c(
+      "td",
+      { staticClass: "align-middle d-none d-xl-table-cell text-right" },
+      [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.form.provision_formatted,
+              expression: "form.provision_formatted"
             }
-            return _vm.update($event)
-          },
-          input: function($event) {
-            if ($event.target.composing) {
-              return
+          ],
+          staticClass: "form-control text-right",
+          class: "provision_formatted" in _vm.errors ? "is-invalid" : "",
+          attrs: { type: "text" },
+          domProps: { value: _vm.form.provision_formatted },
+          on: {
+            keydown: function($event) {
+              if (
+                !$event.type.indexOf("key") &&
+                _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+              ) {
+                return null
+              }
+              return _vm.update($event)
+            },
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.$set(_vm.form, "provision_formatted", $event.target.value)
             }
-            _vm.$set(_vm.form, "provision_formatted", $event.target.value)
           }
-        }
-      }),
-      _vm._v(" "),
-      _c("div", {
-        staticClass: "invalid-feedback",
-        domProps: {
-          textContent: _vm._s(
-            "provision_formatted" in _vm.errors
-              ? _vm.errors.provision_formatted[0]
-              : ""
-          )
-        }
-      })
-    ]),
+        }),
+        _vm._v(" "),
+        _c("div", {
+          staticClass: "invalid-feedback",
+          domProps: {
+            textContent: _vm._s(
+              "provision_formatted" in _vm.errors
+                ? _vm.errors.provision_formatted[0]
+                : ""
+            )
+          }
+        })
+      ]
+    ),
     _vm._v(" "),
     _c(
       "td",
       {
-        staticClass: "align-middle text-right pointer",
+        staticClass: "align-middle d-none d-xl-table-cell text-right pointer",
         on: { click: _vm.toShow }
       },
       [
@@ -53582,33 +53611,37 @@ var render = function() {
       ]
     ),
     _vm._v(" "),
-    _c("td", { staticClass: "align-middle text-right" }, [
-      _c(
-        "div",
-        { staticClass: "btn-group btn-group-sm", attrs: { role: "group" } },
-        [
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-secondary",
-              attrs: { type: "button", title: "Anzeigen" },
-              on: { click: _vm.toShow }
-            },
-            [_c("i", { staticClass: "fas fa-fw fa-eye" })]
-          ),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-secondary",
-              attrs: { type: "button", title: "Speichern" },
-              on: { click: _vm.update }
-            },
-            [_c("i", { staticClass: "fas fa-fw fa-save" })]
-          )
-        ]
-      )
-    ])
+    _c(
+      "td",
+      { staticClass: "align-middle d-none d-sm-table-cell text-right" },
+      [
+        _c(
+          "div",
+          { staticClass: "btn-group btn-group-sm", attrs: { role: "group" } },
+          [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-secondary",
+                attrs: { type: "button", title: "Anzeigen" },
+                on: { click: _vm.toShow }
+              },
+              [_c("i", { staticClass: "fas fa-fw fa-eye" })]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-secondary",
+                attrs: { type: "button", title: "Speichern" },
+                on: { click: _vm.update }
+              },
+              [_c("i", { staticClass: "fas fa-fw fa-save" })]
+            )
+          ]
+        )
+      ]
+    )
   ])
 }
 var staticRenderFns = []
@@ -53677,7 +53710,7 @@ var render = function() {
         ),
         _vm._v(" "),
         _c("div", { staticClass: "row mb-3" }, [
-          _c("div", { staticClass: "col text-center p-3" }, [
+          _c("div", { staticClass: "col-12 col-sm text-center p-3" }, [
             _c("img", {
               staticClass: "img-fluid",
               attrs: { src: _vm.item.card.imagePath }
@@ -53750,7 +53783,7 @@ var render = function() {
                 : _vm._e()
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "col mb-3" }, [
+            _c("div", { staticClass: "col-12 col-sm mb-3" }, [
               _c("div", { staticClass: "form-group" }, [
                 _c("label", { attrs: { for: "state_comment_boilerplate" } }, [
                   _vm._v("Probleme?")
@@ -53830,7 +53863,8 @@ var render = function() {
               _c(
                 "button",
                 {
-                  staticClass: "btn btn-danger",
+                  staticClass: "btn btn-danger text-overflow-ellipsis",
+                  attrs: { title: "Nächste Karte (Status Problem)" },
                   on: {
                     click: function($event) {
                       return _vm.next(true, 1)
@@ -53856,7 +53890,8 @@ var render = function() {
               _c(
                 "button",
                 {
-                  staticClass: "btn btn-primary",
+                  staticClass: "btn btn-primary text-overflow-ellipsis",
+                  attrs: { title: "Nächste Karte (Status OK)" },
                   on: {
                     click: function($event) {
                       return _vm.next(true, 0)
@@ -53974,7 +54009,25 @@ var render = function() {
                       _c("b", [_vm._v(_vm._s(_vm.counts.open))])
                     ]),
                     _vm._v(" "),
-                    _c("td", { attrs: { colspan: "13" } })
+                    _c("td", {}),
+                    _vm._v(" "),
+                    _c("td", {}),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "d-none d-lg-table-cell" }),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "d-none d-xl-table-cell" }),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "d-none d-lg-table-cell" }),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "d-none d-sm-table-cell" }),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "d-none d-xl-table-cell" }),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "d-none d-xl-table-cell" }),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "d-none d-xl-table-cell" }),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "d-none d-sm-table-cell" })
                   ]
                 ),
                 _vm._v(" "),
@@ -53997,7 +54050,25 @@ var render = function() {
                       _c("b", [_vm._v(_vm._s(_vm.counts.problem))])
                     ]),
                     _vm._v(" "),
-                    _c("td", { attrs: { colspan: "13" } })
+                    _c("td", {}),
+                    _vm._v(" "),
+                    _c("td", {}),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "d-none d-lg-table-cell" }),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "d-none d-xl-table-cell" }),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "d-none d-lg-table-cell" }),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "d-none d-sm-table-cell" }),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "d-none d-xl-table-cell" }),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "d-none d-xl-table-cell" }),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "d-none d-xl-table-cell" }),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "d-none d-sm-table-cell" })
                   ]
                 ),
                 _vm._v(" "),
@@ -54020,7 +54091,25 @@ var render = function() {
                       _c("b", [_vm._v(_vm._s(_vm.counts.ok))])
                     ]),
                     _vm._v(" "),
-                    _c("td", { attrs: { colspan: "13" } })
+                    _c("td", {}),
+                    _vm._v(" "),
+                    _c("td", {}),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "d-none d-lg-table-cell" }),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "d-none d-xl-table-cell" }),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "d-none d-lg-table-cell" }),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "d-none d-sm-table-cell" }),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "d-none d-xl-table-cell" }),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "d-none d-xl-table-cell" }),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "d-none d-xl-table-cell" }),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "d-none d-sm-table-cell" })
                   ]
                 ),
                 _vm._v(" "),
@@ -54031,25 +54120,53 @@ var render = function() {
                     _c("b", [_vm._v(_vm._s(_vm.counts.all))])
                   ]),
                   _vm._v(" "),
-                  _c("td", { attrs: { colspan: "8" } }),
+                  _c("td", {}),
                   _vm._v(" "),
-                  _c("td", { staticClass: "text-right font-weight-bold" }, [
-                    _vm._v(_vm._s(_vm.sums.unit_price.toFixed(2)) + " €")
-                  ]),
+                  _c("td", {}),
                   _vm._v(" "),
-                  _c("td", { staticClass: "text-right font-weight-bold" }, [
-                    _vm._v(_vm._s(_vm.sums.unit_cost.toFixed(2)) + " €")
-                  ]),
+                  _c("td", { staticClass: "d-none d-lg-table-cell" }),
                   _vm._v(" "),
-                  _c("td", { staticClass: "text-right font-weight-bold" }, [
-                    _vm._v(_vm._s(_vm.sums.provision.toFixed(2)) + " €")
-                  ]),
+                  _c("td", { staticClass: "d-none d-xl-table-cell" }),
                   _vm._v(" "),
-                  _c("td", { staticClass: "text-right font-weight-bold" }, [
-                    _vm._v(_vm._s(_vm.sums.profit.toFixed(2)) + " €")
-                  ]),
+                  _c("td", { staticClass: "d-none d-lg-table-cell" }),
                   _vm._v(" "),
-                  _c("td")
+                  _c(
+                    "td",
+                    {
+                      staticClass:
+                        "d-none d-sm-table-cell text-right font-weight-bold"
+                    },
+                    [_vm._v(_vm._s(_vm.sums.unit_price.toFixed(2)) + " €")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "td",
+                    {
+                      staticClass:
+                        "d-none d-xl-table-cell text-right font-weight-bold"
+                    },
+                    [_vm._v(_vm._s(_vm.sums.unit_cost.toFixed(2)) + " €")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "td",
+                    {
+                      staticClass:
+                        "d-none d-xl-table-cell text-right font-weight-bold"
+                    },
+                    [_vm._v(_vm._s(_vm.sums.provision.toFixed(2)) + " €")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "td",
+                    {
+                      staticClass:
+                        "d-none d-xl-table-cell text-right font-weight-bold"
+                    },
+                    [_vm._v(_vm._s(_vm.sums.profit.toFixed(2)) + " €")]
+                  ),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "d-none d-sm-table-cell" })
                 ])
               ])
             ]
@@ -54092,46 +54209,64 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", { attrs: { width: "100" } }),
+        _c("th", {
+          staticClass: "d-none d-sm-table-cell",
+          attrs: { width: "75" }
+        }),
         _vm._v(" "),
-        _c("th", { staticClass: "text-center", attrs: { width: "75" } }, [
-          _vm._v("Status")
-        ]),
-        _vm._v(" "),
-        _c("th", { staticClass: "text-right", attrs: { width: "75" } }),
+        _c("th", { staticClass: "text-center w-icon" }),
         _vm._v(" "),
         _c("th", {}, [_vm._v("Name")]),
         _vm._v(" "),
-        _c("th", { staticClass: "text-right" }, [_vm._v("#")]),
+        _c("th", { staticClass: "w-icon" }),
         _vm._v(" "),
-        _c("th", {}, [_vm._v("Erweiterung")]),
+        _c("th", { staticClass: "text-center d-none d-lg-table-cell w-icon" }),
         _vm._v(" "),
-        _c("th", { staticClass: "text-center" }, [_vm._v("Seltenheit")]),
+        _c("th", { staticClass: "text-center d-none d-xl-table-cell w-icon" }),
         _vm._v(" "),
-        _c("th", { staticClass: "text-center" }, [_vm._v("Zustand")]),
-        _vm._v(" "),
-        _c("th", {}, [_vm._v("Extra")]),
-        _vm._v(" "),
-        _c("th", {}, [_vm._v("Hinweise")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "text-right" }, [_vm._v("Verkaufspreis")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "text-right" }, [_vm._v("Einkaufspreis")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "text-right" }, [_vm._v("Provision")]),
+        _c("th", {
+          staticClass: "d-none d-lg-table-cell",
+          staticStyle: { width: "100px" }
+        }),
         _vm._v(" "),
         _c(
           "th",
           {
-            staticClass: "text-right",
+            staticClass: "text-right d-none d-sm-table-cell w-formatted-number"
+          },
+          [_vm._v("VK")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass: "text-right d-none d-xl-table-cell w-formatted-number"
+          },
+          [_vm._v("EK")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass: "text-right d-none d-xl-table-cell w-formatted-number"
+          },
+          [_vm._v("Provision")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass: "text-right d-none d-xl-table-cell w-formatted-number",
             attrs: { title: "Gewinn ohne allgemeine Kosten" }
           },
           [_vm._v("Gewinn")]
         ),
         _vm._v(" "),
-        _c("th", { staticClass: "text-right", attrs: { width: "10%" } }, [
-          _vm._v("Aktion")
-        ])
+        _c(
+          "th",
+          { staticClass: "text-right d-none d-sm-table-cell w-action" },
+          [_vm._v("Aktion")]
+        )
       ])
     ])
   },
@@ -54139,25 +54274,31 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", [_c("b", [_vm._v("Offen")])])
+    return _c("td", { staticClass: "d-none d-sm-table-cell" }, [
+      _c("b", [_vm._v("Offen")])
+    ])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", [_c("b", [_vm._v("Probleme")])])
+    return _c("td", { staticClass: "d-none d-sm-table-cell" }, [
+      _c("b", [_vm._v("Probleme")])
+    ])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", [_c("b", [_vm._v("OK")])])
+    return _c("td", { staticClass: "d-none d-sm-table-cell" }, [
+      _c("b", [_vm._v("OK")])
+    ])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", [_c("b", [_vm._v("Gesamt")])])
+    return _c("td", { staticClass: "d-none d-sm-table-cell" }, [_c("b")])
   }
 ]
 render._withStripped = true
@@ -54183,149 +54324,184 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _vm.isEditing
     ? _c("tr", [
-        _c("td", { staticClass: "align-middle" }, [
-          _vm._v(_vm._s(_vm.item.item.name))
-        ]),
-        _vm._v(" "),
-        _c("td", { staticClass: "align-middle text-right" }, [
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.form.quantity_formatted,
-                expression: "form.quantity_formatted"
-              }
-            ],
-            staticClass: "form-control",
-            class: "quantity_formatted" in _vm.errors ? "is-invalid" : "",
-            attrs: { type: "text" },
-            domProps: { value: _vm.form.quantity_formatted },
-            on: {
-              keydown: function($event) {
-                if (
-                  !$event.type.indexOf("key") &&
-                  _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
-                ) {
-                  return null
-                }
-                return _vm.update($event)
-              },
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.$set(_vm.form, "quantity_formatted", $event.target.value)
-              }
-            }
-          }),
-          _vm._v(" "),
-          _c("div", {
-            staticClass: "invalid-feedback",
-            domProps: {
-              textContent: _vm._s(
-                "quantity_formatted" in _vm.errors
-                  ? _vm.errors.quantity_formatted[0]
-                  : ""
-              )
-            }
-          })
-        ]),
-        _vm._v(" "),
-        _c("td", { staticClass: "align-middle text-right" }, [
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.form.unit_cost_formatted,
-                expression: "form.unit_cost_formatted"
-              }
-            ],
-            staticClass: "form-control",
-            class: "unit_cost_formatted" in _vm.errors ? "is-invalid" : "",
-            attrs: { type: "text" },
-            domProps: { value: _vm.form.unit_cost_formatted },
-            on: {
-              keydown: function($event) {
-                if (
-                  !$event.type.indexOf("key") &&
-                  _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
-                ) {
-                  return null
-                }
-                return _vm.update($event)
-              },
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.$set(_vm.form, "unit_cost_formatted", $event.target.value)
-              }
-            }
-          }),
-          _vm._v(" "),
-          _c("div", {
-            staticClass: "invalid-feedback",
-            domProps: {
-              textContent: _vm._s(
-                "unit_cost_formatted" in _vm.errors
-                  ? _vm.errors.unit_cost_formatted[0]
-                  : ""
-              )
-            }
-          })
-        ]),
-        _vm._v(" "),
-        _c("td", { staticClass: "align-middle text-right" }, [
-          _vm._v(
-            _vm._s(Number(_vm.calculated_price).format(2, ",", ".")) + " €"
-          )
-        ]),
-        _vm._v(" "),
-        _c("td", { staticClass: "align-middle text-right" }, [
+        _c("td", { staticClass: "align-middle w-100" }, [
           _c(
-            "div",
-            { staticClass: "btn-group btn-group-sm", attrs: { role: "group" } },
-            [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-primary",
-                  attrs: { type: "button", title: "Speichern" },
-                  on: { click: _vm.update }
-                },
-                [_c("i", { staticClass: "fas fa-fw fa-save" })]
-              ),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-secondary",
-                  attrs: { type: "button", title: "Löschen" },
-                  on: {
-                    click: function($event) {
-                      _vm.isEditing = false
-                    }
-                  }
-                },
-                [_c("i", { staticClass: "fas fa-fw fa-times" })]
-              )
-            ]
+            "a",
+            { staticClass: "text-body", attrs: { href: _vm.item.item.path } },
+            [_vm._v(_vm._s(_vm.item.item.name))]
           )
-        ])
-      ])
-    : _c("tr", [
-        _c("td", { staticClass: "align-middle pointer" }, [
-          _c("a", { attrs: { href: _vm.item.item.path } }, [
-            _vm._v(_vm._s(_vm.item.item.name))
-          ])
         ]),
         _vm._v(" "),
         _c(
           "td",
           {
-            staticClass: "align-middle text-right pointer",
+            staticClass:
+              "align-middle d-none d-sm-table-cell text-right w-formatted-number"
+          },
+          [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.form.quantity_formatted,
+                  expression: "form.quantity_formatted"
+                }
+              ],
+              staticClass: "form-control",
+              class: "quantity_formatted" in _vm.errors ? "is-invalid" : "",
+              attrs: { type: "text" },
+              domProps: { value: _vm.form.quantity_formatted },
+              on: {
+                keydown: function($event) {
+                  if (
+                    !$event.type.indexOf("key") &&
+                    _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                  ) {
+                    return null
+                  }
+                  return _vm.update($event)
+                },
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.form, "quantity_formatted", $event.target.value)
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("div", {
+              staticClass: "invalid-feedback",
+              domProps: {
+                textContent: _vm._s(
+                  "quantity_formatted" in _vm.errors
+                    ? _vm.errors.quantity_formatted[0]
+                    : ""
+                )
+              }
+            })
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "td",
+          {
+            staticClass:
+              "align-middle d-none d-sm-table-cell text-right w-formatted-number"
+          },
+          [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.form.unit_cost_formatted,
+                  expression: "form.unit_cost_formatted"
+                }
+              ],
+              staticClass: "form-control",
+              class: "unit_cost_formatted" in _vm.errors ? "is-invalid" : "",
+              attrs: { type: "text" },
+              domProps: { value: _vm.form.unit_cost_formatted },
+              on: {
+                keydown: function($event) {
+                  if (
+                    !$event.type.indexOf("key") &&
+                    _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                  ) {
+                    return null
+                  }
+                  return _vm.update($event)
+                },
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.form, "unit_cost_formatted", $event.target.value)
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("div", {
+              staticClass: "invalid-feedback",
+              domProps: {
+                textContent: _vm._s(
+                  "unit_cost_formatted" in _vm.errors
+                    ? _vm.errors.unit_cost_formatted[0]
+                    : ""
+                )
+              }
+            })
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "td",
+          { staticClass: "align-middle text-right w-formatted-number" },
+          [
+            _vm._v(
+              _vm._s(Number(_vm.calculated_price).format(2, ",", ".")) + " €"
+            )
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "td",
+          {
+            staticClass:
+              "align-middle d-none d-sm-table-cell text-right w-action"
+          },
+          [
+            _c(
+              "div",
+              {
+                staticClass: "btn-group btn-group-sm",
+                attrs: { role: "group" }
+              },
+              [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    attrs: { type: "button", title: "Speichern" },
+                    on: { click: _vm.update }
+                  },
+                  [_c("i", { staticClass: "fas fa-fw fa-save" })]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    attrs: { type: "button", title: "Löschen" },
+                    on: {
+                      click: function($event) {
+                        _vm.isEditing = false
+                      }
+                    }
+                  },
+                  [_c("i", { staticClass: "fas fa-fw fa-times" })]
+                )
+              ]
+            )
+          ]
+        )
+      ])
+    : _c("tr", [
+        _c("td", { staticClass: "align-middle w-100" }, [
+          _c(
+            "a",
+            { staticClass: "text-body", attrs: { href: _vm.item.item.path } },
+            [_vm._v(_vm._s(_vm.item.item.name))]
+          )
+        ]),
+        _vm._v(" "),
+        _c(
+          "td",
+          {
+            staticClass:
+              "align-middle d-none d-sm-table-cell text-right pointer w-formatted-number",
             on: {
               click: function($event) {
                 _vm.isEditing = true
@@ -54339,16 +54515,24 @@ var render = function() {
           ]
         ),
         _vm._v(" "),
-        _c("td", { staticClass: "align-middle text-right pointer" }, [
-          _vm._v(
-            _vm._s(Number(_vm.item.unit_cost).format(2, ",", ".")) + " €/Stück"
-          )
-        ]),
+        _c(
+          "td",
+          {
+            staticClass:
+              "align-middle d-none d-sm-table-cell text-right pointer w-formatted-number"
+          },
+          [
+            _vm._v(
+              _vm._s(Number(_vm.item.unit_cost).format(2, ",", ".")) +
+                " €/Stück"
+            )
+          ]
+        ),
         _vm._v(" "),
         _c(
           "td",
           {
-            staticClass: "align-middle text-right pointer",
+            staticClass: "align-middle text-right pointer w-formatted-number",
             on: {
               click: function($event) {
                 _vm.isEditing = true
@@ -54368,37 +54552,47 @@ var render = function() {
           ]
         ),
         _vm._v(" "),
-        _c("td", { staticClass: "align-middle text-right" }, [
-          _c(
-            "div",
-            { staticClass: "btn-group btn-group-sm", attrs: { role: "group" } },
-            [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-secondary",
-                  attrs: { type: "button", title: "Speichern" },
-                  on: {
-                    click: function($event) {
-                      _vm.isEditing = true
+        _c(
+          "td",
+          {
+            staticClass:
+              "align-middle text-right d-none d-sm-table-cell w-action"
+          },
+          [
+            _c(
+              "div",
+              {
+                staticClass: "btn-group btn-group-sm",
+                attrs: { role: "group" }
+              },
+              [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    attrs: { type: "button", title: "Speichern" },
+                    on: {
+                      click: function($event) {
+                        _vm.isEditing = true
+                      }
                     }
-                  }
-                },
-                [_c("i", { staticClass: "fas fa-fw fa-edit" })]
-              ),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-secondary",
-                  attrs: { type: "button", title: "Löschen" },
-                  on: { click: _vm.destroy }
-                },
-                [_c("i", { staticClass: "fas fa-fw fa-trash" })]
-              )
-            ]
-          )
-        ])
+                  },
+                  [_c("i", { staticClass: "fas fa-fw fa-edit" })]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    attrs: { type: "button", title: "Löschen" },
+                    on: { click: _vm.destroy }
+                  },
+                  [_c("i", { staticClass: "fas fa-fw fa-trash" })]
+                )
+              ]
+            )
+          ]
+        )
       ])
 }
 var staticRenderFns = []
@@ -57364,11 +57558,9 @@ var render = function() {
                     [_vm._v("Verkaufspreis")]
                   ),
                   _vm._v(" "),
-                  _c(
-                    "th",
-                    { staticClass: "text-right", attrs: { width: "10%" } },
-                    [_vm._v("Aktion")]
-                  )
+                  _c("th", { staticClass: "text-right w-action" }, [
+                    _vm._v("Aktion")
+                  ])
                 ])
               ]),
               _vm._v(" "),
