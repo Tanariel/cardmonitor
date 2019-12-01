@@ -23,7 +23,7 @@ Route::get('/impressum', function () {
 
 Route::post('/contact', 'ContactController@store');
 
-Route::get('order/{order}/images', 'Images\ImageableController@index');
+Route::get('order/{order}/images', 'Images\ImageableController@index')->name('order.images.index');
 
 Route::post('deploy', 'DeploymentController@store');
 
@@ -43,8 +43,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/home/order/month/{year}/{month}', 'Home\Orders\MonthController@index')->name('home.order.month');
     Route::get('/home/order/year/{year}', 'Home\Orders\YearController@index')->name('home.order.year');
 
-    Route::resource('api', 'Apis\ApiController');
-
     Route::get('article/sync', 'Cardmarket\Articles\ArticleController@index');
     Route::put('article/sync', 'Cardmarket\Articles\ArticleController@update')->name('article.sync.update');
 
@@ -62,7 +60,7 @@ Route::middleware(['auth'])->group(function () {
         'destroy',
     ]);
 
-    Route::post('order/{order}/images', 'Images\ImageableController@store');
+    Route::post('order/{order}/images', 'Images\ImageableController@store')->name('order.images.store');
 
     Route::get('order/sync', 'Cardmarket\Orders\OrderController@index');
     Route::put('order/sync', 'Cardmarket\Orders\OrderController@update')->name('order.sync.update');

@@ -26,6 +26,8 @@ class MessageController extends Controller
      */
     public function create(Request $request, Order $order)
     {
+        $this->authorize('update', $order);
+
         if ($request->wantsJson()) {
             return [
                 'body' => $order->prepared_message,
@@ -41,6 +43,8 @@ class MessageController extends Controller
      */
     public function store(Request $request, Order $order)
     {
+        $this->authorize('update', $order);
+
         $CardmarketApi = auth()->user()->cardmarketApi;
 
         $message = $CardmarketApi->messages->send($order->buyer->cardmarket_user_id, $request->input('message-text'));

@@ -84,10 +84,12 @@ abstract class TestCase extends BaseTestCase
         $this->a_different_user_gets_a_403('destroy', 'delete', $parameters);
     }
 
-    protected function a_different_user_gets_a_403(string $route, string $method = 'get', array $parameters = [])
+    protected function a_different_user_gets_a_403(string $route, string $method = 'get', array $parameters = []) : TestResponse
     {
         $response = $this->$method(route($this->baseRouteName . '.' . $route, $parameters))
             ->assertStatus(Response::HTTP_FORBIDDEN, $route);
+
+        return $response;
     }
 
     public function getIndexViewResponse(array $parameters = []) : TestResponse

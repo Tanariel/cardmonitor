@@ -16,6 +16,11 @@ class ArticleController extends Controller
 {
     protected $baseViewPath = 'article';
 
+    public function __construct()
+    {
+        $this->authorizeResource(Article::class, 'article');
+    }
+
     /**
      * Display a listing of the resource.
      *

@@ -49,6 +49,8 @@ class ImageableController extends Controller
      */
     public function store(Request $request, Order $order)
     {
+        $this->authorize('update', $order);
+
         $attributes = $request->validate([
             'images' => 'required|array',
             'images.*' => 'required|file|max:51200|mimes:' . join(',', Image::MIME_TYPES),

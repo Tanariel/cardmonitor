@@ -43,6 +43,20 @@ class ImageControllerTest extends TestCase
     /**
      * @test
      */
+    public function a_user_can_not_see_things_from_a_different_user()
+    {
+        $modelOfADifferentUser = factory($this->className)->create();
+
+        $this->signIn();
+
+        $parameters = ['image' => $modelOfADifferentUser->id];
+
+        $this->a_different_user_gets_a_403('destroy', 'delete', $parameters);
+    }
+
+    /**
+     * @test
+     */
     public function a_user_can_see_the_index_view()
     {
         $this->getIndexViewResponse()

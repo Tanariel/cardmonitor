@@ -12,6 +12,8 @@ class SendController extends Controller
 {
     public function store(Order $order)
     {
+        $this->authorize('update', $order);
+
         $CardmarketApi = auth()->user()->cardmarketApi;
 
         try {

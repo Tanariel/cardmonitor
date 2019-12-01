@@ -10,6 +10,13 @@ use Illuminate\Support\Str;
 
 class ImageController extends Controller
 {
+    protected $baseViewPath = 'image';
+
+    public function __construct()
+    {
+        $this->authorizeResource(Image::class, 'image');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -42,7 +49,7 @@ class ImageController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Order $order)
+    public function store(Request $request)
     {
         //
     }

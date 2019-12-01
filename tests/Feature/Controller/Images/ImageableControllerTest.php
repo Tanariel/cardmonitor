@@ -29,6 +29,14 @@ class ImageableControllerTest extends TestCase
     /**
      * @test
      */
+    public function guests_can_access_the_index_route()
+    {
+        $this->getIndexViewResponse(['order' => $this->order->id]);
+    }
+
+    /**
+     * @test
+     */
     public function guests_can_not_access_the_following_routes()
     {
         $id = factory($this->className)->create([
@@ -37,10 +45,23 @@ class ImageableControllerTest extends TestCase
         ])->id;
 
         $actions = [
-            'index' => ['order' => $this->order->id],
             'store' => ['order' => $this->order->id],
         ];
         $this->guestsCanNotAccess($actions);
+    }
+
+    /**
+     * @test
+     */
+    public function a_user_can_not_see_things_from_a_different_user()
+    {
+        $modelOfADifferentUser = factory(Order::class)->create();
+
+        $this->signIn();
+
+        $parameters = ['order' => $modelOfADifferentUser->id];
+
+        $this->a_different_user_gets_a_403('store', 'post', $parameters);
     }
 
     /**
