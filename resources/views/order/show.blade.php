@@ -67,57 +67,53 @@
                 <div class="card-header">{{ $model->cardmarket_order_id }}</div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="row">
-                                <div class="col-label"><b>Bestellnummer</b></div>
-                                <div class="col-value">{{ $model->cardmarket_order_id }}</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-label"><b>Käufer</b></div>
-                                <div class="col-value">{{ $model->buyer->username }}</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-label"><b>Verkäufer</b></div>
-                                <div class="col-value">{{ $model->seller->username }}</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-label"><b>Karten</b></div>
-                                <div class="col-value">{{ $model->articles_count }}</div>
-                            </div>
-                            @if ($model->evaluation)
-                                <div class="row">
-                                    <div class="col-label">&nbsp;</div>
-                                    <div class="col-value"></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-label"><b>Allgemeine Bewertung</b></div>
-                                    <div class="col-value">{{ $model->evaluation->grade }}</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-label"><b>Beschreibung der Artikelzustände</b></div>
-                                    <div class="col-value">{{ $model->evaluation->item_description }}</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-label"><b>Verpackung der Bestellung</b></div>
-                                    <div class="col-value">{{ $model->evaluation->packaging }}</div>
-                                </div>
-                                @if ($model->evaluation->comment)
-                                    <div class="row">
-                                        <div class="col-label"><b>Komentar</b></div>
-                                        <div class="col-value">{{ $model->evaluation->comment }}</div>
-                                    </div>
-                                @endif
-                                @if (! empty($model->evaluation->complaint))
-                                    @foreach ($model->evaluation->complaint as $complaint)
-                                        <div class="row">
-                                            <div class="col-label font-weight-bold text-danger">{{ ($loop->first ? 'Beschwerden' : '') }}</div>
-                                            <div class="col-value">{{ $complaint }}</div>
-                                        </div>
-                                    @endforeach
-                                @endif
-                            @endif
-                        </div>
+                        <div class="col-label"><b>Bestellnummer</b></div>
+                        <div class="col-value">{{ $model->cardmarket_order_id }}</div>
                     </div>
+                    <div class="row">
+                        <div class="col-label"><b>Käufer</b></div>
+                        <div class="col-value">{{ $model->buyer->username }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-label"><b>Verkäufer</b></div>
+                        <div class="col-value">{{ $model->seller->username }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-label"><b>Karten</b></div>
+                        <div class="col-value">{{ $model->articles_count }}</div>
+                    </div>
+                    @if ($model->evaluation)
+                        <div class="row">
+                            <div class="col-label">&nbsp;</div>
+                            <div class="col-value"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-label"><b>Allgemeine Bewertung</b></div>
+                            <div class="col-value">{{ $model->evaluation->grade }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-label"><b>Beschreibung der Artikelzustände</b></div>
+                            <div class="col-value">{{ $model->evaluation->item_description }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-label"><b>Verpackung der Bestellung</b></div>
+                            <div class="col-value">{{ $model->evaluation->packaging }}</div>
+                        </div>
+                        @if ($model->evaluation->comment)
+                            <div class="row">
+                                <div class="col-label"><b>Komentar</b></div>
+                                <div class="col-value">{{ $model->evaluation->comment }}</div>
+                            </div>
+                        @endif
+                        @if (! empty($model->evaluation->complaint))
+                            @foreach ($model->evaluation->complaint as $complaint)
+                                <div class="row">
+                                    <div class="col-label font-weight-bold text-danger">{{ ($loop->first ? 'Beschwerden' : '') }}</div>
+                                    <div class="col-value">{{ $complaint }}</div>
+                                </div>
+                            @endforeach
+                        @endif
+                    @endif
                 </div>
             </div>
 
@@ -146,64 +142,60 @@
                 <div class="card-header">Kalkulation</div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="row">
-                                <div class="col-label"><b>Umsatz</b></div>
-                                <div class="col-value"><b>{{ number_format($model->revenue, 2, ',', '.') }} €</b></div>
-                            </div>
-                            <div class="row">
-                                <div class="col-label">Karten</div>
-                                <div class="col-value">{{ number_format($model->articles_revenue, 2, ',', '.') }} €</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-label">Versand</div>
-                                <div class="col-value">{{ number_format($model->shipment_revenue, 2, ',', '.') }} €</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-label">&nbsp;</div>
-                                <div class="col-value"></div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-label"><b>Kosten</b></div>
-                                <div class="col-value"><b>{{ number_format($model->cost, 2, ',', '.') }} €</b></div>
-                            </div>
-                            <div class="row">
-                                <div class="col-label">Karten</div>
-                                <div class="col-value">{{ number_format($model->articles_cost, 2, ',', '.') }} €</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-label">Provision</div>
-                                <div class="col-value">{{ number_format($model->provision, 2, ',', '.') }} €</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-label">Versand</div>
-                                <div class="col-value">{{ number_format($model->shipment_cost, 2, ',', '.') }} €</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-label">Sontiges</div>
-                                <div class="col-value">{{ number_format($model->items_cost, 2, ',', '.') }} €</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-label">&nbsp;</div>
-                                <div class="col-value"></div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-label"><b>Gewinn</b></div>
-                                <div class="col-value"><b>{{ number_format($model->profit, 2, ',', '.') }} €</b></div>
-                            </div>
-                            <div class="row">
-                                <div class="col-label">Karten</div>
-                                <div class="col-value">{{ number_format($model->articles_profit, 2, ',', '.') }} €</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-label">Versand</div>
-                                <div class="col-value">{{ number_format($model->shipment_profit, 2, ',', '.') }} €</div>
-                            </div>
-
-                        </div>
+                        <div class="col-label"><b>Umsatz</b></div>
+                        <div class="col-value"><b>{{ number_format($model->revenue, 2, ',', '.') }} €</b></div>
                     </div>
+                    <div class="row">
+                        <div class="col-label">Karten</div>
+                        <div class="col-value">{{ number_format($model->articles_revenue, 2, ',', '.') }} €</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-label">Versand</div>
+                        <div class="col-value">{{ number_format($model->shipment_revenue, 2, ',', '.') }} €</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-label">&nbsp;</div>
+                        <div class="col-value"></div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-label"><b>Kosten</b></div>
+                        <div class="col-value"><b>{{ number_format($model->cost, 2, ',', '.') }} €</b></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-label">Karten</div>
+                        <div class="col-value">{{ number_format($model->articles_cost, 2, ',', '.') }} €</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-label">Provision</div>
+                        <div class="col-value">{{ number_format($model->provision, 2, ',', '.') }} €</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-label">Versand</div>
+                        <div class="col-value">{{ number_format($model->shipment_cost, 2, ',', '.') }} €</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-label">Sontiges</div>
+                        <div class="col-value">{{ number_format($model->items_cost, 2, ',', '.') }} €</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-label">&nbsp;</div>
+                        <div class="col-value"></div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-label"><b>Gewinn</b></div>
+                        <div class="col-value"><b>{{ number_format($model->profit, 2, ',', '.') }} €</b></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-label">Karten</div>
+                        <div class="col-value">{{ number_format($model->articles_profit, 2, ',', '.') }} €</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-label">Versand</div>
+                        <div class="col-value">{{ number_format($model->shipment_profit, 2, ',', '.') }} €</div>
+                    </div>
+
                 </div>
             </div>
 
