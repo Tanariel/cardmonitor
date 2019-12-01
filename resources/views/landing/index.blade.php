@@ -18,7 +18,7 @@
 
                 <div class="col-lg-8 align-self-baseline">
 
-                    <h2 class="text-light font-weight-light mb-5">Spare Zeit und steigere deine Verkäufe!</h2>
+                    <h2 class="text-light font-weight-light mb-5">Kalkuliere deine Bestellungen und verwalte deine Artikel</h2>
                     <img class="img-fluid rounded my-3" src="{{ Storage::url('landing/dashboard.png') }}">
                     <a class="btn btn-success mt-5 btn-lg" href="{{ route('register') }}">Starte jetzt</a>
 
