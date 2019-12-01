@@ -49052,13 +49052,11 @@ var render = function() {
             class: "flag-icon-" + _vm.item.language.code,
             attrs: { title: _vm.item.language.name }
           }),
-          _vm._v(
-            " " +
-              _vm._s(_vm.item.localName) +
-              " (" +
-              _vm._s(_vm.item.card.number) +
-              ")\n        "
-          ),
+          _vm._v(" " + _vm._s(_vm.item.localName)),
+          _vm.item.card.number
+            ? _c("span", [_vm._v(" (" + _vm._s(_vm.item.card.number) + ")")])
+            : _vm._e(),
+          _vm._v(" "),
           _vm.item.language_id != 1
             ? _c("div", { staticClass: "d-none d-xl-table-cell text-muted" }, [
                 _vm._v(_vm._s(_vm.item.card.name))
@@ -53433,13 +53431,10 @@ var render = function() {
             class: "flag-icon-" + _vm.item.language.code,
             attrs: { title: _vm.item.language.name }
           }),
-          _vm._v(
-            " " +
-              _vm._s(_vm.item.localName) +
-              " (" +
-              _vm._s(_vm.item.card.number) +
-              ")"
-          )
+          _vm._v(" " + _vm._s(_vm.item.localName)),
+          _vm.item.card.number
+            ? _c("span", [_vm._v(" (" + _vm._s(_vm.item.card.number) + ")")])
+            : _vm._e()
         ]),
         _vm._v(" "),
         _vm.item.cardmarket_comments
