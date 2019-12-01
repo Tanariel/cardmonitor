@@ -26,6 +26,8 @@ use Illuminate\Support\Facades\DB;
 
 class Order extends Model
 {
+    const DAYS_TO_HAVE_IAMGES = 30;
+
     const SHIPPING_PROFITS = [
         'Standardbrief' => 0.3,
         'Standardbrief International' => 0.3,
@@ -535,6 +537,15 @@ class Order extends Model
         $this->update([
 
         ]);
+    }
+
+    public function canHaveImages(Carbon $date = null)
+    {
+        if (is_null($this->received_at)) {
+            return true;
+        }
+
+        return ($this->received_at->diffInDays($date ?? now()) <= self::DAYS_TO_HAVE_IAMGES);
     }
 
     public function getRevenueFormattedAttribute()

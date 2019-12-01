@@ -30,6 +30,32 @@ class OrderTest extends TestCase
     /**
      * @test
      */
+    public function it_knows_if_it_can_have_images()
+    {
+        $model = factory(Order::class)->create([
+            'received_at' => null,
+        ]);
+        $this->assertTrue($model->canHaveImages());
+
+        $model = factory(Order::class)->create([
+            'received_at' => now(),
+        ]);
+        $this->assertTrue($model->canHaveImages());
+
+        $model = factory(Order::class)->create([
+            'received_at' => now()->subDays(Order::DAYS_TO_HAVE_IAMGES),
+        ]);
+        $this->assertTrue($model->canHaveImages());
+
+        $model = factory(Order::class)->create([
+            'received_at' => now()->subDays((Order::DAYS_TO_HAVE_IAMGES + 1)),
+        ]);
+        $this->assertFalse($model->canHaveImages());
+    }
+
+    /**
+     * @test
+     */
     public function it_has_one_evaluation()
     {
         $model = factory(Order::class)->create();

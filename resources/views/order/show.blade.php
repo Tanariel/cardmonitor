@@ -117,15 +117,17 @@
                 </div>
             </div>
 
-            <div class="card mb-3">
-                <div class="card-header d-flex">
-                    <div class="col">Bilder</div>
-                    <div><a class="text-body" href="{{ $model->path . '/images' }}" title="Bilder"><i class="fas fa-fw fa-images"></i></a></div>
+            @if($model->canHaveImages())
+                <div class="card mb-3">
+                    <div class="card-header d-flex">
+                        <div class="col">Bilder</div>
+                        <div><a class="text-body" href="{{ $model->path . '/images' }}" title="Bilder"><i class="fas fa-fw fa-images"></i></a></div>
+                    </div>
+                    <div class="card-body">
+                        <imageable-table :model="{{ json_encode($model) }}" token="{{ csrf_token() }}"></imageable-table>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <imageable-table :model="{{ json_encode($model) }}" token="{{ csrf_token() }}"></imageable-table>
-                </div>
-            </div>
+            @endif
 
         </div>
 
