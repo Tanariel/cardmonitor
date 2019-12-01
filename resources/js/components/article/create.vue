@@ -6,12 +6,9 @@
                     <option :value="id" v-for="(name, id) in languages">{{ name }}</option>
                 </select>
             </div>
-            <div class="form-group">
-                <select class="form-control" v-model="filter.expansion_id" @change="fetch()">
-                    <option :value="0">Alle Erweiterungen</option>
-                    <option :value="item.id" v-for="(item, key) in sortedExpansions">{{ item.name }}</option>
-                </select>
-            </div>
+
+            <filter-expansion :initial-value="filter.expansion_id" :options="expansions" :show-label="false" v-model="filter.expansion_id" @input="fetch()"></filter-expansion>
+
             <div class="form-group" style="margin-bottom: 0;">
                 <filter-search :should-focus="filter.shouldFocus" v-model="filter.searchtext" @input="fetch()" @focused="filter.shouldFocus = false"></filter-search>
             </div>
@@ -28,7 +25,7 @@
                 <table class="table table-hover table-striped" v-else-if="cards.length">
                     <tbody>
                         <tr v-for="(card, index) in cards" @click="setItem(card, index)">
-                            <td class="align-middle text-center pointer w-icon"><i class="fas fa-image" @mouseover="showImgbox({src: card.imagePath, top: ($event.layerY + 100) + 'px', left: ($event.layerX + 50) + 'px'})" @mouseout="hideImgbox"></i></td>
+                            <td class="align-middle d-none d-lg-table-cell text-center pointer w-icon"><i class="fas fa-image" @mouseover="showImgbox({src: card.imagePath, top: ($event.layerY + 100) + 'px', left: ($event.layerX + 50) + 'px'})" @mouseout="hideImgbox"></i></td>
                             <td class="align-middle pointer w-icon"><expansion-icon :expansion="card.expansion" :show-name="false"></expansion-icon></td>
                             <td class="align-middle text-center w-icon"><rarity :value="card.rarity"></rarity></td>
                             <td class="align-middle pointer">
@@ -243,6 +240,7 @@
 </template>
 
 <script>
+    import filterExpansion from "../filter/expansion.vue";
     import filterSearch from "../filter/search.vue";
     import rarity from '../partials/emoji/rarity.vue';
     import row from "./row.vue";
@@ -252,6 +250,7 @@
 
         components: {
             expansionIcon,
+            filterExpansion,
             filterSearch,
             rarity,
             row,
@@ -377,9 +376,9 @@
                 isLoadingPrices: false,
                 errors: {},
                 filter: {
-                    expansion_id: 1469,
+                    expansion_id: 0,
                     language_id: 3,
-                    searchtext: 'kundschafter',
+                    searchtext: '',
                     shouldFocus: false,
                 },
                 form: {

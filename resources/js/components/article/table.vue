@@ -78,9 +78,6 @@
                     </div>
                 </div>
 
-                Sync, Erweiterung (nur vorhandene in Artikeln), Zustand (<=,=,>=), Foil, Signiert, Playset, Hinweise, Verfügbar (min, max), Verfügbar (Alle?|Verkauf|Angebote)
-                Regel anwenden -> Filter setzen
-
             </div>
         </form>
 

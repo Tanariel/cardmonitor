@@ -13,6 +13,9 @@
 
 @import '~flag-icon-css/css/flag-icon.css';
 
+@import '~vue-select/dist/vue-select.css';
+
+
 .wrapper {
     position: relative;
     top: 0;
@@ -244,4 +247,14 @@ hr.divider {
     @extend .col;
     @extend .d-md-none;
     @extend .d-lg-block;
+}
+
+.v-select {
+    @extend .form-control;
+}
+
+.vs__dropdown-toggle {
+    @extend .text-body;
+    border: none;
+    flex-grow: 1;
 }

@@ -1,7 +1,7 @@
 <template>
     <div class="d-flex align-items-center justify-content-space-between" v-if="showName">
         <span class="expansion-icon mr-2" :style="{ 'background-position': bachgroundPosition }"></span>
-        <span class="expansion-name">{{ expansion.name }}</span>
+        <span class="expansion-name" :class="{'text-overflow-ellipsis': nameEllipsis}">{{ expansion.name }}</span>
     </div>
     <span class="expansion-icon" :title="expansion.name" :style="{ 'background-position': bachgroundPosition }" v-else></span>
 </template>
@@ -17,6 +17,10 @@
             showName: {
                 required: false,
                 default: true,
+            },
+            nameEllipsis: {
+                required: false,
+                default: false,
             },
         },
 
