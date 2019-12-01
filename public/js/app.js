@@ -50680,14 +50680,14 @@ var staticRenderFns = [
           _vm._v("VK")
         ]),
         _vm._v(" "),
-        _c("th", { staticClass: "text-right d-none d-lg-table-cell" }, [
+        _c("th", { staticClass: "text-right d-none d-xl-table-cell" }, [
           _vm._v("EK")
         ]),
         _vm._v(" "),
         _c(
           "th",
           {
-            staticClass: "text-right d-none d-lg-table-cell w-formatted-number"
+            staticClass: "text-right d-none d-xl-table-cell w-formatted-number"
           },
           [_vm._v("Provision")]
         ),
@@ -52592,11 +52592,9 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", { attrs: { width: "90%" } }, [_vm._v("Bezeichnung")]),
+        _c("th", { attrs: { width: "100%" } }, [_vm._v("Bezeichnung")]),
         _vm._v(" "),
-        _c("th", { staticClass: "text-right", attrs: { width: "10%" } }, [
-          _vm._v("Aktion")
-        ])
+        _c("th", { staticClass: "text-right w-action" }, [_vm._v("Aktion")])
       ])
     ])
   }

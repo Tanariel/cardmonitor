@@ -16,8 +16,8 @@
         <table class="table table-hover table-striped bg-white" v-else-if="items.length">
             <thead>
                 <tr>
-                    <th width="90%">Bezeichnung</th>
-                    <th class="text-right" width="10%">Aktion</th>
+                    <th width="100%">Bezeichnung</th>
+                    <th class="text-right w-action">Aktion</th>
                 </tr>
             </thead>
             <tbody>
