@@ -1,0 +1,8 @@
+{
+  "name": "Cardmonitor",
+  "short_name": "Cardmonitor",
+  "lang": "de",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "any"
+}
