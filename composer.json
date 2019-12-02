@@ -17,6 +17,7 @@
         "laravel/telescope": "^2.1",
         "laravel/tinker": "^1.0",
         "nemiah/php-fints": "^1.6",
+        "nemiah/php-sepa-xml": "dev-master",
         "tightenco/parental": "^0.7.1"
     },
     "require-dev": {

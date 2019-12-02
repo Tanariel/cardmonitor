@@ -4,6 +4,7 @@ namespace App\Support\Users;
 
 use App\Models\Users\Balance;
 use Carbon\Carbon;
+use nemiah\phpSepaXml\SEPATransfer;
 
 class FinTs
 {
@@ -66,6 +67,11 @@ class FinTs
                 $balance = Balance::createFromTransaction($SEPATransaction);
             }
         }
+    }
+
+    public function transfer(SEPATransfer $sepaDD)
+    {
+        return $this->fints->executeSEPATransfer($this->getAccount(), $sepaDD->toXML());
     }
 }
 
