@@ -11,6 +11,7 @@ use App\Models\Items\Transactions\Transaction;
 use App\Models\Orders\Evaluation;
 use App\Models\Storages\Content;
 use App\Models\Users\CardmarketUser;
+use App\User;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Database\Eloquent\Builder;
@@ -555,31 +556,50 @@ class Order extends Model
 
     public function getPreparedMessageAttribute() : string
     {
-        $images_count = count($this->images);
-        $message = "Hallo " . $this->buyer->firstname . ",\nvielen Dank für deine Bestellung.\n\n";
+        $message = $this->user->prepared_message;
 
         $articlesWithStateComments = $this->articles()->with(['card.localizations'])->whereNotNull('state_comments')->get();
-        if (count($articlesWithStateComments) > 0) {
-            $message .= "Folgendes ist mir aufgefallen:\n";
-            foreach ($articlesWithStateComments as $key => $article) {
-                $message .= $article->localName . " " . $article->state_comments . "\n";
-            }
-            $message .= "\n";
-        }
 
+        $images_count = count($this->images);
+        $problems_count = count($articlesWithStateComments);
+
+        $text_images = '';
         if ($images_count) {
-            if ($images_count == 1) {
-                $message .= "Hier ist schon mal ein Bild deiner " . ($this->articles_count == 1 ? 'Karte' : 'Karten') . "\n";
+            $text_images = "Hier ist schon mal ein " . ($images_count == 1 ? 'Bild' : 'Bilder') ." deiner " . ($this->articles_count == 1 ? 'Karte' : 'Karten') . "\n";
+            $text_images .= url($this->path . '/images');
+
+            if ($problems_count == 0) {
+                $text_images .= "\n\n";
             }
-            elseif ($images_count > 1){
-                $message .= "Hier sind schon mal Bilder deiner " . ($this->articles_count == 1 ? 'Karte' : 'Karten') . "\n";
-            }
-            $message .= url($this->path . '/images') . "\n\n";
         }
 
-        $message .= "Ich verschicke sie heute Nachmittag.\n\n";
+        $text_comments = '';
+        if ($problems_count > 0) {
+            if ($images_count) {
+                $text_comments .= "\n";
+            }
+            $text_comments .= "\nFolgendes ist mir aufgefallen:\n";
+            foreach ($articlesWithStateComments as $key => $article) {
+                $text_comments .= $article->localName . " " . $article->state_comments . "\n";
+            }
+            $text_comments .= "\n";
+        }
 
-        $message .= "Viele Grüße\n" . $this->seller->firstname;
+        $search = [
+            "#BUYER_FIRSTNAME#",
+            "#PROBLEMS#\r\n\r\n",
+            "#IMAGES#\r\n\r\n",
+            "#SELLER_FIRSTNAME#",
+        ];
+
+        $replace = [
+            $this->buyer->firstname,
+            $text_comments,
+            $text_images,
+            $this->seller->firstname,
+        ];
+
+        $message = str_replace($search, $replace, $message);
 
         return $message;
     }
@@ -651,6 +671,11 @@ class Order extends Model
     public function seller() : BelongsTo
     {
         return $this->belongsTo(CardmarketUser::class, 'seller_id');
+    }
+
+    public function user() : BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function scopeSearch(Builder $query, $value) : Builder

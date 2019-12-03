@@ -22,8 +22,8 @@
                         <select class="form-control" id="state_comment_boilerplate" placeholder="Problem auswählen" @change="form.state_comments += $event.target.value">
                             <option>Probleme?</option>
                             <option>ist nicht vorhanden</option>
-                            <option>in schlechterem Zustand als angegeben</option>
-                            <option>in falscher Sprache</option>
+                            <option>ist in schlechterem Zustand als angegeben</option>
+                            <option>ist in falscher Sprache</option>
                         </select>
                     </div>
                     <div class="form-group">

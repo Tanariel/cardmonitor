@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
 class User extends Authenticatable
@@ -32,14 +33,15 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
         'balance_in_cents',
         'credits',
+        'email',
         'is_applying_rules',
         'is_syncing_articles',
         'is_syncing_orders',
+        'name',
+        'password',
+        'prepared_message',
     ];
 
     /**
@@ -68,6 +70,11 @@ class User extends Authenticatable
     public static function boot()
     {
         parent::boot();
+
+        static::creating(function($model)
+        {
+            $model->prepared_message = "Hallo #BUYER_FIRSTNAME#,\r\nvielen Dank für deine Bestellung\r\n\r\n#PROBLEMS#\r\n\r\n#IMAGES#\r\n\r\nIch verschicke sie heute Nachmittag\r\n\r\nViele Grüße\r\n#SELLER_FIRSTNAME#";
+        });
 
         static::created(function($model)
         {
@@ -119,6 +126,11 @@ class User extends Authenticatable
     public function getBalanceInEuroFormattedAttribute()
     {
         return number_format(($this->balance_in_cents / 100), 2, ',', '.');
+    }
+
+    public function setPasswordAttribute(string $value)
+    {
+        $this->attributes['password'] = Hash::make($value);
     }
 
     public function setup() : void {

@@ -23,6 +23,8 @@ class CreateUsersTable extends Migration
             $table->unsignedMediumInteger('credits')->default(0);
             $table->unsignedMediumInteger('balance_in_cents')->default(0);
 
+            $table->text('prepared_message')->nullable();
+
             $table->boolean('is_applying_rules')->default(false);
             $table->boolean('is_syncing_articles')->default(false);
             $table->boolean('is_syncing_orders')->default(false);

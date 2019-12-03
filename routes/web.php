@@ -109,4 +109,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/user/balance', 'Users\Balances\BalanceController@index');
 
+    Route::get('/user/settings', 'Users\UserController@edit')->name('user.edit');
+    Route::put('/user/settings', 'Users\UserController@update')->name('user.update');
+
 });

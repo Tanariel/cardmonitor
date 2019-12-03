@@ -229,7 +229,7 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="message-text">Nachricht</label>
-                            <textarea class="form-control" id="message-text" name="message-text" rows="10"></textarea>
+                            <textarea class="form-control" id="message-text" name="message-text" rows="15"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">

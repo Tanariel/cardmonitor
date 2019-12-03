@@ -40,6 +40,7 @@
                                 <span class="d-xs-none d-sm-none d-md-inline d-lg-inline d-xl-inline">{{ Auth::user()->name }} ({{ number_format(Auth::user()->balance_in_cents / 100, 2, ',', '.') }} €)</span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="/user/settings">Einstellungen</a>
                                 <a class="dropdown-item" href="/user/balance">Guthaben</a>
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                    onclick="event.preventDefault();
