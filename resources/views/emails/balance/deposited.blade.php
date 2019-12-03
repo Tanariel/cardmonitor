@@ -1,11 +1,8 @@
 @component('mail::message')
-# Geld eingzahlt
+Hallo {{ $balance->user->name }},
 
-Es wurden {{ $balance->amount_in_euro_formatted }} € mit dem Buchungstext "{{ $balance->description }}"
-@if ($balance->user)
-    von {{ $balance->user->name }}
-@endif
-eingezahlt
+Wir haben soeben das Guthaben für dein Cardmonitor Konto mit {{ $balance->amount_in_euro_formatted }} € aufgeladen.<br />
+Dein Guthaben beträgt damit nun {{ $balance->user->balance_in_euro_formatted }} €.
 
 {{ config('app.name') }}
 @endcomponent

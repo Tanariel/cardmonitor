@@ -59,8 +59,7 @@ class Balance extends Model
             $model->guessUser()
                 ->save();
 
-            Mail::to(config('app.mail'))
-                ->queue(new \App\Mail\Balances\Deposited($model));
+            Mail::queue(new \App\Mail\Balances\Deposited($model));
         }
 
         return $model;

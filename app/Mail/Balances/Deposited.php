@@ -34,7 +34,9 @@ class Deposited extends Mailable
         $this->balance->load('user');
 
         return $this->from('info@cardmonitor.de', config('app.name'))
-            ->subject('Geld eingezahlt')
+            ->to($this->balance->user->email)
+            ->subject('Wir haben das Guthaben deines Cardmonitor Kontos ' . $this->balance->user->name . ' aufgeladen!')
+            ->bcc(config('app.mail'))
             ->markdown('emails.balance.deposited');
     }
 }
