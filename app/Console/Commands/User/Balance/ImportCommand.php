@@ -39,6 +39,6 @@ class ImportCommand extends Command
     public function handle()
     {
         $fints = new FinTs();
-        $fints->import(now()->sub(5, 'days'), now());
+        $fints->import(now()->sub(1, 'days'), now());
     }
 }
