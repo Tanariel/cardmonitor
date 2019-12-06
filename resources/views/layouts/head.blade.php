@@ -1,6 +1,6 @@
 <link rel="manifest" href="manifest.json">
 <meta charset="utf-8">
-<meta name="description" content="Optimiere dein Cardmarket.com Konto. Kalkuliere deine Bestellungen und verwalte deine Artikel."/>
+<meta name="description" content="Ein Tool zum Optimieren deines Cardmarket.com Kontos. Kalkuliere deine Bestellungen und verwalte deine Artikel mit der Software."/>
 
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
