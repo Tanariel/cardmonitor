@@ -68,7 +68,7 @@ class OrderController extends Controller
     {
         $cardmarketOrder = $this->CardmarketApi->order->get($order->cardmarket_order_id);
 
-        return Order::updateOrCreateFromCardmarket($order->user_id, $cardmarketOrder['order']);
+        return Order::updateOrCreateFromCardmarket($order->user_id, $cardmarketOrder['order'], Order::FORCE_UPDATE_OR_CREATE);
     }
 
     protected function processing(User $user)

@@ -28,6 +28,7 @@ use Illuminate\Support\Facades\DB;
 class Order extends Model
 {
     const DAYS_TO_HAVE_IAMGES = 30;
+    const FORCE_UPDATE_OR_CREATE = true;
 
     const SHIPPING_PROFITS = [
         'Standardbrief' => 0.3,
@@ -93,7 +94,7 @@ class Order extends Model
         });
     }
 
-    public static function updateOrCreateFromCardmarket(int $userId, array $cardmarketOrder) : self
+    public static function updateOrCreateFromCardmarket(int $userId, array $cardmarketOrder, bool $force = false) : self
     {
         $buyer = CardmarketUser::updateOrCreateFromCardmarket($cardmarketOrder['buyer']);
         $seller = CardmarketUser::updateOrCreateFromCardmarket($cardmarketOrder['seller']);
@@ -127,7 +128,7 @@ class Order extends Model
         if (Arr::has($cardmarketOrder, 'evaluation')) {
             $evaluation = Evaluation::updateOrCreateFromCardmarket($order->id, $cardmarketOrder['evaluation']);
         }
-        if ($order->wasRecentlyCreated) {
+        if ($order->wasRecentlyCreated || $force) {
             $order->findItems();
             $order->addArticlesFromCardmarket($cardmarketOrder);
         }
@@ -356,18 +357,22 @@ class Order extends Model
 
     public function findItems()
     {
-        foreach (Item::where('user_id', $this->user_id)->get() as $key => $item) {
+        $items = Item::where('user_id', $this->user_id)->get();
+
+        foreach ($items as $key => $item) {
             $quantity = $item->quantity($this);
             if ($quantity == 0) {
                 continue;
             }
 
-            $this->sales()->create([
+            $this->sales()->firstOrCreate([
                 'item_id' => $item->id,
-                'quantity' => $quantity,
                 'type' => Sale::class,
-                'unit_cost' => $item->unit_cost,
                 'user_id' => $this->user_id,
+            ],
+            [
+                'quantity' => $quantity,
+                'unit_cost' => $item->unit_cost,
                 'at' => now(),
             ]);
         }
@@ -438,7 +443,8 @@ class Order extends Model
             return;
         }
 
-        $articles = Article::join('cards', 'cards.id', '=', 'articles.card_id')
+        $articles = Article::select('articles.*')
+            ->join('cards', 'cards.id', '=', 'articles.card_id')
             ->where('articles.user_id', $this->user_id)
             ->whereNull('articles.sold_at')
             ->where('cards.cardmarket_product_id', $cardmarketArticle['idProduct'])
