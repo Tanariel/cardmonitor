@@ -537,7 +537,7 @@ class Article extends Model
             $join->where('localizations.localizationable_type', '=', Card::class);
         })
             ->where('localizations.name', 'like', '%' . $value . '%')
-            ->groupBy('cardmarket_article_id');
+            ->groupBy('articles.id');
     }
 
     public function scopeSold(Builder $query, $value) : Builder
