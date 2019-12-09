@@ -258,3 +258,19 @@ hr.divider {
     border: none;
     flex-grow: 1;
 }
+
+.cookie-consent {
+    @extend .alert;
+    @extend .alert-info;
+    @extend .text-center;
+    @extend .mb-0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.cookie-consent button {
+    @extend .btn;
+    @extend .btn-primary;
+}
