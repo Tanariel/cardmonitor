@@ -7,7 +7,7 @@ use App\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
-use Tightenco\Parental\HasParent;
+use Parental\HasParent;
 
 class Card extends Item
 {

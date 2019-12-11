@@ -8,7 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Arr;
-use Tightenco\Parental\HasChildren;
+use Parental\HasChildren;
 
 class Transaction extends Model
 {
