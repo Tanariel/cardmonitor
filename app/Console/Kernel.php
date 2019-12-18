@@ -26,7 +26,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('card:price:sync')->cron('0 */2 * * *');
         $schedule->command('card:price:sync')->dailyAt('03:17');
-        $schedule->command('user:balance:import')->daily();
+        // $schedule->command('user:balance:import')->daily();
     }
 
     /**
