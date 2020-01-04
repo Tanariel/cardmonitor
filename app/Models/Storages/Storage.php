@@ -65,7 +65,6 @@ class Storage extends Model
     public static function reset(int $userId)
     {
         Article::where('user_id', $userId)
-            ->whereNull('order_id')
             ->update([
                 'storage_id' => null,
             ]);
