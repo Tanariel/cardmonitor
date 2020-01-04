@@ -250,7 +250,7 @@
 
                     <p>Führe alle Regeln gesammelt aus und aktualisiere so sämtlich Preise deiner angebotenen Karten.</p>
 
-                    <p>Das Ausführen der Regeln kostet 1€, du kannst die Regeln so oft du möchtest simulieren.</p>
+                    <p>Vor dem Ausführen der Regeln kannst Du sie simulieren.</p>
 
                 </div>
 

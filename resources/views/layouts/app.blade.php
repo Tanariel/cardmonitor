@@ -18,6 +18,7 @@
                 <a href="/storages"><li>Lagerplätze</li></a>
             </ul>
             <div class="px-3 text-white text-center"><p>Alle Daten sind von <a href="https://www.cardmarket.eu">Cardmarket</a></p></div>
+            <div class="px-3 text-white text-center"><p><a href="https://github.com/Cardmonitor/cardmonitor" target="_blank">View on Github</a></p></div>
             <div class="bg-secondary text-white p-2 d-flex justify-content-around">
                 <a class="text-white" href="/impressum">Impressum & Datenschutz</a>
             </div>
