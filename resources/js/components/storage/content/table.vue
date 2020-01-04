@@ -2,12 +2,11 @@
     <div>
         <div class="row">
             <div class="col d-flex align-items-start">
-                <div class="form-group mb-0 mr-1">
-                    <select class="form-control" v-model="form.expansion_id" @change="create">
-                        <option :value="0">Erweiterung hinzufügen</option>
-                        <option :value="expansion.id" v-for="expansion in availableExpansions">{{ expansion.name }}</option>
-                    </select>
-                </div>
+                <v-select class="d-flex align-items-center" :clearable="false" :options="availableExpansions" label="name" :reduce="option => option.id" placeholder="Erweiterung hinzufügen" v-model="form.expansion_id" @input="create">
+                    <template v-slot:option="option">
+                        <expansion-icon :expansion="option" :name-ellipsis="true"></expansion-icon>
+                    </template>
+                </v-select>
             </div>
         </div>
 
@@ -39,12 +38,17 @@
 </template>
 
 <script>
+    import vSelect from 'vue-select';
+
     import row from "./row.vue";
+    import expansionIcon from '../../expansion/icon.vue';
 
     export default {
 
         components: {
+            expansionIcon,
             row,
+            vSelect,
         },
 
         props: {
@@ -126,7 +130,7 @@
                     })
                     .catch( function (error) {
                         component.errors = error.response.data.errors;
-                        Vue.error('Set konnte nicht erstellt werden!');
+                        Vue.error('Zuordnung konnte nicht erstellt werden!');
                 });
             },
             fetch() {
@@ -140,7 +144,7 @@
                         component.isLoading = false;
                     })
                     .catch(function (error) {
-                        Vue.error('Erweiterungen konnten nicht geladen werden!');
+                        Vue.error('Zuordnungen konnten nicht geladen werden!');
                         console.log(error);
                     });
             },

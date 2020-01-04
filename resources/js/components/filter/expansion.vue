@@ -3,9 +3,9 @@
         <label for="filter-expansion" v-if="showLabel">Erweiterung</label>
         <v-select class="d-flex align-items-center" :clearable="false" :options="sortedOptions" label="name" :reduce="option => option.id" placeholder="Alle" :value="value" @input="$emit('input', $event)">
             <template v-slot:option="option">
-               <expansion-icon :expansion="option" :name-ellipsis="true" v-if="option.id > 0"></expansion-icon>
-               <span v-else>{{ option.name }}</span>
-           </template>
+                <expansion-icon :expansion="option" :name-ellipsis="true" v-if="option.id > 0"></expansion-icon>
+                <span v-else>{{ option.name }}</span>
+            </template>
         </v-select>
     </div>
 

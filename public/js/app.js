@@ -6631,8 +6631,10 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _row_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./row.vue */ "./resources/js/components/storage/content/row.vue");
-//
+/* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-select */ "./node_modules/vue-select/dist/vue-select.js");
+/* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_select__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _row_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./row.vue */ "./resources/js/components/storage/content/row.vue");
+/* harmony import */ var _expansion_icon_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../expansion/icon.vue */ "./resources/js/components/expansion/icon.vue");
 //
 //
 //
@@ -6673,9 +6675,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    row: _row_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+    expansionIcon: _expansion_icon_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+    row: _row_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+    vSelect: vue_select__WEBPACK_IMPORTED_MODULE_0___default.a
   },
   props: {
     model: {
@@ -6742,7 +6748,7 @@ __webpack_require__.r(__webpack_exports__);
         Vue.success('Zuordnung hinzugefügt.');
       })["catch"](function (error) {
         component.errors = error.response.data.errors;
-        Vue.error('Set konnte nicht erstellt werden!');
+        Vue.error('Zuordnung konnte nicht erstellt werden!');
       });
     },
     fetch: function fetch() {
@@ -6754,7 +6760,7 @@ __webpack_require__.r(__webpack_exports__);
         component.items = response.data;
         component.isLoading = false;
       })["catch"](function (error) {
-        Vue.error('Erweiterungen konnten nicht geladen werden!');
+        Vue.error('Zuordnungen konnten nicht geladen werden!');
         console.log(error);
       });
     },
@@ -57099,56 +57105,45 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", [
     _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col d-flex align-items-start" }, [
-        _c("div", { staticClass: "form-group mb-0 mr-1" }, [
-          _c(
-            "select",
-            {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.form.expansion_id,
-                  expression: "form.expansion_id"
-                }
-              ],
-              staticClass: "form-control",
-              on: {
-                change: [
-                  function($event) {
-                    var $$selectedVal = Array.prototype.filter
-                      .call($event.target.options, function(o) {
-                        return o.selected
-                      })
-                      .map(function(o) {
-                        var val = "_value" in o ? o._value : o.value
-                        return val
-                      })
-                    _vm.$set(
-                      _vm.form,
-                      "expansion_id",
-                      $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-                    )
-                  },
-                  _vm.create
-                ]
-              }
+      _c(
+        "div",
+        { staticClass: "col d-flex align-items-start" },
+        [
+          _c("v-select", {
+            staticClass: "d-flex align-items-center",
+            attrs: {
+              clearable: false,
+              options: _vm.availableExpansions,
+              label: "name",
+              reduce: function(option) {
+                return option.id
+              },
+              placeholder: "Erweiterung hinzufügen"
             },
-            [
-              _c("option", { domProps: { value: 0 } }, [
-                _vm._v("Erweiterung hinzufügen")
-              ]),
-              _vm._v(" "),
-              _vm._l(_vm.availableExpansions, function(expansion) {
-                return _c("option", { domProps: { value: expansion.id } }, [
-                  _vm._v(_vm._s(expansion.name))
-                ])
-              })
-            ],
-            2
-          )
-        ])
-      ])
+            on: { input: _vm.create },
+            scopedSlots: _vm._u([
+              {
+                key: "option",
+                fn: function(option) {
+                  return [
+                    _c("expansion-icon", {
+                      attrs: { expansion: option, "name-ellipsis": true }
+                    })
+                  ]
+                }
+              }
+            ]),
+            model: {
+              value: _vm.form.expansion_id,
+              callback: function($$v) {
+                _vm.$set(_vm.form, "expansion_id", $$v)
+              },
+              expression: "form.expansion_id"
+            }
+          })
+        ],
+        1
+      )
     ]),
     _vm._v(" "),
     _vm.isLoading
