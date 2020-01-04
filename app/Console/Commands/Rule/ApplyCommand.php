@@ -47,10 +47,6 @@ class ApplyCommand extends Command
         $start = microtime(true);
         $this->user = User::findOrFail($this->argument('user'));
 
-        if (! $this->user->canPay(Rule::PRICE_APPLY_IN_CENTS)) {
-            return false;
-        }
-
         $rules = Rule::where('user_id', $this->user->id)
             ->where('active', true)
             ->orderBy('order_column', 'ASC')
@@ -65,7 +61,6 @@ class ApplyCommand extends Command
         $runtime_in_sec = round((microtime(true) - $start), 2);
         if ($this->option('sync')) {
             $this->sync();
-            $this->user->withdraw(Rule::PRICE_APPLY_IN_CENTS, ApplyCommand::class);
 
             Mail::to(config('app.mail'))
                 ->queue(new \App\Mail\Rules\Applied($this->user, $runtime_in_sec));
@@ -78,7 +73,7 @@ class ApplyCommand extends Command
 
         $this->user->articles()->whereNotNull('rule_id')
             // ->where('price_rule', '>=', 0.02)
-            ->whereNull('order_id')
+            ->whereNull('sold_at')
             ->chunkById(1000, function ($articles) use ($cardmarketApi) {
                 foreach ($articles as $article) {
                     $article->syncUpdate();

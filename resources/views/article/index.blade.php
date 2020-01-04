@@ -12,7 +12,6 @@
         :rarities="{{ json_encode($rarities) }}"
         :rules="{{ json_encode($rules) }}"
         :storages="{{ json_encode($storages) }}"
-        :can-pay-rule-apply="{{ $can_pay_rule_apply }}"
     ></article-table>
 
 @endsection

@@ -2746,10 +2746,6 @@ __webpack_require__.r(__webpack_exports__);
     filterRule: _filter_rule_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
   },
   props: {
-    canPayRuleApply: {
-      required: true,
-      type: Number
-    },
     conditions: {
       type: Object,
       required: true
@@ -50610,17 +50606,14 @@ var render = function() {
                   "button",
                   {
                     staticClass: "btn btn-primary",
-                    attrs: {
-                      type: "button",
-                      disabled: _vm.canPayRuleApply == 0
-                    },
+                    attrs: { type: "button" },
                     on: {
                       click: function($event) {
                         return _vm.apply(true)
                       }
                     }
                   },
-                  [_vm._v("Regeln anwenden (1 €)")]
+                  [_vm._v("Regeln anwenden")]
                 )
               ])
             ])
