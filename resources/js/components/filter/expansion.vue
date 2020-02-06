@@ -33,6 +33,10 @@
                 required: false,
                 default: true,
             },
+            gameId: {
+                required: false,
+                default: 1
+            },
         },
 
         watch: {
@@ -55,7 +59,11 @@
                     return 0;
                 }
 
-                var sorted = this.options.sort(compare);
+                var component = this;
+
+                var sorted = this.options.filter(function (option) {
+                    return (option.game_id == component.gameId);
+                }).sort(compare);
 
                 sorted.unshift({
                     id: 0,

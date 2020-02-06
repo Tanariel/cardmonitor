@@ -12,9 +12,12 @@ class Expansion extends Model
 {
     use HasLocalizations;
 
+    const GAME_ID_MAGIC = 1;
+    const GAME_ID_YUGIOH = 3;
+
     const GAMES = [
-        1,
-        3,
+        self::GAME_ID_MAGIC => 'Magic the Gathering',
+        self::GAME_ID_YUGIOH => 'Yu-Gi-Oh',
     ];
 
     protected $dates = [

@@ -41,7 +41,7 @@ class SyncCommand extends Command
     {
         try {
             $user = User::with('api')->find($this->option('user'));
-            foreach (Expansion::GAMES as $key => $gameId) {
+            foreach (Expansion::GAMES as $gameId => $name) {
                 $user->cardmarketApi->syncAllArticles($gameId);
             }
         }

@@ -96,6 +96,7 @@ class ArticleController extends Controller
             ->with('conditions', Article::CONDITIONS)
             ->with('defaultCardCosts', $defaultCardCosts)
             ->with('expansions', $expansions)
+            ->with('games', Expansion::GAMES)
             ->with('languages', $languages)
             ->with('storages', auth()->user()->storages()
                 ->withDepth()

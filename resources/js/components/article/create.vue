@@ -1,13 +1,16 @@
 <template>
     <div class="row align-items-stretch">
         <div class="col-md-4 d-flex flex-column">
+
+            <filter-game :initial-value="filter.game_id" :options="games" :show-label="false" v-model="filter.game_id" @input="fetch()"></filter-game>
+
             <div class="form-group">
                 <select class="form-control" v-model="filter.language_id" @change="fetch()">
                     <option :value="id" v-for="(name, id) in languages">{{ name }}</option>
                 </select>
             </div>
 
-            <filter-expansion :initial-value="filter.expansion_id" :options="expansions" :show-label="false" v-model="filter.expansion_id" @input="fetch()"></filter-expansion>
+            <filter-expansion :initial-value="filter.expansion_id" :options="expansions" :show-label="false" :game-id="filter.game_id" v-model="filter.expansion_id" @input="fetch()"></filter-expansion>
 
             <div class="form-group" style="margin-bottom: 0;">
                 <filter-search :should-focus="filter.shouldFocus" v-model="filter.searchtext" @input="fetch()" @focused="filter.shouldFocus = false"></filter-search>
@@ -240,6 +243,7 @@
 </template>
 
 <script>
+    import filterGame from "../filter/game.vue";
     import filterExpansion from "../filter/expansion.vue";
     import filterSearch from "../filter/search.vue";
     import rarity from '../partials/emoji/rarity.vue';
@@ -251,6 +255,7 @@
         components: {
             expansionIcon,
             filterExpansion,
+            filterGame,
             filterSearch,
             rarity,
             row,
@@ -267,6 +272,10 @@
             },
             expansions: {
                 type: Array,
+                required: true,
+            },
+            games: {
+                type: Object,
                 required: true,
             },
             languages: {
@@ -377,6 +386,7 @@
                 errors: {},
                 filter: {
                     expansion_id: 0,
+                    game_id: 1,
                     language_id: 3,
                     searchtext: '',
                     shouldFocus: false,

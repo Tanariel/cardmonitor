@@ -43,7 +43,7 @@ class SyncAll implements ShouldQueue
         try {
             $this->processing();
             $this->user->cardmarketApi->syncAllSellerOrders();
-            foreach (Expansion::GAMES as $key => $gameId) {
+            foreach (Expansion::GAMES as $gameId => $name) {
                 $this->user->cardmarketApi->syncAllArticles($gameId);
             }
             $this->processed();
