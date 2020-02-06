@@ -55,7 +55,8 @@ class YuGuOhCommand extends Command
         foreach ($cardmarketExpansions['expansion'] as $key => $cardmarketExpansion) {
             $expansion = Expansion::createOrUpdateFromCardmarket($cardmarketExpansion);
 
-            if (! $expansion->wasRecentlyCreated) {
+            if ($expansion->wasRecentlyCreated == false) {
+                $bar->advance();
                 continue;
             }
 
@@ -70,6 +71,7 @@ class YuGuOhCommand extends Command
 
         $bar->finish();
 
+        $this->info('');
         $this->info('syncing prices');
 
         $this->call('card:price:sync');
