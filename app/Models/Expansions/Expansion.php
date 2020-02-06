@@ -85,6 +85,40 @@ class Expansion extends Model
         return $model;
     }
 
+    public static function createOrUpdateFromCardmarket(array $cardmarketExpansion) : self
+    {
+        $values = [
+            'abbreviation' => $cardmarketExpansion['abbreviation'],
+            'cardmarket_expansion_id' => $cardmarketExpansion['idExpansion'],
+            'game_id' => $cardmarketExpansion['idGame'],
+            'icon' => $cardmarketExpansion['icon'],
+            'is_released' => $cardmarketExpansion['isReleased'],
+            'name' => $cardmarketExpansion['enName'],
+            'released_at' => ($cardmarketExpansion['isReleased'] == 'true' ? new Carbon($cardmarketExpansion['releaseDate']) : null)
+        ];
+
+        $attributes = [
+            'cardmarket_expansion_id' => $cardmarketExpansion['idExpansion'],
+        ];
+
+        $model = self::updateOrCreate($attributes, $values);
+
+        if ($model->wasRecentlyCreated) {
+            foreach ($cardmarketExpansion['localization'] as $key => $localization) {
+                if ($localization['idLanguage'] == 1) {
+                    continue;
+                }
+
+                $model->localizations()->create([
+                    'language_id' => $localization['idLanguage'],
+                    'name' => $localization['name'],
+                ]);
+            }
+        }
+
+        return $model;
+    }
+
     public function setAbbreviationFromCardImagePathAttribute($value) : void
     {
         $parts = explode('/', $value);

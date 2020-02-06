@@ -425,10 +425,10 @@ class Order extends Model
             ->where('articles.language_id', $cardmarketArticle['language']['idLanguage'])
             ->where('articles.condition', $cardmarketArticle['condition'])
             ->where('articles.unit_price', $cardmarketArticle['price'])
-            ->where('is_foil', $cardmarketArticle['isFoil'])
-            ->where('is_signed', $cardmarketArticle['isSigned'])
-            ->where('is_altered', $cardmarketArticle['isAltered'])
-            ->where('is_playset', $cardmarketArticle['isPlayset'])
+            ->where('is_foil', $cardmarketArticle['isFoil'] ?? false)
+            ->where('is_signed', $cardmarketArticle['isSigned'] ?? false)
+            ->where('is_altered', $cardmarketArticle['isAltered'] ?? false)
+            ->where('is_playset', $cardmarketArticle['isPlayset'] ?? false)
             ->limit($articles_left_count)
             ->get();
         foreach ($articles as $key => $article) {
@@ -451,10 +451,10 @@ class Order extends Model
             ->where('articles.language_id', $cardmarketArticle['language']['idLanguage'])
             ->where('articles.condition', $cardmarketArticle['condition'])
             ->where('articles.unit_price', $cardmarketArticle['price'])
-            ->where('is_foil', $cardmarketArticle['isFoil'])
-            ->where('is_signed', $cardmarketArticle['isSigned'])
-            ->where('is_altered', $cardmarketArticle['isAltered'])
-            ->where('is_playset', $cardmarketArticle['isPlayset'])
+            ->where('is_foil', $cardmarketArticle['isFoil'] ?? false)
+            ->where('is_signed', $cardmarketArticle['isSigned'] ?? false)
+            ->where('is_altered', $cardmarketArticle['isAltered'] ?? false)
+            ->where('is_playset', $cardmarketArticle['isPlayset'] ?? false)
             ->limit($articles_left_count)
             ->get();
         foreach ($articles as $key => $article) {

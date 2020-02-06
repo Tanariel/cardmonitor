@@ -106,6 +106,7 @@ class Card extends Model
         $model = self::create([
             'cardmarket_product_id' => $cardmarketCard['idProduct'],
             'expansion_id' => $expansionId,
+            'game_id' => $cardmarketCard['idGame'],
             'image' => $cardmarketCard['image'],
             'name' => $cardmarketCard['enName'],
             'number' => $cardmarketCard['number'],
@@ -122,6 +123,44 @@ class Card extends Model
                 'language_id' => $localization['idLanguage'],
                 'name' => $localization['name'],
             ]);
+        }
+
+        return $model;
+    }
+
+    public static function createOrUpdateFromCardmarket(array $cardmarketCard, int $expansionId = 0) : self
+    {
+        $values = [
+            'cardmarket_product_id' => $cardmarketCard['idProduct'],
+            'expansion_id' => $expansionId,
+            'game_id' => $cardmarketCard['idGame'],
+            'image' => $cardmarketCard['image'],
+            'name' => $cardmarketCard['enName'],
+            'number' => $cardmarketCard['number'],
+            'rarity' => $cardmarketCard['rarity'],
+            'reprints_count' => $cardmarketCard['countReprints'],
+            'website' => $cardmarketCard['website'],
+        ];
+
+        $attributes = [
+            'cardmarket_product_id' => $cardmarketCard['idProduct'],
+        ];
+
+        $model = self::updateOrCreate($attributes, $values);
+
+        if ($model->wasRecentlyCreated) {
+            foreach ($cardmarketCard['localization'] as $key => $localization) {
+                if ($localization['idLanguage'] == 1) {
+                    continue;
+                }
+
+                $model->localizations()->create([
+                    'language_id' => $localization['idLanguage'],
+                    'name' => $localization['name'],
+                ]);
+            }
+
+            $model->download();
         }
 
         return $model;

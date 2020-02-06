@@ -47,13 +47,13 @@ class CardmarketApi
         }
     }
 
-    public function syncAllArticles()
+    public function syncAllArticles(int $gameId = 1)
     {
         $userId = $this->api->user_id;
-        $filename = $userId . '-stock.csv';
+        $filename = $userId . '-stock-' . $gameId . '.csv';
         $zippedFilename = $filename . '.gz';
 
-        $data = $this->cardmarketApi->stock->csv();
+        $data = $this->cardmarketApi->stock->csv($gameId);
         $created = Storage::disk('local')->put($zippedFilename, base64_decode($data['stock']));
 
         if ($created === false) {

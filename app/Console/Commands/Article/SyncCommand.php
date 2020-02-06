@@ -7,6 +7,11 @@ use Illuminate\Console\Command;
 
 class SyncCommand extends Command
 {
+    const GAMES = [
+        1,
+        3,
+    ];
+
     /**
      * The name and signature of the console command.
      *
@@ -40,7 +45,9 @@ class SyncCommand extends Command
     {
         try {
             $user = User::with('api')->find($this->option('user'));
-            $user->cardmarketApi->syncAllArticles();
+            foreach (self::GAMES as $key => $gameId) {
+                $user->cardmarketApi->syncAllArticles($gameId);
+            }
         }
         catch (\Exception $e) {
             $user->update([
