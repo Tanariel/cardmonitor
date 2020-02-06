@@ -31,7 +31,11 @@ class Article extends Model
     const MIN_UNIT_PRICE = 0.02;
 
     const CSV_CARDMARKET_ARTICLE_ID = 0;
-    const CSV_AMOUNT = 14;
+
+    const CSV_AMOUNT = [
+        Expansion::GAME_ID_MAGIC => 14,
+        Expansion::GAME_ID_YUGIOH => 13,
+    ];
 
     const BASE_PRICES = [
         'price_sell' => 'Durchschnittlicher Verkaufspreis',
@@ -107,19 +111,34 @@ class Article extends Model
         });
     }
 
-    public static function createOrUpdateFromCsv(int $userId, array $row, int $index) : self
+    public static function createOrUpdateFromCsv(int $userId, array $row, int $index, int $gameId) : self
     {
         // TODO: get rarity from card
 
-        $values = [
-            'user_id' => $userId,
+        $method = 'valuesFromCsvGame' . $gameId;
+        $values = self::$method($row);
+
+        $values['user_id'] = $userId;
+        $values['storage_id'] = Content::defaultStorage($userId, $row['expansion_id']);
+        $values['unit_cost'] = \App\Models\Items\Card::defaultPrice($userId, '');
+        $values['exported_at'] = now();
+
+        $attributes = [
+            'cardmarket_article_id' => $row[0],
+            'index' => $index,
+        ];
+
+        return self::updateOrCreate($attributes, $values);
+    }
+
+    protected static function valuesFromCsvGame1(array $row) : array
+    {
+        return [
             'card_id' => $row[1],
             'language_id' => $row[7],
             'cardmarket_article_id' => $row[0],
-            'storage_id' => Content::defaultStorage($userId, $row['expansion_id']),
             'condition' => $row[8],
             'unit_price' => $row[6],
-            'unit_cost' => \App\Models\Items\Card::defaultPrice($userId, ''),
             'sold_at' => null,
             'is_in_shoppingcard' => false,
             'is_foil' => ($row[9] == 'X' ? true : false),
@@ -129,15 +148,27 @@ class Article extends Model
             'cardmarket_comments' => $row[13],
             'has_sync_error' => false,
             'sync_error' => null,
-            'exported_at' => now(),
         ];
+    }
 
-        $attributes = [
+    protected static function valuesFromCsvGame3(array $row) : array
+    {
+        return [
+            'card_id' => $row[1],
+            'language_id' => $row[7],
             'cardmarket_article_id' => $row[0],
-            'index' => $index,
+            'condition' => $row[8],
+            'unit_price' => $row[6],
+            'sold_at' => null,
+            'is_in_shoppingcard' => false,
+            'is_foil' => false,
+            'is_signed' => ($row[9] == 'X' ? true : false),
+            'is_altered' => ($row[11] == 'X' ? true : false),
+            'is_playset' => false,
+            'cardmarket_comments' => $row[12],
+            'has_sync_error' => false,
+            'sync_error' => null,
         ];
-
-        return self::updateOrCreate($attributes, $values);
     }
 
     public static function reindex(int $cardmarket_article_id, int $start = 1) : int
@@ -493,6 +524,15 @@ class Article extends Model
         }
 
         return $query->where('cards.expansion_id', $value);
+    }
+
+    public function scopeGame(Builder $query, $value) : Builder
+    {
+        if (! $value) {
+            return $query;
+        }
+
+        return $query->where('cards.game_id', $value);
     }
 
     public function scopeLanguage(Builder $query, $value) : Builder

@@ -62,7 +62,7 @@ class CardmarketApi
 
         shell_exec('gunzip ' . storage_path('app/' . $filename));
 
-        $expansions = Expansion::all()->keyBy('abbreviation');
+        $expansions = Expansion::where('game_id', $gameId)->get()->keyBy('abbreviation');
 
         $cardmarketArticleIds = [];
 
@@ -74,12 +74,12 @@ class CardmarketApi
                 continue;
             }
             $data['expansion_id'] = $expansions[$data[4]]->id;
-            $amount = $data[Article::CSV_AMOUNT];
+            $amount = $data[Article::CSV_AMOUNT[$gameId]];
             $cardmarket_article_id = $data[Article::CSV_CARDMARKET_ARTICLE_ID];
             $cardmarketArticleIds[] = $cardmarket_article_id;
             for ($i = 1; $i <= $amount; $i++) {
                 Article::reindex($cardmarket_article_id);
-                Article::createOrUpdateFromCsv($userId, $data, $i);
+                Article::createOrUpdateFromCsv($userId, $data, $i, $gameId);
                 Article::where('cardmarket_article_id', $cardmarket_article_id)
                     ->whereNull('sold_at')
                     ->where('index', '>', $amount)
@@ -89,13 +89,14 @@ class CardmarketApi
         }
 
         Article::where('user_id', $userId)
+            ->join('cards', 'cards.id', '=', 'articles.card_id')
+            ->where('cards.game_id', $gameId)
             ->whereNull('sold_at')
             ->whereNotNull('cardmarket_article_id')
             ->whereNotIn('cardmarket_article_id', $cardmarketArticleIds)
             ->delete();
 
         Storage::disk('local')->delete($filename);
-
     }
 
     public function syncAllSellerOrders()
