@@ -2,7 +2,7 @@
     <div class="row align-items-stretch">
         <div class="col-md-4 d-flex flex-column">
 
-            <filter-game :initial-value="filter.game_id" :options="games" :show-label="false" v-model="filter.game_id" @input="fetch()"></filter-game>
+            <filter-game :initial-value="filter.game_id" :options="games" :show-label="false" :option-all="false" v-model="filter.game_id" @input="fetch()"></filter-game>
 
             <div class="form-group">
                 <select class="form-control" v-model="filter.language_id" @change="fetch()">

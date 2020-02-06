@@ -2828,7 +2828,7 @@ __webpack_require__.r(__webpack_exports__);
       filter: {
         cardmarket_comments: '',
         expansion_id: 0,
-        game_id: 1,
+        game_id: 0,
         language_id: 0,
         page: 1,
         rule_id: 0,
@@ -3175,11 +3175,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['initialValue', 'options', 'showLabel'],
+  props: {
+    initialValue: {
+      required: false,
+      "default": 0
+    },
+    options: {
+      required: true
+    },
+    showLabel: {
+      required: false,
+      "default": true
+    },
+    optionAll: {
+      required: false,
+      "default": true
+    }
+  },
   data: function data() {
     return {
-      value: this.initialValue || 1
+      value: this.initialValue || 0
     };
   }
 });
@@ -47742,7 +47759,8 @@ var render = function() {
           attrs: {
             "initial-value": _vm.filter.game_id,
             options: _vm.games,
-            "show-label": false
+            "show-label": false,
+            "option-all": false
           },
           on: {
             input: function($event) {
@@ -51157,12 +51175,18 @@ var render = function() {
           ]
         }
       },
-      _vm._l(_vm.options, function(option, key) {
-        return _c("option", { domProps: { value: key } }, [
-          _vm._v(_vm._s(option))
-        ])
-      }),
-      0
+      [
+        _vm.optionAll
+          ? _c("option", { domProps: { value: 0 } }, [_vm._v("Alle")])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm._l(_vm.options, function(option, key) {
+          return _c("option", { domProps: { value: key } }, [
+            _vm._v(_vm._s(option))
+          ])
+        })
+      ],
+      2
     )
   ])
 }

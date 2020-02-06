@@ -252,7 +252,7 @@
                 filter: {
                     cardmarket_comments: '',
                     expansion_id: 0,
-                    game_id: 1,
+                    game_id: 0,
                     language_id: 0,
                     page: 1,
                     rule_id: 0,
