@@ -2,6 +2,7 @@
 
 namespace App\Jobs\Articles;
 
+use App\Models\Expansions\Expansion;
 use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -12,11 +13,6 @@ use Illuminate\Queue\SerializesModels;
 class SyncAll implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-
-    const GAMES = [
-        1,
-        3,
-    ];
 
     protected $user;
 
@@ -47,7 +43,7 @@ class SyncAll implements ShouldQueue
         try {
             $this->processing();
             $this->user->cardmarketApi->syncAllSellerOrders();
-            foreach (self::GAMES as $key => $gameId) {
+            foreach (Expansion::GAMES as $key => $gameId) {
                 $this->user->cardmarketApi->syncAllArticles($gameId);
             }
             $this->processed();

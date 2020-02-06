@@ -61,6 +61,7 @@ class YuGuOhCommand extends Command
             }
 
             $bar->advance();
+            usleep(50);
         }
 
         $bar->finish();

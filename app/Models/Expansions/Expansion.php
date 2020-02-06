@@ -12,6 +12,11 @@ class Expansion extends Model
 {
     use HasLocalizations;
 
+    const GAMES = [
+        1,
+        3,
+    ];
+
     protected $dates = [
         'released_at',
     ];
