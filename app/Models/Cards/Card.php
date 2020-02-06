@@ -168,7 +168,7 @@ class Card extends Model
 
     public static function updatePricesFromCardmarket(array $data)
     {
-        self::where('id', $data[0])->update([
+        return self::where('id', $data[0])->update([
             'price_sell' => $data[1] ?: 0,
             'price_avg' => $data[1] ?: 0,
             'price_low' => $data[2] ?: 0,

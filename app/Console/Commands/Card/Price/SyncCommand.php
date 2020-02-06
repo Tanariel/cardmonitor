@@ -3,6 +3,7 @@
 namespace App\Console\Commands\Card\Price;
 
 use App\Models\Cards\Card;
+use App\Models\Expansions\Expansion;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
@@ -14,7 +15,7 @@ class SyncCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'card:price:sync';
+    protected $signature = 'card:price:sync {--game=0}';
 
     /**
      * The console command description.
@@ -42,7 +43,20 @@ class SyncCommand extends Command
      */
     public function handle()
     {
-        $this->download();
+        if ($this->option('game')) {
+            $this->sync($this->option('game'));
+        }
+        else {
+            foreach (Expansion::GAMES as $gameId => $name) {
+                $this->sync($gameId);
+            }
+        }
+    }
+
+    protected function sync(int $gameId)
+    {
+        $this->filename = 'priceguide-' . $gameId . '.csv';
+        $this->download($gameId);
 
         $row_count = 0;
         $articlesFile = fopen(storage_path('app/' . $this->filename), "r");
@@ -55,10 +69,12 @@ class SyncCommand extends Command
             $row_count++;
         }
 
-        // Storage::disk('local')->delete($this->filename);
+        if (App::environment() == 'production') {
+            Storage::disk('local')->delete($this->filename);
+        }
     }
 
-    protected function download()
+    protected function download(int $gameId)
     {
         if (App::environment() != 'production') {
             return;
@@ -68,7 +84,7 @@ class SyncCommand extends Command
 
         $zippedFilename = $this->filename . '.gz';
 
-        $data = $CardmarketApi->priceguide->csv();
+        $data = $CardmarketApi->priceguide->csv($gameId);
         $created = Storage::disk('local')->put($zippedFilename, base64_decode($data['priceguidefile']));
 
         if ($created === false) {
