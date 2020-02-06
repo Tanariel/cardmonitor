@@ -42,6 +42,10 @@
                 </div>
 
                 <div class="col-auto">
+                    <filter-game :initial-value="filter.game_id" :options="games" :game-id="filter.game_id" :show-label="true" v-model="filter.game_id" @input="fetch()"></filter-game>
+                </div>
+
+                <div class="col-auto">
                     <filter-expansion :options="expansions" v-model="filter.expansion_id" @input="search"></filter-expansion>
                 </div>
                 <div class="col-auto">
@@ -162,22 +166,24 @@
 </template>
 
 <script>
-    import row from "./row.vue";
-    import filterSearch from "../filter/search.vue";
-    import filterRarity from "../filter/rarity.vue";
-    import filterLanguage from "../filter/language.vue";
     import filterExpansion from "../filter/expansion.vue";
+    import filterGame from "../filter/game.vue";
+    import filterLanguage from "../filter/language.vue";
+    import filterRarity from "../filter/rarity.vue";
     import filterRule from "../filter/rule.vue";
+    import filterSearch from "../filter/search.vue";
+    import row from "./row.vue";
 
     export default {
 
         components: {
-            row,
-            filterRarity,
-            filterSearch,
-            filterLanguage,
             filterExpansion,
+            filterGame,
+            filterLanguage,
+            filterRarity,
             filterRule,
+            filterSearch,
+            row,
         },
 
         props: {
@@ -191,6 +197,10 @@
             },
             expansions: {
                 type: Array,
+                required: true,
+            },
+            games: {
+                type: Object,
                 required: true,
             },
             isApplyingRules: {
@@ -240,19 +250,20 @@
                     lastPage: 0,
                 },
                 filter: {
-                    show: false,
-                    page: 1,
-                    searchtext: '',
                     cardmarket_comments: '',
-                    language_id: 0,
                     expansion_id: 0,
+                    game_id: 1,
+                    language_id: 0,
+                    page: 1,
                     rule_id: 0,
-                    unit_price_min: 0,
-                    unit_price_max: 0,
-                    unit_cost_min: 0,
-                    unit_cost_max: 0,
+                    searchtext: '',
+                    show: false,
                     sold: 0,
                     sync: -1,
+                    unit_cost_max: 0,
+                    unit_cost_min: 0,
+                    unit_price_max: 0,
+                    unit_price_min: 0,
                 },
                 selected: [],
                 errors: {},

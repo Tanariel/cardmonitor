@@ -2572,12 +2572,13 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _row_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./row.vue */ "./resources/js/components/article/row.vue");
-/* harmony import */ var _filter_search_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../filter/search.vue */ "./resources/js/components/filter/search.vue");
-/* harmony import */ var _filter_rarity_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../filter/rarity.vue */ "./resources/js/components/filter/rarity.vue");
-/* harmony import */ var _filter_language_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../filter/language.vue */ "./resources/js/components/filter/language.vue");
-/* harmony import */ var _filter_expansion_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../filter/expansion.vue */ "./resources/js/components/filter/expansion.vue");
-/* harmony import */ var _filter_rule_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../filter/rule.vue */ "./resources/js/components/filter/rule.vue");
+/* harmony import */ var _filter_expansion_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../filter/expansion.vue */ "./resources/js/components/filter/expansion.vue");
+/* harmony import */ var _filter_game_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../filter/game.vue */ "./resources/js/components/filter/game.vue");
+/* harmony import */ var _filter_language_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../filter/language.vue */ "./resources/js/components/filter/language.vue");
+/* harmony import */ var _filter_rarity_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../filter/rarity.vue */ "./resources/js/components/filter/rarity.vue");
+/* harmony import */ var _filter_rule_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../filter/rule.vue */ "./resources/js/components/filter/rule.vue");
+/* harmony import */ var _filter_search_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../filter/search.vue */ "./resources/js/components/filter/search.vue");
+/* harmony import */ var _row_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./row.vue */ "./resources/js/components/article/row.vue");
 //
 //
 //
@@ -2741,6 +2742,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+
 
 
 
@@ -2749,12 +2755,13 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    row: _row_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
-    filterRarity: _filter_rarity_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
-    filterSearch: _filter_search_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
-    filterLanguage: _filter_language_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
-    filterExpansion: _filter_expansion_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
-    filterRule: _filter_rule_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
+    filterExpansion: _filter_expansion_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
+    filterGame: _filter_game_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+    filterLanguage: _filter_language_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+    filterRarity: _filter_rarity_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
+    filterRule: _filter_rule_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
+    filterSearch: _filter_search_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
+    row: _row_vue__WEBPACK_IMPORTED_MODULE_6__["default"]
   },
   props: {
     conditions: {
@@ -2767,6 +2774,10 @@ __webpack_require__.r(__webpack_exports__);
     },
     expansions: {
       type: Array,
+      required: true
+    },
+    games: {
+      type: Object,
       required: true
     },
     isApplyingRules: {
@@ -2815,19 +2826,20 @@ __webpack_require__.r(__webpack_exports__);
         lastPage: 0
       },
       filter: {
-        show: false,
-        page: 1,
-        searchtext: '',
         cardmarket_comments: '',
-        language_id: 0,
         expansion_id: 0,
+        game_id: 1,
+        language_id: 0,
+        page: 1,
         rule_id: 0,
-        unit_price_min: 0,
-        unit_price_max: 0,
-        unit_cost_min: 0,
-        unit_cost_max: 0,
+        searchtext: '',
+        show: false,
         sold: 0,
-        sync: -1
+        sync: -1,
+        unit_cost_max: 0,
+        unit_cost_min: 0,
+        unit_price_max: 0,
+        unit_price_min: 0
       },
       selected: [],
       errors: {}
@@ -50302,6 +50314,34 @@ var render = function() {
                 )
               ])
             ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "col-auto" },
+              [
+                _c("filter-game", {
+                  attrs: {
+                    "initial-value": _vm.filter.game_id,
+                    options: _vm.games,
+                    "game-id": _vm.filter.game_id,
+                    "show-label": true
+                  },
+                  on: {
+                    input: function($event) {
+                      return _vm.fetch()
+                    }
+                  },
+                  model: {
+                    value: _vm.filter.game_id,
+                    callback: function($$v) {
+                      _vm.$set(_vm.filter, "game_id", $$v)
+                    },
+                    expression: "filter.game_id"
+                  }
+                })
+              ],
+              1
+            ),
             _vm._v(" "),
             _c(
               "div",
