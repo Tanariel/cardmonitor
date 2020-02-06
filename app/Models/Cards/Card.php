@@ -185,6 +185,10 @@ class Card extends Model
 
     public function download()
     {
+        if (is_null($this->image)) {
+            return;
+        }
+
         $CardmarketApi = App::make('CardmarketApi');
 
         $filename = storage_path('app/public/items/' . $this->game_id . '/' . $this->expansion_id . '/' . $this->id . '.jpg');
@@ -193,15 +197,17 @@ class Card extends Model
             return;
         }
 
-        if (! Storage::exists('public/items/' . $this->game_id)) {
-            Storage::makeDirectory('public/items/' . $this->game_id);
-        }
-
         if (! Storage::exists('public/items/' . $this->game_id . '/' . $this->expansion_id)) {
-            Storage::makeDirectory('public/items/' . $this->game_id . '/' . $this->expansion_id);
+            Storage::makeDirectory('public/items/' . $this->game_id . '/' . $this->expansion_id, 0755, true);
         }
 
-        $CardmarketApi->product->download($this->image, $filename);
+        try {
+            $CardmarketApi->product->download($this->image, $filename);
+        }
+        catch(\Exception $e) {
+            echo ' Datei ' . $this->image . ' konnte nicht heruntergeladen werden!';
+            return;
+        }
     }
 
     public function getHasLatestPricesAttribute() : bool

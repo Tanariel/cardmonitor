@@ -55,10 +55,10 @@ class YuGuOhCommand extends Command
         foreach ($cardmarketExpansions['expansion'] as $key => $cardmarketExpansion) {
             $expansion = Expansion::createOrUpdateFromCardmarket($cardmarketExpansion);
 
-            if ($expansion->wasRecentlyCreated == false) {
-                $bar->advance();
-                continue;
-            }
+            // if ($expansion->wasRecentlyCreated == false) {
+            //     $bar->advance();
+            //     continue;
+            // }
 
             $singles = $this->cardmarketApi->expansion->singles($expansion->id);
             foreach ($singles['single'] as $key => $single) {
