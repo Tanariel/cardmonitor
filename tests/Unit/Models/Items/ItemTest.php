@@ -26,17 +26,25 @@ class ItemTest extends TestCase
     {
         $user = factory(User::class)->create();
 
-        $this->assertCount(0, $user->items);
+        $rarities = factory(\App\Models\Cards\Card::class, 5)->create()->pluck('rarity')->toArray();
+        $rarities = array_unique($rarities);
+        $rarities_count = count($rarities);
+
+        $customs_count = 4;
+
+        $items_count = $rarities_count + $customs_count;
+
+        $this->assertCount($customs_count, $user->items);
 
         Item::setup($user);
 
-        $this->assertCount(10, $user->fresh()->items);
+        $this->assertCount($items_count, $user->fresh()->items);
 
         $this->assertDatabaseHas('items', [
             'user_id' => $user->id,
             'type' => Card::class,
-            'name' => 'Common',
-            'unit_cost' => 0.02,
+            'name' => $rarities[0],
+            'unit_cost' => Card::DEFAULT_PRICE,
         ]);
     }
 

@@ -42,4 +42,9 @@ class Card extends Item
 
         return Arr::get(self::$defaultPrices, $rarity, self::DEFAULT_PRICE);
     }
+
+    public function isEditable() : bool
+    {
+        return true;
+    }
 }

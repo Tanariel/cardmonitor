@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Artisan;
 use Parental\HasChildren;
 
 class Item extends Model
@@ -167,27 +168,11 @@ class Item extends Model
 
     public static function setup(Model $user)
     {
-        $cards = [
-            'Masterpiece' => 0.02,
-            'Mythic' => 0.02,
-            'Rare' => 0.02,
-            'Special' => 0.02,
-            'Time Shifted' => 0.02,
-            'Uncommon' => 0.02,
-            'Common' => 0.02,
-            'Land' => 0.02,
-            'Token' => 0.02,
-            'Tip Card' => 0.02,
-        ];
-        foreach ($cards as $rarity => $unit_cost) {
-            Card::create([
-                'name' => $rarity,
-                'unit_cost' => $unit_cost,
-                'user_id' => $user->id,
-            ]);
-        }
+        Artisan::call('items:create', [
+            'user' => $user->id,
+        ]);
 
-        $item = Custom::create([
+        $item = Custom::updateOrCreate(['user_id' => $user->id, 'name' => 'Postkarte'], [
             'name' => 'Postkarte',
             'unit_cost' => 0.02,
             'user_id' => $user->id,
@@ -200,7 +185,7 @@ class Item extends Model
             ],
         ]);
 
-        $item = Custom::create([
+        $item = Custom::updateOrCreate(['user_id' => $user->id, 'name' => 'Hülle'], [
             'name' => 'Hülle',
             'unit_cost' => 0.02,
             'user_id' => $user->id,
@@ -225,7 +210,7 @@ class Item extends Model
             ],
         ]);
 
-        $item = Custom::create([
+        $item = Custom::updateOrCreate(['user_id' => $user->id, 'name' => 'Briefumschlag Din C6'], [
             'name' => 'Briefumschlag Din C6',
             'unit_cost' => 0.0179,
             'user_id' => $user->id,
@@ -238,7 +223,7 @@ class Item extends Model
             ],
         ]);
 
-        $item = Custom::create([
+        $item = Custom::updateOrCreate(['user_id' => $user->id, 'name' => 'Briefumschlag Din C4'], [
             'name' => 'Briefumschlag Din C4',
             'unit_cost' => 0.199,
             'user_id' => $user->id,
