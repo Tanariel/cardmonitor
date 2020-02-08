@@ -3780,6 +3780,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     isSyncingOrders: {
@@ -3845,6 +3848,16 @@ __webpack_require__.r(__webpack_exports__);
           Vue.success('Bestellungen wurden synchronisiert.');
         }
       })["catch"](function (error) {
+        console.log(error);
+      })["finally"](function () {});
+    },
+    send: function send(item) {
+      var component = this;
+      axios.post(item.path + '/send').then(function (response) {
+        component.fetch();
+        Vue.success('Bestellungen wurde verschickt.');
+      })["catch"](function (error) {
+        Vue.error('Bestellungen konnten nicht verschickt werden');
         console.log(error);
       })["finally"](function () {});
     },
@@ -52224,9 +52237,13 @@ var render = function() {
                       "tbody",
                       _vm._l(_vm.items, function(item, key) {
                         return _c("tr", [
-                          _c("td", { staticClass: "align-middle" }, [
-                            _vm._v(_vm._s(item.paid_at_formatted))
-                          ]),
+                          _c(
+                            "td",
+                            {
+                              staticClass: "align-middle d-none d-md-table-cell"
+                            },
+                            [_vm._v(_vm._s(item.paid_at_formatted))]
+                          ),
                           _vm._v(" "),
                           _c("td", { staticClass: "align-middle" }, [
                             _c("a", { attrs: { href: item.path } }, [
@@ -52238,14 +52255,36 @@ var render = function() {
                             ])
                           ]),
                           _vm._v(" "),
-                          _c("td", { staticClass: "align-middle" }, [
-                            _c("div", [
-                              _vm._v(_vm._s(item.revenue_formatted) + " € ")
-                            ]),
-                            _vm._v(" "),
-                            _c("div", [
-                              _vm._v(_vm._s(item.articles_count) + " Artikel")
-                            ])
+                          _c(
+                            "td",
+                            {
+                              staticClass: "align-middle d-none d-sm-table-cell"
+                            },
+                            [
+                              _c("div", [
+                                _vm._v(_vm._s(item.revenue_formatted) + " € ")
+                              ]),
+                              _vm._v(" "),
+                              _c("div", [
+                                _vm._v(_vm._s(item.articles_count) + " Artikel")
+                              ])
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("td", { staticClass: "align-middle text-right" }, [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-primary",
+                                attrs: { title: "Versenden" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.send(item)
+                                  }
+                                }
+                              },
+                              [_vm._v("Versenden")]
+                            )
                           ])
                         ])
                       }),

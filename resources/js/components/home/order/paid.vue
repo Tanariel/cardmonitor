@@ -18,14 +18,17 @@
                 <table class="table table-striped table-hover" v-else>
                     <tbody>
                         <tr v-for="(item, key) in items">
-                            <td class="align-middle">{{ item.paid_at_formatted }}</td>
+                            <td class="align-middle d-none d-md-table-cell">{{ item.paid_at_formatted }}</td>
                             <td class="align-middle">
                                 <a :href="item.path">{{ item.cardmarket_order_id }}</a>
                                 <div class="text-muted">{{ item.buyer.name }}</div>
                             </td>
-                            <td class="align-middle">
+                            <td class="align-middle d-none d-sm-table-cell">
                                 <div>{{ item.revenue_formatted }} € </div>
                                 <div>{{ item.articles_count }} Artikel</div>
+                            </td>
+                            <td class="align-middle text-right">
+                                <button class="btn btn-primary" title="Versenden" @click="send(item)">Versenden</button>
                             </td>
                         </tr>
                     </tbody>
@@ -109,6 +112,21 @@
                         }
                     })
                     .catch(function (error) {
+                        console.log(error);
+                    })
+                    .finally ( function () {
+
+                    });
+            },
+            send(item) {
+                var component = this;
+                axios.post(item.path + '/send')
+                    .then(function (response) {
+                        component.fetch();
+                        Vue.success('Bestellungen wurde verschickt.');
+                    })
+                    .catch(function (error) {
+                        Vue.error('Bestellungen konnten nicht verschickt werden');
                         console.log(error);
                     })
                     .finally ( function () {
