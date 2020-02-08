@@ -13,9 +13,7 @@ use Illuminate\Support\Facades\App;
 |
 */
 
-Route::get('/', function () {
-    return view('landing.index');
-});
+Route::get('/', 'LandingController@index');
 
 Route::get('/impressum', function () {
     return view('impressum');
