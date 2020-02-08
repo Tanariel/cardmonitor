@@ -52,12 +52,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Cardmonitor/cardmarket-api.git",
-                "reference": "25ceaa111523c746407b6bf41d9a13bd1e47f017"
+                "reference": "d621b07931ca421e5480ddf5656f63ab4e5e1c01"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Cardmonitor/cardmarket-api/zipball/25ceaa111523c746407b6bf41d9a13bd1e47f017",
-                "reference": "25ceaa111523c746407b6bf41d9a13bd1e47f017",
+                "url": "https://api.github.com/repos/Cardmonitor/cardmarket-api/zipball/d621b07931ca421e5480ddf5656f63ab4e5e1c01",
+                "reference": "d621b07931ca421e5480ddf5656f63ab4e5e1c01",
                 "shasum": ""
             },
             "require": {
@@ -86,7 +86,7 @@
                 }
             ],
             "description": "PHP Cardmarket API",
-            "time": "2020-02-06T05:59:19+00:00"
+            "time": "2020-02-08T04:25:03+00:00"
         },
         {
             "name": "cardmonitor/skryfall-api",
