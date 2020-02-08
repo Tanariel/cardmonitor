@@ -66,9 +66,9 @@
                 this.checkIsSyncingOrders();
             }
             else {
+                this.sync();
                 this.fetch();
             }
-            console.log(this.items.length);
         },
 
         methods: {

@@ -3806,10 +3806,9 @@ __webpack_require__.r(__webpack_exports__);
     if (this.isSyncingOrders) {
       this.checkIsSyncingOrders();
     } else {
+      this.sync();
       this.fetch();
     }
-
-    console.log(this.items.length);
   },
   methods: {
     fetch: function fetch() {
