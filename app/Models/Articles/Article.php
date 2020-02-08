@@ -10,6 +10,7 @@ use App\Models\Orders\Order;
 use App\Models\Rules\Rule;
 use App\Models\Storages\Content;
 use App\Models\Storages\Storage;
+use App\Transformers\Articles\Csvs\Transformer;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -115,8 +116,7 @@ class Article extends Model
     {
         // TODO: get rarity from card
 
-        $method = 'valuesFromCsvGame' . $gameId;
-        $values = self::$method($row);
+        $values = Transformer::transform($gameId, $row);
 
         $values['user_id'] = $userId;
         $values['storage_id'] = Content::defaultStorage($userId, $row['expansion_id']);
@@ -129,46 +129,6 @@ class Article extends Model
         ];
 
         return self::updateOrCreate($attributes, $values);
-    }
-
-    protected static function valuesFromCsvGame1(array $row) : array
-    {
-        return [
-            'card_id' => $row[1],
-            'language_id' => $row[7],
-            'cardmarket_article_id' => $row[0],
-            'condition' => $row[8],
-            'unit_price' => $row[6],
-            'sold_at' => null,
-            'is_in_shoppingcard' => false,
-            'is_foil' => ($row[9] == 'X' ? true : false),
-            'is_signed' => ($row[10] == 'X' ? true : false),
-            'is_altered' => ($row[11] == 'X' ? true : false),
-            'is_playset' => ($row[12] == 'X' ? true : false),
-            'cardmarket_comments' => $row[13],
-            'has_sync_error' => false,
-            'sync_error' => null,
-        ];
-    }
-
-    protected static function valuesFromCsvGame3(array $row) : array
-    {
-        return [
-            'card_id' => $row[1],
-            'language_id' => $row[7],
-            'cardmarket_article_id' => $row[0],
-            'condition' => $row[8],
-            'unit_price' => $row[6],
-            'sold_at' => null,
-            'is_in_shoppingcard' => false,
-            'is_foil' => false,
-            'is_signed' => ($row[9] == 'X' ? true : false),
-            'is_altered' => ($row[11] == 'X' ? true : false),
-            'is_playset' => false,
-            'cardmarket_comments' => $row[12],
-            'has_sync_error' => false,
-            'sync_error' => null,
-        ];
     }
 
     public static function reindex(int $cardmarket_article_id, int $start = 1) : int
