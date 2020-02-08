@@ -133,6 +133,19 @@ class Expansion extends Model
         $this->attributes['abbreviation'] = strtolower($parts[4]);
     }
 
+    public function getIconPositionAttribute() : array
+    {
+        return [
+            'x' => (($this->icon % 10) * 21 * -1),
+            'y' => ((floor($this->icon / 10) * 21) * -1),
+        ];
+    }
+
+    public function getIconPositionStringAttribute() : string
+    {
+        return $this->icon_position['x'] . 'px ' . $this->icon_position['y'] . 'px';
+    }
+
     public function cards() : HasMany
     {
         return $this->hasMany(Card::class, 'expansion_id');

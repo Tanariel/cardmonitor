@@ -12,10 +12,14 @@ class ExpansionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Expansion::orderBy('name', 'ASC')
-            ->get();
+        if ($request->wantsJson()) {
+            return Expansion::orderBy('name', 'ASC')->get();
+        }
+
+        return view('expansion.pdf')
+            ->with('expansions', Expansion::where('game_id', 1)->orderBy('id', 'ASC')->get());
     }
 
     /**
