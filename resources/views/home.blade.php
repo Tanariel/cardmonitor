@@ -47,9 +47,14 @@
                                                 <a href="{{ $evaluation->order->path }}">{{ $evaluation->order->cardmarket_order_id }}</a>
                                                 <div class="text-muted">{{ $evaluation->order->buyer->name }}</div>
                                             </td>
-                                            <td class="align-middle text-center" width="35">{{ $evaluation->grade }}</td>
-                                            <td class="align-middle text-center" width="35">{{ $evaluation->item_description }}</td>
-                                            <td class="align-middle text-center" width="35">{{ $evaluation->packaging }}</td>
+                                            <td class="align-middle text-center">
+                                                <div class="d-flex justify-content-around">
+                                                    <div><evaluation-icon :value="{{ $evaluation->grade }}"></evaluation-icon></div>
+                                                    <div><evaluation-icon :value="{{ $evaluation->item_description }}"></evaluation-icon></div>
+                                                    <div><evaluation-icon :value="{{ $evaluation->packaging }}"></evaluation-icon></div>
+                                                </div>
+                                                <div class="text-overflow-ellipsis">{{ $evaluation->comment }}</div>
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>

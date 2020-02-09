@@ -89,15 +89,15 @@
                         </div>
                         <div class="row">
                             <div class="col-label"><b>Allgemeine Bewertung</b></div>
-                            <div class="col-value">{{ $model->evaluation->grade }}</div>
+                            <div class="col-value"><evaluation-icon :value="{{ $model->evaluation->grade }}"></evaluation-icon></div>
                         </div>
                         <div class="row">
                             <div class="col-label"><b>Beschreibung der Artikelzustände</b></div>
-                            <div class="col-value">{{ $model->evaluation->item_description }}</div>
+                            <div class="col-value"><evaluation-icon :value="{{ $model->evaluation->item_description }}"></evaluation-icon></div>
                         </div>
                         <div class="row">
                             <div class="col-label"><b>Verpackung der Bestellung</b></div>
-                            <div class="col-value">{{ $model->evaluation->packaging }}</div>
+                            <div class="col-value"><evaluation-icon :value="{{ $model->evaluation->packaging }}"></evaluation-icon></div>
                         </div>
                         @if ($model->evaluation->comment)
                             <div class="row">
