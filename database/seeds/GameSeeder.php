@@ -23,7 +23,6 @@ class GameSeeder extends Seeder
                 'abbreviation' => $cardmarketGame['abbreviation'],
                 'is_importable' => Arr::has(Expansion::GAMES, $cardmarketGame['idGame']),
             ]);
-            dump($game);
         }
     }
 }

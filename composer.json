@@ -13,6 +13,7 @@
         "cardmonitor/cardmarket-api": "dev-master",
         "cardmonitor/skryfall-api": "dev-master",
         "fideloper/proxy": "^4.0",
+        "geo-sot/laravel-env-editor": "^0.9.7",
         "kalnoy/nestedset": "^5.0",
         "laravel/framework": "^6.0",
         "laravel/telescope": "^2.1",
