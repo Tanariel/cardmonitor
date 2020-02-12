@@ -151,7 +151,7 @@
                         <p>Der Prozess läuft maximal 1 Stunde. Das entspricht etwa 30.000 Artikeln</p>
                         <div class="alert alert-danger" role="alert">
                             Es werden Preise in deinem Cardmarket Konto verändert! Versichere dich vorher, ob alle Regeln angewendet werden, wie Du es möchtest!<br /><br />
-                            Ausführung auf eigne Gefahr!
+                            Ausführung auf eigene Gefahr!
                         </div>
                     </div>
                     <div class="modal-footer">

@@ -51000,7 +51000,7 @@ var staticRenderFns = [
           _c("br"),
           _c("br"),
           _vm._v(
-            "\n                        Ausführung auf eigne Gefahr!\n                    "
+            "\n                        Ausführung auf eigene Gefahr!\n                    "
           )
         ]
       )
