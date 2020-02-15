@@ -343,7 +343,7 @@ class Rule extends Model
 
     protected function path(string $action = '') : string
     {
-        return route($this->baseRoute() . '.' . $action, ['rule' => $this->id]);
+        return ($this->id ? route($this->baseRoute() . '.' . $action, ['rule' => $this->id]) : '');
     }
 
     protected function baseRoute() : string
