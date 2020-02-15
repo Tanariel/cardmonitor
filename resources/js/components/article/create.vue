@@ -24,7 +24,7 @@
                         Lade Daten..
                     </center>
                 </div>
-                <table
+                <div class="alert alert-dark mt-3" v-else-if="showSearchAlert"><center>Bitte eine Erweiterung wählen oder mindestens 3 Zeichen in der Suche eingeben.</center></div>
                 <table class="table table-hover table-striped" v-else-if="cards.length">
                     <tbody>
                         <tr v-for="(card, index) in cards" @click="setItem(card, index)">
@@ -307,6 +307,12 @@
                         }
                     }
                 },
+            },
+            shouldFetch() {
+                return (this.filter.searchtext.length >= 3 || this.filter.expansion_id != 0);
+            },
+            showSearchAlert() {
+                return (this.shouldFetch == false && this.items.length == 0);
             },
             sortedExpansions: function() {
                 function compare(a, b) {

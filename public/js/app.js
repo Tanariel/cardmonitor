@@ -2150,6 +2150,12 @@ __webpack_require__.r(__webpack_exports__);
         }
       }
     },
+    shouldFetch: function shouldFetch() {
+      return this.filter.searchtext.length >= 3 || this.filter.expansion_id != 0;
+    },
+    showSearchAlert: function showSearchAlert() {
+      return this.shouldFetch == false && this.items.length == 0;
+    },
     sortedExpansions: function sortedExpansions() {
       function compare(a, b) {
         if (a.name < b.name) {
@@ -47899,6 +47905,19 @@ var render = function() {
                       ]),
                       _vm._v(
                         "\n                    Lade Daten..\n                "
+                      )
+                    ])
+                  ],
+                  1
+                )
+              : _vm.showSearchAlert
+              ? _c(
+                  "div",
+                  { staticClass: "alert alert-dark mt-3" },
+                  [
+                    _c("center", [
+                      _vm._v(
+                        "Bitte eine Erweiterung wählen oder mindestens 3 Zeichen in der Suche eingeben."
                       )
                     ])
                   ],
