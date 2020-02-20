@@ -2,9 +2,12 @@
 
 namespace App\Console\Commands\Games;
 
+use App\Models\Cards\Card;
 use App\Models\Expansions\Expansion;
+use App\Models\Games\Game;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class ImportCommand extends Command
 {
@@ -23,6 +26,20 @@ class ImportCommand extends Command
     protected $description = 'Imports expansions and cards from a game';
 
     /**
+     * The importable Games keyed by its Id.
+     *
+     * @var array
+     */
+    protected $importableGames = [];
+
+    /**
+     * The importable Game IDs.
+     *
+     * @var array
+     */
+    protected $importableGameIds = [];
+
+    /**
      * Create a new command instance.
      *
      * @return void
@@ -30,6 +47,10 @@ class ImportCommand extends Command
     public function __construct()
     {
         parent::__construct();
+
+        $this->cardmarketApi = App::make('CardmarketApi');
+        $this->importableGames = Game::importables()->keyBy('id');
+        $this->importableGameIds = array_keys($this->importableGames->toArray());
     }
 
     /**
@@ -41,12 +62,24 @@ class ImportCommand extends Command
     {
         $gameId = $this->argument('game');
 
-        if (! in_array($gameId, array_keys(Expansion::GAMES))) {
-            $this->error('Game does not exist');
-            exit;
+        if ($gameId == 0) {
+            foreach ($this->importableGameIds as $gameId) {
+                $this->importGame($gameId);
+            }
         }
+        else {
+            $this->importGame($gameId);
+        }
+    }
 
-        $this->cardmarketApi = App::make('CardmarketApi');
+    protected function importGame(int $gameId)
+    {
+        $this->info('Importing ' . $this->importableGames[$gameId]->name);
+
+        if (! $this->isImportable($gameId)) {
+            $this->error('Game does not exist');
+            return;
+        }
 
         $cardmarketExpansions = $this->cardmarketApi->expansion->find($gameId);
 
@@ -57,7 +90,7 @@ class ImportCommand extends Command
 
             $singles = $this->cardmarketApi->expansion->singles($expansion->id);
             foreach ($singles['single'] as $key => $single) {
-                $card = Card::createOrUpdateFromCardmarket($single, $expansion->id);
+                Card::createOrUpdateFromCardmarket($single, $expansion->id);
             }
 
             $bar->advance();
@@ -66,13 +99,23 @@ class ImportCommand extends Command
 
         $bar->finish();
 
+        $this->updatePrices($gameId);
+
+        $this->info('Finished');
+    }
+
+    protected function updatePrices(int $gameId)
+    {
         $this->info('');
-        $this->info('syncing prices');
+        $this->info('Syncing prices');
 
         $this->call('card:price:sync', [
             '--game' => $gameId,
         ]);
+    }
 
-        $this->info('finished');
+    protected function isImportable(int $gameId) : bool
+    {
+        return in_array($gameId, $this->importableGameIds);
     }
 }
