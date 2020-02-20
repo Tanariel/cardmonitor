@@ -64,15 +64,15 @@ class ImportCommand extends Command
 
         if ($gameId == 0) {
             foreach ($this->importableGameIds as $gameId) {
-                $this->importGame($gameId);
+                $this->import($gameId);
             }
         }
         else {
-            $this->importGame($gameId);
+            $this->import($gameId);
         }
     }
 
-    protected function importGame(int $gameId)
+    protected function import(int $gameId)
     {
         $this->info('Importing ' . $this->importableGames[$gameId]->name);
 
@@ -88,7 +88,14 @@ class ImportCommand extends Command
         foreach ($cardmarketExpansions['expansion'] as $key => $cardmarketExpansion) {
             $expansion = Expansion::createOrUpdateFromCardmarket($cardmarketExpansion);
 
-            $singles = $this->cardmarketApi->expansion->singles($expansion->id);
+            try {
+                $singles = $this->cardmarketApi->expansion->singles($expansion->id);
+            }
+            catch (\Exception $e) {
+                // $this->error('Expansion ' . $cardmarketExpansion['idExpansion'] . ' not available');
+                continue;
+            }
+
             foreach ($singles['single'] as $key => $single) {
                 Card::createOrUpdateFromCardmarket($single, $expansion->id);
             }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands\Games;
+namespace App\Console\Commands\Expansion;
 
 use App\Models\Cards\Card;
 use App\Models\Expansions\Expansion;
@@ -66,7 +66,14 @@ class ImportCommand extends Command
 
     protected function import(int $expansionId)
     {
-        $singles = $this->cardmarketApi->expansion->singles($expansionId);
+        $this->info('Start');
+        try {
+            $singles = $this->cardmarketApi->expansion->singles($expansionId);
+        }
+        catch (\Exception $e) {
+            $this->error('Expansion ' . $expansionId . ' not available');
+            return;
+        }
         $gameId = $singles['expansion']['idGame'];
         $expansion = Expansion::createOrUpdateFromCardmarket($singles['expansion']);
 
