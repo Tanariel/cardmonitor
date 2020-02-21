@@ -62,17 +62,17 @@ class ImportCommand extends Command
     {
         $gameId = $this->argument('game');
 
-        if ($gameId == 0) {
-            foreach ($this->importableGameIds as $gameId) {
-                $this->import($gameId);
-            }
+        if ($gameId) {
+            $this->import($gameId);
+            return;
         }
-        else {
+
+        foreach ($this->importableGameIds as $gameId) {
             $this->import($gameId);
         }
     }
 
-    protected function import(int $gameId)
+    protected function import(int $gameId) : void
     {
         $this->info('Importing ' . $this->importableGames[$gameId]->name);
 
