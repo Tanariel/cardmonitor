@@ -472,6 +472,10 @@ class Order extends Model
 
         $card = Card::where('cardmarket_product_id', $cardmarketArticle['idProduct'])->first();
 
+        if (is_null($card)) {
+            return;
+        }
+
         $attributes = [
             'user_id' => $this->user_id,
             'card_id' => $card->id,
