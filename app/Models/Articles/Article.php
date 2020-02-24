@@ -5,6 +5,7 @@ namespace App\Models\Articles;
 use App\Collections\ArticleCollection;
 use App\Models\Cards\Card;
 use App\Models\Expansions\Expansion;
+use App\Models\Games\Game;
 use App\Models\Localizations\Language;
 use App\Models\Orders\Order;
 use App\Models\Rules\Rule;
@@ -34,8 +35,9 @@ class Article extends Model
     const CSV_CARDMARKET_ARTICLE_ID = 0;
 
     const CSV_AMOUNT = [
-        Expansion::GAME_ID_MAGIC => 14,
-        Expansion::GAME_ID_YUGIOH => 13,
+        Game::ID_MAGIC => 14,
+        Game::ID_YUGIOH => 13,
+        Game::ID_POKEMON=> 15,
     ];
 
     const BASE_PRICES = [

@@ -3,15 +3,18 @@
 namespace App\Transformers\Articles\Csvs;
 
 use App\Models\Expansions\Expansion;
+use App\Models\Games\Game;
 use App\Transformers\Articles\Csvs\Magic;
+use App\Transformers\Articles\Csvs\Pokemon;
 use App\Transformers\Articles\Csvs\Yugioh;
 use Illuminate\Support\Arr;
 
 class Transformer
 {
     const TRANSFORMERS = [
-        Expansion::GAME_ID_MAGIC => Magic::class,
-        Expansion::GAME_ID_YUGIOH => Yugioh::class,
+        Game::ID_MAGIC => Magic::class,
+        Game::ID_YUGIOH => Yugioh::class,
+        Game::ID_POKEMON => Pokemon::class,
     ];
 
     public static function transform(int $gameId, array $data) : array

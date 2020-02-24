@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Game extends Model
 {
+    const ID_MAGIC = 1;
+    const ID_YUGIOH = 3;
+    const ID_POKEMON = 6;
+
     public $incrementing = false;
 
     protected $guarded = [];
