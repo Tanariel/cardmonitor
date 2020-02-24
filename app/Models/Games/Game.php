@@ -15,4 +15,11 @@ class Game extends Model
     {
         return self::where('is_importable', true)->get();
     }
+
+    public static function keyValue() : Collection
+    {
+        return self::importables()->mapWithKeys(function ($item) {
+           return [$item['id'] => $item['name']];
+        });
+    }
 }

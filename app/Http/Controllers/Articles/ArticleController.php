@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Articles\Article;
 use App\Models\Cards\Card;
 use App\Models\Expansions\Expansion;
+use App\Models\Games\Game;
 use App\Models\Items\Card as ItemCard;
 use App\Models\Localizations\Language;
 use App\Models\Rules\Rule;
@@ -66,7 +67,7 @@ class ArticleController extends Controller
         return view($this->baseViewPath . '.index')
             ->with('conditions', Article::CONDITIONS)
             ->with('expansions', $expansions)
-            ->with('games', Expansion::GAMES)
+            ->with('games', Game::keyValue())
             ->with('languages', $languages)
             ->with('rarities', Card::RARITIES)
             ->with('is_applying_rules', $user->is_applying_rules)
@@ -98,7 +99,7 @@ class ArticleController extends Controller
             ->with('conditions', Article::CONDITIONS)
             ->with('defaultCardCosts', $defaultCardCosts)
             ->with('expansions', $expansions)
-            ->with('games', Expansion::GAMES)
+            ->with('games', Game::keyValue())
             ->with('languages', $languages)
             ->with('storages', auth()->user()->storages()
                 ->withDepth()

@@ -3,6 +3,7 @@
 namespace App\Console\Commands\Article;
 
 use App\Models\Expansions\Expansion;
+use App\Models\Games\Game;
 use App\User;
 use Illuminate\Console\Command;
 
@@ -41,7 +42,7 @@ class SyncCommand extends Command
     {
         try {
             $user = User::with('api')->find($this->option('user'));
-            foreach (Expansion::GAMES as $gameId => $name) {
+            foreach (Game::keyValue() as $gameId => $name) {
                 $user->cardmarketApi->syncAllArticles($gameId);
             }
         }

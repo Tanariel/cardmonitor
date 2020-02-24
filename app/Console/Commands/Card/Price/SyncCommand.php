@@ -4,6 +4,7 @@ namespace App\Console\Commands\Card\Price;
 
 use App\Models\Cards\Card;
 use App\Models\Expansions\Expansion;
+use App\Models\Games\Game;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
@@ -47,7 +48,7 @@ class SyncCommand extends Command
             $this->sync($this->option('game'));
         }
         else {
-            foreach (Expansion::GAMES as $gameId => $name) {
+            foreach (Game::keyValue() as $gameId => $name) {
                 $this->sync($gameId);
             }
         }
