@@ -14,7 +14,7 @@ class SyncCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'article:sync {--user=}';
+    protected $signature = 'article:sync {user}';
 
     /**
      * The console command description.
@@ -22,6 +22,8 @@ class SyncCommand extends Command
      * @var string
      */
     protected $description = 'Add/Update articles from cardmarket API';
+
+    protected $user;
 
     /**
      * Create a new command instance.
@@ -40,18 +42,33 @@ class SyncCommand extends Command
      */
     public function handle()
     {
+        $this->user = User::find($this->argument('user'));
+
         try {
-            $user = User::with('api')->find($this->option('user'));
+            $this->processing();
             foreach (Game::keyValue() as $gameId => $name) {
-                $user->cardmarketApi->syncAllArticles($gameId);
+                $this->user->cardmarketApi->syncAllArticles($gameId);
             }
+            $this->processed();
         }
         catch (\Exception $e) {
-            $user->update([
-                'is_syncing_articles' => false,
-            ]);
+            $this->processed();
 
             throw $e;
         }
+    }
+
+    public function processing()
+    {
+        $this->user->update([
+            'is_syncing_articles' => true,
+        ]);
+    }
+
+    public function processed()
+    {
+        $this->user->update([
+            'is_syncing_articles' => false,
+        ]);
     }
 }
