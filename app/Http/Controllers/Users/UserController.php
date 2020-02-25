@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Users;
 
+use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -77,10 +79,16 @@ class UserController extends Controller
     {
         $model = auth()->user();
 
-        $model->update($request->validate([
+        $attributes = $request->validate([
             'password' => 'sometimes|required|confirmed|min:8',
             'prepared_message' => 'sometimes|required|string',
-        ]));
+        ]);
+
+        if (Arr::has($attributes, 'password')) {
+            $attributes['password'] = Hash::make($attributes['password']);
+        }
+
+        $model->update($attributes);
 
         return back()->with('status', [
             'type' => 'success',
