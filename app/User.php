@@ -128,11 +128,6 @@ class User extends Authenticatable
         return number_format(($this->balance_in_cents / 100), 2, ',', '.');
     }
 
-    public function setPasswordAttribute(string $value)
-    {
-        $this->attributes['password'] = Hash::make($value);
-    }
-
     public function setup() : void {
         $this->api()->create();
         Item::setup($this);
