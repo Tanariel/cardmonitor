@@ -47,7 +47,7 @@ class Article extends Model
     ];
 
     const CONDITIONS = [
-        'M' => 'Mint',
+        'MT' => 'Mint',
         'NM' => 'Near Mint',
         'EX' => 'Excelent',
         'GD' => 'Good',
