@@ -26,7 +26,7 @@ class Transformer
     public static function transformer(int $gameId) : string
     {
         if (! Arr::has(self::TRANSFORMERS, $gameId)) {
-
+            throw new \InvalidArgumentException('Game ID "' . $gameId . '" is not available. Create Transformer!');
         }
 
         return Arr::get(self::TRANSFORMERS, $gameId);

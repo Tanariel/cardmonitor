@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Transformers\Articles\Csvs;
 
-use App\Models\Expansions\Expansion;
+use App\Models\Games\Game;
 use App\Transformers\Articles\Csvs\Magic;
 use App\Transformers\Articles\Csvs\Transformer;
 use App\Transformers\Articles\Csvs\Yugioh;
@@ -19,8 +19,8 @@ class TransformerTest extends TestCase
      */
     public function it_gets_the_right_transformer()
     {
-        $this->assertEquals(Magic::class, Transformer::transformer(Expansion::GAME_ID_MAGIC));
-        $this->assertEquals(Yugioh::class, Transformer::transformer(Expansion::GAME_ID_YUGIOH));
+        $this->assertEquals(Magic::class, Transformer::transformer(Game::ID_MAGIC));
+        $this->assertEquals(Yugioh::class, Transformer::transformer(Game::ID_YUGIOH));
     }
 
     /**
@@ -28,7 +28,17 @@ class TransformerTest extends TestCase
      */
     public function it_transforms_the_given_data()
     {
-        $data = Transformer::transform(Expansion::GAME_ID_MAGIC, self::DATA_MAGIC);
+        $data = Transformer::transform(Game::ID_MAGIC, self::DATA_MAGIC);
         dump($data);
+    }
+
+    /**
+     * @test
+     */
+    public function it_throws_an_error_if_the_game_is_not_importable()
+    {
+
+
+        Transformer::transformer(-1);
     }
 }

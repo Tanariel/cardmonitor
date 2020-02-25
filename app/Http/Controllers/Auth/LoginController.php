@@ -47,8 +47,6 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
-        if ($user->api->isConnected()) {
-            \App\Jobs\Orders\SyncAll::dispatch($user);
-        }
+        //
     }
 }
