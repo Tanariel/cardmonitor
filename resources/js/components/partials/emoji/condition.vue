@@ -15,7 +15,7 @@
             var classes,
                 title;
             switch(this.value) {
-                case 'M':
+                case 'MT':
                     classes = 'fa-grin-beam text-success';
                     title = 'Mint';
                     break;
