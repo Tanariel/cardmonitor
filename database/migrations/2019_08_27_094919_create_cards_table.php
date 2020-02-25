@@ -25,7 +25,7 @@ class CreateCardsTable extends Migration
             $table->string('website');
             $table->string('image');
             $table->string('number')->nullable();
-            $table->string('rarity');
+            $table->string('rarity')->nullable();
             $table->unsignedInteger('articles_count')->default(0);
             $table->unsignedInteger('articles_foil_count')->default(0);
 

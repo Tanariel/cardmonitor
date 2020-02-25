@@ -120,6 +120,14 @@ class OrderTest extends TestCase
     /**
      * @test
      */
+    public function it_can_be_imported()
+    {
+        $this->markTestIncomplete();
+    }
+
+    /**
+     * @test
+     */
     public function it_finds_its_items()
     {
         $model = factory(Order::class)->create([

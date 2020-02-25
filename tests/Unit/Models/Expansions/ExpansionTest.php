@@ -124,4 +124,25 @@ class ExpansionTest extends TestCase
         $this->assertEquals(1, $expansion->game_id);
         $this->assertCount(5, $expansion->localizations);
     }
+
+    /**
+     * @test
+     */
+    public function it_can_be_imported()
+    {
+        $cardmarketExpansionId = 1408;
+        $this->assertDatabaseMissing('expansions', [
+            'id' => $cardmarketExpansionId,
+        ]);
+
+        $model = Expansion::import($cardmarketExpansionId);
+
+        $this->assertDatabaseHas('expansions', [
+            'id' => $cardmarketExpansionId,
+        ]);
+
+        $model = Expansion::import($cardmarketExpansionId);
+
+        $this->assertEquals(1, Expansion::where('id', $cardmarketExpansionId)->count());
+    }
 }

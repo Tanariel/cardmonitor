@@ -128,7 +128,7 @@ class Card extends Model
         return $model;
     }
 
-    public static function createOrUpdateFromCardmarket(array $cardmarketCard, int $expansionId = 0) : self
+    public static function createOrUpdateFromCardmarket(array $cardmarketCard, $expansionId = null) : self
     {
         $values = [
             'cardmarket_product_id' => $cardmarketCard['idProduct'],
@@ -136,8 +136,8 @@ class Card extends Model
             'game_id' => $cardmarketCard['idGame'],
             'image' => $cardmarketCard['image'],
             'name' => $cardmarketCard['enName'],
-            'number' => $cardmarketCard['number'],
-            'rarity' => $cardmarketCard['rarity'],
+            'number' => $cardmarketCard['number'] ?? null,
+            'rarity' => $cardmarketCard['rarity'] ?? null,
             'reprints_count' => $cardmarketCard['countReprints'],
             'website' => $cardmarketCard['website'],
         ];
@@ -164,6 +164,31 @@ class Card extends Model
         }
 
         return $model;
+    }
+
+    public static function firstOrImport(int $cardmarketProductId) : self
+    {
+        $model = self::where('cardmarket_product_id', $cardmarketProductId)->first();
+
+        if (isset($model)) {
+            return $model;
+        }
+
+        return self::import($cardmarketProductId);
+    }
+
+    public static function import(int $cardmarketProductId) : self
+    {
+        $cardmarketApi = App::make('CardmarketApi');
+        $data = $cardmarketApi->product->get($cardmarketProductId);
+        $cardmarketProduct = $data['product'];
+        $cardmarketExpansionId = $cardmarketProduct['expansion']['idExpansion'] ?? null;
+
+        if (isset($cardmarketExpansionId)) {
+            $expansion = Expansion::firstOrImport($cardmarketExpansionId);
+        }
+
+        return self::createOrUpdateFromCardmarket($cardmarketProduct, $cardmarketExpansionId);
     }
 
     public static function updatePricesFromCardmarket(array $data)

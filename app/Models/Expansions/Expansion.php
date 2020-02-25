@@ -7,6 +7,7 @@ use App\Traits\HasLocalizations;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\App;
 
 class Expansion extends Model
 {
@@ -117,6 +118,25 @@ class Expansion extends Model
         }
 
         return $model;
+    }
+
+    public static function firstOrImport(int $cardmarketExpansionId) : self
+    {
+        $model = self::where('cardmarket_expansion_id', $cardmarketExpansionId)->first();
+
+        if (! is_null($model)) {
+            return $model;
+        }
+
+        return self::import($cardmarketExpansionId);
+    }
+
+    public static function import(int $cardmarketExpansionId) : self
+    {
+        $cardmarketApi = App::make('CardmarketApi');
+        $data = $cardmarketApi->expansion->singles($cardmarketExpansionId);
+
+        return self::createOrUpdateFromCardmarket($data['expansion']);
     }
 
     public function setAbbreviationFromCardImagePathAttribute($value) : void

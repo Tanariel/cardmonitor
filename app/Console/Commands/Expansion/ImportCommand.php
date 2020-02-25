@@ -47,10 +47,6 @@ class ImportCommand extends Command
     public function __construct()
     {
         parent::__construct();
-
-        $this->cardmarketApi = App::make('CardmarketApi');
-        $this->importableGames = Game::importables()->keyBy('id');
-        $this->importableGameIds = array_keys($this->importableGames->toArray());
     }
 
     /**
@@ -60,6 +56,10 @@ class ImportCommand extends Command
      */
     public function handle()
     {
+        $this->cardmarketApi = App::make('CardmarketApi');
+        $this->importableGames = Game::importables()->keyBy('id');
+        $this->importableGameIds = array_keys($this->importableGames->toArray());
+
         $expansionId = $this->argument('expansion');
         $this->import($expansionId);
     }

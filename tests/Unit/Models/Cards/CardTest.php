@@ -142,4 +142,59 @@ class CardTest extends TestCase
         $this->assertEquals(1, $card->game_id);
         $this->assertCount(5, $card->localizations);
     }
+
+    /**
+     * @test
+     */
+    public function it_can_be_imported()
+    {
+        $cardmarketProductId = 265882;
+        $cardmarketExpansionId = 1469;
+
+        $this->assertDatabaseMissing('cards', [
+            'id' => $cardmarketProductId,
+        ]);
+
+        $this->assertDatabaseMissing('expansions', [
+            'id' => $cardmarketExpansionId,
+        ]);
+
+        $model = Card::import($cardmarketProductId);
+
+        $this->assertDatabaseHas('cards', [
+            'id' => $cardmarketProductId,
+        ]);
+
+        $this->assertDatabaseHas('expansions', [
+            'id' => $cardmarketExpansionId,
+        ]);
+
+        $model = Card::import($cardmarketProductId);
+
+        $this->assertEquals(1, Card::where('id', $cardmarketProductId)->count());
+        $this->assertEquals(1, Expansion::where('id', $cardmarketExpansionId)->count());
+    }
+
+    /**
+     * @test
+     */
+    public function a_product_without_expansion_can_be_imported()
+    {
+        $cardmarketProductId = 200002;
+
+        $this->assertDatabaseMissing('cards', [
+            'id' => $cardmarketProductId,
+        ]);
+
+        $model = Card::import($cardmarketProductId);
+
+        $this->assertDatabaseHas('cards', [
+            'id' => $cardmarketProductId,
+        ]);
+
+        $model = Card::import($cardmarketProductId);
+
+        $this->assertEquals(1, Card::where('id', $cardmarketProductId)->count());
+        $this->assertEquals(0, Expansion::count());
+    }
 }

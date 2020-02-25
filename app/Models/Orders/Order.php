@@ -470,11 +470,7 @@ class Order extends Model
             return;
         }
 
-        $card = Card::where('cardmarket_product_id', $cardmarketArticle['idProduct'])->first();
-
-        if (is_null($card)) {
-            return;
-        }
+        $card = Card::firstOrImport($cardmarketArticle['idProduct']);
 
         $attributes = [
             'user_id' => $this->user_id,
