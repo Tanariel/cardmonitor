@@ -15,9 +15,7 @@ use Illuminate\Support\Facades\App;
 
 Route::get('/', 'LandingController@index');
 
-Route::get('/impressum', function () {
-    return view('impressum');
-});
+Route::view('/impressum', 'impressum');
 
 Route::post('/contact', 'ContactController@store');
 
