@@ -42,12 +42,9 @@ class SyncAll implements ShouldQueue
         try {
             $this->processing();
             $this->user->cardmarketApi->syncAllSellerOrders();
-            $this->processed();
         }
-        catch (\Exception $e) {
+        finally {
             $this->processed();
-
-            throw $e;
         }
     }
 

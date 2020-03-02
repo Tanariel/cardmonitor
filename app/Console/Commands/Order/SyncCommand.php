@@ -47,9 +47,13 @@ class SyncCommand extends Command
     {
         $this->user = User::find($this->argument('user'));
 
-        $this->processing();
-        $this->user->cardmarketApi->syncOrders($this->option('actor'), $this->option('state'));
-        $this->processed();
+        try {
+            $this->processing();
+            $this->user->cardmarketApi->syncOrders($this->option('actor'), $this->option('state'));
+        }
+        finally {
+            $this->processed();
+        }
     }
 
     public function processing()
