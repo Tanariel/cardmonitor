@@ -3,9 +3,9 @@
 @section('content')
 
     <div class="d-flex mb-1">
-        <h2 class="col mb-0"><a class="text-body" href="/item">Regel</a><span class="d-none d-md-inline"> > {{ $model->name }}</span></h2>
+        <h2 class="col mb-0"><a class="text-body" href="/item">{{ __('app.nav.rule') }}</a><span class="d-none d-md-inline"> > {{ $model->name }}</span></h2>
         <div class="d-flex align-items-center">
-            <a href="{{ $model->path }}" class="btn btn-secondary ml-1">Übersicht</a>
+            <a href="{{ $model->path }}" class="btn btn-secondary ml-1">{{ __('app.overview') }}</a>
         </div>
     </div>
 

@@ -10,17 +10,17 @@
                 <a class="navbar-brand" href="#">Cardmonitor</a>
             </div>
             <ul class="col">
-                <a href="/home"><li>Start</li></a>
-                <a href="/article"><li>Artikel</li></a>
-                <a href="/order"><li>Bestellungen</li></a>
-                <a href="/item"><li>Kosten</li></a>
-                <a href="/rule"><li>Regeln</li></a>
-                <a href="/storages"><li>Lagerplätze</li></a>
+                <a href="/home"><li>{{ __('app.nav.home') }}</li></a>
+                <a href="/article"><li>{{ __('app.nav.article') }}</li></a>
+                <a href="/order"><li>{{ __('app.nav.order') }}</li></a>
+                <a href="/item"><li>{{ __('app.nav.item') }}</li></a>
+                <a href="/rule"><li>{{ __('app.nav.rule') }}</li></a>
+                <a href="/storages"><li>{{ __('app.nav.storages') }}</li></a>
             </ul>
             <div class="px-3 text-white text-center"><p>Alle Daten sind von <a href="https://www.cardmarket.eu">Cardmarket</a></p></div>
             <div class="px-3 text-white text-center"><p><a href="https://github.com/Cardmonitor/cardmonitor" target="_blank">View on Github</a></p></div>
             <div class="bg-secondary text-white p-2 d-flex justify-content-around">
-                <a class="text-white" href="/impressum">Impressum & Datenschutz</a>
+                <a class="text-white" href="/impressum">{{ __('app.impressum.link') }}</a>
             </div>
         </nav>
 
@@ -41,11 +41,11 @@
                                 <span class="d-xs-none d-sm-none d-md-inline d-lg-inline d-xl-inline">{{ Auth::user()->name }}</span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" href="/user/settings">Einstellungen</a>
+                                <a class="dropdown-item" href="/user/settings">{{ __('app.nav.settings') }}</a>
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                    onclick="event.preventDefault();
                                                  document.getElementById('logout-form').submit();">
-                                    {{ __('Logout') }}
+                                    {{ __('auth.logout') }}
                                 </a>
 
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

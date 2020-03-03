@@ -24,8 +24,8 @@
         <td class="align-middle d-none d-xl-table-cell text-right pointer" @click="toShow">{{ Number(item.unit_price - item.unit_cost - item.provision).format(2, ',', '.') }} €</td>
         <td class="align-middle d-none d-sm-table-cell text-right">
             <div class="btn-group btn-group-sm" role="group">
-                <button type="button" class="btn btn-secondary" title="Anzeigen" @click="toShow"><i class="fas fa-fw fa-eye"></i></button>
-                <button type="button" class="btn btn-secondary" title="Speichern" @click="update"><i class="fas fa-fw fa-save"></i></button>
+                <button type="button" class="btn btn-secondary" :title="$t('app.actions.show')" @click="toShow"><i class="fas fa-fw fa-eye"></i></button>
+                <button type="button" class="btn btn-secondary" :title="$t('app.actions.save')" @click="update"><i class="fas fa-fw fa-save"></i></button>
             </div>
         </td>
     </tr>

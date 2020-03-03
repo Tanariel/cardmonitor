@@ -10,14 +10,14 @@
                 <span style="font-size: 48px;">
                     <i class="fas fa-spinner fa-spin"></i><br />
                 </span>
-                Lade Daten..
+                {{ $t('app.loading') }}
             </center>
         </div>
         <table class="table table-hover table-striped bg-white" v-else-if="items.length">
             <thead>
                 <tr>
-                    <th width="100%">Bezeichnung</th>
-                    <th class="text-right w-action">Aktion</th>
+                    <th width="100%">{{ $t('app.name') }}</th>
+                    <th class="text-right w-action">{{ $t('app.actions.action') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -26,7 +26,7 @@
                 </template>
             </tbody>
         </table>
-        <div class="alert alert-dark" v-else><center>Keine Bilder vorhanden</center></div>
+        <div class="alert alert-dark" v-else><center>{{ $t('image.alerts.no_data') }}</center></div>
     </div>
 </template>
 
@@ -90,7 +90,7 @@
                     })
                     .catch(function (error) {
                         console.log(error);
-                        Vue.error('Bilder konnten nicht geladen werden.')
+                        Vue.error(component.$t('app.errors.loaded'))
                     });
             },
             search () {

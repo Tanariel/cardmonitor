@@ -3,9 +3,9 @@
 @section('content')
 
     <div class="d-flex mb-1">
-        <h2 class="col mb-0"><a class="text-body" href="/item">Lagerplatz</a><span class="d-none d-md-inline"> > {{ $model->full_name }}</span></h2>
+        <h2 class="col mb-0"><a class="text-body" href="/item">{{ __('app.nav.storages') }}</a><span class="d-none d-md-inline"> > {{ $model->full_name }}</span></h2>
         <div class="d-flex align-items-center">
-            <a href="{{ $model->path }}" class="btn btn-secondary ml-1">Übersicht</a>
+            <a href="{{ $model->path }}" class="btn btn-secondary ml-1">{{ __('app.overview') }}</a>
         </div>
     </div>
     <form action="{{ $model->path }}" method="POST">
@@ -18,13 +18,13 @@
                     <div class="card-header">{{ $model->name }}</div>
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="name">Name</label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="{{ $model->name }}">
+                            <label for="name">{{ __('app.name') }}</label>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="{{ __('app.name') }}" value="{{ $model->name }}">
                         </div>
                         <div class="form-group">
-                            <label for="parent_id">Hauptlagerplatz</label>
+                            <label for="parent_id">{{ __('storages.main_storage') }}</label>
                             <select class="form-control" id="parent_id" name="parent_id">
-                                <option value="">Hauptlagerplatz</option>
+                                <option value="">{{ __('storages.main_storage') }}</option>
                                 @foreach ($storages as $storage)
                                     @if ($storage->id != $model->id)
                                         <option value="{{ $storage->id }}" {{ $model->parent_id == $storage->id ? 'selected="selected"' : '' }}>{!! $storage->indentedName !!}</option>
@@ -34,7 +34,7 @@
                         </div>
                     </div>
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">Speichern</button>
+                        <button type="submit" class="btn btn-primary">{{ __('app.actions.save') }}</button>
                     </div>
                 </div>
             </div>

@@ -1,13 +1,13 @@
 <template>
     <div class="card mb-3">
-        <div class="card-header">Kosten</div>
+        <div class="card-header">{{ $t('app.nav.item') }}</div>
         <div class="card-body">
             <div class="row mb-1">
                 <div class="col d-flex align-items-start">
                     <div class="form-group mb-0 mr-1">
                         <div>
                             <select class="form-control" :class="'name' in errors ? 'is-invalid' : ''" v-model="form.item_id" @change="create">
-                                <option :value="null">Kosten hinzufügen</option>
+                                <option :value="null">{{ $t('item.table.option_create') }}</option>
                                 <option :value="item.id" v-for="(item, key) in sortedCustoms">{{ item.name }}</option>
                             </select>
                             <div class="invalid-feedback" v-text="'name' in errors ? errors.name[0] : ''"></div>
@@ -23,7 +23,7 @@
                     <row :item="item" :key="item.id" :uri="uri" v-for="(item, index) in items" @deleted="remove(index)" @updated="updated(index, $event)"></row>
                 </tbody>
             </table>
-            <div class="alert alert-dark mt-3" v-else><center>Keine Kosten vorhanden</center></div>
+            <div class="alert alert-dark mt-3" v-else><center>{{ $t('item.alerts.no_data') }}</center></div>
         </div>
     </div>
 </template>
@@ -87,11 +87,11 @@
                     .then(function (response) {
                         component.items.push(response.data);
                         component.form.item_id = null;
-                        Vue.success('Kosten erstellt.');
+                        Vue.success(component.$t('app.successes.created'));
                     })
                     .catch( function (error) {
                         component.errors = error.response.data.errors;
-                        Vue.error('Kosten konnten nicht erstellt werden!');
+                        Vue.error(component.$t('app.errors.created'));
                 });
             },
             updated(index, item) {
@@ -99,7 +99,7 @@
             },
             remove(index) {
                 this.items.splice(index, 1);
-                Vue.success('Kosten gelöscht.');
+                Vue.success(component.$t('app.successes.deleted'));
             },
         },
 

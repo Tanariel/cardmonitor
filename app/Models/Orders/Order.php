@@ -202,21 +202,21 @@ class Order extends Model
             'categories' => array_values($categories),
             'series' => [
                 [
-                    'name' => 'Gewinn',
+                    'name' => __('app.profit'),
                     'data' => array_values($profits),
                     'color' => '#28a745',
                     'type' => 'column',
                     'yAxis' => 0,
                 ],
                 [
-                    'name' => 'Kosten',
+                    'name' => __('app.costs'),
                     'data' => array_values($costs),
                     'color' => '#dc3545',
                     'type' => 'column',
                     'yAxis' => 0,
                 ],
                 [
-                    'name' => 'Karten',
+                    'name' => __('app.cards'),
                     'data' => array_values($article_counts),
                     'type' => 'spline',
                     'tooltip' => [
@@ -227,7 +227,7 @@ class Order extends Model
                 ],
             ],
             'title' => [
-                'text' => 'Bestellungen im ' . $start->monthName
+                'text' => __('order.home.month.chart.title', ['month' => $start->monthName]),
             ],
             'month_name' => $start->monthName,
             'statistics' => [
@@ -316,21 +316,21 @@ class Order extends Model
             'categories' => array_reverse(array_values($categories)),
             'series' => [
                 [
-                    'name' => 'Gewinn',
+                    'name' => __('app.profit'),
                     'data' => array_reverse(array_values($profits)),
                     'color' => '#28a745',
                     'type' => 'column',
                     'yAxis' => 0,
                 ],
                 [
-                    'name' => 'Kosten',
+                    'name' => __('app.costs'),
                     'data' => array_reverse(array_values($costs)),
                     'color' => '#dc3545',
                     'type' => 'column',
                     'yAxis' => 0,
                 ],
                 [
-                    'name' => 'Karten',
+                    'name' => __('app.cards'),
                     'data' => array_reverse(array_values($article_counts)),
                     'type' => 'spline',
                     'tooltip' => [
@@ -341,7 +341,7 @@ class Order extends Model
                 ],
             ],
             'title' => [
-                'text' => $year == 0 ? 'Bestellungen der letzten 12 Monate' : 'Bestellungen im ' . $year
+                'text' => $year == 0 ? __('order.home.year.chart.title_latest') : __('order.home.year.chart.title', ['year' => $year]),
             ],
             'month_name' => $start->monthName,
             'statistics' => [

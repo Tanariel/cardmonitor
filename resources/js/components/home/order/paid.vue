@@ -2,7 +2,7 @@
     <div class="" v-if="items.length > 0">
         <div class="card h-100">
             <div class="card-header d-flex">
-                <div class="col">Bezahlte Bestellungen</div>
+                <div class="col">{{ $t('order.home.paid.title') }}</div>
                 <div><i class="fas fa-sync pointer" @click="sync" :class="{'fa-spin': syncing.status == 1}"></i></div>
             </div>
 
@@ -12,7 +12,7 @@
                         <span style="font-size: 48px;">
                             <i class="fas fa-spinner fa-spin"></i><br />
                         </span>
-                        Lade Daten..
+                        {{ $t('app.loading') }}
                     </center>
                 </div>
                 <table class="table table-striped table-hover" v-else>
@@ -25,10 +25,10 @@
                             </td>
                             <td class="align-middle d-none d-sm-table-cell">
                                 <div>{{ item.revenue_formatted }} € </div>
-                                <div>{{ item.articles_count }} Artikel</div>
+                                <div>{{ item.articles_count }} {{ $t('app.article') }}</div>
                             </td>
                             <td class="align-middle text-right">
-                                <button class="btn btn-primary" title="Versenden" @click="send(item)">Versenden</button>
+                                <button class="btn btn-primary":title="$t('app.actions.send')" @click="send(item)">{{ $t('app.actions.send') }}</button>
                             </td>
                         </tr>
                     </tbody>
@@ -89,7 +89,7 @@
                         }, 1000 * 60 * 60);
                     })
                     .catch(function (error) {
-                        Vue.error('Bestellungen konnten nicht geladen werden!');
+                        Vue.error(component.$t('order.errors.loaded'));
                         console.log(error);
                     });
             },
@@ -123,10 +123,10 @@
                 axios.post(item.path + '/send')
                     .then(function (response) {
                         component.fetch();
-                        Vue.success('Bestellungen wurde verschickt.');
+                        Vue.success(component.$t('order.successes.synced'));
                     })
                     .catch(function (error) {
-                        Vue.error('Bestellungen konnten nicht verschickt werden');
+                        Vue.error(component.$t('order.errors.synced'));
                         console.log(error);
                     })
                     .finally ( function () {
@@ -146,7 +146,7 @@
                         Vue.success('Bestellungen werden im Hintergrund aktualisiert.');
                     })
                     .catch(function (error) {
-                        Vue.error('Bestellungen konnten nicht synchronisiert werden! Ist das Cardmarket Konto verbunden?');
+                        Vue.error(component.$t('order.errors.synced'));
                         console.log(error);
                     })
                     .finally ( function () {

@@ -15,8 +15,8 @@
         </td>
         <td class="align-middle text-right">
             <div class="btn-group btn-group-sm" role="group">
-                <button type="button" class="btn btn-primary" title="Speichern" @click="update"><i class="fas fa-fw fa-save"></i></button>
-                <button type="button" class="btn btn-secondary" title="Abbrechen" @click="isEditing = false"><i class="fas fa-fw fa-times"></i></button>
+                <button type="button" class="btn btn-primary" :title="$t('app.actions.save')" @click="update"><i class="fas fa-fw fa-save"></i></button>
+                <button type="button" class="btn btn-secondary" :title="$t('app.actions.cancel')" @click="isEditing = false"><i class="fas fa-fw fa-times"></i></button>
             </div>
         </td>
     </tr>
@@ -27,8 +27,8 @@
         <td class="align-middle text-right pointer" @click="isEditing = true">{{ item.quantity_formatted }}</td>
         <td class="align-middle text-right">
             <div class="btn-group btn-group-sm" role="group">
-                <button type="button" class="btn btn-secondary" title="Bearbeiten" @click="isEditing = true"><i class="fas fa-edit"></i></button>
-                <button type="button" class="btn btn-secondary" title="Löschen" @click="destroy"><i class="fas fa-trash"></i></button>
+                <button type="button" class="btn btn-secondary" :title="$t('app.actions.edit')" @click="isEditing = true"><i class="fas fa-edit"></i></button>
+                <button type="button" class="btn btn-secondary" :title="$t('app.actions.delete')" @click="destroy"><i class="fas fa-trash"></i></button>
             </div>
         </td>
     </tr>
@@ -60,10 +60,10 @@
                     .then(function (response) {
                         if (response.data.deleted) {
                             component.$emit("deleted", component.id);
-                            Vue.success('Kosten wurden gelöscht.');
+                            Vue.success(component.$t('app.success.deleted'));
                         }
                         else {
-                            Vue.error('Kosten konnten nicht gelöscht werden.');
+                            Vue.error(component.$t('app.errors.deleted'));
                         }
                 });
             },
@@ -74,11 +74,11 @@
                         component.errors = {};
                         component.isEditing = false;
                         component.$emit('updated', response.data);
-                        Vue.success('Staffel gespeichert.');
+                        Vue.success(component.$t('app.successes.updated'));
                     })
                     .catch(function (error) {
                         component.errors = error.response.data.errors;
-                        Vue.error('Staffel konnten nicht gespeichert werden.');
+                        Vue.error(component.$t('app.errors.updated'));
                 });
             },
         },

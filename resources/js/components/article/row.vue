@@ -37,7 +37,7 @@
         </td>
         <td class="align-middle d-none d-xl-table-cell text-center">
             <select class="form-control" v-model="form.storage_id">
-                <option :value="null">Kein Lagerplatz</option>
+                <option :value="null">{{ $t('storages.no_storage') }}</option>
                 <option :value="storage.id" v-for="(storage, key) in storages" v-html="storage.indentedName"></option>
             </select>
             <div class="invalid-feedback" v-text="'unit_price_formatted' in errors ? errors.unit_price_formatted[0] : ''"></div>
@@ -61,9 +61,9 @@
         <td class="align-middle text-right d-none d-xl-table-cell pointer">{{ Number(item.unit_price - item.unit_cost - item.provision).format(2, ',', '.') }} €</td>
         <td class="align-middle d-none d-sm-table-cell text-right">
             <div class="btn-group btn-group-sm" role="group">
-                <button type="button" class="btn btn-secondary" title="Speichern" @click="update(false)"><i class="fas fa-fw fa-save"></i></button>
-                <button type="button" class="btn btn-secondary" title="Speichern & Exportieren" @click="update(true)"><i class="fas fa-fw fa-cloud-upload-alt"></i></button>
-                <button type="button" class="btn btn-secondary" title="Löschen" @click="destroy"><i class="fas fa-fw fa-trash"></i></button>
+                <button type="button" class="btn btn-secondary" :title="$t('app.actions.save')" @click="update(false)"><i class="fas fa-fw fa-save"></i></button>
+                <button type="button" class="btn btn-secondary" :title="$t('app.actions.save_upload')" @click="update(true)"><i class="fas fa-fw fa-cloud-upload-alt"></i></button>
+                <button type="button" class="btn btn-secondary" :title="$t('app.actions.delete')" @click="destroy"><i class="fas fa-fw fa-trash"></i></button>
             </div>
         </td>
     </tr>
@@ -95,7 +95,7 @@
         <td class="align-middle d-none d-sm-table-cell text-right">
             <div class="btn-group btn-group-sm" role="group">
                 <a class="btn btn-secondary" :href="item.orders[0].path" :title="'Bestellung ' + item.orders[0].cardmarket_order_id"><i class="fas fa-box"></i></a>
-                <button type="button" class="btn btn-secondary" title="Speichern" @click="update(false)"><i class="fas fa-fw fa-save"></i></button>
+                <button type="button" class="btn btn-secondary" :title="$t('app.actions.save')" @click="update(false)"><i class="fas fa-fw fa-save"></i></button>
             </div>
         </td>
     </tr>
@@ -175,12 +175,12 @@
                 axios.delete(component.item.path)
                     .then( function (response) {
                         if (response.data.deleted) {
-                            Vue.success('Karte gelöscht')
+                            Vue.success(component.$t('app.successes.deleted'))
                             component.$emit("deleted", component.id);
                             return;
                         }
 
-                        Vue.error('Karte konnte nicht gelöscht werden.');
+                        Vue.error(component.$t('app.errors.deleted'));
                     })
             },
             update(sync) {
@@ -190,11 +190,11 @@
                     .then( function (response) {
                         component.errors = {};
                         component.$emit('updated', response.data);
-                        Vue.success('Artikel gespeichert' + (sync ? ' und hochgeladen' : '') +'.');
+                        Vue.success((sync ? $t('app.successes.created_uploaded') : $t('app.successes.created')));
                     })
                     .catch(function (error) {
                         component.errors = error.response.data.errors;
-                        Vue.error('Artikel konnte nicht gespeichert werden.');
+                        Vue.error(component.$t('app.errors.updated'));
                 });
             },
             GetScreenCordinates(obj) {

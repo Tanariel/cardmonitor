@@ -4,10 +4,10 @@
             <form enctype="multipart/form-data">
                 <input type="file" multiple :disabled="isCreating" @change="changed($event.target.files);" class="input-file">
                 <p v-if="isCreating">
-                    Lade {{ files_count }} {{ files_count == 1 ? 'Datei' : 'Dateien' }} hoch...
+                    {{ $t('image.create.is_creating', {files_count: files_count}) }}
                 </p>
                 <p v-else>
-                    Dateien hier ablegen, <br />oder klicken
+                    {{ $t('image.create.instruction') }}
                 </p>
             </form>
         </div>

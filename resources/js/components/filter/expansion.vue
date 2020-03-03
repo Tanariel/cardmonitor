@@ -1,6 +1,6 @@
 <template>
     <div class="form-group" style="min-width: 200px;">
-        <label for="filter-expansion" v-if="showLabel">Erweiterung</label>
+        <label for="filter-expansion" v-if="showLabel">{{ $t('app.expansion') }}</label>
         <v-select class="d-flex align-items-center" :clearable="false" :options="sortedOptions" label="name" :reduce="option => option.id" placeholder="Alle" :value="value" @input="$emit('input', $event)">
             <template v-slot:option="option">
                 <expansion-icon :expansion="option" :name-ellipsis="true" v-if="option.id > 0"></expansion-icon>
@@ -67,7 +67,7 @@
 
                 sorted.unshift({
                     id: 0,
-                    name: 'Alle Erweiterungen',
+                    name: 'Alle',
                 });
 
                 return sorted;

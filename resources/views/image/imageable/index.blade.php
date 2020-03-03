@@ -6,7 +6,7 @@
         <div class="row">
 
             <div class="col">
-                <h2>{{ (count($model->images) == 1 ? 'Bild' : 'Bilder') }} zu deiner Bestellung {{ $model->cardmarket_order_id }}</h2>
+                <h2>{{ __('image.imageable.index.heading', ['order' => $model->cardmarket_order_id]) }}</h2>
             </div>
 
         </div>

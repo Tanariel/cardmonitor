@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <h2>Kosten</h2>
+    <h2>{{ __('app.nav.item') }}</h2>
     <item-table></item-table>
 
 @endsection

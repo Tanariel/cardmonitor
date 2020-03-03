@@ -17,17 +17,17 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <span class="navbar-text mr-auto">
-                        Verwalte dein Cardmarket Konto
+                        {{ __('app.description') }}
                     </span>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
                         @guest
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                <a class="nav-link" href="{{ route('login') }}">{{ __('auth.login') }}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                <a class="nav-link" href="{{ route('register') }}">{{ __('auth.signup') }}</a>
                             </li>
                         @else
                             <li class="nav-item">
@@ -46,7 +46,7 @@
         <footer class="p-5 bg-dark text-white">
             <div class="container text-center">
                 <div>Cardmonitor - made with <i class="fas fa-fw fa-heart"></i></div>
-                <a class="text-white" href="/impressum">Impressum & Datenschutz</a>
+                <a class="text-white" href="/impressum">{{ __('app.impressum.link') }}</a>
             </div>
         </footer>
 

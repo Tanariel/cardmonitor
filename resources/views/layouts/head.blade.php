@@ -18,6 +18,8 @@
 
 <title>{{ config('app.name', 'Laravel') }}</title>
 
+<script>window.Laravel = {!! json_encode(['locale' => \App::getLocale()]) !!}</script>
+
 <!-- Scripts -->
 <script src="{{ mix('js/app.js') }}" defer></script>
 

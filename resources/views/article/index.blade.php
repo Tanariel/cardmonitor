@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <h2>Artikel</h2>
+    <h2>{{ __('app.nav.article') }}</h2>
     <article-table
         :conditions="{{ json_encode($conditions) }}"
         :expansions="{{ json_encode($expansions) }}"

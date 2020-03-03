@@ -1,8 +1,8 @@
 <template>
     <div class="form-group">
-        <label for="filter-rarity">Sprache</label>
+        <label for="filter-rarity">{{ $t('app.language') }}</label>
         <select class="form-control" id="filter-rarity" v-model="value" @change="$emit('input', value)">
-            <option value="0">Alle</option>
+            <option value="0">{{ $t('filter.all') }}</option>
             <option v-for="(option, key) in options" :value="key">{{ option }}</option>
         </select>
     </div>

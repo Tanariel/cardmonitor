@@ -15,7 +15,7 @@
                     <filter-search v-model="filter.searchtext" @input="fetch()"></filter-search>
                 </div>
                 <button class="btn btn-secondary ml-1" @click="filter.show = !filter.show" v-if="false"><i class="fas fa-filter"></i></button>
-                <button class="btn btn-secondary text-overflow-ellipsis ml-1" @click="apply" title="Regeln simulieren" :disabled="applying.status == 1"><i class="fas fa-spinner fa-spin mr-1" v-show="applying.status == 1"></i>Regeln simulieren</button>
+                <button class="btn btn-secondary text-overflow-ellipsis ml-1" @click="apply" title="Regeln simulieren" :disabled="applying.status == 1"><i class="fas fa-spinner fa-spin mr-1" v-show="applying.status == 1"></i>{{ $t('rule.simulate') }}</button>
             </div>
         </div>
 
@@ -32,7 +32,7 @@
                 <span style="font-size: 48px;">
                     <i class="fas fa-spinner fa-spin"></i><br />
                 </span>
-                Lade Daten..
+                {{ $t('app.loading') }}
             </center>
         </div>
         <div class="table-responsive mt-3" v-else-if="items.length">
@@ -45,15 +45,15 @@
                             <input id="checkall" type="checkbox" v-model="selectAll">
                         </th>
                         <th class="text-center w-icon"></th>
-                        <th width="20%">Name</th>
-                        <th class="d-none d-sm-table-cell text-overflow-ellipsis" width="15%">Erweiterung</th>
-                        <th class="text-center d-none d-sm-table-cell text-overflow-ellipsis" width="10%">Seltenheit</th>
-                        <th class="d-none d-sm-table-cell" width="10%">Preis</th>
-                        <th class="text-right d-none d-xl-table-cell" width="10%">Artikel</th>
-                        <th class="text-right d-none d-xl-table-cell text-overflow-ellipsis" width="10%">Verkaufspreis</th>
-                        <th class="text-right d-none d-lg-table-cell text-overflow-ellipsis" width="10%">Regelpreis</th>
-                        <th class="text-right d-none d-md-table-cell text-overflow-ellipsis" width="5%">Differenz</th>
-                        <th class="text-right" width="5%">Aktion</th>
+                        <th width="20%">{{ $t('app.name') }}</th>
+                        <th class="d-none d-sm-table-cell text-overflow-ellipsis" width="15%">{{ $t('app.expansion') }}</th>
+                        <th class="text-center d-none d-sm-table-cell text-overflow-ellipsis" width="10%">{{ $t('app.rarity') }}</th>
+                        <th class="d-none d-sm-table-cell" width="10%">{{ $t('rule.price_base') }}</th>
+                        <th class="text-right d-none d-xl-table-cell" width="10%">{{ $t('app.artice') }}</th>
+                        <th class="text-right d-none d-xl-table-cell text-overflow-ellipsis" width="10%">{{ $t('app.price') }}</th>
+                        <th class="text-right d-none d-lg-table-cell text-overflow-ellipsis" width="10%">{{ $t('app.price_rule') }}</th>
+                        <th class="text-right d-none d-md-table-cell text-overflow-ellipsis" width="5%">{{ $t('app.difference') }}</th>
+                        <th class="text-right" width="5%">{{ $t('app.actions.action') }}</th>
                     </tr>
                 </thead>
                 <draggable v-model="items" tag="tbody" handle=".sort" @end="sort">
@@ -61,17 +61,17 @@
                 </draggable>
             </table>
         </div>
-        <div class="alert alert-dark mt-3" v-else><center>Keine Regeln vorhanden</center></div>
+        <div class="alert alert-dark mt-3" v-else><center>{{ $t('rule.alerts.no_data') }}</center></div>
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center" v-show="paginate.lastPage > 1">
                 <li class="page-item" v-show="paginate.prevPageUrl">
-                    <a class="page-link" href="#" @click.prevent="filter.page--">Previous</a>
+                    <a class="page-link" href="#" @click.prevent="filter.page--">{{ $t('app.paginate.previous') }}</a>
                 </li>
 
                 <li class="page-item" v-for="(n, i) in pages" v-bind:class="{ active: (n == filter.page) }"><a class="page-link" href="#" @click.prevent="filter.page = n">{{ n }}</a></li>
 
                 <li class="page-item" v-show="paginate.nextPageUrl">
-                    <a class="page-link" href="#" @click.prevent="filter.page++">Next</a>
+                    <a class="page-link" href="#" @click.prevent="filter.page++">{{ $t('app.paginate.next') }}</a>
                 </li>
             </ul>
         </nav>
@@ -179,10 +179,10 @@
                     .then(function (response) {
                         component.applying.status = 1;
                         component.checkIsApplyingRules();
-                        Vue.success('Regeln werden im Hintergrund simuliert.');
+                        Vue.success(component.$t('rule.successes.simulate_background'));
                     })
                     .catch(function (error) {
-                        Vue.error('Regeln konnten nicht simuliert werden!');
+                        Vue.error(component.$t('rule.errors.simulated'));
                         console.log(error);
                     })
                     .finally ( function () {
@@ -215,7 +215,7 @@
                         component.isLoading = false;
                     })
                     .catch(function (error) {
-                        Vue.error('Regeln konnten nicht geladen werden!');
+                        Vue.error(component.$t('rule.errors.loaded'));
                         console.log(error);
                     });
             },
@@ -234,7 +234,7 @@
                             clearInterval(component.applying.interval)
                             component.applying.interval = null;
                             component.fetch();
-                            Vue.success('Regeln wurden simuliert.');
+                            Vue.success(component.$t('rule.successes.simulated'));
                         }
                     })
                     .catch(function (error) {
@@ -255,10 +255,10 @@
                     rules: ranks,
                 })
                     .then(function (response) {
-                        Vue.success('Reihenfolge der Regeln gespeichert.')
+                        Vue.success(component.$t('app.successes.sorted'))
                     })
                     .catch( function (error) {
-                        Vue.error('Reihenfolge der Regeln konnte nicht gespeichert werden!');
+                        Vue.error(component.$t('app.errors.sorted'));
                 });
             },
             updated(index, item) {

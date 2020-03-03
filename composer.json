@@ -18,6 +18,7 @@
         "laravel/framework": "^6.0",
         "laravel/telescope": "^2.1",
         "laravel/tinker": "^1.0",
+        "mariuzzo/laravel-js-localization": "^1.5",
         "nemiah/php-fints": "^1.6",
         "nemiah/php-sepa-xml": "dev-master",
         "spatie/laravel-cookie-consent": "^2.10"

@@ -25,6 +25,8 @@ class CreateUsersTable extends Migration
 
             $table->text('prepared_message')->nullable();
 
+            $table->string('locale', 10);
+
             $table->boolean('is_applying_rules')->default(false);
             $table->boolean('is_syncing_articles')->default(false);
             $table->boolean('is_syncing_orders')->default(false);

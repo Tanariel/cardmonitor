@@ -3,7 +3,7 @@
         <td class="align-middle text-left"><expansion-icon :expansion="item.storagable"></expansion-icon></td>
         <td class="align-middle text-right">
             <div class="btn-group btn-group-sm" role="group">
-                <button type="button" class="btn btn-secondary" title="Löschen" @click="destroy"><i class="fas fa-trash"></i></button>
+                <button type="button" class="btn btn-secondary" :title="$t('app.actions.delete')" @click="destroy"><i class="fas fa-trash"></i></button>
             </div>
         </td>
     </tr>
@@ -34,10 +34,10 @@
                     .then(function (response) {
                         if (response.data.deleted) {
                             component.$emit("deleted", component.id);
-                            Vue.success('Erweiterung wurde gelöscht.');
+                            Vue.success(component.$t('app.successes.deleted'));
                         }
                         else {
-                            Vue.error('Erweiterung konnte nicht gelöscht werden.');
+                            Vue.error(component.$t('app.errors.deleted'));
                         }
                 });
             },

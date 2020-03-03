@@ -15,7 +15,7 @@
                     <filter-search v-model="filter.searchtext" @input="fetch()"></filter-search>
                 </div>
                 <button class="btn btn-secondary ml-1" @click="filter.show = !filter.show"><i class="fas fa-filter"></i></button>
-                <button class="btn btn-secondary text-overflow-ellipsis ml-1" :disabled="isAssigning" title="Lagerplätze neu zuweisen" @click="assign">Lagerplätze neu zuweisen</button>
+                <button class="btn btn-secondary text-overflow-ellipsis ml-1" :disabled="isAssigning" title="Lagerplätze neu zuweisen" @click="assign">{{ $t('storages.actions.assign') }}</button>
             </div>
         </div>
 
@@ -24,7 +24,7 @@
                 <span style="font-size: 48px;">
                     <i class="fas fa-spinner fa-spin"></i><br />
                 </span>
-                Lade Daten..
+                {{ $t('app.loading') }}
             </center>
         </div>
         <div class="table-responsive mt-3" v-else-if="items.length">
@@ -35,11 +35,11 @@
                             <label class="form-checkbox" for="checkall"></label>
                             <input id="checkall" type="checkbox" v-model="selectAll">
                         </th>
-                        <th width="40%">Name</th>
-                        <th class="text-right d-none d-md-table-cell" width="15%">Zuordnungen</th>
-                        <th class="text-right d-none d-sm-table-cell" width="15%">Artikel</th>
-                        <th class="text-right d-none d-sm-table-cell" width="15%">Verkaufspreis</th>
-                        <th class="text-right w-action">Aktion</th>
+                        <th width="40%">{{ $t('app.name') }}</th>
+                        <th class="text-right d-none d-md-table-cell" width="15%">{{ $t('storages.content.plural') }}</th>
+                        <th class="text-right d-none d-sm-table-cell" width="15%">{{ $t('app.article') }}</th>
+                        <th class="text-right d-none d-sm-table-cell" width="15%">{{ $t('app.price') }}</th>
+                        <th class="text-right w-action">{{ $t('app.actions.action') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -49,7 +49,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="alert alert-dark mt-3" v-else><center>Keine Lagerplätze vorhanden</center></div>
+        <div class="alert alert-dark mt-3" v-else><center>{{ $t('storages.alerts.no_data') }}</center></div>
     </div>
 </template>
 
@@ -115,11 +115,11 @@
                 component.isAssigning = true;
                 axios.post(component.uri + '/assign')
                     .then(function (response) {
-                        Vue.success('Lagerplätze wurden neu zugewiesen.');
+                        Vue.success(component.$t('app.successes.assigned'));
                     })
                     .catch( function (error) {
                         component.errors = error.response.data.errors;
-                        Vue.error('Lagerplätze konnten nicht neu zugewiesen werden!');
+                        Vue.error(component.$t('app.errors.assigned'));
                     })
                     .finally( function () {
                         component.isAssigning = false;

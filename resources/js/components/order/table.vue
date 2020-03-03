@@ -15,9 +15,9 @@
             <div  class="form-row">
 
                 <div class="form-group">
-                    <label for="filter-state">Status</label>
+                    <label for="filter-state">{{ $t('app.state') }}</label>
                     <select class="form-control" id="filter-state" v-model="filter.state" @change="search">
-                        <option :value="null">Alle</option>
+                        <option :value="null">{{ $t('filter.all') }}</option>
                         <option :value="id" v-for="(name, id) in states">{{ name }}</option>
                     </select>
                 </div>
@@ -37,15 +37,15 @@
             <table class="table table-hover table-striped bg-white">
                 <thead>
                     <tr>
-                        <th class="d-none d-sm-table-cell" width="10%">Datum</th>
-                        <th width="15%">Bestellung</th>
-                        <th class="text-right d-none d-md-table-cell" width="10%">Karten</th>
-                        <th class="text-right d-none d-md-table-cell" width="10%">Umsatz</th>
-                        <th class="text-right d-none d-xl-table-cell" width="10%">Kosten</th>
-                        <th class="text-right d-none d-xl-table-cell" width="10%">Gewinn</th>
-                        <th class="d-none d-md-table-cell" width="15%">Status</th>
-                        <th class="text-center d-none d-lg-table-cell" colspan="3" width="10%">Bewertung</th>
-                        <th class="text-right" width="10%">Aktion</th>
+                        <th class="d-none d-sm-table-cell" width="10%">{{ $t('app.date') }}</th>
+                        <th width="15%">{{ $t('order.singular') }}</th>
+                        <th class="text-right d-none d-md-table-cell" width="10%">{{ $t('app.cards') }}</th>
+                        <th class="text-right d-none d-md-table-cell" width="10%">{{ $t('app.revenue') }}</th>
+                        <th class="text-right d-none d-xl-table-cell" width="10%">{{ $t('app.costs') }}</th>
+                        <th class="text-right d-none d-xl-table-cell" width="10%">{{ $t('app.profit') }}</th>
+                        <th class="d-none d-md-table-cell" width="15%">{{ $t('app.state') }}</th>
+                        <th class="text-center d-none d-lg-table-cell" colspan="3" width="10%">{{ $t('order.evaluations.singular') }}</th>
+                        <th class="text-right" width="10%">{{ $t('app.actions.action') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -53,17 +53,17 @@
                 </tbody>
             </table>
         </div>
-        <div class="alert alert-dark mt-3" v-else><center>Keine Bestellungen vorhanden</center></div>
+        <div class="alert alert-dark mt-3" v-else><center>{{ $t('order.alerts.no_data') }}</center></div>
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center" v-show="paginate.lastPage > 1">
                 <li class="page-item" v-show="paginate.prevPageUrl">
-                    <a class="page-link" href="#" @click.prevent="filter.page--">Previous</a>
+                    <a class="page-link" href="#" @click.prevent="filter.page--">{{ $t('app.paginate.previous') }}</a>
                 </li>
 
                 <li class="page-item" v-for="(n, i) in pages" v-bind:class="{ active: (n == filter.page) }"><a class="page-link" href="#" @click.prevent="filter.page = n">{{ n }}</a></li>
 
                 <li class="page-item" v-show="paginate.nextPageUrl">
-                    <a class="page-link" href="#" @click.prevent="filter.page++">Next</a>
+                    <a class="page-link" href="#" @click.prevent="filter.page++">{{ $t('app.paginate.next') }}</a>
                 </li>
             </ul>
         </nav>
@@ -180,7 +180,7 @@
                             clearInterval(component.syncing.interval)
                             component.syncing.interval = null;
                             component.fetch();
-                            Vue.success('Bestellungen wurden synchronisiert.');
+                            Vue.success(component.$t('order.successes.synced'));
                         }
                     })
                     .catch(function (error) {
@@ -205,7 +205,7 @@
                         component.isLoading = false;
                     })
                     .catch(function (error) {
-                        Vue.error('Bestellungen konnten nicht geladen werden!');
+                        Vue.error(component.$t('order.errors.loaded'));
                         console.log(error);
                     });
             },
@@ -228,10 +228,10 @@
                     .then(function (response) {
                         component.syncing.status = 1;
                         component.checkIsSyncingOrders();
-                        Vue.success('Bestellungen werden im Hintergrund synchronisiert.');
+                        Vue.success(component.$t('order.successes.syncing_background'));
                     })
                     .catch(function (error) {
-                        Vue.error('Bestellungen konnten nicht synchronisiert werden! Ist das Cardmarket Konto verbunden?');
+                        Vue.error(component.$t('order.errors.synced'));
                         console.log(error);
                     })
                     .finally ( function () {

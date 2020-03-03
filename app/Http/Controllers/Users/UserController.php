@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
+use App\Support\Locale;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -65,7 +66,8 @@ class UserController extends Controller
         $model = auth()->user();
 
         return view($this->baseViewPath . '.edit')
-            ->with('model', $model);
+            ->with('model', $model)
+            ->with('locales', Locale::list());
     }
 
     /**
@@ -80,6 +82,7 @@ class UserController extends Controller
         $model = auth()->user();
 
         $attributes = $request->validate([
+            'locale' => 'sometimes|required|string',
             'password' => 'sometimes|required|confirmed|min:8',
             'prepared_message' => 'sometimes|required|string',
         ]);

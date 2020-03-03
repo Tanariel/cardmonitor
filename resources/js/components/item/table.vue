@@ -15,7 +15,7 @@
                     <filter-search v-model="filter.searchtext" @input="fetch()"></filter-search>
                 </div>
                 <button class="btn btn-secondary ml-1" @click="filter.show = !filter.show"><i class="fas fa-filter"></i></button>
-                <button class="btn btn-secondary text-overflow-ellipsis ml-1" title="Kosten neu berechnen" @click="reload">Kosten neu berechnen</button>
+                <button class="btn btn-secondary text-overflow-ellipsis ml-1" :title="$t('item.actions.assign')" @click="reload">{{ $t('item.actions.assign') }}</button>
             </div>
         </div>
 
@@ -24,7 +24,7 @@
                 <span style="font-size: 48px;">
                     <i class="fas fa-spinner fa-spin"></i><br />
                 </span>
-                Lade Daten..
+                {{ $t('app.loading') }}
             </center>
         </div>
         <div class="table-responsive mt-3" v-else-if="items.length">
@@ -35,9 +35,9 @@
                             <label class="form-checkbox" for="checkall"></label>
                             <input id="checkall" type="checkbox" v-model="selectAll">
                         </th>
-                        <th width="55%">Datum</th>
-                        <th class=" d-none d-sm-table-cell" width="30%">Kosten</th>
-                        <th class="text-right" width="10%">Aktion</th>
+                        <th width="55%">{{ $t('app.name') }}</th>
+                        <th class=" d-none d-sm-table-cell" width="30%">{{ $t('app.costs') }}</th>
+                        <th class="text-right" width="10%">{{ $t('app.actions.action') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -47,7 +47,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="alert alert-dark mt-3" v-else><center>Keine Bewegungen vorhanden</center></div>
+        <div class="alert alert-dark mt-3" v-else><center>{{ $t('item.alerts.no_data') }}</center></div>
     </div>
 </template>
 
@@ -111,11 +111,11 @@
                 var component = this;
                 axios.post(component.uri + '/reload')
                     .then(function (response) {
-                        Vue.success('Kosten werden im Hintergrund neu berechnet.');
+                        Vue.success(component.$t('item.successes.reload_background'));
                     })
                     .catch( function (error) {
                         component.errors = error.response.data.errors;
-                        Vue.error('Kosten können nicht neu berechnet werden!');
+                        Vue.error(component.$t('item.errors.reloaded'));
                 });
             },
             create() {

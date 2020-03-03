@@ -21,10 +21,10 @@
                         <span style="font-size: 48px;">
                             <i class="fas fa-spinner fa-spin"></i><br />
                         </span>
-                        Lade Daten..
+                        {{ $t('app.loading') }}
                     </center>
                 </div>
-                <div class="alert alert-dark mt-3" v-else-if="showSearchAlert"><center>Bitte eine Erweiterung wählen oder mindestens 3 Zeichen in der Suche eingeben.</center></div>
+                <div class="alert alert-dark mt-3" v-else-if="showSearchAlert"><center>{{ $t('article.create.alert_no_filter') }}</center></div>
                 <table class="table table-hover table-striped" v-else-if="cards.length">
                     <tbody>
                         <tr v-for="(card, index) in cards" @click="setItem(card, index)">
@@ -38,7 +38,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <div class="alert alert-dark mt-3" v-else><center>Keine Karten gefunden</center></div>
+                <div class="alert alert-dark mt-3" v-else><center>{{ $t('article.alert_no_data') }}</center></div>
             </div>
         </div>
         <div class="col-md-8">
@@ -47,25 +47,25 @@
                     <table class="table table-striped">
                         <tbody>
                             <tr class="d-sm-none d-table-row">
-                                <td class="align-middle" width="150">Artikel</td>
+                                <td class="align-middle" width="150">{{ $t('app.article') }}</td>
                                 <td class="align-middle" width="100%">
                                     <div>{{ item.local_name }}</div>
                                     <div class="text-muted" v-if="filter.language_id != 1">{{ item.name }}</div>
                                 </td>
                             </tr>
                             <tr class="d-none d-sm-table-row">
-                                <td class="align-middle" width="150">Artikel</td>
+                                <td class="align-middle" width="150">{{ $t('app.article') }}</td>
                                 <td class="align-middle" colspan="2" width="100%">
                                     <div>{{ item.local_name }}</div>
                                     <div class="text-muted" v-if="filter.language_id != 1">{{ item.name }}</div>
                                 </td>
                             </tr>
                             <tr>
-                                <td class="align-middle">Lagerplatz</td>
+                                <td class="align-middle">{{ $t('storages.storage') }}</td>
                                 <td class="align-middle" width="30%">
                                     <div class="form-group mb-0">
                                         <select class="form-control" v-model="form.storage_id">
-                                            <option :value="null">Kein Lagerplatz</option>
+                                            <option :value="null">{{ $t('storages.no_storage') }}</option>
                                             <option :value="storage.id" v-for="(storage, id) in storages" v-html="storage.indentedName"></option>
                                         </select>
                                         <div class="invalid-feedback" v-text="'storage' in errors ? errors.storage[0] : ''"></div>
@@ -74,7 +74,7 @@
                                 <td class="d-none d-sm-table-cell" width="70%"></td>
                             </tr>
                             <tr>
-                                <td class="align-middle">Anzahl</td>
+                                <td class="align-middle">{{ $t('app.amount') }}</td>
                                 <td class="align-middle">
                                     <div class="form-group mb-0">
                                         <input class="form-control" type="number" ref="count" v-model="form.count" @keydown.enter="create(true)">
@@ -91,7 +91,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td class="align-middle">Sprache</td>
+                                <td class="align-middle">{{ $t('app.language') }}</td>
                                 <td class="align-middle">
                                     <div class="form-group mb-0">
                                         <select class="form-control" v-model="form.language_id">
@@ -103,7 +103,7 @@
                                 <td class="d-none d-sm-table-cell"></td>
                             </tr>
                             <tr>
-                                <td class="align-middle">Zustand</td>
+                                <td class="align-middle">{{ $t('app.condition') }}</td>
                                 <td class="align-middle">
                                     <div class="form-group mb-0">
                                         <select class="form-control" v-model="form.condition">
@@ -130,7 +130,7 @@
                                 <td class="align-middle d-none d-sm-table-cell"></td>
                             </tr>
                             <tr>
-                                <td class="align-middle">Signiert?</td>
+                                <td class="align-middle">Signed?</td>
                                 <td class="align-middle">
                                     <div class="form-group form-check mb-0">
                                         <input class="form-check-input" type="checkbox" id="is_signed" v-model="form.is_signed">
@@ -160,7 +160,7 @@
                                 <td class="align-middle d-none d-sm-table-cell"></td>
                             </tr>
                             <tr>
-                                <td class="align-middle">Hinweise</td>
+                                <td class="align-middle">{{ $t('app.comments') }}</td>
                                 <td class="align-middle">
                                     <div class="form-group mb-0">
                                         <input class="form-control" :class="'cardmarket_comments' in errors ? 'is-invalid' : ''" type="text" v-model="form.cardmarket_comments" @keydown.enter="create(false)">
@@ -170,7 +170,7 @@
                                 <td></td>
                             </tr>
                             <tr>
-                                <td class="align-middle">Kosten</td>
+                                <td class="align-middle">{{ $t('app.costs') }}</td>
                                 <td class="align-middle">
                                     <div class="form-group mb-0">
                                         <input class="form-control text-right" :class="'unit_cost_formatted' in errors ? 'is-invalid' : ''" type="text" v-model="form.unit_cost_formatted" @keydown.enter="create(false)">
@@ -180,7 +180,7 @@
                                 <td class="align-middle d-none d-sm-table-cell"></td>
                             </tr>
                             <tr>
-                                <td class="align-middle">Preis</td>
+                                <td class="align-middle">{{ $t('app.price') }}</td>
                                 <td class="align-middle">
                                     <div class="form-group mb-0">
                                         <input class="form-control text-right" :class="'unit_price_formatted' in errors ? 'is-invalid' : ''" type="text" v-model="form.unit_price_formatted" @keydown.enter="create(false)">
@@ -195,14 +195,14 @@
                                         <button class="btn btn-secondary" @click="setPrice('avg')" :disabled="form.is_foil">AVG</button>
                                         <button class="btn btn-secondary" @click="setPrice('rule')" :title="item.rule.name" v-if="item.rule.id">REGEL</button>
                                     </div>
-                                    <center v-show="isLoadingPrices"><i class="fas fa-fw fa-spin fa-spinner"></i> Lade aktuelle Preise</center>
+                                    <center v-show="isLoadingPrices"><i class="fas fa-fw fa-spin fa-spinner"></i> {{ $t('article.create.loading_latest_prices') }}</center>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
-                    <button class="btn btn-primary" title="Anlegen" @click="create(false)"><i class="fas fa-fw fa-save"></i></button>
-                    <button class="btn btn-primary" title="Anlegen & Exportieren" @click="create(true)"><i class="fas fa-fw fa-cloud-upload-alt"></i></button>
-                    <button class="btn btn-secondary" title="Abbrechen" @click="item = null"><i class="fas fa-fw fa-times"></i></button>
+                    <button class="btn btn-primary" :title="$t('app.actions.create')" @click="create(false)"><i class="fas fa-fw fa-save"></i></button>
+                    <button class="btn btn-primary" :title="$t('app.actions.create') + '&' + $t('app.actions.upload')" @click="create(true)"><i class="fas fa-fw fa-cloud-upload-alt"></i></button>
+                    <button class="btn btn-secondary" :title="$t('app.actions.create')" @click="item = null"><i class="fas fa-fw fa-times"></i></button>
                 </div>
                 <div class="col-xl d-none d-xl-block">
                     <img :src="item.imagePath">
@@ -214,20 +214,20 @@
                 <table class="table table-hover table-striped">
                     <thead>
                         <tr>
-                            <th class="text-center d-none d-lg-table-cell w-icon">Sync</th>
+                            <th class="text-center d-none d-lg-table-cell w-icon">{{ $t('article.sync') }}</th>
                             <th class="text-right d-none d-xl-table-cell w-icon"></th>
-                            <th class="">Name</th>
+                            <th class="">{{ $t('app.name') }}</th>
                             <th class="w-icon"></th>
                             <th class="text-center d-none d-xl-table-cell w-icon"></th>
-                            <th class="text-center d-none d-lg-table-cell">Sprache</th>
-                            <th class="text-center d-none d-lg-table-cell">Zustand</th>
+                            <th class="text-center d-none d-lg-table-cell">{{ $t('app.language') }}</th>
+                            <th class="text-center d-none d-lg-table-cell">{{ $t('app.condition') }}</th>
                             <th class="d-none d-xl-table-cell" style="width: 100px;"></th>
-                            <th class="d-none d-xl-table-cell">Lagerplatz</th>
-                            <th class="text-right d-none d-sm-table-cell">Verkaufspreis</th>
-                            <th class="text-right d-none d-xl-table-cell">Einkaufspreis</th>
-                            <th class="text-right d-none d-xl-table-cell w-formatted-number">Provision</th>
-                            <th class="text-right d-none d-xl-table-cell w-formatted-number" title="Voraussichtlicher Gewinn ohne allgemeine Kosten" width="100">Gewinn</th>
-                            <th class="text-right d-none d-sm-table-cell w-action">Aktion</th>
+                            <th class="d-none d-xl-table-cell">{{ $t('storage.storage') }}</th>
+                            <th class="text-right d-none d-sm-table-cell">{{ $t('app.price') }}</th>
+                            <th class="text-right d-none d-xl-table-cell">{{ $t('app.price_buying') }}</th>
+                            <th class="text-right d-none d-xl-table-cell w-formatted-number">{{ $t('app.provision') }}</th>
+                            <th class="text-right d-none d-xl-table-cell w-formatted-number" :title="$t('app.profit_anticipated')" width="100">{{ $t('app.revenue') }}</th>
+                            <th class="text-right d-none d-sm-table-cell w-action">{{ $t('app.actions.action') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -430,10 +430,10 @@
                         component.filter.searchtext = '';
                         component.item = null;
                         component.filter.shouldFocus = true;
-                        Vue.success('Artikel erstellt' + (sync ? ' und hochgeladen' : '') +'.');
+                        Vue.success((sync ? $t('app.successes.created_uploaded') : $t('app.successes.created')));
                     })
                      .catch(function (error) {
-                        Vue.error('Karten konnten nicht angelegt werden!');
+                        Vue.error(component.$t('app.errors.loading'));
                         console.log(error);
                     });
             },
@@ -458,7 +458,7 @@
                         }
                     })
                     .catch(function (error) {
-                        Vue.error('Karten konnten nicht geladen werden!');
+                        Vue.error(component.$t('app.errors.loading'));
                         console.log(error);
                     });
             },

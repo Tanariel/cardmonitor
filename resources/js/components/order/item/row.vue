@@ -12,20 +12,20 @@
         <td class="align-middle text-right w-formatted-number">{{ Number(calculated_price).format( 2, ',', '.') }} €</td>
         <td class="align-middle d-none d-sm-table-cell text-right w-action">
             <div class="btn-group btn-group-sm" role="group">
-                <button type="button" class="btn btn-primary" title="Speichern" @click="update"><i class="fas fa-fw fa-save"></i></button>
-                <button type="button" class="btn btn-secondary" title="Löschen" @click="isEditing = false"><i class="fas fa-fw fa-times"></i></button>
+                <button type="button" class="btn btn-primary" ::title="$t('app.actions.save')" @click="update"><i class="fas fa-fw fa-save"></i></button>
+                <button type="button" class="btn btn-secondary" :title="$t('app.actions.delete')" @click="isEditing = false"><i class="fas fa-fw fa-times"></i></button>
             </div>
         </td>
     </tr>
     <tr v-else>
         <td class="align-middle w-100"><a class="text-body" :href="item.item.path">{{ item.item.name }}</a></td>
-        <td class="align-middle d-none d-sm-table-cell text-right pointer w-formatted-number" @click="isEditing = true">{{ Number(item.quantity).format(2, ',', '.') }} Stück</td>
-        <td class="align-middle d-none d-sm-table-cell text-right pointer w-formatted-number">{{ Number(item.unit_cost).format(2, ',', '.') }} €/Stück</td>
+        <td class="align-middle d-none d-sm-table-cell text-right pointer w-formatted-number" @click="isEditing = true">{{ Number(item.quantity).format(2, ',', '.') }} {{ $t('item.piece') }}</td>
+        <td class="align-middle d-none d-sm-table-cell text-right pointer w-formatted-number">{{ Number(item.unit_cost).format(2, ',', '.') }} €/{{ $t('item.piece') }}</td>
         <td class="align-middle text-right pointer w-formatted-number" @click="isEditing = true">{{ Number(item.quantity * item.unit_cost).format( 2, ',', '.') }} €</td>
         <td class="align-middle text-right d-none d-sm-table-cell w-action">
             <div class="btn-group btn-group-sm" role="group">
-                <button type="button" class="btn btn-secondary" title="Speichern" @click="isEditing = true"><i class="fas fa-fw fa-edit"></i></button>
-                <button type="button" class="btn btn-secondary" title="Löschen" @click="destroy"><i class="fas fa-fw fa-trash"></i></button>
+                <button type="button" class="btn btn-secondary" :title="$t('app.actions.save')" @click="isEditing = true"><i class="fas fa-fw fa-edit"></i></button>
+                <button type="button" class="btn btn-secondary" :title="$t('app.actions.delete')" @click="destroy"><i class="fas fa-fw fa-trash"></i></button>
             </div>
         </td>
     </tr>

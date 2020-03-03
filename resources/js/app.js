@@ -48,7 +48,6 @@ Highcharts.setOptions({
 });
 
 import Flash from './plugins/flash.js';
-
 Vue.use(Flash);
 
 /**
@@ -83,14 +82,21 @@ Vue.component('storage-content-table', require('./components/storage/content/tab
 Vue.component('storage-table', require('./components/storage/table.vue').default);
 Vue.component('user-balance-table', require('./components/user/balance/table.vue').default);
 
+var common = require('./common').default;
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-const app = new Vue({
-    el: '#app',
+common.loadLanguage(window.Laravel.locale, true).then((i18n) => {
+    const app = new Vue({
+        i18n,
+        el: '#app',
+    });
+
+    return app;
 });
 
 (function(document,navigator,standalone) {

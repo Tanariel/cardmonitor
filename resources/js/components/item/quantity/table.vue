@@ -2,7 +2,8 @@
     <div>
         <div class="row">
             <div class="col">
-                <button class="btn btn-primary" @click="create"><i class="fas fa-plus-square"></i></button>
+                <button class="btn btn-primary" :disabled="hasMaxEnd" @click="create"><i class="fas fa-plus-square"></i></button>
+                <small v-show="hasMaxEnd">{{ $t('item.quantity.table.create_small') }}</small>
             </div>
         </div>
 
@@ -11,7 +12,7 @@
                 <span style="font-size: 48px;">
                     <i class="fas fa-spinner fa-spin"></i><br />
                 </span>
-                Lade Daten..
+                {{ $t('app.loading') }}
             </center>
         </div>
         <div class="table-responsive mt-3" v-else-if="items.length">
@@ -19,20 +20,18 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th class="text-right">Von Karten</th>
-                        <th class="text-right">Bis Karten</th>
-                        <th class="text-right">Einheiten</th>
-                        <th class="text-right">Aktion</th>
+                        <th class="text-right">{{ $t('item.quantity.table.from_cards') }}</th>
+                        <th class="text-right">{{ $t('item.quantity.table.to_cards') }}</th>
+                        <th class="text-right">{{ $t('item.quantity.table.units') }}</th>
+                        <th class="text-right">{{ $t('app.actions.action') }}</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <template v-for="(item, index) in items">
-                        <row :model="model" :item="item" :index="index" :key="item.id" :uri="uri" @deleted="remove(index)" @updated="updated(index, $event)"></row>
-                    </template>
+                    <row :model="model" :item="item" :index="index" :key="item.id" :uri="uri" v-for="(item, index) in items" @deleted="remove(index)" @updated="updated(index, $event)"></row>
                 </tbody>
             </table>
         </div>
-        <div class="alert alert-dark mt-3" v-else><center>Keine Staffelung vorhanden</center></div>
+        <div class="alert alert-dark mt-3" v-else><center>{{ $t('item.quantity.table.no_data') }}</center></div>
     </div>
 </template>
 
@@ -74,6 +73,9 @@
             maxEnd() {
                 return (this.items.length == 0 ? 0 : Math.max.apply(Math, this.items.map(function(item) { return item.end; })));
             },
+            hasMaxEnd() {
+                return (this.maxEnd == 9999);
+            },
             differenceLastQuantity() {
                 var length = this.items.length;
                 if (length == 0) {
@@ -96,7 +98,7 @@
                     })
                     .catch( function (error) {
                         component.errors = error.response.data.errors;
-                        Vue.error('Staffel konnte nicht erstellt werden!');
+                        Vue.error(component.$t('app.errors.created'));
                 });
             },
             fetch() {
@@ -110,7 +112,7 @@
                         component.isLoading = false;
                     })
                     .catch(function (error) {
-                        Vue.error('Staffeln konnten nicht geladen werden!');
+                        Vue.error(component.$t('app.errors.loaded'));
                         console.log(error);
                     });
             },
@@ -119,7 +121,7 @@
             },
             remove(index) {
                 this.items.splice(index, 1);
-                Vue.success('Staffel gelöscht.');
+                Vue.success(component.$t('app.successes.deleted'));
             },
         },
     };

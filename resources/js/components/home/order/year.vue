@@ -1,10 +1,10 @@
 <template>
     <div class="card mb-3">
         <div class="card-header d-flex align-items-center">
-            <div class="col">Bestellungen pro Monat</div>
+            <div class="col">{{ $t('order.home.year.title') }}</div>
             <div class="form-group mb-0">
                 <select class="form-control" v-model.number="form.year" @change="fetch">
-                    <option value="0">Letzte 12 Monate</option>
+                    <option value="0">{{ $t('order.home.year.latest') }}</option>
                     <option value="2020">2020</option>
                     <option value="2019">2019</option>
                     <option value="2018">2018</option>
@@ -17,11 +17,11 @@
                     <span style="font-size: 48px;">
                         <i class="fas fa-spinner fa-spin"></i><br />
                     </span>
-                    Lade Daten..
+                    {{ $t('app.loading') }}
                 </center>
             </div>
             <div class="alert alert-dark mt-3" role="alert" v-else-if="statistics.orders_count == 0">
-                Keine Bestellungen im Zeitraum vorhanden.
+                {{ $t('order.home.year.errors.no_data') }}
             </div>
         </div>
         <div class="card-body row">
@@ -33,43 +33,43 @@
                     <thead>
                         <tr>
                             <th width="20%"></th>
-                            <th class="text-right" width="20%">Gesamt</th>
-                            <th class="text-right" width="20%">Pro Monat</th>
-                            <th class="text-right" width="20%">Pro Bestellung</th>
-                            <th class="text-right" width="20%">Pro Karte</th>
+                            <th class="text-right" width="20%">{{ $t('app.total') }}</th>
+                            <th class="text-right" width="20%">{{ $t('order.home.per.month') }}</th>
+                            <th class="text-right" width="20%">{{ $t('order.home.per.order') }}</th>
+                            <th class="text-right" width="20%">{{ $t('order.home.per.card') }}</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Bestellungen</td>
+                            <td>{{ $t('order.plural') }}</td>
                             <td class="text-right">{{ statistics.orders_count }}</td>
                             <td class="text-right">Ø {{ (statistics.orders_count / statistics.periods_count).format(2, ',', '.') }}</td>
                             <td class="text-right">-</td>
                             <td class="text-right">-</td>
                         </tr>
                         <tr>
-                            <td>Karten</td>
+                            <td>{{ $t('app.cards') }}</td>
                             <td class="text-right">{{ statistics.cards_count }}</td>
                             <td class="text-right">Ø {{ (statistics.cards_count / statistics.periods_count).format(2, ',', '.') }}</td>
                             <td class="text-right">Ø {{ (statistics.cards_count / statistics.orders_count).format(2, ',', '.') }}</td>
                             <td class="text-right">-</td>
                         </tr>
                         <tr>
-                            <td>Umsatz</td>
+                            <td>{{ $t('app.revenue') }}</td>
                             <td class="text-right">{{ statistics.revenue_sum.format(2, ',', '.') }} €</td>
                             <td class="text-right">Ø {{ (statistics.revenue_sum / statistics.periods_count).format(2, ',', '.') }} €</td>
                             <td class="text-right">Ø {{ (statistics.revenue_sum / statistics.orders_count).format(2, ',', '.') }} €</td>
                             <td class="text-right">Ø {{ (statistics.revenue_sum / statistics.cards_count).format(2, ',', '.') }} €</td>
                         </tr>
                         <tr>
-                            <td>Kosten</td>
+                            <td>{{ $t('app.costs') }}</td>
                             <td class="text-right">{{ statistics.cost_sum.format(2, ',', '.') }} €</td>
                             <td class="text-right">Ø {{ (statistics.cost_sum / statistics.periods_count).format(2, ',', '.') }} €</td>
                             <td class="text-right">Ø {{ (statistics.cost_sum / statistics.orders_count).format(2, ',', '.') }} €</td>
                             <td class="text-right">Ø {{ (statistics.cost_sum / statistics.cards_count).format(2, ',', '.') }} €</td>
                         </tr>
                         <tr>
-                            <td>Gewinn</td>
+                            <td>{{ $t('app.profit') }}</td>
                             <td class="text-right">{{ statistics.profit_sum.format(2, ',', '.') }} €</td>
                             <td class="text-right">Ø {{ (statistics.profit_sum / statistics.periods_count).format(2, ',', '.') }} €</td>
                             <td class="text-right">Ø {{ (statistics.profit_sum / statistics.orders_count).format(2, ',', '.') }} €</td>

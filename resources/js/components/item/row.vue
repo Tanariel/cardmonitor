@@ -9,8 +9,8 @@
 
         <td class="align-middle text-right">
             <div class="btn-group btn-group-sm" role="group">
-                <a :href="item.editPath" class="btn btn-secondary" title="Bearbeiten"><i class="fas fa-edit"></i></a>
-                <button type="button" class="btn btn-secondary" title="Löschen" @click="destroy" v-if="item.isDeletable"><i class="fas fa-trash"></i></button>
+                <a :href="item.editPath" class="btn btn-secondary" :title="$t('app.actions.edit')"><i class="fas fa-edit"></i></a>
+                <button type="button" class="btn btn-secondary" :title="$t('app.actions.delete')" @click="destroy" v-if="item.isDeletable"><i class="fas fa-trash"></i></button>
             </div>
         </td>
     </tr>

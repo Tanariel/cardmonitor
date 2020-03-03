@@ -1,7 +1,7 @@
 <template>
     <div class="container" v-if="item != null">
         <div class="alert alert-dark" role="alert" v-show="counts.open == 0">
-            Alle Karten bearbeitet <span v-show="counts.problem > 0">({{ counts.problem }} {{ counts.problem == 1 ? 'Problem' : 'Probleme' }})</span>
+            {{ $t('order.article.show.alerts.no_open_cards') }} <span v-show="counts.problem > 0">({{ counts.problem }} {{ counts.problem == 1 ? $t('order.article.show.problems.singular') : $t('order.article.show.problems.plural') }})</span>
         </div>
         <div class="row mb-3">
             <div class="col-12 col-sm text-center p-3">
@@ -18,26 +18,26 @@
                 </div>
                 <div class="col-12 col-sm mb-3">
                     <div class="form-group">
-                        <label for="state_comment_boilerplate">Probleme?</label>
-                        <select class="form-control" id="state_comment_boilerplate" placeholder="Problem auswählen" @change="form.state_comments += $event.target.value">
-                            <option>Probleme?</option>
-                            <option>ist nicht vorhanden</option>
-                            <option>ist in schlechterem Zustand als angegeben</option>
-                            <option>ist in falscher Sprache</option>
+                        <label for="state_comment_boilerplate">{{ $t('order.article.show.problems.label') }}</label>
+                        <select class="form-control" id="state_comment_boilerplate" :placeholder="$t('order.article.show.problems.placeholder')" @change="form.state_comments += $event.target.value">
+                            <option>{{ $t('order.article.show.problems.label') }}</option>
+                            <option>{{ $t('order.article.show.problems.not_available') }}</option>
+                            <option>{{ $t('order.article.show.problems.wrong_condition') }}</option>
+                            <option>{{ $t('order.article.show.problems.wrong_language') }}</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="state_comments">Status Kommentar</label>
-                        <input type="text" class="form-control" id="state_comments" v-model="form.state_comments" placeholder="Kommentar für Nachricht">
+                        <label for="state_comments">{{ $t('order.article.show.state_comments.label') }}</label>
+                        <input type="text" class="form-control" id="state_comments" v-model="form.state_comments" :placeholder="$t('order.article.show.state_comments.placeholder')">
                     </div>
                 </div>
                 <div>
                     <i class="fas fa-fw mb-3" :class="item.state_icon" :title="item.state_comments"></i> {{ item.state_comments }}
                 </div>
                 <div class="d-flex justify-content-between">
-                    <button class="btn btn-danger text-overflow-ellipsis" title="Nächste Karte (Status Problem)" @click="next(true, 1)">Nächste Karte (Status Problem)</button>
-                    <button class="btn btn-light" @click="next(false)">Weiter</button>
-                    <button class="btn btn-primary text-overflow-ellipsis" title="Nächste Karte (Status OK)" @click="next(true, 0)">Nächste Karte (Status OK)</button>
+                    <button class="btn btn-danger text-overflow-ellipsis" title="Nächste Karte (Status Problem)" @click="next(true, 1)">{{ $t('order.article.show.actions.next_problem') }})</button>
+                    <button class="btn btn-light" @click="next(false)">{{ $t('order.article.show.actions.next') }}</button>
+                    <button class="btn btn-primary text-overflow-ellipsis" title="Nächste Karte (Status OK)" @click="next(true, 0)">{{ $t('order.article.show.actions.next_ok') }}</button>
                 </div>
             </div>
         </div>

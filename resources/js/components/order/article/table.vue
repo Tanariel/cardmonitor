@@ -14,16 +14,16 @@
                     <tr>
                         <th class="d-none d-sm-table-cell" width="75"></th>
                         <th class="text-center w-icon"></th>
-                        <th class="">Name</th>
+                        <th class="">{{ $t('app.name') }}</th>
                         <th class="w-icon"></th>
                         <th class="text-center d-none d-lg-table-cell w-icon"></th>
                         <th class="text-center d-none d-xl-table-cell w-icon"></th>
                         <th class="d-none d-lg-table-cell" style="width: 100px;"></th>
-                        <th class="text-right d-none d-sm-table-cell w-formatted-number">VK</th>
-                        <th class="text-right d-none d-xl-table-cell w-formatted-number">EK</th>
-                        <th class="text-right d-none d-xl-table-cell w-formatted-number">Provision</th>
-                        <th class="text-right d-none d-xl-table-cell w-formatted-number" title="Gewinn ohne allgemeine Kosten">Gewinn</th>
-                        <th class="text-right d-none d-sm-table-cell w-action">Aktion</th>
+                        <th class="text-right d-none d-sm-table-cell w-formatted-number">{{ $t('app.price_abbr') }}</th>
+                        <th class="text-right d-none d-xl-table-cell w-formatted-number">{{ $t('app.price_buying_abbr') }}</th>
+                        <th class="text-right d-none d-xl-table-cell w-formatted-number">{{ $t('app.provision') }}</th>
+                        <th class="text-right d-none d-xl-table-cell w-formatted-number" :title="$t('app.profit_anticipated')">{{ $t('app.revenue') }}</th>
+                        <th class="text-right d-none d-sm-table-cell w-action">{{ $t('app.actions.action') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -33,7 +33,7 @@
                 </tbody>
                 <tfoot>
                     <tr v-show="counts.open > 0">
-                        <td class="d-none d-sm-table-cell"><b>Offen</b></td>
+                        <td class="d-none d-sm-table-cell"><b>{{ $t('order.article.table.open') }}</b></td>
                         <td class="text-center"><b>{{ counts.open }}</b></td>
                         <td class=""></td>
                         <td class=""></td>
@@ -47,7 +47,7 @@
                         <td class="d-none d-sm-table-cell"></td>
                     </tr>
                     <tr v-show="counts.problem > 0">
-                        <td class="d-none d-sm-table-cell"><b>Probleme</b></td>
+                        <td class="d-none d-sm-table-cell"><b>{{ $t('order.article.show.problems.plural') }}</b></td>
                         <td class="text-center"><b>{{ counts.problem }}</b></td>
                         <td class=""></td>
                         <td class=""></td>
@@ -61,7 +61,7 @@
                         <td class="d-none d-sm-table-cell"></td>
                     </tr>
                     <tr v-show="counts.ok > 0">
-                        <td class="d-none d-sm-table-cell"><b>OK</b></td>
+                        <td class="d-none d-sm-table-cell"><b>{{ $t('order.article.table.ok') }}</b></td>
                         <td class="text-center"><b>{{ counts.ok }}</b></td>
                         <td class=""></td>
                         <td class=""></td>
@@ -91,7 +91,7 @@
                 </tfoot>
             </table>
         </div>
-        <div class="alert alert-dark mt-3" v-else><center>Keine Artikel vorhanden</center></div>
+        <div class="alert alert-dark mt-3" v-else><center>{{ $t('article.errors.no_data') }}</center></div>
         <div id="imgbox" style="position: absolute;" :style="{ top: imgbox.top,  left: imgbox.left }">
             <img :src="imgbox.src" v-show="imgbox.show">
         </div>

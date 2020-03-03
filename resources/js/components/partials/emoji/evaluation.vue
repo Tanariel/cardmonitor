@@ -18,19 +18,19 @@
             switch(this.value) {
                 case 1:
                     classes = 'fa-grin-beam text-success';
-                    title = 'Sehr gut';
+                    title = this.$t('order.evaluations.1');
                     break;
                 case 2:
                     classes = 'fa-grin text-success';
-                    title = 'Gut';
+                    title = this.$t('order.evaluations.2');
                     break;
                 case 3:
                     classes = 'fa-meh text-warning';
-                    title = 'Neutral';
+                    title = this.$t('order.evaluations.3');
                     break;
                 case 4:
                     classes = 'fa-frown-open text-danger';
-                    title = 'Schlecht';
+                    title = this.$t('order.evaluations.4');
                     break;
             }
 

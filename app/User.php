@@ -39,6 +39,7 @@ class User extends Authenticatable
         'is_applying_rules',
         'is_syncing_articles',
         'is_syncing_orders',
+        'locale',
         'name',
         'password',
         'prepared_message',
@@ -74,6 +75,7 @@ class User extends Authenticatable
         static::creating(function($model)
         {
             $model->prepared_message = "Hallo #BUYER_FIRSTNAME#,\r\nvielen Dank für deine Bestellung\r\n\r\n#PROBLEMS#\r\n\r\n#IMAGES#\r\n\r\nIch verschicke sie heute Nachmittag\r\n\r\nViele Grüße\r\n#SELLER_FIRSTNAME#";
+            $model->locale = 'de';
         });
 
         static::created(function($model)

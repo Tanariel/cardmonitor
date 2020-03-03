@@ -1,5 +1,5 @@
 <template>
-    <div v-if="items.length">
+    <div v-if="hasItems">
 
         <div class="col row">
             <div class="col text-center" ref="wrapper">
@@ -9,7 +9,7 @@
             </div>
         </div>
 
-        <div class="row align-items-center justify-content-center mt-1" v-if="(items.length > 1)">
+        <div class="row align-items-center justify-content-center mt-1" v-if="(items_count > 1)">
             <div class="col-md-2" v-for="(image, index) in items">
                 <img :src="image.url" class="img-fluid pointer" alt="" @click="item = image" style="height: 100px;">
             </div>
@@ -18,7 +18,7 @@
     </div>
     <div v-else>
         <div class="alert alert-dark" role="alert">
-            Keine Bilder vorhanden.
+            {{ $t('image.alerts.no_data') }}
         </div>
     </div>
 </template>
@@ -34,15 +34,26 @@
 
         mounted() {
 
-            this.height = Math.max(this.$refs.wrapper.clientHeight, 300);
+            if (this.hasItems) {
+                this.height = Math.max(this.$refs.wrapper.clientHeight, 300);
+            }
 
+        },
+
+        computed: {
+            items_count() {
+                return this.items.length;
+            },
+            hasItems() {
+                return (this.items_count > 0);
+            },
         },
 
         data() {
             return {
-                item: this.model.images[0],
+                item: this.model.images.length ? this.model.images[0] : null,
                 items: this.model.images,
-                height: 0,
+                height: 300,
             };
         },
     };

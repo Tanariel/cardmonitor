@@ -7,12 +7,12 @@
                     <div class="card-body d-flex">
                         <div class="col">
                             <div class="form-group">
-                                <label for="name">Name</label>
-                                <input type="text" class="form-control" placeholder="Name" v-model="form.name">
+                                <label for="name">{{ $t('app.name') }}</label>
+                                <input type="text" class="form-control" :placeholder="$t('app.name')" v-model="form.name">
                             </div>
                             <div class="form-group">
-                                <label for="name">Beschreibung</label>
-                                <textarea class="form-control" placeholder="Beschreibung" v-model="form.description"></textarea>
+                                <label for="name">{{ $t('rule.description') }}</label>
+                                <textarea class="form-control" :placeholder="$t('rule.description')" v-model="form.description"></textarea>
                             </div>
                         </div>
                     </div>
@@ -20,19 +20,17 @@
             </div>
             <div class="col-md-6">
                 <div class="card h-100">
-                    <div class="card-header">Preis</div>
+                    <div class="card-header">{{ $t('app.price') }}</div>
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="base_price">Basis Preis</label>
+                            <label for="base_price">{{ $t('rule.description') }}</label>
                             <select class="form-control" id="base_price" v-model="form.base_price">
                                 <option :value="id" v-for="(name, id) in basePrices">{{ name }}</option>
                             </select>
-                            <small>Hinweis</small>
                         </div>
                         <div class="form-group">
-                            <label for="multiplier_formatted">Multiplikator</label>
+                            <label for="multiplier_formatted">{{ $t('rule.multiplikator') }}</label>
                             <input type="text" class="form-control" v-model="form.multiplier_formatted">
-                            <small>Hinweis</small>
                         </div>
                     </div>
                 </div>
@@ -40,36 +38,32 @@
         </div>
         <div>
             <div class="card mb-3">
-                <div class="card-header">Karten</div>
+                <div class="card-header">{{ $t('app.cards') }}</div>
                 <div class="card-body row">
                     <div class="col-12 col-lg">
                         <div class="form-group">
-                            <label for="expansion_id">Erweiterung</label>
+                            <label for="expansion_id">{{ $t('app.expansion') }}</label>
                             <select id="expansion_id" class="form-control" v-model="form.expansion_id">
-                                <option :value="null">Alle Erweiterungen</option>
+                                <option :value="null">{{ $t('filter.expansion.all') }}</option>
                                 <option :value="item.id" v-for="(item, key) in sortedExpansions">{{ item.name }}</option>
                             </select>
-                            <small>Hinweis</small>
                         </div>
                         <div class="form-group">
-                            <label for="rarity">Seltenheit</label>
+                            <label for="rarity">{{ $t('app.rarity') }}</label>
                             <select class="form-control" id="rarity" v-model="form.rarity">
-                                <option :value="null">Alle Seltenheiten</option>
+                                <option :value="null">{{ $t('filter.rarity.all') }}</option>
                                 <option :value="name" v-for="(name, id) in rarities">{{ name }}</option>
                             </select>
-                            <small>Hinweis</small>
                         </div>
                     </div>
                     <div class="col-12 col-lg">
                         <div class="form-group">
-                            <label for="price_above_formatted">Preis von</label>
+                            <label for="price_above_formatted">{{ $t('filter.price.min') }}</label>
                             <input type="text" class="form-control" v-model="form.price_above_formatted">
-                            <small>Hinweis</small>
                         </div>
                         <div class="form-group">
-                            <label for="price_below_formatted">Preis bis</label>
+                            <label for="price_below_formatted">{{ $t('filter.price.max') }}</label>
                             <input type="text" class="form-control" v-model="form.price_below_formatted">
-                            <small>Hinweis</small>
                         </div>
                     </div>
                     <div class="col-12 col-lg d-flex flex-column">
@@ -106,54 +100,44 @@
                         <div class="form-group">
                             <label for="min_price_masterpiece_formatted">Masterpiece</label>
                             <input type="text" class="form-control" id="min_price_masterpiece_formatted" v-model="form.min_price_masterpiece_formatted">
-                            <small>Hinweis</small>
                         </div>
                         <div class="form-group">
                             <label for="min_price_mythic_formatted">Mythic</label>
                             <input type="text" class="form-control" id="min_price_mythic_formatted" v-model="form.min_price_mythic_formatted">
-                            <small>Hinweis</small>
                         </div>
                         <div class="form-group">
                             <label for="min_price_rare_formatted">Rare</label>
                             <input type="text" class="form-control" id="min_price_rare_formatted" v-model="form.min_price_rare_formatted">
-                            <small>Hinweis</small>
                         </div>
                         <div class="form-group">
                             <label for="min_price_special_formatted">Special</label>
                             <input type="text" class="form-control" id="min_price_special_formatted" v-model="form.min_price_special_formatted">
-                            <small>Hinweis</small>
                         </div>
                         <div class="form-group">
                             <label for="min_price_time_shifted_formatted">Time Shifted</label>
                             <input type="text" class="form-control" id="min_price_time_shifted_formatted" v-model="form.min_price_time_shifted_formatted">
-                            <small>Hinweis</small>
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-group">
                             <label for="min_price_uncommon_formatted">Uncommon</label>
                             <input type="text" class="form-control" id="min_price_uncommon_formatted" v-model="form.min_price_uncommon_formatted">
-                            <small>Hinweis</small>
                         </div>
                         <div class="form-group">
                             <label for="min_price_common_formatted">Commmon</label>
                             <input type="text" class="form-control" id="min_price_common_formatted" v-model="form.min_price_common_formatted">
-                            <small>Hinweis</small>
                         </div>
                         <div class="form-group">
                             <label for="min_price_land_formatted">Land</label>
                             <input type="text" class="form-control" id="min_price_land_formatted" v-model="form.min_price_land_formatted">
-                            <small>Hinweis</small>
                         </div>
                         <div class="form-group">
                             <label for="min_price_token_formatted">Token</label>
                             <input type="text" class="form-control" id="min_price_token_formatted" v-model="form.min_price_token_formatted">
-                            <small>Hinweis</small>
                         </div>
                         <div class="form-group">
                             <label for="min_price_tip_card_formatted">Tip Card</label>
                             <input type="text" class="form-control" id="min_price_tip_card_formatted" v-model="form.min_price_tip_card_formatted">
-                            <small>Hinweis</small>
                         </div>
                     </div>
                 </div>

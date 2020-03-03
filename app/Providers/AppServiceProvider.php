@@ -51,6 +51,6 @@ class AppServiceProvider extends ServiceProvider
             return preg_match('/^[0-9]+,?[0-9]*$/', $value);
         });
 
-        Carbon::setLocale('de');
+        Carbon::setLocale($this->app->getLocale());
     }
 }

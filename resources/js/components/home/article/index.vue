@@ -8,8 +8,8 @@
                         <span style="font-size: 48px;">
                             <i class="fas fa-spinner fa-spin"></i><br />
                         </span>
-                        <span v-if="syncing.status == 1">Synchronisiere Artikel</span>
-                        <span v-else>Lade Daten..</span>
+                        <span v-if="syncing.status == 1">{{ $t('article.is_syncing') }}</span>
+                        <span v-else>{{ $t('app.loading') }}</span>
                     </center>
                 </div>
                 <div v-else-if="articles.offers.count > 0">
@@ -17,29 +17,29 @@
                         <thead>
                             <tr>
                                 <th></th>
-                                <th class="text-right text-overflow-ellipsis">Anzahl</th>
-                                <th class="text-right d-none d-xl-table-cell text-overflow-ellipsis">Einkauf</th>
-                                <th class="text-right text-overflow-ellipsis">Verkauf</th>
-                                <th class="text-right d-none d-lg-table-cell text-overflow-ellipsis">Differenz</th>
+                                <th class="text-right text-overflow-ellipsis">{{ $t('app.amount') }}</th>
+                                <th class="text-right d-none d-xl-table-cell text-overflow-ellipsis">{{ $t('app.purchase') }}</th>
+                                <th class="text-right text-overflow-ellipsis">{{ $t('app.sale') }}</th>
+                                <th class="text-right d-none d-lg-table-cell text-overflow-ellipsis">{{ $t('app.difference') }}</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td class="text-overflow-ellipsis">Angebote</td>
+                                <td class="text-overflow-ellipsis">{{ $t('app.offers') }}</td>
                                 <td class="text-right">{{ Number(articles.offers.count).format(0, '', '.') }}</td>
                                 <td class="text-right d-none d-xl-table-cell">{{ Number(articles.offers.cost).format(2, ',', '.') }} €</td>
                                 <td class="text-right">{{ Number(articles.offers.price).format(2, ',', '.') }} €</td>
                                 <td class="text-right d-none d-lg-table-cell">{{ Number(articles.offers.price - articles.offers.cost).format(2, ',', '.') }} €</td>
                             </tr>
                             <tr>
-                                <td class="text-overflow-ellipsis">Regeln</td>
+                                <td class="text-overflow-ellipsis">{{ $t('rule.plural') }}</td>
                                 <td class="text-right">{{ Number(articles.rules.count).format(0, '', '.') }}</td>
                                 <td class="text-right d-none d-xl-table-cell">{{ Number(articles.rules.cost).format(2, ',', '.') }} €</td>
                                 <td class="text-right">{{ Number(articles.rules.price).format(2, ',', '.') }} €</td>
                                 <td class="text-right d-none d-lg-table-cell">{{ Number(articles.rules.price - articles.rules.cost).format(2, ',', '.') }} €</td>
                             </tr>
                             <tr>
-                                <td class="text-overflow-ellipsis">Verkäufe</td>
+                                <td class="text-overflow-ellipsis">{{ $t('app.sales') }}</td>
                                 <td class="text-right">{{ Number(articles.sold.count).format(0, '', '.') }}</td>
                                 <td class="text-right d-none d-xl-table-cell">{{ Number(articles.sold.cost).format(2, ',', '.') }} €</td>
                                 <td class="text-right">{{ Number(articles.sold.price).format(2, ',', '.') }} €</td>
@@ -50,7 +50,7 @@
                 </div>
                 <div class="d-flex align-items-center justify-content-center" v-else>
                     <button class="btn btn-secondary ml-1" @click="sync" :disabled="syncing.status == 1">
-                        <i class="fas fa-spinner fa-spin mr-1" v-show="syncing.status == 1"></i> Artikel synchronisieren
+                        <i class="fas fa-spinner fa-spin mr-1" v-show="syncing.status == 1"></i> {{ $t('article.sync') }}
                     </button>
                 </div>
             </div>
@@ -99,7 +99,7 @@
                         component.isLoading = false;
                     })
                     .catch(function (error) {
-                        Vue.error('Artikel konnten nicht geladen werden!');
+                        Vue.error(component.$t('app.errors.loading'));
                         console.log(error);
                     });
             },
@@ -118,7 +118,7 @@
                             clearInterval(component.syncing.interval)
                             component.syncing.interval = null;
                             component.fetch();
-                            Vue.success('Artikel wurden synchronisiert.');
+                            Vue.success(component.$t('article.synced'));
                         }
                     })
                     .catch(function (error) {
@@ -134,10 +134,10 @@
                     .then(function (response) {
                         component.syncing.status = 1;
                         component.checkIsSyncingArticles();
-                        Vue.success('Artikel werden im Hintergrund aktualisiert.');
+                        Vue.success(component.$t('article.syncing'));
                     })
                     .catch(function (error) {
-                        Vue.error('Artikel konnten nicht synchronisiert werden! Ist das Cardmarket Konto verbunden?');
+                        Vue.error(component.$t('article.syncing_error'));
                         console.log(error);
                     })
                     .finally ( function () {

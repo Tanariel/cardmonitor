@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <h2>Artikel hinzufügen</h2>
+    <h2>{{ __('article.create.heading') }}</h2>
     <article-create
         :conditions="{{ json_encode($conditions) }}"
         :default-card-costs="{{ json_encode($defaultCardCosts) }}"

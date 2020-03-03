@@ -10,8 +10,8 @@
                 </div>
                 <button class="btn btn-secondary ml-1" @click="filter.show = !filter.show"><i class="fas fa-filter"></i></button>
                 <button class="btn btn-secondary ml-1" @click="sync" :disabled="syncing.status == 1"><i class="fas fa-sync" :class="{'fa-spin': syncing.status == 1}"></i></button>
-                <button type="button" class="btn btn-primary text-overflow-ellipsis ml-1" title="Regeln anwenden" data-toggle="modal" data-target="#confirm-rule-apply" :disabled="applying.status == 1">
-                    <i class="fas fa-spinner fa-spin mr-1" v-show="applying.status == 1"></i>Regeln anwenden
+                <button type="button" class="btn btn-primary text-overflow-ellipsis ml-1" :title="$t('rule.apply')" data-toggle="modal" data-target="#confirm-rule-apply" :disabled="applying.status == 1">
+                    <i class="fas fa-spinner fa-spin mr-1" v-show="applying.status == 1"></i>{{ $t('rule.apply') }}
                 </button>
             </div>
         </div>
@@ -21,22 +21,22 @@
 
                 <div class="col-auto">
                     <div class="form-group">
-                        <label for="filter-sync">Sync</label>
+                        <label for="filter-sync">{{ $t('filter.sync.label') }}</label>
                         <select class="form-control" id="filter-sync" v-model="filter.sync" @change="search">
-                            <option :value="-1">Alle</option>
-                            <option :value="1">Fehler</option>
-                            <option :value="0">Keine Fehler</option>
+                            <option :value="-1">{{ $t('filter.all') }}</option>
+                            <option :value="1">{{ $t('filter.sync.error') }}</option>
+                            <option :value="0">{{ $t('filter.sync.success') }}</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="col-auto">
                     <div class="form-group">
-                        <label for="filter-sold">Verkauft</label>
+                        <label for="filter-sold">{{ $t('filter.sold.label') }}</label>
                         <select class="form-control" id="filter-sold" v-model="filter.sold" @change="search">
-                            <option :value="-1">Alle</option>
-                            <option :value="0">Nicht Verkauft</option>
-                            <option :value="1">Verkauft</option>
+                            <option :value="-1">{{ $t('filter.all') }}</option>
+                            <option :value="0">{{ $t('filter.sold.not_sold') }}</option>
+                            <option :value="1">{{ $t('filter.sold.sold') }}</option>
                         </select>
                     </div>
                 </div>
@@ -59,25 +59,25 @@
                 </div>
                 <div class="col-auto">
                     <div class="form-group">
-                        <label for="filter-unit_price_min">Verkaufspreis min</label>
+                        <label for="filter-unit_price_min">{{ $t('filter.price.min') }}</label>
                         <input class="form-control" id="filter-unit_price_min" type="text" v-model="filter.unit_price_min" @input="search">
                     </div>
                 </div>
                 <div class="col-auto">
                     <div class="form-group">
-                        <label for="filter-unit_price_max">Verkaufspreis max</label>
+                        <label for="filter-unit_price_max">{{ $t('filter.price.max') }}</label>
                         <input class="form-control" id="filter-unit_price_max" type="text" v-model="filter.unit_price_max" @input="search">
                     </div>
                 </div>
                 <div class="col-auto">
                     <div class="form-group">
-                        <label for="filter-unit_cost_min">Einkaufspreis min</label>
+                        <label for="filter-unit_cost_min">{{ $t('filter.price_buying.min') }}</label>
                         <input class="form-control" id="filter-unit_cost_min" type="text" v-model="filter.unit_cost_min" @input="search">
                     </div>
                 </div>
                 <div class="col-auto">
                     <div class="form-group">
-                        <label for="filter-unit_cost_max">Einkaufspreis max</label>
+                        <label for="filter-unit_cost_max">{{ $t('filter.price_buying.max') }}</label>
                         <input class="form-control" id="filter-unit_cost_max" type="text" v-model="filter.unit_cost_max" @input="search">
                     </div>
                 </div>
@@ -97,20 +97,20 @@
             <table class="table table-hover table-striped bg-white">
                 <thead>
                     <tr>
-                        <th class="text-center d-none d-lg-table-cell w-icon">Sync</th>
+                        <th class="text-center d-none d-lg-table-cell w-icon">{{ $t('article.sync') }}</th>
                         <th class="text-right d-none d-xl-table-cell w-icon"></th>
-                        <th class="">Name</th>
+                        <th class="">{{ $t('app.name') }}</th>
                         <th class="w-icon"></th>
                         <th class="text-center d-none d-xl-table-cell w-icon"></th>
-                        <th class="text-center d-none d-lg-table-cell">Sprache</th>
-                        <th class="text-center d-none d-lg-table-cell">Zustand</th>
+                        <th class="text-center d-none d-lg-table-cell">{{ $t('app.language') }}</th>
+                        <th class="text-center d-none d-lg-table-cell">{{ $t('app.condition') }}</th>
                         <th class="d-none d-xl-table-cell" style="width: 100px;"></th>
-                        <th class="d-none d-xl-table-cell">Lagerplatz</th>
-                        <th class="text-right d-none d-sm-table-cell">VK</th>
-                        <th class="text-right d-none d-xl-table-cell">EK</th>
-                        <th class="text-right d-none d-xl-table-cell w-formatted-number">Provision</th>
-                        <th class="text-right d-none d-xl-table-cell w-formatted-number" title="Voraussichtlicher Gewinn ohne allgemeine Kosten" width="100">Gewinn</th>
-                        <th class="text-right d-none d-sm-table-cell w-action">Aktion</th>
+                        <th class="d-none d-xl-table-cell">{{ $t('storage.storage') }}</th>
+                        <th class="text-right d-none d-sm-table-cell">{{ $t('app.price_abbr') }}</th>
+                        <th class="text-right d-none d-xl-table-cell">{{ $t('app.price_buying_abbr') }}</th>
+                        <th class="text-right d-none d-xl-table-cell w-formatted-number">{{ $t('app.provision') }}</th>
+                        <th class="text-right d-none d-xl-table-cell w-formatted-number" :title="$t('app.profit_anticipated')" width="100">{{ $t('app.revenue') }}</th>
+                        <th class="text-right d-none d-sm-table-cell w-action">{{ $t('app.actions.action') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -120,17 +120,17 @@
                 </tbody>
             </table>
         </div>
-        <div class="alert alert-dark mt-3" v-else><center>Keine Artikel vorhanden</center></div>
+        <div class="alert alert-dark mt-3" v-else><center>{{ $t('article.errors.no_data') }}</center></div>
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center" v-show="paginate.lastPage > 1">
                 <li class="page-item" v-show="paginate.prevPageUrl">
-                    <a class="page-link" href="#" @click.prevent="filter.page--">Previous</a>
+                    <a class="page-link" href="#" @click.prevent="filter.page--">{{ $t('app.paginate.previous') }}</a>
                 </li>
 
                 <li class="page-item" v-for="(n, i) in pages" v-bind:class="{ active: (n == filter.page) }"><a class="page-link" href="#" @click.prevent="filter.page = n">{{ n }}</a></li>
 
                 <li class="page-item" v-show="paginate.nextPageUrl">
-                    <a class="page-link" href="#" @click.prevent="filter.page++">Next</a>
+                    <a class="page-link" href="#" @click.prevent="filter.page++">{{ $t('app.paginate.next') }}</a>
                 </li>
             </ul>
         </nav>
@@ -141,23 +141,23 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Regeln anwenden</h5>
+                        <h5 class="modal-title">{{ $t('rule.apply') }}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p>Möchtest du alle aktiven Regeln anweden und in deinem Cardmarket Konto speichern?</p>
-                        <p>Der Prozess läuft maximal 1 Stunde. Das entspricht etwa 30.000 Artikeln</p>
+                        <p>{{ $t('rule.modal_apply.body.question') }}</p>
+                        <p>{{ $t('rule.modal_apply.body.comment') }}</p>
                         <div class="alert alert-danger" role="alert">
-                            Es werden Preise in deinem Cardmarket Konto verändert! Versichere dich vorher, ob alle Regeln angewendet werden, wie Du es möchtest!<br /><br />
-                            Ausführung auf eigene Gefahr!
+                            {{ $t('rule.modal_apply.body.alert.text') }}<br /><br />
+                            {{ $t('rule.modal_apply.body.alert.danger') }}
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
-                        <button type="button" class="btn btn-secondary" @click="apply(false)">Regeln simulieren</button>
-                        <button type="button" class="btn btn-primary" @click="apply(true)">Regeln anwenden</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ $t('app.actions.cancel') }}</button>
+                        <button type="button" class="btn btn-secondary" @click="apply(false)">{{ $t('rule.simulate') }}</button>
+                        <button type="button" class="btn btn-primary" @click="apply(true)">{{ $t('rule.apply') }}</button>
                     </div>
                 </div>
             </div>
