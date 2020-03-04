@@ -44,7 +44,7 @@
                         <th class="text-right d-none d-xl-table-cell" width="10%">{{ $t('app.costs') }}</th>
                         <th class="text-right d-none d-xl-table-cell" width="10%">{{ $t('app.profit') }}</th>
                         <th class="d-none d-md-table-cell" width="15%">{{ $t('app.state') }}</th>
-                        <th class="text-center d-none d-lg-table-cell" colspan="3" width="10%">{{ $t('order.evaluations.singular') }}</th>
+                        <th class="text-center d-none d-lg-table-cell" width="10%">{{ $t('order.evaluations.singular') }}</th>
                         <th class="text-right" width="10%">{{ $t('app.actions.action') }}</th>
                     </tr>
                 </thead>

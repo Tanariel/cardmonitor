@@ -10,9 +10,14 @@
         <td class="align-middle d-none d-xl-table-cell text-right pointer" @click="link">{{ Number(item.cost).toFixed(2) }} €</td>
         <td class="align-middle d-none d-xl-table-cell text-right pointer" @click="link">{{ Number(item.profit).toFixed(2) }} €</td>
         <td class="align-middle d-none d-md-table-cell pointer" @click="link">{{ item.state }}</td>
-        <td class="align-middle d-none d-lg-table-cell text-center pointer" @click="link" :title="$t('order.evaluations.grade')"><evaluation :value="item.evaluation ? item.evaluation.grade : 0"></evaluation></td>
-        <td class="align-middle d-none d-lg-table-cell text-center pointer" @click="link" :title="$t('order.evaluations.item_description')"><evaluation :value="item.evaluation ? item.evaluation.item_description : 0"></evaluation></td>
-        <td class="align-middle d-none d-lg-table-cell text-center pointer" @click="link" :title="$t('order.evaluations.packaging')"><evaluation :value="item.evaluation ? item.evaluation.packaging : 0"></evaluation></td>
+        <td class="align-middle d-none d-lg-table-cell text-center pointer" @click="link">
+            <div class="d-flex align-items-center justify-content-around">
+                <div :title="$t('order.evaluations.grade')"><evaluation :value="item.evaluation ? item.evaluation.grade : 0"></evaluation></div>
+                <div :title="$t('order.evaluations.item_description')"><evaluation :value="item.evaluation ? item.evaluation.item_description : 0"></evaluation></div>
+                <div :title="$t('order.evaluations.packaging')"><evaluation :value="item.evaluation ? item.evaluation.packaging : 0"></evaluation></div>
+            </div>
+            <div class="text-overflow-ellipsis" v-if="item.evaluation && item.evaluation.comment">{{ item.evaluation.comment }}</div>
+        </td>
         <td class="align-middle text-right">
             <div class="btn-group btn-group-sm" role="group">
                 <button type="button" class="btn btn-secondary" :title="$t('app.actions.edit')" @click="link"><i class="fas fa-edit"></i></button>

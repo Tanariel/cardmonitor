@@ -5538,6 +5538,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -57303,51 +57308,66 @@ var render = function() {
       "td",
       {
         staticClass: "align-middle d-none d-lg-table-cell text-center pointer",
-        attrs: { title: _vm.$t("order.evaluations.grade") },
         on: { click: _vm.link }
       },
       [
-        _c("evaluation", {
-          attrs: { value: _vm.item.evaluation ? _vm.item.evaluation.grade : 0 }
-        })
-      ],
-      1
-    ),
-    _vm._v(" "),
-    _c(
-      "td",
-      {
-        staticClass: "align-middle d-none d-lg-table-cell text-center pointer",
-        attrs: { title: _vm.$t("order.evaluations.item_description") },
-        on: { click: _vm.link }
-      },
-      [
-        _c("evaluation", {
-          attrs: {
-            value: _vm.item.evaluation
-              ? _vm.item.evaluation.item_description
-              : 0
-          }
-        })
-      ],
-      1
-    ),
-    _vm._v(" "),
-    _c(
-      "td",
-      {
-        staticClass: "align-middle d-none d-lg-table-cell text-center pointer",
-        attrs: { title: _vm.$t("order.evaluations.packaging") },
-        on: { click: _vm.link }
-      },
-      [
-        _c("evaluation", {
-          attrs: {
-            value: _vm.item.evaluation ? _vm.item.evaluation.packaging : 0
-          }
-        })
-      ],
-      1
+        _c(
+          "div",
+          { staticClass: "d-flex align-items-center justify-content-around" },
+          [
+            _c(
+              "div",
+              { attrs: { title: _vm.$t("order.evaluations.grade") } },
+              [
+                _c("evaluation", {
+                  attrs: {
+                    value: _vm.item.evaluation ? _vm.item.evaluation.grade : 0
+                  }
+                })
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                attrs: { title: _vm.$t("order.evaluations.item_description") }
+              },
+              [
+                _c("evaluation", {
+                  attrs: {
+                    value: _vm.item.evaluation
+                      ? _vm.item.evaluation.item_description
+                      : 0
+                  }
+                })
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { attrs: { title: _vm.$t("order.evaluations.packaging") } },
+              [
+                _c("evaluation", {
+                  attrs: {
+                    value: _vm.item.evaluation
+                      ? _vm.item.evaluation.packaging
+                      : 0
+                  }
+                })
+              ],
+              1
+            )
+          ]
+        ),
+        _vm._v(" "),
+        _vm.item.evaluation && _vm.item.evaluation.comment
+          ? _c("div", { staticClass: "text-overflow-ellipsis" }, [
+              _vm._v(_vm._s(_vm.item.evaluation.comment))
+            ])
+          : _vm._e()
+      ]
     ),
     _vm._v(" "),
     _c("td", { staticClass: "align-middle text-right" }, [
@@ -57604,7 +57624,7 @@ var render = function() {
                     "th",
                     {
                       staticClass: "text-center d-none d-lg-table-cell",
-                      attrs: { colspan: "3", width: "10%" }
+                      attrs: { width: "10%" }
                     },
                     [_vm._v(_vm._s(_vm.$t("order.evaluations.singular")))]
                   ),
