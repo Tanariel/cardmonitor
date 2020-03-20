@@ -1,5 +1,5 @@
 <template>
-    <i class="fas fa-fw fa-circle" :class="classes" :title="title"></i>
+    <i class="fas fa-fw fa-circle" :class="classes" :title="value"></i>
 </template>
 
 <script>
@@ -11,15 +11,10 @@
             },
         },
 
-        data() {
-            var text = 'text-' + this.value.toLowerCase(),
-                title = this.value;
-
-            return {
-                classes: text,
-                title: title,
-            };
+        computed: {
+            classes() {
+                return 'text-' + this.value.toLowerCase()
+            }
         },
-
     };
 </script>
