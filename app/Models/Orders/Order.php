@@ -276,8 +276,8 @@ class Order extends Model
         }
 
         $sql = "SELECT
-                    YEAR(orders.received_at) AS year,
-                    MONTH(orders.received_at) AS month,
+                    YEAR(orders.paid_at) AS year,
+                    MONTH(orders.paid_at) AS month,
                     SUM(orders.revenue) AS revenue,
                     SUM(orders.cost) AS cost,
                     SUM(orders.profit) AS profit,
@@ -287,8 +287,8 @@ class Order extends Model
                     orders
                 WHERE
                     orders.user_id = :user_id AND
-                    orders.received_at IS NOT NULL AND
-                    orders.received_at BETWEEN :start AND :end
+                    orders.paid_at IS NOT NULL AND
+                    orders.paid_at BETWEEN :start AND :end
                 GROUP BY
                     year,
                     month";
