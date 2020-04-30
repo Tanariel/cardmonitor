@@ -27,7 +27,7 @@ class DownloadController extends Controller
         $this->makeDirectory($this->basePath);
 
         return [
-            'path' => $this->saveZip($userId, $orders),
+            'path' => $this->saveAll($userId, $orders),
         ];
     }
 
@@ -55,6 +55,48 @@ class DownloadController extends Controller
         }
 
         return '';
+    }
+
+    protected function saveAll(int $userId, Collection $orders) : string
+    {
+        $firstOrder = $orders->first();
+        $firstBuyer = $firstOrder->buyer;
+        $firstArticle = $firstOrder->articles->first();
+
+        $header = array_keys($firstBuyer->getAttributes());
+        foreach ($firstOrder->getAttributes() as $key => $value) {
+            $header[] = $key;
+        }
+        foreach ($firstArticle->getAttributes() as $key => $value) {
+            $header[] = $key;
+        }
+
+        $collection = new Collection();
+        foreach ($orders as $key => $order) {
+            foreach ($order->articles as $key => $article) {
+                $item = [];
+                foreach ($order->buyer->getAttributes() as $key => $value) {
+                    $item[] = $value;
+                }
+                foreach ($order->getAttributes() as $key => $value) {
+                    $item[] = $value;
+                }
+                foreach ($article->getAttributes() as $key => $value) {
+                    $item[] = $value;
+                }
+                $collection->push($item);
+            }
+        }
+
+        $csv = new Csv();
+        $path = $this->basePath . '/orders.csv';
+        $csv->collection($collection)
+            ->header($header)
+            ->callback( function($item) {
+                return $item;
+            })->save(Storage::disk('public')->path($path));
+
+        return Storage::disk('public')->url($path);
     }
 
     protected function saveCsv(Collection $collection, array $header, string $path)
