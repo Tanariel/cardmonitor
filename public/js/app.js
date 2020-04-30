@@ -5646,6 +5646,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -5755,6 +5756,16 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (error) {
         console.log(error);
       })["finally"](function () {});
+    },
+    download: function download() {
+      var component = this;
+      axios.post(component.uri + '/export/download').then(function (response) {
+        Vue.success('Datei heruntergeladen');
+        location.href = response.data.path;
+      })["catch"](function (error) {
+        Vue.error(component.$t('order.errors.loaded'));
+        console.log(error);
+      });
     },
     fetch: function fetch() {
       var component = this;
@@ -57479,6 +57490,16 @@ var render = function() {
               class: { "fa-spin": _vm.syncing.status == 1 }
             })
           ]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-secondary ml-1",
+            attrs: { disabled: _vm.syncing.status == 1 },
+            on: { click: _vm.download }
+          },
+          [_c("i", { staticClass: "fas fa-download" })]
         )
       ])
     ]),

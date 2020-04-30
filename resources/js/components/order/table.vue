@@ -8,6 +8,7 @@
                 </div>
                 <button class="btn btn-secondary ml-1" @click="filter.show = !filter.show"><i class="fas fa-filter"></i></button>
                 <button class="btn btn-secondary ml-1" @click="sync" :disabled="syncing.status == 1"><i class="fas fa-sync" :class="{'fa-spin': syncing.status == 1}"></i></button>
+                <button class="btn btn-secondary ml-1" @click="download" :disabled="syncing.status == 1"><i class="fas fa-download"></i></button>
             </div>
         </div>
 
@@ -188,6 +189,18 @@
                     })
                     .finally ( function () {
 
+                    });
+            },
+            download() {
+                var component = this;
+                axios.post(component.uri + '/export/download')
+                    .then(function (response) {
+                        Vue.success('Datei heruntergeladen');
+                        location.href = response.data.path;
+                    })
+                    .catch(function (error) {
+                        Vue.error(component.$t('order.errors.loaded'));
+                        console.log(error);
                     });
             },
             fetch() {

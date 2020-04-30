@@ -56,6 +56,8 @@ Route::middleware(['auth'])->group(function () {
         'destroy',
     ]);
 
+    Route::post('order/export/download', 'Orders\Export\DownloadController@store');
+
     Route::post('order/{order}/images', 'Images\ImageableController@store')->name('order.images.store');
 
     Route::get('order/sync', 'Cardmarket\Orders\OrderController@index');
