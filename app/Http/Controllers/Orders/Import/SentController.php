@@ -28,7 +28,7 @@ class SentController extends Controller
             }
             $columns = explode(';', $row);
             $cardmarket_order_id = $columns[0];
-            $order = Order::find($columns[0]);
+            $order = Order::where('user_id', $userId)->where('cardmarket_order_id', $columns[0])->first();
 
             $row_count++;
             if (is_null($order)) {
@@ -43,13 +43,12 @@ class SentController extends Controller
                 continue;
             }
 
-            $row_count++;
             $sent_count++;
         }
 
         return back()->with('status', [
             'type' => 'success',
-            'text' => $sent_count .'/' . $row_count - 1 . ' Bestellung als versendet markiert.',
+            'text' => $sent_count . '/' . ($row_count - 1) . ' Bestellung als versendet markiert.',
         ]);
     }
 }
