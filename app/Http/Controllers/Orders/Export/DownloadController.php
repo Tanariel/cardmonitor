@@ -95,6 +95,7 @@ class DownloadController extends Controller
         $articles = new Collection();
         foreach ($orders as $key => $order) {
             foreach ($order->articles as $key => $article) {
+                $article->order_id = $order->id;
                 $articles->push($article);
             }
         }
