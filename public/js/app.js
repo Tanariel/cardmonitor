@@ -5647,6 +5647,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -57500,7 +57504,9 @@ var render = function() {
             on: { click: _vm.download }
           },
           [_c("i", { staticClass: "fas fa-download" })]
-        )
+        ),
+        _vm._v(" "),
+        _vm._m(0)
       ])
     ]),
     _vm._v(" "),
@@ -57798,7 +57804,25 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "btn btn-secondary ml-1",
+        attrs: {
+          type: "button",
+          "data-toggle": "modal",
+          "data-target": "#import-sent"
+        }
+      },
+      [_c("i", { staticClass: "fas fa-upload" })]
+    )
+  }
+]
 render._withStripped = true
 
 

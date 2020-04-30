@@ -9,6 +9,9 @@
                 <button class="btn btn-secondary ml-1" @click="filter.show = !filter.show"><i class="fas fa-filter"></i></button>
                 <button class="btn btn-secondary ml-1" @click="sync" :disabled="syncing.status == 1"><i class="fas fa-sync" :class="{'fa-spin': syncing.status == 1}"></i></button>
                 <button class="btn btn-secondary ml-1" @click="download" :disabled="syncing.status == 1"><i class="fas fa-download"></i></button>
+                <button type="button" class="btn btn-secondary ml-1" data-toggle="modal" data-target="#import-sent">
+                    <i class="fas fa-upload"></i>
+                </button>
             </div>
         </div>
 
@@ -68,6 +71,7 @@
                 </li>
             </ul>
         </nav>
+
     </div>
 </template>
 
