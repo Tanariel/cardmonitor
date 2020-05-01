@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Orders\Export;
 
+use App\Exporters\Orders\CsvExporter;
 use App\Http\Controllers\Controller;
 use App\Models\Orders\Order;
 use App\Support\Csv\Csv;
@@ -28,7 +29,7 @@ class DownloadController extends Controller
         $this->makeDirectory($this->basePath);
 
         return [
-            'path' => $this->saveAll($userId, $orders),
+            'path' => CsvExporter::all($userId, $orders, $this->basePath . '/orders.csv'),
         ];
     }
 
