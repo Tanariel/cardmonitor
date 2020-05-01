@@ -21,6 +21,7 @@
         "mariuzzo/laravel-js-localization": "^1.5",
         "nemiah/php-fints": "^1.6",
         "nemiah/php-sepa-xml": "dev-master",
+        "spatie/flysystem-dropbox": "^1.2",
         "spatie/laravel-cookie-consent": "^2.10"
     },
     "require-dev": {

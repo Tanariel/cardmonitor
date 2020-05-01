@@ -57,6 +57,7 @@ Route::middleware(['auth'])->group(function () {
     ]);
 
     Route::post('order/export/download', 'Orders\Export\DownloadController@store');
+    Route::get('order/export/dropbox', 'Orders\Export\DropboxController@index');
 
     Route::post('order/import/sent', 'Orders\Import\SentController@store');
 
