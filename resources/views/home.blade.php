@@ -30,6 +30,7 @@
         @else
 
             <home-order-paid class="col-12 mb-3" :is-syncing-orders="{{ $is_syncing_orders }}"></home-order-paid>
+            @include('order.import.sent.create')
 
             <home-article-index class="col-12 col-lg mb-3 mb-xl-0" :is-syncing-articles="{{ $is_syncing_articles }}"></home-article-index>
 

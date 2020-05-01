@@ -197,10 +197,15 @@
             },
             download() {
                 var component = this;
-                axios.post(component.uri + '/export/download')
+                axios.post(component.uri + '/export/download', component.filter)
                     .then(function (response) {
-                        Vue.success('Datei heruntergeladen');
-                        location.href = response.data.path;
+                        if (response.data.path) {
+                            Vue.success('Datei heruntergeladen');
+                            location.href = response.data.path;
+                        }
+                        else {
+                            Vue.error(component.$t('order.errors.loaded'));
+                        }
                     })
                     .catch(function (error) {
                         Vue.error(component.$t('order.errors.loaded'));

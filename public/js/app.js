@@ -3778,6 +3778,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     isSyncingOrders: {
@@ -3809,6 +3811,20 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    download: function download() {
+      var component = this;
+      axios.post(component.uri + '/export/download', component.filter).then(function (response) {
+        if (response.data.path) {
+          Vue.success('Datei heruntergeladen');
+          location.href = response.data.path;
+        } else {
+          Vue.error(component.$t('order.errors.loaded'));
+        }
+      })["catch"](function (error) {
+        Vue.error(component.$t('order.errors.loaded'));
+        console.log(error);
+      });
+    },
     fetch: function fetch() {
       var component = this;
       component.isLoading = true;
@@ -5763,9 +5779,13 @@ __webpack_require__.r(__webpack_exports__);
     },
     download: function download() {
       var component = this;
-      axios.post(component.uri + '/export/download').then(function (response) {
-        Vue.success('Datei heruntergeladen');
-        location.href = response.data.path;
+      axios.post(component.uri + '/export/download', component.filter).then(function (response) {
+        if (response.data.path) {
+          Vue.success('Datei heruntergeladen');
+          location.href = response.data.path;
+        } else {
+          Vue.error(component.$t('order.errors.loaded'));
+        }
       })["catch"](function (error) {
         Vue.error(component.$t('order.errors.loaded'));
         console.log(error);
@@ -54260,7 +54280,7 @@ var render = function() {
   return _vm.items.length > 0
     ? _c("div", {}, [
         _c("div", { staticClass: "card h-100" }, [
-          _c("div", { staticClass: "card-header d-flex" }, [
+          _c("div", { staticClass: "card-header d-flex align-items-center" }, [
             _c("div", { staticClass: "col" }, [
               _vm._v(_vm._s(_vm.$t("order.home.paid.title")))
             ]),
@@ -54271,7 +54291,17 @@ var render = function() {
                 class: { "fa-spin": _vm.syncing.status == 1 },
                 on: { click: _vm.sync }
               })
-            ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "ml-3" }, [
+              _c("i", {
+                staticClass: "fas fa-download pointer",
+                attrs: { disabled: _vm.syncing.status == 1 },
+                on: { click: _vm.download }
+              })
+            ]),
+            _vm._v(" "),
+            _vm._m(0)
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "card-body" }, [
@@ -54366,7 +54396,19 @@ var render = function() {
       ])
     : _vm._e()
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "ml-3" }, [
+      _c("i", {
+        staticClass: "fas fa-upload pointer",
+        attrs: { "data-toggle": "modal", "data-target": "#import-sent" }
+      })
+    ])
+  }
+]
 render._withStripped = true
 
 

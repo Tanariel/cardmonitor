@@ -18,6 +18,7 @@ class DownloadController extends Controller
     {
         $userId = $request->user()->id;
         $orders = Order::where('user_id', $userId)
+            ->state($request->input('state'))
             ->with([
                 'articles',
                 'buyer',

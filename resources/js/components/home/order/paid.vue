@@ -1,9 +1,11 @@
 <template>
     <div class="" v-if="items.length > 0">
         <div class="card h-100">
-            <div class="card-header d-flex">
+            <div class="card-header d-flex align-items-center">
                 <div class="col">{{ $t('order.home.paid.title') }}</div>
                 <div><i class="fas fa-sync pointer" @click="sync" :class="{'fa-spin': syncing.status == 1}"></i></div>
+                <div class="ml-3" ><i class="fas fa-download pointer" @click="download" :disabled="syncing.status == 1"></i></div>
+                <div class="ml-3" ><i data-toggle="modal" data-target="#import-sent" class="fas fa-upload pointer"></i></div>
             </div>
 
             <div class="card-body">
@@ -75,6 +77,23 @@
         },
 
         methods: {
+            download() {
+                var component = this;
+                axios.post(component.uri + '/export/download', component.filter)
+                    .then(function (response) {
+                        if (response.data.path) {
+                            Vue.success('Datei heruntergeladen');
+                            location.href = response.data.path;
+                        }
+                        else {
+                            Vue.error(component.$t('order.errors.loaded'));
+                        }
+                    })
+                    .catch(function (error) {
+                        Vue.error(component.$t('order.errors.loaded'));
+                        console.log(error);
+                    });
+            },
             fetch() {
                 var component = this;
                 component.isLoading = true;
