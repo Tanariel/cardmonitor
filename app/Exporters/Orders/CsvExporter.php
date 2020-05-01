@@ -14,27 +14,16 @@ class CsvExporter
         $firstBuyer = $firstOrder->buyer;
         $firstArticle = $firstOrder->articles->first();
 
-        $header = array_keys($firstBuyer->getAttributes());
-        foreach ($firstOrder->getAttributes() as $key => $value) {
-            $header[] = $key;
-        }
-        foreach ($firstArticle->getAttributes() as $key => $value) {
-            $header[] = $key;
-        }
+        // $firstOrder->only([]);
+
+        $header = array_merge(array_keys($firstBuyer->getAttributes()), array_keys($firstOrder->getAttributes()), array_keys($firstArticle->getAttributes()));
 
         $collection = new Collection();
         foreach ($orders as $key => $order) {
+            $order_values = array_values($order->getAttributes());
+            $buyer_values = array_values($order->buyer->getAttributes());
             foreach ($order->articles as $key => $article) {
-                $item = [];
-                foreach ($order->buyer->getAttributes() as $key => $value) {
-                    $item[] = $value;
-                }
-                foreach ($order->getAttributes() as $key => $value) {
-                    $item[] = $value;
-                }
-                foreach ($article->getAttributes() as $key => $value) {
-                    $item[] = $value;
-                }
+                $item = array_merge($buyer_values, $order_values, array_values($article->getAttributes()));
                 $collection->push($item);
             }
         }
