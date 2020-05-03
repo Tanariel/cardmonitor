@@ -59,13 +59,13 @@ class Article extends Model
     protected $appends = [
         'localName',
         'path',
+        'price_rule_formatted',
         'provision_formatted',
         'state_icon',
         'state_key',
         'sync_icon',
         'unit_cost_formatted',
         'unit_price_formatted',
-        'price_rule_formatted',
     ];
 
     protected $casts = [
@@ -365,6 +365,11 @@ class Article extends Model
     {
         $this->attributes['provision'] = number_format(str_replace(',', '.', $value), self::DECIMALS, '.', '');
         Arr::forget($this->attributes, 'provision_formatted');
+    }
+
+    public function getAmountAttribute() : int
+    {
+        return 1;
     }
 
     public function getLocalNameAttribute() : string

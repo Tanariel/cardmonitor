@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class CardmarketUser extends Model
 {
+    protected $appends = [
+        'lastname',
+    ];
+
     protected $guarded = [];
 
     public $incrementing = false;
@@ -64,5 +68,10 @@ class CardmarketUser extends Model
         ];
 
         return self::updateOrCreate(['cardmarket_user_id' => $cardmarketUser['idUser']], $values);
+    }
+
+    public function getLastnameAttribute() : string
+    {
+        return trim(str_replace($this->firstname, '', $this->name));
     }
 }

@@ -2,19 +2,22 @@
 
 namespace Tests\Unit\Models\Users;
 
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\Models\Users\CardmarketUser;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
 
 class CardmarketUserTest extends TestCase
 {
     /**
-     * A basic unit test example.
-     *
-     * @return void
+     * @test
      */
-    public function testExample()
+    public function it_gets_its_lastname()
     {
-        $this->assertTrue(true);
+        $model = factory(CardmarketUser::class)->create([
+            'firstname' => 'Firstname',
+            'name' => 'Firstname Lastname',
+        ]);
+        $this->assertEquals('Lastname', $model->lastname);
     }
 }

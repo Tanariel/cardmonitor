@@ -51,9 +51,9 @@ class Order extends Model
 
     protected $appends = [
         'editPath',
+        'paid_at_formatted',
         'path',
         'revenue_formatted',
-        'paid_at_formatted',
     ];
 
     protected $dates = [
@@ -608,6 +608,16 @@ class Order extends Model
         $message = str_replace($search, $replace, $message);
 
         return $message;
+    }
+
+    public function getMkmNameAttribute() : string
+    {
+        return $this->mkm . $this->id;
+    }
+
+    public function getMkmAttribute() : string
+    {
+        return 'MKM';
     }
 
     public function getPathAttribute()
