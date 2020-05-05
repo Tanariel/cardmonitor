@@ -2,6 +2,7 @@
 
 namespace App\Models\Users;
 
+use App\Support\Locale;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -68,6 +69,11 @@ class CardmarketUser extends Model
         ];
 
         return self::updateOrCreate(['cardmarket_user_id' => $cardmarketUser['idUser']], $values);
+    }
+
+    public function getCountryAttribute() : string
+    {
+        return Locale::iso3166($this->attributes['country']);
     }
 
     public function getLastnameAttribute() : string

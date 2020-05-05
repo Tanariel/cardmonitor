@@ -21,4 +21,13 @@ class Locale
     {
         return __('user.locale.' . $lang, [], $locale);
     }
+
+    public static function iso3166(string $code) : string
+    {
+        if ($code == 'D') {
+            return 'DE';
+        }
+
+        return $code;
+    }
 }

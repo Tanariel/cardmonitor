@@ -11,6 +11,7 @@ use App\Models\Items\Transactions\Transaction;
 use App\Models\Orders\Evaluation;
 use App\Models\Storages\Content;
 use App\Models\Users\CardmarketUser;
+use App\Support\Locale;
 use App\User;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
@@ -553,6 +554,11 @@ class Order extends Model
         }
 
         return ($this->received_at->diffInDays($date ?? now()) <= self::DAYS_TO_HAVE_IAMGES);
+    }
+
+    public function getShippingCountryAttribute() : string
+    {
+        return Locale::iso3166($this->attributes['shipping_country']);
     }
 
     public function getRevenueFormattedAttribute()
