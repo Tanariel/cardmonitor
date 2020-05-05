@@ -372,6 +372,11 @@ class Article extends Model
         return 1;
     }
 
+    public function getPositionTypeAttribute() : string
+    {
+        return 'Artikel';
+    }
+
     public function getLocalNameAttribute() : string
     {
         return $this->card->localizations()->where('language_id', $this->language_id)->first()->name;

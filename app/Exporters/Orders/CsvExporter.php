@@ -32,6 +32,7 @@ class CsvExporter
         'shipping_zip',
         'shipping_city',
         'shipping_country',
+        'revenue',
 
     ];
     const ARTICLE_ATTRIBUTES = [
@@ -40,6 +41,7 @@ class CsvExporter
         'local_name',
         'unit_price',
         'amount',
+        'position_type',
     ];
 
     public static function all(int $userId, Collection $orders, string $path)
@@ -58,6 +60,17 @@ class CsvExporter
                 $item = array_merge($buyer_values, $order_values, array_values($article->only(self::ARTICLE_ATTRIBUTES)));
                 $collection->push($item);
             }
+            $shippingValuesArticle = $article->only(self::ARTICLE_ATTRIBUTES);
+            $shippingValuesArticle['unit_price'] = $order->shipment_revenue;
+            $shippingValuesArticle['position_type'] = 'Versandposition';
+            $shippingValuesArticle['local_name'] = $order->shippingmethod;
+            $shippingValuesArticle['card_id'] = '';
+            $shippingValuesArticle['cardmarket_article_id'] = '';
+
+            $shippingValuesOrder = $order->only(self::ORDER_ATTRIBUTES);
+            $shippingValuesOrder['revenue'] = $order->shipment_revenue;
+
+            $collection->push(array_merge($buyer_values, array_values($shippingValuesOrder), array_values($shippingValuesArticle)));
         }
 
         $csv = new Csv();
@@ -68,5 +81,10 @@ class CsvExporter
             })->save(Storage::disk('public')->path($path));
 
         return Storage::disk('public')->url($path);
+    }
+
+    protected static function shippingItem(array $buyer_values, array $order, array $article) : array
+    {
+        return [];
     }
 }
