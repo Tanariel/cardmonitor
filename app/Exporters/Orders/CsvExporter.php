@@ -3,6 +3,7 @@
 namespace App\Exporters\Orders;
 
 use App\Support\Csv\Csv;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 
@@ -70,7 +71,7 @@ class CsvExporter
             $shippingValuesOrder = $order->only(self::ORDER_ATTRIBUTES);
             $shippingValuesOrder['revenue'] = $order->shipment_revenue;
 
-            $collection->push(array_merge($buyer_values, array_values($shippingValuesOrder), array_values($shippingValuesArticle)));
+            $collection->push(self::shippingItem($buyer_values, $order, $article));
         }
 
         $csv = new Csv();
@@ -83,8 +84,18 @@ class CsvExporter
         return Storage::disk('public')->url($path);
     }
 
-    protected static function shippingItem(array $buyer_values, array $order, array $article) : array
+    protected static function shippingItem(array $buyer_values, Model $order, Model $article) : array
     {
-        return [];
+        $shippingValuesArticle = $article->only(self::ARTICLE_ATTRIBUTES);
+        $shippingValuesArticle['unit_price'] = $order->shipment_revenue;
+        $shippingValuesArticle['position_type'] = 'Versandposition';
+        $shippingValuesArticle['local_name'] = $order->shippingmethod;
+        $shippingValuesArticle['card_id'] = '';
+        $shippingValuesArticle['cardmarket_article_id'] = '';
+
+        $shippingValuesOrder = $order->only(self::ORDER_ATTRIBUTES);
+        $shippingValuesOrder['revenue'] = $order->shipment_revenue;
+
+        return array_merge($buyer_values, array_values($shippingValuesOrder), array_values($shippingValuesArticle));
     }
 }
