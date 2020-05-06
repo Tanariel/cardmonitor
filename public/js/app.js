@@ -3080,6 +3080,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -3097,13 +3103,14 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
+      errors: {},
       files: [],
       form: {
         language_id: 1,
         expansion_id: 0,
         game_id: 1
       },
-      errors: {}
+      isLoading: false
     };
   },
   mounted: function mounted() {},
@@ -3116,6 +3123,8 @@ __webpack_require__.r(__webpack_exports__);
         return;
       }
 
+      component.isLoading = true;
+      component.files = [];
       axios.post('/card/export', component.form).then(function (response) {
         if (response.data.files.length > 0) {
           Vue.success('Datei heruntergeladen'); // location.href = response.data.path;
@@ -3127,6 +3136,8 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (error) {
         Vue.error(component.$t('app.errors.loading'));
         console.log(error);
+      })["finally"](function () {
+        component.isLoading = false;
       });
     }
   }
@@ -53278,9 +53289,34 @@ var render = function() {
                 }
               })
             ]),
-            _vm._v(
-              "\n\n                Checkboxen zusätzliche Daten (Skryfall)\n\n                "
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.isLoading,
+                    expression: "isLoading"
+                  }
+                ],
+                staticClass: "mt-3 p-3"
+              },
+              [
+                _c("center", [
+                  _c("span", { staticStyle: { "font-size": "48px" } }, [
+                    _c("i", { staticClass: "fas fa-spinner fa-spin" }),
+                    _c("br")
+                  ]),
+                  _vm._v(
+                    "\n                        Lade Daten..\n                    "
+                  )
+                ])
+              ],
+              1
             ),
+            _vm._v(" "),
             _c(
               "div",
               {
@@ -53292,7 +53328,7 @@ var render = function() {
                     expression: "files.length > 0"
                   }
                 ],
-                staticClass: "row"
+                staticClass: "row mt-3 p-3"
               },
               _vm._l(_vm.files, function(file, index) {
                 return _c(
@@ -53302,7 +53338,7 @@ var render = function() {
                     attrs: { href: file.url }
                   },
                   [
-                    _c("i", { staticClass: "fas fa-file-csv fa-5x" }),
+                    _c("i", { staticClass: "fas fa-file-csv fa-4x" }),
                     _vm._v(" "),
                     _c("div", [_vm._v(_vm._s(file.basename))])
                   ]
@@ -53317,7 +53353,11 @@ var render = function() {
         _c("div", { staticClass: "card-footer" }, [
           _c(
             "button",
-            { staticClass: "btn btn-primary", on: { click: _vm.store } },
+            {
+              staticClass: "btn btn-primary",
+              attrs: { disabled: _vm.isLoading },
+              on: { click: _vm.store }
+            },
             [_vm._v("Exportieren")]
           )
         ])
@@ -76759,14 +76799,15 @@ __webpack_require__.r(__webpack_exports__);
 /*!*******************************************************!*\
   !*** ./resources/js/components/card/export/index.vue ***!
   \*******************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _index_vue_vue_type_template_id_2f7d7d9b___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.vue?vue&type=template&id=2f7d7d9b& */ "./resources/js/components/card/export/index.vue?vue&type=template&id=2f7d7d9b&");
 /* harmony import */ var _index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.vue?vue&type=script&lang=js& */ "./resources/js/components/card/export/index.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -76796,7 +76837,7 @@ component.options.__file = "resources/js/components/card/export/index.vue"
 /*!********************************************************************************!*\
   !*** ./resources/js/components/card/export/index.vue?vue&type=script&lang=js& ***!
   \********************************************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

@@ -15,18 +15,24 @@
                         <div class="invalid-feedback" v-text="'language_id' in errors ? errors.language_id[0] : ''"></div>
                     </div>
 
-                    Checkboxen zusätzliche Daten (Skryfall)
-
-                    <div class="row" v-show="files.length > 0">
+                    <div v-show="isLoading" class="mt-3 p-3">
+                        <center>
+                            <span style="font-size: 48px;">
+                                <i class="fas fa-spinner fa-spin"></i><br />
+                            </span>
+                            Lade Daten..
+                        </center>
+                    </div>
+                    <div class="row mt-3 p-3" v-show="files.length > 0">
                         <a :href="file.url" class="col text-center text-body" v-for="(file, index) in files">
-                            <i class="fas fa-file-csv fa-5x"></i>
+                            <i class="fas fa-file-csv fa-4x"></i>
                             <div>{{ file.basename }}</div>
                         </a>
                     </div>
 
                 </div>
                 <div class="card-footer">
-                    <button class="btn btn-primary" @click="store">Exportieren</button>
+                    <button class="btn btn-primary" @click="store" :disabled="isLoading">Exportieren</button>
                 </div>
             </div>
         </div>
@@ -55,13 +61,14 @@
 
         data() {
             return {
+                errors: {},
                 files: [],
                 form: {
                     language_id: 1,
                     expansion_id: 0,
                     game_id: 1,
                 },
-                errors: {},
+                isLoading: false,
             };
         },
 
@@ -78,6 +85,8 @@
                     return;
                 }
 
+                component.isLoading = true;
+                component.files = [];
                 axios.post('/card/export', component.form)
                     .then(function (response) {
                         if (response.data.files.length > 0) {
@@ -89,9 +98,12 @@
                             Vue.error('Dateien konnten nicht erstellt werden');
                         }
                     })
-                     .catch(function (error) {
+                    .catch(function (error) {
                         Vue.error(component.$t('app.errors.loading'));
                         console.log(error);
+                    })
+                    .finally( function () {
+                        component.isLoading = false;
                     });
             },
         },

@@ -136,7 +136,7 @@ class CsvController extends Controller
         foreach ($expansion->cards as $key => &$card) {
             $card->language = $expansion->language;
             $card_values = array_values($card->only(self::CARD_ATTRIBUTES));
-            $skryfall_values = $hasSkryfallExpansion ? array_values($this->getSkyfallValues($skryfallExpansion, $card->number)) : [];
+            $skryfall_values = $hasSkryfallExpansion ? array_values($this->getSkyfallValues($skryfallExpansion, $card->number ?? '')) : [];
 
             $item = array_merge($expansion_values, $card_values, $skryfall_values);
             $collection->push($item);
