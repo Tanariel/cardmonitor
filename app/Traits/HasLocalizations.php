@@ -23,4 +23,11 @@ trait HasLocalizations
     {
         return $this->morphMany(Localization::class, 'localizationable');
     }
+
+    public function setLanguageAttribute(Language $language)
+    {
+        $this->local_name = $this->localizations()->where('language_id', $language->id)->first()->name;
+        $this->local_id = $this->id . '-' . strtoupper($language->code);
+        $this->language = $language;
+    }
 }

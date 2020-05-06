@@ -3,6 +3,7 @@
 namespace App\Models\Cards;
 
 use App\Models\Expansions\Expansion;
+use App\Models\Localizations\Language;
 use App\Traits\HasLocalizations;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
