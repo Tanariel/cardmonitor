@@ -35,6 +35,42 @@ class CsvController extends Controller
         'released_at',
     ];
 
+    const SKRYFALL_ATTRIBUTES = [
+        'id',
+        'object',
+        'layout',
+        'image_uri_large',
+        'image_uri_png',
+        'mana_cost',
+        'cmc',
+        'type_line',
+        'oracle_text',
+        'power',
+        'toughness',
+        'colors_string',
+        'color_identity_string',
+        'legalities_future',
+        'legalities_historic',
+        'legalities_standard',
+        'legalities_pioneer',
+        'legalities_modern',
+        'legalities_legacy',
+        'legalities_pauper',
+        'legalities_vintage',
+        'legalities_penny',
+        'legalities_commander',
+        'legalities_brawl',
+        'legalities_duell',
+        'legalities_oldschool',
+        'set_type',
+        'collector_number',
+        'rarity',
+        'flavor_text',
+        'artist',
+        'border_color',
+        'frame',
+    ];
+
     /**
      * Display a listing of the resource.
      *
@@ -88,17 +124,21 @@ class CsvController extends Controller
 
     protected function cardmarketCsv(Expansion $expansion, Language $language)
     {
+        $skryfallExpansion = SkryfallExpansion::findByCode($expansion->abbreviation);
+        $hasSkryfallExpansion = (is_null($skryfallExpansion) ? false : true);
+
         $basename = 'cardmarket-' . strtolower($expansion->abbreviation) . '-' . $language->code . '.csv';
         $path = $this->basePath . '/' . $basename;
 
         $collection = new Collection();
-        $header = array_merge(self::EXPANSION_ATTRIBUTES, self::CARD_ATTRIBUTES);
+        $header = array_merge(self::EXPANSION_ATTRIBUTES, self::CARD_ATTRIBUTES, self::SKRYFALL_ATTRIBUTES);
         $expansion_values = array_values($expansion->only(self::EXPANSION_ATTRIBUTES));
         foreach ($expansion->cards as $key => &$card) {
             $card->language = $expansion->language;
             $card_values = array_values($card->only(self::CARD_ATTRIBUTES));
+            $skryfall_values = $hasSkryfallExpansion ? array_values($this->getSkyfallValues($skryfallExpansion, $card->number)) : [];
 
-            $item = array_merge($expansion_values, $card_values);
+            $item = array_merge($expansion_values, $card_values, $skryfall_values);
             $collection->push($item);
         }
 
@@ -113,6 +153,16 @@ class CsvController extends Controller
             'basename' => $basename,
             'url' => Storage::disk('public')->url($path),
         ];
+    }
+
+    protected function getSkyfallValues(SkryfallExpansion $expansion, string $collector_number) : array
+    {
+        $card = $expansion->cards->firstByNumber($collector_number);
+        if (is_null($card)) {
+            return [];
+        }
+
+        return $card->only(self::SKRYFALL_ATTRIBUTES);
     }
 
     /**
