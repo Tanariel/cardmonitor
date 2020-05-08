@@ -382,6 +382,13 @@ class Article extends Model
         return $this->card->localizations()->where('language_id', $this->language_id)->first()->name;
     }
 
+    public function getLocalCardIdAttribute() : string
+    {
+        $language = Language::find($this->language_id);
+
+        return $this->card_id . '-' . strtoupper($language->code) . ($this->is_foil ? '-F' : '');
+    }
+
     public function getPathAttribute()
     {
         return '/article/' . $this->id;
