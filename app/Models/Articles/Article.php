@@ -384,9 +384,7 @@ class Article extends Model
 
     public function getLocalCardIdAttribute() : string
     {
-        $language = Language::find($this->language_id);
-
-        return $this->card_id . '-' . strtoupper($language->code) . ($this->is_foil ? '-F' : '');
+        return $this->card_id . '-' . strtoupper($this->language->code) . ($this->is_foil ? '-F' : '');
     }
 
     public function getPathAttribute()

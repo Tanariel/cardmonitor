@@ -21,7 +21,7 @@ class DownloadController extends Controller
         $orders = Order::where('user_id', $userId)
             ->state($request->input('state'))
             ->with([
-                'articles',
+                'articles.language',
                 'buyer',
             ])->get();
 
