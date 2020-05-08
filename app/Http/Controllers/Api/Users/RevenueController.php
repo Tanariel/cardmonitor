@@ -43,12 +43,16 @@ class RevenueController extends Controller
             'to' => 'required|date',
         ]);
 
-        return $request->user()->orders()
+        $revenue = $request->user()->orders()
             ->whereBetween('paid_at', [
                 $attributes['from'],
                 $attributes['to']
             ])
             ->sum('revenue');
+
+        return [
+            'revenue' => $revenue,
+        ];
     }
 
     /**
