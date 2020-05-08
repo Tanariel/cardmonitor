@@ -62,6 +62,20 @@
                         </div>
                     </div>
                 </form>
+
+                <form action="/user/settings/api_token" method="POST">
+                    @csrf
+
+                    <div class="card mb-5">
+                        <div class="card-header">API Token</div>
+                        <div class="card-body">
+                            {{ $model->api_token ?: 'Kein Token vorhanden' }}
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary">Token generieren</button>
+                        </div>
+                    </div>
+                </form>
             </div>
             <div class="col-md-6">
                 <form action="{{ $model->path }}" method="POST">

@@ -115,5 +115,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/user/settings', 'Users\UserController@edit')->name('user.edit');
     Route::put('/user/settings', 'Users\UserController@update')->name('user.update');
+    Route::post('/user/settings/api_token', 'Users\ApiTokenController@store')->name('user.api_token.store');
+    Route::put('/user/settings/api_token', 'Users\ApiTokenController@update')->name('user.api_token.update');
 
 });

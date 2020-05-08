@@ -19,6 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('api_token', 80)->unique()->nullable()->default(null);
 
             $table->unsignedMediumInteger('credits')->default(0);
             $table->unsignedMediumInteger('balance_in_cents')->default(0);
