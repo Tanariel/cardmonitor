@@ -384,7 +384,7 @@ class Article extends Model
 
     public function getLocalCardIdAttribute() : string
     {
-        return $this->card_id . '-' . strtoupper($this->language->code) . ($this->is_foil ? '-F' : '');
+        return $this->card_id . '-' . strtoupper($this->language->code) . ($this->is_altered ? '-A' : '') . ($this->is_foil ? '-F' : '');
     }
 
     public function getPathAttribute()
