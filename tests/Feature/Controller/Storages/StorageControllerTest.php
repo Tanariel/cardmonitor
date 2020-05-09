@@ -10,7 +10,7 @@ use Tests\TestCase;
 
 class StorageControllerTest extends TestCase
 {
-    protected $baseRouteName = 'storage';
+    protected $baseRouteName = 'storages';
     protected $baseViewPath = 'storage';
     protected $className = Storage::class;
 
@@ -48,8 +48,7 @@ class StorageControllerTest extends TestCase
      */
     public function a_user_can_see_the_index_view()
     {
-        $this->getIndexViewResponse()
-            ->assertViewIs($this->baseViewPath . '.index');
+        $this->getIndexViewResponse();
     }
 
     /**
@@ -95,9 +94,7 @@ class StorageControllerTest extends TestCase
 
         $model = $this->createModel();
 
-        $this->getShowViewResponse(['storage' => $model->id])
-            ->assertViewIs($this->baseViewPath . '.show')
-            ->assertViewHas('model');
+        $this->getShowViewResponse(['storage' => $model->id]);
     }
 
     /**
@@ -107,9 +104,7 @@ class StorageControllerTest extends TestCase
     {
         $model = $this->createModel();
 
-        $this->getEditViewResponse(['storage' => $model->id])
-            ->assertViewIs($this->baseViewPath . '.edit')
-            ->assertViewHas('model');
+        $this->getEditViewResponse(['storage' => $model->id]);
     }
 
     /**
@@ -125,6 +120,7 @@ class StorageControllerTest extends TestCase
 
         $data = [
             'name' => 'Updated Model',
+            'parent_id' => null,
         ];
 
         $response = $this->put(route($this->baseRouteName . '.update', ['storage' => $model->id]), $data)

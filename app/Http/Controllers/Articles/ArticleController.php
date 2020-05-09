@@ -12,6 +12,7 @@ use App\Models\Localizations\Language;
 use App\Models\Rules\Rule;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class ArticleController extends Controller
 {
@@ -129,9 +130,9 @@ class ArticleController extends Controller
             'unit_price_formatted' => 'sometimes|required|formated_number',
             'unit_cost_formatted' => 'sometimes|required|formated_number',
         ]);
-        $articles = [];
 
-        for ($i=0; $i < $request->input('count'); $i++) {
+        $articles = [];
+        for ($i = 0; $i < $request->input('count'); $i++) {
             $article = Article::create($attributes);
 
             if ($request->input('sync')) {
@@ -149,7 +150,7 @@ class ArticleController extends Controller
             $articles[] = $article;
         }
 
-        return $articles;
+        return response()->json($articles, Response::HTTP_CREATED);
     }
 
     /**
@@ -185,6 +186,7 @@ class ArticleController extends Controller
      */
     public function update(Request $request, Article $article)
     {
+
         $article->update($request->validate([
             'cardmarket_comments' => 'sometimes|nullable|string',
             'language_id' => 'sometimes|required|integer',

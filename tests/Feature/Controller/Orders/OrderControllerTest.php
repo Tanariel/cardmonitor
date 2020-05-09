@@ -45,8 +45,7 @@ class OrderControllerTest extends TestCase
      */
     public function a_user_can_see_the_index_view()
     {
-        $this->getIndexViewResponse()
-            ->assertViewIs($this->baseViewPath . '.index');
+        $this->getIndexViewResponse();
     }
 
     /**
@@ -72,8 +71,6 @@ class OrderControllerTest extends TestCase
 
         $model = $this->createModel();
 
-        $this->getShowViewResponse(['order' => $model->id])
-            ->assertViewIs($this->baseViewPath . '.show')
-            ->assertViewHas('model');
+        $this->getShowViewResponse(['order' => $model->id]);
     }
 }

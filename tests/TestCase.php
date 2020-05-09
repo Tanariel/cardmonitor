@@ -171,10 +171,10 @@ abstract class TestCase extends BaseTestCase
         return $response;
     }
 
-    protected function createModel() : Model
+    protected function createModel(array $attributes = []) : Model
     {
         return factory($this->className)->create([
             'user_id' => $this->user->id,
-        ])->fresh();
+        ] + $attributes)->fresh();
     }
 }

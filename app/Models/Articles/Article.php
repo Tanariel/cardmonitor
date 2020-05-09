@@ -300,6 +300,10 @@ class Article extends Model
             'count' => 1,
         ]);
 
+        if (is_null($response)) {
+            return false;
+        }
+
         if (Arr::has($response['deleted'], 'message')) {
             $this->update([
                 'cardmarket_article_id' => null

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Controller\Items;
 
+use App\Models\Items\Card;
 use App\Models\Items\Custom;
 use App\Models\Items\Item;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -48,8 +49,7 @@ class ItemControllerTest extends TestCase
      */
     public function a_user_can_see_the_index_view()
     {
-        $this->getIndexViewResponse()
-            ->assertViewIs($this->baseViewPath . '.index');
+        $this->getIndexViewResponse();
     }
 
     /**
@@ -57,11 +57,7 @@ class ItemControllerTest extends TestCase
      */
     public function a_user_can_get_a_collection_of_models()
     {
-        $models = factory($this->className, 3)->create([
-            'user_id' => $this->user->id,
-        ]);
-
-        $this->getCollection();
+        $this->getCollection([], 4);
     }
 
     /**
@@ -95,9 +91,7 @@ class ItemControllerTest extends TestCase
 
         $model = $this->createModel();
 
-        $this->getShowViewResponse(['item' => $model->id])
-            ->assertViewIs($this->baseViewPath . '.show')
-            ->assertViewHas('model');
+        $this->getShowViewResponse(['item' => $model->id]);
     }
 
     /**
@@ -107,9 +101,7 @@ class ItemControllerTest extends TestCase
     {
         $model = $this->createModel();
 
-        $this->getEditViewResponse(['item' => $model->id])
-            ->assertViewIs($this->baseViewPath . '.edit')
-            ->assertViewHas('model');
+        $this->getEditViewResponse(['item' => $model->id]);
     }
 
     /**
@@ -156,18 +148,19 @@ class ItemControllerTest extends TestCase
     public function a_user_can_not_delete_special_models()
     {
         $table = 'items';
-        Item::setup($this->user);
+        $model = factory(Item::class)->create([
+            'type' => Card::class,
+            'user_id' => $this->user->id,
+        ]);
 
         $this->signIn();
 
-        foreach ($this->user->items as $key => $model) {
-            $this->assertFalse($model->isDeletable());
-            $response = $this->delete(route($this->baseRouteName . '.destroy', ['item' => $model->id]))
-                ->assertStatus(Response::HTTP_FOUND);
+        $this->assertFalse($model->isDeletable());
+        $response = $this->delete(route($this->baseRouteName . '.destroy', ['item' => $model->id]))
+            ->assertStatus(Response::HTTP_FOUND);
 
-            $this->assertDatabaseHas($table, [
-                'id' => $model->id
-            ]);
-        }
+        $this->assertDatabaseHas($table, [
+            'id' => $model->id
+        ]);
     }
 }

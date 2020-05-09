@@ -102,7 +102,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('storages/{storage}/content', 'Storages\ContentController@index')->name('storage.content.index');
     Route::post('storages/{storage}/content', 'Storages\ContentController@store')->name('storage.content.store');
 
-    Route::resource('transaction', 'Items\Transactions\TransactionController');
+    Route::get('transaction/{item}', 'Items\Transactions\TransactionController@index')->name('transaction.index');
+    Route::post('transaction/{item}', 'Items\Transactions\TransactionController@store')->name('transaction.store');
+    Route::resource('transaction', 'Items\Transactions\TransactionController')->except([
+        'index',
+        'store',
+    ]);
 
     Route::resource('quantity', 'Items\QuantityController')->except([
         'index',

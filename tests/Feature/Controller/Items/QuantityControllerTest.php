@@ -42,8 +42,7 @@ class QuantityControllerTest extends TestCase
     {
         $model = $this->createModel();
 
-        $this->getIndexViewResponse(['item' => $model->item_id])
-            ->assertViewIs($this->baseViewPath . '.index');
+        $this->getIndexViewResponse(['item' => $model->item_id]);
     }
 
     /**
@@ -81,9 +80,9 @@ class QuantityControllerTest extends TestCase
         $at = today()->setTime(12, 34, 0);
         $data = [
             'effective_from_formatted' => $at->format('d.m.Y H:i'),
-            'end_formatted' => null,
+            'end' => 2,
             'quantity_formatted' => '1',
-            'start_formatted' => '1,23',
+            'start' => 1,
         ];
 
         $this->post(route($this->baseRouteName . '.store', ['item' => $item->id]), $data)
@@ -91,9 +90,9 @@ class QuantityControllerTest extends TestCase
 
         $data = [
             'effective_from' => $at->format('Y-m-d H:i:s'),
-            'end' => null,
+            'end' => 2,
             'quantity' => 1,
-            'start' => 1.23,
+            'start' => 1,
         ];
 
         $this->assertDatabaseHas((new $this->className)->getTable(), [
@@ -109,9 +108,7 @@ class QuantityControllerTest extends TestCase
     {
         $model = $this->createModel();
 
-        $this->getShowViewResponse(['quantity' => $model->id])
-            ->assertViewIs($this->baseViewPath . '.show')
-            ->assertViewHas('model');
+        $this->getShowViewResponse(['quantity' => $model->id]);
     }
 
     /**
@@ -121,9 +118,7 @@ class QuantityControllerTest extends TestCase
     {
         $model = $this->createModel();
 
-        $this->getEditViewResponse(['quantity' => $model->id])
-            ->assertViewIs($this->baseViewPath . '.edit')
-            ->assertViewHas('model');
+        $this->getEditViewResponse(['quantity' => $model->id]);
     }
 
     /**
@@ -140,9 +135,9 @@ class QuantityControllerTest extends TestCase
         $at = today()->setTime(12, 34, 0);
         $data = [
             'effective_from_formatted' => $at->format('d.m.Y H:i'),
-            'end_formatted' => null,
+            'end' => 3,
             'quantity_formatted' => '1',
-            'start_formatted' => '1,23',
+            'start' => 2,
         ];
 
         $response = $this->put(route($this->baseRouteName . '.update', ['quantity' => $model->id]), $data)
@@ -151,9 +146,9 @@ class QuantityControllerTest extends TestCase
 
         $data = [
             'effective_from' => $at->format('Y-m-d H:i:s'),
-            'end' => null,
+            'end' => 3,
             'quantity' => 1,
-            'start' => 1.23,
+            'start' => 2,
         ];
 
         $this->assertDatabaseHas($model->getTable(), [

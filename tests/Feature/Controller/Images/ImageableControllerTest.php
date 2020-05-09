@@ -71,7 +71,7 @@ class ImageableControllerTest extends TestCase
     {
         $this->getIndexViewResponse([
                 'order' => $this->order->id,
-            ])->assertViewIs($this->baseViewPath . '.index');
+        ]);
     }
 
     /**

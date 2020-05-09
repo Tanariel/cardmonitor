@@ -9,6 +9,7 @@ use App\Models\Orders\Order;
 use App\Models\Rules\Rule;
 use App\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -49,14 +50,6 @@ class ArticleTest extends TestCase
     public function it_sets_unit_price_from_formated_value()
     {
         $this->assertSetsFormattedNumber(Article::class, 'unit_price');
-    }
-
-    /**
-     * @test
-     */
-    public function it_sets_rule_price_from_formated_value()
-    {
-        $this->assertSetsFormattedNumber(Article::class, 'rule_price');
     }
 
     /**
@@ -108,12 +101,11 @@ class ArticleTest extends TestCase
     /**
      * @test
      */
-    public function it_belongs_to_an_order()
+    public function it_belongs_to_many_orders()
     {
-        $model = factory(Article::class)->create([
-            'order_id' => factory(Order::class)->create()->id,
-        ]);
-        $this->assertEquals(BelongsTo::class, get_class($model->order()));
+        $parent = factory(Order::class)->create();
+        $model = factory(Article::class)->create();
+        $this->assertEquals(BelongsToMany::class, get_class($model->orders()));
     }
 
     /**
@@ -148,10 +140,12 @@ class ArticleTest extends TestCase
     public function it_can_be_reindexed()
     {
         $cardmarket_article_id = 1;
+        $card = factory(Card::class)->create();
 
         factory(Article::class, 3)->create([
             'cardmarket_article_id' => $cardmarket_article_id,
             'index' => 1,
+            'card_id' => $card->id,
         ]);
 
         $affected = Article::reindex($cardmarket_article_id);
@@ -193,7 +187,6 @@ class ArticleTest extends TestCase
         $model = factory(Article::class)->create();
         $cardmarketModel = $model->toCardmarket();
 
-        $this->assertArrayHasKey('idProduct', $cardmarketModel);
         $this->assertArrayHasKey('idLanguage', $cardmarketModel);
         $this->assertArrayHasKey('comments', $cardmarketModel);
         $this->assertArrayHasKey('count', $cardmarketModel);

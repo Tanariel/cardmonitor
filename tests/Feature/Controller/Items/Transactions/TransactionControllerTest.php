@@ -45,8 +45,7 @@ class TransactionControllerTest extends TestCase
     {
         $model = $this->createModel();
 
-        $this->getIndexViewResponse(['item' => $model->item_id])
-            ->assertViewIs($this->baseViewPath . '.index');
+        $this->getIndexViewResponse(['item' => $model->item_id]);
     }
 
     /**
@@ -117,9 +116,7 @@ class TransactionControllerTest extends TestCase
 
         $model = $this->createModel();
 
-        $this->getShowViewResponse(['transaction' => $model->id])
-            ->assertViewIs($this->baseViewPath . '.show')
-            ->assertViewHas('model');
+        $this->getShowViewResponse(['transaction' => $model->id]);
     }
 
     /**
@@ -129,9 +126,7 @@ class TransactionControllerTest extends TestCase
     {
         $model = $this->createModel();
 
-        $this->getEditViewResponse(['transaction' => $model->id])
-            ->assertViewIs($this->baseViewPath . '.edit')
-            ->assertViewHas('model');
+        $this->getEditViewResponse(['transaction' => $model->id]);
     }
 
     /**
@@ -182,7 +177,7 @@ class TransactionControllerTest extends TestCase
             ->assertRedirect();
     }
 
-    protected function createModel() : Model
+    protected function createModel(array $attributes = []) : Model
     {
         return factory($this->className)->create([
             'user_id' => $this->user->id,

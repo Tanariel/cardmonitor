@@ -6,6 +6,7 @@ use App\Models\Rules\Rule;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
+use Illuminate\Support\Arr;
 use Tests\TestCase;
 
 class RuleControllerTest extends TestCase
@@ -48,8 +49,7 @@ class RuleControllerTest extends TestCase
      */
     public function a_user_can_see_the_index_view()
     {
-        $this->getIndexViewResponse()
-            ->assertViewIs($this->baseViewPath . '.index');
+        $this->getIndexViewResponse();
     }
 
     /**
@@ -94,9 +94,7 @@ class RuleControllerTest extends TestCase
 
         $model = $this->createModel();
 
-        $this->getShowViewResponse(['rule' => $model->id])
-            ->assertViewIs($this->baseViewPath . '.show')
-            ->assertViewHas('model');
+        $this->getShowViewResponse(['rule' => $model->id]);
     }
 
     /**
@@ -106,9 +104,7 @@ class RuleControllerTest extends TestCase
     {
         $model = $this->createModel();
 
-        $this->getEditViewResponse(['rule' => $model->id])
-            ->assertViewIs($this->baseViewPath . '.edit')
-            ->assertViewHas('model');
+        $this->getEditViewResponse(['rule' => $model->id]);
     }
 
     /**
@@ -123,12 +119,49 @@ class RuleControllerTest extends TestCase
         $this->signIn($this->user);
 
         $data = [
+            'base_price' => 'trend',
+            'description' => null,
+            'expansion_id' => null,
+            'is_altered' => false,
+            'is_foil' => false,
+            'is_playset' => false,
+            'is_signed' => false,
+            'min_price_common_formatted' => '1,23',
+            'min_price_land_formatted' => '1,23',
+            'min_price_masterpiece_formatted' => '1,23',
+            'min_price_mythic_formatted' => '1,23',
+            'min_price_rare_formatted' => '1,23',
+            'min_price_special_formatted' => '1,23',
+            'min_price_time_shifted_formatted' => '1,23',
+            'min_price_tip_card_formatted' => '1,23',
+            'min_price_token_formatted' => '1,23',
+            'min_price_uncommon_formatted' => '1,23',
+            'multiplier_formatted' => '1,23',
             'name' => 'Updated Model',
+            'price_above_formatted' => '1,23',
+            'price_below_formatted' => '1,23',
+            'rarity' => null,
         ];
 
         $response = $this->put(route($this->baseRouteName . '.update', ['rule' => $model->id]), $data)
             ->assertStatus(Response::HTTP_FOUND)
             ->assertSessionHasNoErrors();
+
+        Arr::forget($data, [
+            'min_price_common_formatted',
+            'min_price_land_formatted',
+            'min_price_masterpiece_formatted',
+            'min_price_mythic_formatted',
+            'min_price_rare_formatted',
+            'min_price_special_formatted',
+            'min_price_time_shifted_formatted',
+            'min_price_tip_card_formatted',
+            'min_price_token_formatted',
+            'min_price_uncommon_formatted',
+            'multiplier_formatted',
+            'price_above_formatted',
+            'price_below_formatted',
+        ]);
 
         $this->assertDatabaseHas($model->getTable(), [
             'id' => $model->id,
