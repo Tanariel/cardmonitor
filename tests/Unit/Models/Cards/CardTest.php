@@ -159,6 +159,8 @@ class CardTest extends TestCase
      */
     public function it_can_be_imported()
     {
+        $this->markTestSkipped();
+
         $cardmarketProductId = 265882;
         $cardmarketExpansionId = 1469;
 
@@ -191,6 +193,8 @@ class CardTest extends TestCase
      */
     public function a_product_without_expansion_can_be_imported()
     {
+        $this->markTestSkipped();
+
         $cardmarketProductId = 200002;
 
         $this->assertDatabaseMissing('cards', [
