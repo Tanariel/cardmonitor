@@ -26,8 +26,9 @@ class UserTest extends TestCase
     public function it_creates_an_api_after_it_is_created()
     {
         $user = factory(User::class)->create();
-
-        $this->assertCount(1, $user->apis);
+        $this->assertDatabaseHas('apis', [
+            'user_id' => $user->id,
+        ]);
     }
 
     /**
@@ -35,7 +36,7 @@ class UserTest extends TestCase
      */
     public function it_sends_a_mail_when_created()
     {
-
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 
     /**
@@ -43,11 +44,15 @@ class UserTest extends TestCase
      */
     public function it_knows_if_a_user_can_pay_an_amount()
     {
-        $this->assertFalse($this->user->canPay(100));
+        $user = factory(User::class)->create([
+            'id' => 2,
+            'balance_in_cents' => 0,
+        ]);
+        $this->assertFalse($user->canPay(100));
 
-        $this->user->balance_in_cents = 100;
+        $user->balance_in_cents = 100;
 
-        $this->assertTrue($this->user->canPay(100));
+        $this->assertTrue($user->canPay(100));
     }
 
     /**
@@ -55,14 +60,16 @@ class UserTest extends TestCase
      */
     public function it_can_withdraw_its_balance()
     {
-        $this->user->balance_in_cents = 100;
-        $this->user->save();
+        $user = factory(User::class)->create([
+            'id' => 2,
+            'balance_in_cents' => 100,
+        ]);
 
-        $this->user->withdraw(100, 'test');
+        $user->withdraw(100, 'test');
 
-        $this->assertEquals(0, $this->user->fresh()->balance_in_cents);
+        $this->assertEquals(0, $user->fresh()->balance_in_cents);
         $this->assertDatabaseHas('balances', [
-            'user_id' => $this->user->id,
+            'user_id' => $user->id,
             'amount_in_cents' => 100,
             'type' => 'debit',
             'multiplier' => -1,
@@ -116,7 +123,7 @@ class UserTest extends TestCase
             'user_id' => $model->id,
         ]);
 
-        $this->assertHasMany($model, $related, 'items');
+        $this->assertHasMany($model, $related, 'items', 5);
     }
 
     /**

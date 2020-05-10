@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\Feature\Controller\Expansions;
+namespace Tests\Feature\Users;
 
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class ExpansionControllerTest extends TestCase
+class UserControllerTest extends TestCase
 {
     /**
      * A basic feature test example.
@@ -15,8 +15,6 @@ class ExpansionControllerTest extends TestCase
      */
     public function testExample()
     {
-        $response = $this->get('/');
-
-        $response->assertStatus(200);
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 }

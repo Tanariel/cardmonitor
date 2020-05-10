@@ -2,21 +2,22 @@
 
 namespace Tests\Feature\Commands\Article;
 
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Artisan;
+use Tests\TestCase;
 
 class SyncCommandTest extends TestCase
 {
     /**
-     * A basic feature test example.
-     *
-     * @return void
+     * @test
      */
-    public function testExample()
+    public function it_syncs_articles()
     {
-        $response = $this->get('/');
+        $this->markTestSkipped();
 
-        $response->assertStatus(200);
+        Artisan::call('article:sync', [
+            'user' => $this->user->id,
+        ]);
     }
 }

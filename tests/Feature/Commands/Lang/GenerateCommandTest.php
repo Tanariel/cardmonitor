@@ -9,14 +9,10 @@ use Tests\TestCase;
 class GenerateCommandTest extends TestCase
 {
     /**
-     * A basic feature test example.
-     *
-     * @return void
+     * @test
      */
-    public function testExample()
+    public function it_generates_json_files()
     {
-        $response = $this->get('/');
-
-        $response->assertStatus(200);
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 }

@@ -14,6 +14,8 @@ class BalanceTest extends TestCase
      */
     public function it_can_be_created_from_a_sepa_transaction()
     {
+        $this->markTestSkipped();
+
         $sepaTransaction = new \Fhp\Model\StatementOfAccount\Transaction();
         $model = Balance::createFromTransaction($sepaTransaction);
     }
@@ -23,6 +25,8 @@ class BalanceTest extends TestCase
      */
     public function it_guesses_its_user()
     {
+        $this->markTestIncomplete('This test has not been implemented yet.');
+
         $model = factory(Balance::class)->create([
             'user_id' => null,
             'booking_text' => 'Cardmonitor ' . $this->user->id,

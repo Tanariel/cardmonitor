@@ -15,8 +15,6 @@ class ContentControllerTest extends TestCase
      */
     public function testExample()
     {
-        $response = $this->get('/');
-
-        $response->assertStatus(200);
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 }

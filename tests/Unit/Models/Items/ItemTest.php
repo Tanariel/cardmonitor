@@ -73,7 +73,7 @@ class ItemTest extends TestCase
 
         $model->addQuantities($quantities, $effective_from);
 
-        $this->assertCount(count($quantities), Quantity::all());
+        $this->assertCount(count($quantities), Quantity::where('item_id', $model->id)->get());
 
         foreach ($quantities as $quantity => $value) {
             $this->assertDatabaseHas('quantities', [

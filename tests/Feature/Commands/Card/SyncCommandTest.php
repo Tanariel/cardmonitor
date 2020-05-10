@@ -14,6 +14,8 @@ class SyncCommandTest extends TestCase
      */
     public function it_syncs_products()
     {
+        $this->markTestSkipped();
+
         Artisan::call('card:sync');
     }
 }

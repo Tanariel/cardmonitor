@@ -16,6 +16,8 @@ class DevCommandTest extends TestCase
      */
     public function it_sets_up_the_dev_environment()
     {
+        $this->markTestSkipped();
+
         $api = factory(Api::class)->create([
             'user_id' => $this->user->id,
             'accessdata' => [

@@ -14,7 +14,7 @@ class LocaleTest extends TestCase
     public function it_gets_a_list_of_locales()
     {
         $data = Locale::list();
-        $this->assertInstanceOf($data, Collection::class);
+        $this->assertInstanceOf(Collection::class, $data);
     }
 
     /**

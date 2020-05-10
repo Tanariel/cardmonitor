@@ -6,6 +6,7 @@ use App\Models\Cards\Card;
 use App\Models\Expansions\Expansion;
 use App\Models\Localizations\Language;
 use App\Models\Localizations\Localization;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -22,7 +23,17 @@ class CardTest extends TestCase
     {
         $model = factory(Card::class)->create();
 
-        $this->assertMorphMany($model, Localization::class, 'localizations', 1);
+        $this->assertEquals(MorphMany::class, get_class($model->localizations()));
+
+        $this->assertCount(1, $model->fresh()->localizations);
+
+        $model->localizations()
+            ->create(factory(Localization::class)->make([
+                'language_id' => Language::DEFAULT_ID,
+            ])->toArray())
+            ->save();
+
+        $this->assertCount(2, $model->fresh()->localizations);
     }
 
     /**

@@ -29,7 +29,8 @@ class TransformerTest extends TestCase
     public function it_transforms_the_given_data()
     {
         $data = Transformer::transform(Game::ID_MAGIC, self::DATA_MAGIC);
-        dump($data);
+        // dump($data);
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 
     /**
@@ -37,7 +38,7 @@ class TransformerTest extends TestCase
      */
     public function it_throws_an_error_if_the_game_is_not_importable()
     {
-
+        $this->expectException(\InvalidArgumentException::class);
 
         Transformer::transformer(-1);
     }

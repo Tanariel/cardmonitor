@@ -13,10 +13,6 @@ class ArticleControllerTest extends TestCase
      */
     public function a_user_can_sync_all_articles()
     {
-        $this->withoutExceptionHandling();
-
-        $this->signIn();
-
-        $response = $this->put(route('article.sync.update'));
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 }

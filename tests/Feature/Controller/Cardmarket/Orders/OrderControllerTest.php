@@ -13,6 +13,6 @@ class OrderControllerTest extends TestCase
      */
     public function it_can_sync_one_order()
     {
-
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 }

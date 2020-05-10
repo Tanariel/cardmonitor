@@ -13,6 +13,6 @@ class SyncCommandTest extends TestCase
      */
     public function it_syncs_all_expansions()
     {
-
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 }

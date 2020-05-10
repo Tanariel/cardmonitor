@@ -27,20 +27,4 @@ class QuantityTest extends TestCase
     {
         $this->assertSetsFormattedNumber(Quantity::class, 'quantity');
     }
-
-    /**
-     * @test
-     */
-    public function it_sets_start_from_formated_value()
-    {
-        $this->assertSetsFormattedNumber(Quantity::class, 'start');
-    }
-
-    /**
-     * @test
-     */
-    public function it_sets_end_from_formated_value()
-    {
-        $this->assertSetsFormattedNullableNumber(Quantity::class, 'end');
-    }
 }

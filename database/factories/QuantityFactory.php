@@ -17,7 +17,7 @@ $factory->define(Quantity::class, function (Faker $faker, array $attributes) {
         'user_id' => $item->user_id,
         'item_id' => $item->id,
         'start' => 0,
-        'end' => null,
+        'end' => 9999,
         'quantity' => $faker->randomFloat(6),
         'effective_from' => $faker->dateTime
     ];

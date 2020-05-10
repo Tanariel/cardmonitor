@@ -4,10 +4,12 @@ namespace Tests\Unit\Models\Orders;
 
 use App\Models\Articles\Article;
 use App\Models\Images\Image;
+use App\Models\Items\Card;
 use App\Models\Items\Item;
 use App\Models\Orders\Evaluation;
 use App\Models\Orders\Order;
 use App\Models\Users\CardmarketUser;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -32,23 +34,39 @@ class OrderTest extends TestCase
      */
     public function it_knows_if_it_can_have_images()
     {
+        $buyer = factory(CardmarketUser::class)->create([
+            'cardmarket_user_id' => 1,
+        ]);
+
+        $seller = factory(CardmarketUser::class)->create([
+            'cardmarket_user_id' => 2,
+        ]);
+
         $model = factory(Order::class)->create([
             'received_at' => null,
+            'buyer_id' => $buyer->id,
+            'seller_id' => $seller->id,
         ]);
         $this->assertTrue($model->canHaveImages());
 
         $model = factory(Order::class)->create([
             'received_at' => now(),
+            'buyer_id' => $buyer->id,
+            'seller_id' => $seller->id,
         ]);
         $this->assertTrue($model->canHaveImages());
 
         $model = factory(Order::class)->create([
             'received_at' => now()->subDays(Order::DAYS_TO_HAVE_IAMGES),
+            'buyer_id' => $buyer->id,
+            'seller_id' => $seller->id,
         ]);
         $this->assertTrue($model->canHaveImages());
 
         $model = factory(Order::class)->create([
             'received_at' => now()->subDays((Order::DAYS_TO_HAVE_IAMGES + 1)),
+            'buyer_id' => $buyer->id,
+            'seller_id' => $seller->id,
         ]);
         $this->assertFalse($model->canHaveImages());
     }
@@ -69,14 +87,12 @@ class OrderTest extends TestCase
     /**
      * @test
      */
-    public function it_has_many_articles()
+    public function it_belongs_to_many_articles()
     {
         $model = factory(Order::class)->create();
-        $related = factory(Article::class)->create([
-            'order_id' => $model->id,
-        ]);
+        $related = factory(Article::class)->create();
 
-        $this->assertHasMany($model, $related, 'articles');
+        $this->assertEquals(BelongsToMany::class, get_class($model->articles()));
     }
 
     /**
@@ -122,7 +138,7 @@ class OrderTest extends TestCase
      */
     public function it_can_be_imported()
     {
-        $this->markTestIncomplete();
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 
     /**
@@ -131,7 +147,7 @@ class OrderTest extends TestCase
     public function it_finds_its_items()
     {
         $model = factory(Order::class)->create([
-            'cards_count' => 25,
+            'articles_count' => 25,
         ]);
 
         $item = factory(Item::class)->create([
@@ -146,16 +162,17 @@ class OrderTest extends TestCase
         ]);
         $item->quantities()->create([
             'effective_from' => '1970-00-00 02:00:00',
-            'end' => null,
+            'end' => 9999,
             'quantity' => 2,
             'start' => 51,
             'user_id' => $model->user_id,
         ]);
+
         $model->findItems();
 
-        $this->assertCount(1, $model->fresh()->sales);
+        $this->assertCount(1, $model->fresh()->sales()->where('item_id', $item->id)->get());
 
-        $this->assertEquals(1, $model->sales->first()->quantity);
+        $this->assertEquals(1, $model->sales()->where('item_id', $item->id)->first()->quantity);
 
     }
 }

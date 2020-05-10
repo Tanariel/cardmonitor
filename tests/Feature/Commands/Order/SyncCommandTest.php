@@ -24,24 +24,18 @@ class SyncCommandTest extends TestCase
 
         $this->api = factory(Api::class)->create([
             'user_id' => $this->user->id,
-            'accessdata' => [
-                'app_token' => '8Ts9QDnOCD7gukTV',
-                'app_secret' => 'Zy7x2e1gkVcCQat50qd8XtsyMA9qatRN',
-                'access_token' => 'LMDxSPkFfCBIYTULl3yHdswrwbYCZEzf',
-                'access_token_secret' => 'PgHYR3j8o0Itktu47AbkRRE1foccd91r',
-                'url' => CardmarketApi::URL_SANDBOX,
-            ],
+            'access_token' => 'LMDxSPkFfCBIYTULl3yHdswrwbYCZEzf',
+            'access_token_secret' => 'PgHYR3j8o0Itktu47AbkRRE1foccd91r',
         ]);
 
         $this->expansion = factory(Expansion::class)->create([
             'name' => 'Born of the Gods',
         ]);
-
-        $this->expansion->cards()->create(factory(Card::class)->create([
+        $this->expansion->cards()->create(factory(Card::class)->make([
             'cardmarket_product_id' => 265535,
         ])->toArray());
 
-        $this->expansion->cards()->create(factory(Card::class)->create([
+        $this->expansion->cards()->create(factory(Card::class)->make([
             'cardmarket_product_id' => 360083,
         ])->toArray());
 
@@ -74,13 +68,19 @@ class SyncCommandTest extends TestCase
      */
     public function it_syncs_orders_seller_received()
     {
-        $this->artisan('order:sync');
+        $this->markTestSkipped();
+
+        $this->artisan('order:sync', [
+            'user' => $this->user->id,
+        ]);
 
         $order = Order::with([
             'articles',
             'sales',
         ])->orderBy('id', 'DESC')
         ->first();
+
+        dd($order);
 
         $this->assertCount(3, $order->articles);
         $this->assertEquals(0.3, $order->articles_cost);
@@ -96,6 +96,8 @@ class SyncCommandTest extends TestCase
      */
     public function it_syncs_orders_seller_paid()
     {
+        $this->markTestSkipped();
+
         $this->artisan('order:sync --state=paid');
 
         $order = Order::with([
