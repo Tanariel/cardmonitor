@@ -37,6 +37,7 @@ class CreateOrdersTable extends Migration
             $table->string('shipping_zip');
             $table->string('shipping_city');
             $table->string('shipping_country');
+            $table->string('tracking_number')->nullable();
 
             $table->decimal('provision', 15, 6)->default(0);
 

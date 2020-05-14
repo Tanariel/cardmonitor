@@ -40,6 +40,9 @@ class SentController extends Controller
             try {
                 if ($tracking_number) {
                     $CardmarketApi->order->setTrackingNumber($order->cardmarket_order_id, $tracking_number);
+                    $order->update([
+                        'tracking_number' =>$tracking_number,
+                    ]);
                 }
                 $cardmarketOrder = $CardmarketApi->order->send($order->cardmarket_order_id);
                 $order->updateOrCreateFromCardmarket($userId, $cardmarketOrder['order']);
