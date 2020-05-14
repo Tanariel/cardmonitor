@@ -5,7 +5,9 @@
                 <div class="card-header">Erweiterungen von Cardmarket exportieren</div>
                 <div class="card-body">
 
-                    <filter-expansion :initial-value="form.expansion_id" :options="expansions" :show-label="false" :game-id="form.game_id" v-model="form.expansion_id"></filter-expansion>
+                    <filter-expansion :initial-value="form.expansion_id" :options="expansions" :show-label="true" :game-id="form.game_id" v-model="form.expansion_id"></filter-expansion>
+
+                    <filter-skryfall-expansion :initial-value="form.skryfall_expansion_code" :options="skryfallExpansions" :show-label="true" v-model="form.skryfall_expansion_code"></filter-skryfall-expansion>
 
                     <div class="form-group">
                         <label for="language">Sprache</label>
@@ -41,15 +43,21 @@
 
 <script>
     import filterExpansion from "../../filter/expansion.vue";
+    import filterSkryfallExpansion from "../../filter/skryfall-expansion.vue";
 
     export default {
 
         components: {
             filterExpansion,
+            filterSkryfallExpansion,
         },
 
         props: {
             expansions: {
+                type: Array,
+                required: true,
+            },
+            skryfallExpansions: {
                 type: Array,
                 required: true,
             },
@@ -66,6 +74,7 @@
                 form: {
                     language_id: 1,
                     expansion_id: 0,
+                    skryfall_expansion_code: 0,
                     game_id: 1,
                 },
                 isLoading: false,

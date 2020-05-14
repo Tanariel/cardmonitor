@@ -5,11 +5,15 @@ namespace App\Apis;
 use Illuminate\Database\Eloquent\Concerns\HasAttributes;
 use Illuminate\Database\Eloquent\Concerns\HasRelationships;
 use Illuminate\Database\Eloquent\Concerns\HasTimestamps;
+use Illuminate\Database\Eloquent\Concerns\HidesAttributes;
 use Illuminate\Support\Collection;
 
 class ApiModel
 {
-    use HasAttributes, HasTimestamps, HasRelationships;
+    use HasAttributes,
+        HasTimestamps,
+        HasRelationships,
+        HidesAttributes;
 
     /**
      * The name of the "created at" column.

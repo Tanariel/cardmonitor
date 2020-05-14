@@ -38,6 +38,7 @@ class CsvController extends Controller
     const SKRYFALL_ATTRIBUTES = [
         'id',
         'object',
+        'name',
         'layout',
         'image_uri_large',
         'image_uri_png',
@@ -84,6 +85,7 @@ class CsvController extends Controller
 
         return view('card.export.index')
             ->with('expansions', Expansion::all())
+            ->with('skryfall_expansions', SkryfallExpansion::all())
             ->with('languages', $languages);
     }
 
@@ -111,20 +113,26 @@ class CsvController extends Controller
             'cards',
         ])->find($request->input('expansion_id'));
         $expansion->language = $language;
+        $skryfall_expansion_code = ($request->input('skryfall_expansion_code') ?: $expansion->abbreviation);
+
+        $skryfallExpansion = SkryfallExpansion::findByCode($skryfall_expansion_code);
+        if (isset($skryfallExpansion)) {
+            $skryfallExpansion->cards = $skryfallExpansion->cards;
+        }
 
         $this->basePath = 'export/cards';
         Storage::disk('public')->makeDirectory($this->basePath);
 
         return [
             'files' => [
-                $this->cardmarketCsv($expansion, $language),
+                $this->cardmarketCsv($expansion, $language, $skryfallExpansion),
+                $this->skryfallCsv($skryfallExpansion),
             ],
         ];
     }
 
-    protected function cardmarketCsv(Expansion $expansion, Language $language)
+    protected function cardmarketCsv(Expansion $expansion, Language $language, $skryfallExpansion)
     {
-        $skryfallExpansion = SkryfallExpansion::findByCode($expansion->abbreviation);
         $hasSkryfallExpansion = (is_null($skryfallExpansion) ? false : true);
 
         $basename = 'cardmarket-' . strtolower($expansion->abbreviation) . '-' . $language->code . '.csv';
@@ -164,6 +172,35 @@ class CsvController extends Controller
 
         return $card->only(self::SKRYFALL_ATTRIBUTES);
     }
+
+    protected function skryfallCsv($skryfallExpansion)
+    {
+        if (is_null($skryfallExpansion)) {
+            return null;
+        }
+
+        $basename = 'skryfall-' . strtolower($skryfallExpansion->code) . '.csv';
+        $path = $this->basePath . '/' . $basename;
+
+        $collection = new Collection();
+        $header = self::SKRYFALL_ATTRIBUTES;
+        foreach ($skryfallExpansion->cards as $key => $card) {
+            $collection->push($card->only(self::SKRYFALL_ATTRIBUTES));
+        }
+
+        $csv = new Csv();
+        $csv->collection($collection)
+            ->header($header)
+            ->callback( function($item) {
+                return $item;
+            })->save(Storage::disk('public')->path($path));
+
+        return [
+            'basename' => $basename,
+            'url' => Storage::disk('public')->url($path),
+        ];
+    }
+
 
     /**
      * Display the specified resource.
