@@ -22,6 +22,7 @@ class DownloadController extends Controller
             ->state($request->input('state'))
             ->with([
                 'articles.language',
+                'articles.card.expansion',
                 'buyer',
             ])->get();
 

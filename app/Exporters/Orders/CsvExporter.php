@@ -20,6 +20,7 @@ class CsvExporter
         'zip',
         'city',
         'country',
+        'country_name',
     ];
     const ORDER_ATTRIBUTES = [
         'mkm',
@@ -33,6 +34,7 @@ class CsvExporter
         'shipping_zip',
         'shipping_city',
         'shipping_country',
+        'shipping_country_name',
         'revenue',
 
     ];

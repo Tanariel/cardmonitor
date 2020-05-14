@@ -138,7 +138,17 @@
             <div class="card mb-3">
                 <div class="card-header">{{ __('order.shipping_address') }}</div>
                 <div class="card-body">
-                    {!! nl2br($model->shippingAddressText) !!}
+                    <div>{!! nl2br($model->shippingAddressText) !!}</div>
+                    @if ($model->tracking_number)
+                        <div class="row">
+                            <div class="col-label">&nbsp;</div>
+                            <div class="col-value"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-label"><b>Sendungsnummer</b></div>
+                            <div class="col-value">{{ $model->tracking_number }}</div>
+                        </div>
+                    @endif
                 </div>
             </div>
 
