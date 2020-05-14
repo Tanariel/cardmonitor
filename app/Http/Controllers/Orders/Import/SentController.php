@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Orders\Import;
 use App\Http\Controllers\Controller;
 use App\Models\Orders\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class SentController extends Controller
 {
@@ -27,8 +28,9 @@ class SentController extends Controller
                 continue;
             }
             $columns = explode(';', $row);
-            $cardmarket_order_id = $columns[0];
-            $order = Order::where('user_id', $userId)->where('cardmarket_order_id', $columns[0])->first();
+            $cardmarket_order_id = Arr::get($columns, 0, 0);
+            $tracking_number = Arr::get($columns, 1, '');
+            $order = Order::where('user_id', $userId)->where('cardmarket_order_id', $cardmarket_order_id)->first();
 
             $row_count++;
             if (is_null($order)) {
@@ -36,6 +38,9 @@ class SentController extends Controller
             }
 
             try {
+                if ($tracking_number) {
+                    $CardmarketApi->order->setTrackingNumber($order->cardmarket_order_id, $tracking_number);
+                }
                 $cardmarketOrder = $CardmarketApi->order->send($order->cardmarket_order_id);
                 $order->updateOrCreateFromCardmarket($userId, $cardmarketOrder['order']);
             }

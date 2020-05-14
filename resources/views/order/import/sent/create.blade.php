@@ -18,9 +18,9 @@
                     <div class="card">
                         <div class="card-header">Beispieldatei</div>
                         <div class="card-body">
-                            <div>order_id;sent</div>
-                            <div>123456;1</div>
-                            <div>123457;1</div>
+                            <div>order_id;tracking_number</div>
+                            <div>123456;</div>
+                            <div>123457;AB123456789</div>
                         </div>
                     </div>
                 </div>
