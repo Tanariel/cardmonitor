@@ -561,6 +561,11 @@ class Order extends Model
         return Locale::iso3166($this->attributes['shipping_country']);
     }
 
+    public function getShippingCountryNameAttribute() : string
+    {
+        return Arr::get(config('app.iso3166_names'), $this->shipping_country, $this->shipping_country);
+    }
+
     public function getRevenueFormattedAttribute()
     {
         return number_format($this->revenue, 2, ',', '');

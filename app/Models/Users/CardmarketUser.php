@@ -5,6 +5,7 @@ namespace App\Models\Users;
 use App\Support\Locale;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 
 class CardmarketUser extends Model
 {
@@ -74,6 +75,11 @@ class CardmarketUser extends Model
     public function getCountryAttribute() : string
     {
         return Locale::iso3166($this->attributes['country']);
+    }
+
+    public function getCountryNameAttribute() : string
+    {
+        return Arr::get(config('app.iso3166_names'), $this->country, $this->country);
     }
 
     public function getLastnameAttribute() : string
