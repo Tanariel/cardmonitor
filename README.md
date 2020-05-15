@@ -35,7 +35,7 @@
 #### Costs
 
 - create cost items
-- calculating cost depending on card count
+- calculates costs depending on card count
 
 #### Rules for prices
 
@@ -58,7 +58,7 @@
 
 ## Contribute
 
-Contribution are very welcome!
+Contributions are very welcome!
 
 - report bugs and feature request in the issues
 - submit pull request with features or bug fixes
