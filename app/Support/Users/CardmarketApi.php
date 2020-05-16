@@ -6,6 +6,7 @@ use App\Models\Apis\Api;
 use App\Models\Articles\Article;
 use App\Models\Expansions\Expansion;
 use App\Models\Orders\Order;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
 
@@ -116,10 +117,11 @@ class CardmarketApi
         }
     }
 
-    public function syncOrders(string $actor, string $state)
+    public function syncOrders(string $actor, string $state) : Collection
     {
         $userId = $this->api->user_id;
         $cardmarketOrders_count = 0;
+        $orders = new Collection();
         $start = 1;
         do {
             $data = $this->cardmarketApi->order->find($actor, $state, $start);
@@ -127,7 +129,8 @@ class CardmarketApi
                 $data_count = count($data['order']);
                 $cardmarketOrders_count += $data_count;
                 foreach ($data['order'] as $cardmarketOrder) {
-                    Order::updateOrCreateFromCardmarket($userId, $cardmarketOrder);
+                    $order = Order::updateOrCreateFromCardmarket($userId, $cardmarketOrder);
+                    $orders->push($order);
                 }
                 $start += 100;
                 if ($data_count < 100) {
@@ -137,6 +140,8 @@ class CardmarketApi
             }
         }
         while (! is_null($data));
+
+        return $orders;
     }
 
     public function refresh()

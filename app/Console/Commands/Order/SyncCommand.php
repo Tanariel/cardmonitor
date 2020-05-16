@@ -49,7 +49,14 @@ class SyncCommand extends Command
 
         try {
             $this->processing();
-            $this->user->cardmarketApi->syncOrders($this->option('actor'), $this->option('state'));
+            $orders = Order::where('user_id', $this->user->id)->state($this->option('state'))->get();
+            $orderIds = $orders->pluck('id');
+            $syncedOrders = $this->user->cardmarketApi->syncOrders($this->option('actor'), $this->option('state'));
+            $notSyncedOrders = $orderIds->diff($syncedOrders);
+            foreach ($notSyncedOrders as $key => $orderId) {
+                $cardmarketOrder = $this->user->cardmarketApi->order->get($orderId);
+                Order::updateOrCreateFromCardmarket($this->user->id, $cardmarketOrder['order']);
+            }
         }
         finally {
             $this->processed();
