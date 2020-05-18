@@ -50,11 +50,7 @@ class CsvExporter
 
     public static function all(int $userId, Collection $orders, string $path)
     {
-        $firstOrder = $orders->first();
-        $firstBuyer = $firstOrder->buyer;
-        $firstArticle = $firstOrder->articles->first();
-
-        $header = array_merge(array_keys($firstBuyer->only(self::BUYER_ATTRIBUTES)), array_keys($firstOrder->only(self::ORDER_ATTRIBUTES)), array_keys($firstArticle->only(self::ARTICLE_ATTRIBUTES)));
+        $header = array_merge(self::BUYER_ATTRIBUTES, self::ORDER_ATTRIBUTES, self::ARTICLE_ATTRIBUTES);
 
         $collection = new Collection();
         foreach ($orders as $key => $order) {
