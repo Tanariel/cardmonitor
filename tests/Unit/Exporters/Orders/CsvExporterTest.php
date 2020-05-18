@@ -18,9 +18,10 @@ class CsvExporterTest extends TestCase
      */
     public function it_can_export_an_order()
     {
-        // Storage::fake('public');
+        Storage::fake('public');
 
         $path = 'export/' . $this->user->id . '/order/orders.csv';
+        Storage::disk('public')->makeDirectory(dirname($path));
 
         $article = factory(Article::class)->create([
             'user_id' => $this->user->id,
