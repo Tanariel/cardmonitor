@@ -19,6 +19,7 @@ class SentController extends Controller
         $userId = auth()->user()->id;
 
         $content = $attributes['import_sent_file']->get();
+
         $rows = explode("\n", $content);
         $row_count = 0;
         $sent_count = 0;
@@ -41,7 +42,7 @@ class SentController extends Controller
                 if ($tracking_number) {
                     $CardmarketApi->order->setTrackingNumber($order->cardmarket_order_id, $tracking_number);
                     $order->update([
-                        'tracking_number' =>$tracking_number,
+                        'tracking_number' => $tracking_number,
                     ]);
                 }
                 $cardmarketOrder = $CardmarketApi->order->send($order->cardmarket_order_id);
