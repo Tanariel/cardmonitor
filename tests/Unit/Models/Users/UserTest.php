@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Models\Users;
 
+use Mockery;
 use App\Models\Apis\Api;
 use App\Models\Articles\Article;
 use App\Models\Items\Item;

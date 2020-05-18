@@ -6,12 +6,19 @@ use App\Models\Cards\Card;
 use App\Models\Expansions\Expansion;
 use App\Models\Localizations\Language;
 use App\Models\Localizations\Localization;
+use Cardmonitor\Cardmarket\Expansion as CardmarketExpansion;
+use Cardmonitor\Cardmarket\Product;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Mockery;
 use Tests\TestCase;
 use Tests\Traits\RelationshipAssertions;
 
+/**
+ * @runTestsInSeparateProcesses
+ * @preserveGlobalState disabled
+ */
 class CardTest extends TestCase
 {
     use RelationshipAssertions;
@@ -159,10 +166,20 @@ class CardTest extends TestCase
      */
     public function it_can_be_imported()
     {
-        $this->markTestSkipped();
-
         $cardmarketProductId = 265882;
         $cardmarketExpansionId = 1469;
+
+        $returnValue = json_decode(file_get_contents('tests/snapshots/cardmarket/product/get.json'), true);
+        $productMock = Mockery::mock('overload:' . Product::class);
+        $productMock->shouldReceive('get')
+            ->with($cardmarketProductId)
+            ->andReturn($returnValue);
+
+        $returnValue = json_decode(file_get_contents('tests/snapshots/cardmarket/expansion/singles.json'), true);
+        $productMock = Mockery::mock('overload:' . CardmarketExpansion::class);
+        $productMock->shouldReceive('singles')
+            ->with($cardmarketExpansionId)
+            ->andReturn($returnValue);
 
         $this->assertDatabaseMissing('cards', [
             'id' => $cardmarketProductId,
@@ -186,6 +203,8 @@ class CardTest extends TestCase
 
         $this->assertEquals(1, Card::where('id', $cardmarketProductId)->count());
         $this->assertEquals(1, Expansion::where('id', $cardmarketExpansionId)->count());
+
+        Mockery::close();
     }
 
     /**
