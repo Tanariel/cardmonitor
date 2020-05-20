@@ -51,15 +51,26 @@ class CsvExporter
     public static function all(int $userId, Collection $orders, string $path)
     {
         $header = array_merge(self::BUYER_ATTRIBUTES, self::ORDER_ATTRIBUTES, self::ARTICLE_ATTRIBUTES);
-
+        $amountKey = array_search('amount', $header);
         $collection = new Collection();
         foreach ($orders as $key => $order) {
             $buyer_values = array_values($order->buyer->only(self::BUYER_ATTRIBUTES));
             $order_values = array_values($order->only(self::ORDER_ATTRIBUTES));
+            $amount = 1;
+            $lastCardmarketArticleId = $order->articles->first()->cardmarket_article_id;
+            $item = [];
             foreach ($order->articles as $key => $article) {
+                if ($lastCardmarketArticleId != $article->cardmarket_article_id) {
+                    $collection->push($item);
+                    $amount = 1;
+                }
                 $item = array_merge($buyer_values, $order_values, array_values($article->only(self::ARTICLE_ATTRIBUTES)));
-                $collection->push($item);
+                $item[$amountKey] = $amount;
+
+                $lastCardmarketArticleId = $article->cardmarket_article_id;
+                $amount++;
             }
+            $collection->push($item);
             $shippingValuesArticle = $article->only(self::ARTICLE_ATTRIBUTES);
             $shippingValuesArticle['unit_price'] = $order->shipment_revenue;
             $shippingValuesArticle['position_type'] = 'Versandposition';
