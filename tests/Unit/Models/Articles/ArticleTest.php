@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 use Tests\Traits\AttributeAssertions;
 use Tests\Traits\RelationshipAssertions;
@@ -219,5 +220,152 @@ class ArticleTest extends TestCase
         ]);
 
         $this->assertEquals(0, $model->condition_sort);
+    }
+
+    /**
+     * @test
+     */
+    public function it_gets_articles_grouped_by_cardmarket_article_id()
+    {
+        factory(Article::class, 3)->create([
+            'user_id' => $this->user->id,
+            'cardmarket_article_id' => 123,
+        ]);
+
+        $articles = Article::stock()
+            ->where('user_id', $this->user->id)
+            ->get();
+
+        $this->assertCount(1, $articles);
+        $this->assertEquals($this->user->id, $articles->first()->user_id);
+        $this->assertEquals('3', $articles->first()->amount);
+    }
+
+    /**
+     * @test
+     */
+    public function it_gets_its_amount()
+    {
+        $model = factory(Article::class)->create();
+        $model->refresh();
+
+        $this->assertEquals(Article::count(), $model->amount);
+
+        $model = $model->copy();
+
+        $this->assertEquals(Article::count(), $model->amount);
+
+        $model = $model->copy();
+
+        $this->assertEquals(Article::count(), $model->amount);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_be_copied()
+    {
+        $oldModel = factory(Article::class)->create();
+        $oldModel->refresh();
+        $newModel = $oldModel->copy();
+
+        $this->assertCount(2, Article::all());
+
+        $this->assertEquals($newModel->card_id, $oldModel->card_id);
+        $this->assertEquals($newModel->cardmarket_article_id, $oldModel->cardmarket_article_id);
+        $this->assertEquals($newModel->cardmarket_comments, $oldModel->cardmarket_comments);
+        $this->assertEquals($newModel->condition, $oldModel->condition);
+        $this->assertEquals($newModel->is_foil, $oldModel->is_foil);
+        $this->assertEquals($newModel->is_playset, $oldModel->is_playset);
+        $this->assertEquals($newModel->is_signed, $oldModel->is_signed);
+        $this->assertEquals($newModel->language_id, $oldModel->language_id);
+        $this->assertEquals($newModel->storage_id, $oldModel->storage_id);
+        $this->assertEquals($newModel->unit_cost, $oldModel->unit_cost);
+        $this->assertEquals($newModel->unit_price, $oldModel->unit_price);
+        $this->assertEquals($newModel->user_id, $oldModel->user_id);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_set_its_amount()
+    {
+        $model = factory(Article::class)->create();
+        $model->refresh();
+
+        $newAmount = 3;
+        $affected = 2;
+
+        $result = $model->setAmount($newAmount, $sync = false);
+        $this->assertCount($newAmount, Article::all());
+
+        $this->assertEquals($affected, $result['amount']);
+        $this->assertEquals($affected, $result['affected']);
+
+        $newAmount = 3;
+        $affected = 0;
+
+        $result = $model->setAmount($newAmount, $sync = false);
+        $this->assertCount($newAmount, Article::all());
+
+        $this->assertEquals($newAmount, $result['amount']);
+        $this->assertEquals($affected, $result['affected']);
+
+        $newAmount = 1;
+        $affected = 2;
+        $result = $model->setAmount($newAmount, $sync = false);
+        $this->assertCount($newAmount, Article::all());
+
+        $this->assertEquals($affected, $result['amount']);
+        $this->assertEquals($affected, $result['affected']);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_increment_its_amount()
+    {
+        $amount = 2;
+        $model = factory(Article::class)->create();
+        $model->refresh();
+
+        $result = $model->incrementAmount($amount, $sync = false);
+
+        $this->assertEquals($amount, $result['amount']);
+        $this->assertEquals($amount, $result['affected']);
+
+        $articles = Article::all();
+
+        $this->assertCount(3, $articles);
+        $this->assertEquals(1, $articles->first()->index);
+        $this->assertEquals(3, $articles->last()->index);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_decrement_its_amount()
+    {
+        $model = factory(Article::class)->create();
+        $model->refresh();
+
+        $this->assertEquals(Article::count(), $model->amount);
+
+        $model = $model->copy();
+
+        $this->assertEquals(Article::count(), $model->amount);
+
+        $model = $model->copy();
+
+        $this->assertEquals(Article::count(), $model->amount);
+
+        $amount = 2;
+        $result = $model->decrementAmount($amount, $sync = false);
+
+        $this->assertEquals($amount, $result['amount']);
+        $this->assertEquals($amount, $result['affected']);
+        $this->assertEquals(1, Article::count());
+        $this->assertEquals(1, Article::first()->index);
+
     }
 }

@@ -90,7 +90,8 @@
         </td>
         <td class="align-middle d-none d-xl-table-cell text-right">
             <input class="form-control text-right" :class="'provision_formatted' in errors ? 'is-invalid' : ''" type="text" v-model="form.provision_formatted" @keydown.enter="update">
-            <div class="invalid-feedback" v-text="'provision_formatted' in errors ? errors.provision_formatted[0] : ''"></div></td>
+            <div class="invalid-feedback" v-text="'provision_formatted' in errors ? errors.provision_formatted[0] : ''"></div>
+        </td>
         <td class="align-middle d-none d-xl-table-cell text-right pointer">{{ Number(item.unit_price - item.unit_cost - item.provision).format(2, ',', '.') }} €</td>
         <td class="align-middle d-none d-sm-table-cell text-right">
             <div class="btn-group btn-group-sm" role="group">
@@ -190,7 +191,7 @@
                     .then( function (response) {
                         component.errors = {};
                         component.$emit('updated', response.data);
-                        Vue.success((sync ? $t('app.successes.created_uploaded') : $t('app.successes.created')));
+                        Vue.success((sync ? component.$t('app.successes.created_uploaded') : component.$t('app.successes.created')));
                     })
                     .catch(function (error) {
                         component.errors = error.response.data.errors;

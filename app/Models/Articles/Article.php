@@ -322,6 +322,91 @@ class Article extends Model
         return $this->attributes['provision'];
     }
 
+    public function copy() : self
+    {
+        return self::create($this->only([
+            'card_id',
+            'cardmarket_article_id',
+            'cardmarket_comments',
+            'condition',
+            'is_foil',
+            'is_playset',
+            'is_signed',
+            'language_id',
+            'storage_id',
+            'unit_cost',
+            'unit_price',
+            'user_id',
+        ]));
+    }
+
+    public function setAmount(int $newAmount, bool $sync = true)
+    {
+        $difference = $newAmount - $this->amount;
+
+        if ($difference == 0) {
+            return [
+                'amount' => $newAmount,
+                'affected' => 0,
+            ];
+        }
+
+        return ($difference > 0 ? $this->incrementAmount($difference, $sync) : $this->decrementAmount(abs($difference), $sync));
+    }
+
+    public function incrementAmount(int $amount, bool $sync = true)
+    {
+        $created_count = 0;
+        for ($i = 0; $i < $amount; $i++) {
+            $model = $this->copy();
+            if ($sync) {
+                $model->cardmarket_article_id = '';
+                $model->syncAdd();
+            }
+
+            $created_count++;
+        }
+
+        self::reindex($this->cardmarket_article_id);
+
+        return [
+            'amount' => $amount,
+            'affected' => $created_count,
+        ];
+    }
+
+    public function decrementAmount(int $amount, bool $sync = true)
+    {
+        $articles = self::where('user_id', $this->user_id)
+            ->where('cardmarket_article_id', $this->cardmarket_article_id)
+            ->whereNull('sold_at')
+            ->orderBy('index', 'DESC')
+            ->limit($amount)
+            ->get();
+
+        $deleted_count = 0;
+        foreach ($articles as $key => $article) {
+            $isDeletable = $article->isDeletable();
+            if ($sync) {
+                $isDeletable = $article->syncDelete();
+            }
+
+            if (! $isDeletable) {
+                continue;
+            }
+
+            $article->delete();
+            $deleted_count++;
+        }
+
+        self::reindex($this->cardmarket_article_id);
+
+        return [
+            'amount' => $amount,
+            'affected' => $deleted_count,
+        ];
+    }
+
     public function setBoughtAtFormattedAttribute($value)
     {
         $this->attributes['bought_at'] = Carbon::createFromFormat('d.m.Y H:i', $value);
@@ -371,11 +456,6 @@ class Article extends Model
         Arr::forget($this->attributes, 'provision_formatted');
     }
 
-    public function getAmountAttribute() : int
-    {
-        return 1;
-    }
-
     public function getPositionTypeAttribute() : string
     {
         return 'Artikel';
@@ -389,6 +469,13 @@ class Article extends Model
     public function getLocalCardIdAttribute() : string
     {
         return $this->card_id . '-' . strtoupper($this->card->expansion->abbreviation) . '-' . strtoupper($this->language->code) . ($this->is_altered ? '-A' : '') . ($this->is_foil ? '-F' : '');
+    }
+
+    public function getAmountAttribute() : int
+    {
+        return self::where('user_id', $this->user_id)
+            ->where('cardmarket_article_id', $this->cardmarket_article_id)
+            ->count();
     }
 
     public function getPathAttribute()
@@ -598,6 +685,12 @@ class Article extends Model
         }
 
         return $query;
+    }
+
+    public function scopeStock(Builder $query) : Builder
+    {
+        return $query->select('articles.*', DB::raw('COUNT(*) AS amount'))
+            ->groupBy('cardmarket_article_id');
     }
 
     public function scopeSync(Builder $query, $value) : Builder
