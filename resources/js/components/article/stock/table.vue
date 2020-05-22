@@ -53,11 +53,8 @@
                         <th class="text-center d-none d-lg-table-cell">{{ $t('app.language') }}</th>
                         <th class="text-center d-none d-lg-table-cell">{{ $t('app.condition') }}</th>
                         <th class="d-none d-xl-table-cell" style="width: 100px;"></th>
-
+                        <th class="text-right d-none d-sm-table-cell">{{ $t('app.price_abbr') }}</th>
                         <th class="text-right d-none d-sm-table-cell">Bestand</th>
-
-
-
                         <th class="text-right d-none d-sm-table-cell w-action">{{ $t('app.actions.action') }}</th>
                     </tr>
                 </thead>

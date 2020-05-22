@@ -2612,6 +2612,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -2719,9 +2720,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _filter_rule_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../filter/rule.vue */ "./resources/js/components/filter/rule.vue");
 /* harmony import */ var _filter_search_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../filter/search.vue */ "./resources/js/components/filter/search.vue");
 /* harmony import */ var _row_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./row.vue */ "./resources/js/components/article/stock/row.vue");
-//
-//
-//
 //
 //
 //
@@ -53027,6 +53025,12 @@ var render = function() {
       ]
     ),
     _vm._v(" "),
+    _c(
+      "td",
+      { staticClass: "align-middle d-none d-sm-table-cell text-right" },
+      [_vm._v(_vm._s(Number(_vm.item.unit_price).format(2, ",", ".")) + " €")]
+    ),
+    _vm._v(" "),
     _c("td", { staticClass: "align-middle text-right pointer" }, [
       _c("input", {
         directives: [
@@ -53345,6 +53349,12 @@ var render = function() {
                     staticClass: "d-none d-xl-table-cell",
                     staticStyle: { width: "100px" }
                   }),
+                  _vm._v(" "),
+                  _c(
+                    "th",
+                    { staticClass: "text-right d-none d-sm-table-cell" },
+                    [_vm._v(_vm._s(_vm.$t("app.price_abbr")))]
+                  ),
                   _vm._v(" "),
                   _c(
                     "th",

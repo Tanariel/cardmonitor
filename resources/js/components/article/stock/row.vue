@@ -14,6 +14,7 @@
             <span v-if="item.is_signed">S</span>
             <span v-if="item.is_playset">P</span>
         </td>
+        <td class="align-middle d-none d-sm-table-cell text-right">{{ Number(item.unit_price).format(2, ',', '.') }} €</td>
         <td class="align-middle text-right pointer">
             <input class="form-control text-right" :class="'amount' in errors ? 'is-invalid' : ''" type="text" v-model="form.amount" @keydown.enter="update">
             <div class="invalid-feedback" v-text="'amount' in errors ? errors.amount[0] : ''"></div>
