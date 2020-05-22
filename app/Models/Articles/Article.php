@@ -315,6 +315,46 @@ class Article extends Model
         return $response['deleted']['success'];
     }
 
+    public function syncAmount() : void
+    {
+        $this->setCardmarketArticleIdForSimilar();
+
+        if (! $this->cardmarket_article_id) {
+            return;
+        }
+
+        $cardmarketArticle = $this->user->cardmarketApi->stock->article($this->max_cardmarket_article_id);
+        if (is_null($cardmarketArticle)) {
+            // search for similar product on cardmarket
+            // if found -> cardmarket_article_id update
+        }
+        $cardmarket_article_count = $cardmarketArticle['article']['count'];
+
+        if ($cardmarket_article_count == 0) {
+            return;
+        }
+
+        Article::reindex($this->cardmarket_article_id);
+
+        for($i = $this->amount; $i < $cardmarket_article_count; $i++) {
+            $this->copy();
+        }
+
+        Article::where('cardmarket_article_id', $this->cardmarket_article_id)
+            ->whereNull('sold_at')
+            ->where('index', '>', $cardmarket_article_count)
+            ->delete();
+
+        // Karten suchen card_id, condition, language, is_foil, is_signed, is_playset, is_altered, unit_price -> cardmarket_article_id aktualisieren
+    }
+
+    public function setCardmarketArticleIdForSimilar($cardmarket_article_id = null)
+    {
+        self::similarTo($this)->update([
+            'cardmarket_article_id' => $cardmarket_article_id ?? $this->max_cardmarket_article_id,
+        ]);
+    }
+
     public function calculateProvision() : float
     {
         $this->attributes['provision'] = ceil(self::PROVISION * ($this->unit_price * 100)) / 100;
@@ -329,6 +369,7 @@ class Article extends Model
             'cardmarket_article_id',
             'cardmarket_comments',
             'condition',
+            'is_altered',
             'is_foil',
             'is_playset',
             'is_signed',
@@ -342,6 +383,10 @@ class Article extends Model
 
     public function setAmount(int $newAmount, bool $sync = true)
     {
+        if ($sync) {
+            $this->syncAmount();
+        }
+
         $difference = $newAmount - $this->amount;
 
         if ($difference == 0) {
@@ -360,14 +405,16 @@ class Article extends Model
         for ($i = 0; $i < $amount; $i++) {
             $model = $this->copy();
             if ($sync) {
-                $model->cardmarket_article_id = '';
+                $model->cardmarket_article_id = null;
                 $model->syncAdd();
             }
 
             $created_count++;
         }
 
-        self::reindex($this->cardmarket_article_id);
+        if ($this->cardmarket_article_id) {
+            self::reindex($this->cardmarket_article_id);
+        }
 
         return [
             'amount' => $amount,
@@ -456,6 +503,11 @@ class Article extends Model
         Arr::forget($this->attributes, 'provision_formatted');
     }
 
+    public function getAmountAttribute() : int
+    {
+        return self::similarTo($this)->count();
+    }
+
     public function getPositionTypeAttribute() : string
     {
         return 'Artikel';
@@ -471,11 +523,9 @@ class Article extends Model
         return $this->card_id . '-' . strtoupper($this->card->expansion->abbreviation) . '-' . strtoupper($this->language->code) . ($this->is_altered ? '-A' : '') . ($this->is_foil ? '-F' : '');
     }
 
-    public function getAmountAttribute() : int
+    public function getMaxCardmarketArticleIdAttribute()
     {
-        return self::where('user_id', $this->user_id)
-            ->where('cardmarket_article_id', $this->cardmarket_article_id)
-            ->count();
+        return self::similarTo($this)->max('cardmarket_article_id');
     }
 
     public function getPathAttribute()
@@ -687,10 +737,35 @@ class Article extends Model
         return $query;
     }
 
+    public function scopeSimilarTo(Builder $query, self $article) : Builder
+    {
+        return $query->whereNull('sold_at')
+            ->where('user_id', $article->user_id)
+            ->where('card_id', $article->card_id)
+            ->where('language_id', $article->language_id)
+            ->where('condition', $article->condition)
+            ->where('is_foil', $article->is_foil)
+            ->where('is_altered', $article->is_altered)
+            ->where('is_signed', $article->is_signed)
+            ->where('is_playset', $article->is_playset)
+            ->where('unit_price', $article->unit_price)
+            ->where('cardmarket_comments', $article->cardmarket_comments);
+    }
+
     public function scopeStock(Builder $query) : Builder
     {
         return $query->select('articles.*', DB::raw('COUNT(*) AS amount'))
-            ->groupBy('cardmarket_article_id');
+            ->groupBy(
+                'articles.card_id',
+                'articles.language_id',
+                'articles.condition',
+                'articles.is_foil',
+                'articles.is_altered',
+                'articles.is_signed',
+                'articles.is_playset',
+                'articles.unit_price',
+                'articles.cardmarket_comments'
+            );
     }
 
     public function scopeSync(Builder $query, $value) : Builder

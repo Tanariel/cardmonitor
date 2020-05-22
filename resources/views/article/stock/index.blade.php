@@ -3,6 +3,9 @@
 @section('content')
 
     <h2>{{ __('app.nav.article') }} Bestand</h2>
+    <div class="alert alert-primary" role="alert">
+        Vor dem Ändern der Bestände zuerst alle Artikel synchronisieren!
+    </div>
     <article-stock-table
         :conditions="{{ json_encode($conditions) }}"
         :expansions="{{ json_encode($expansions) }}"

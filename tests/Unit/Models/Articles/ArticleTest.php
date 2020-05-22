@@ -2,12 +2,14 @@
 
 namespace Tests\Unit\Models\Articles;
 
+use Mockery;
 use App\Models\Articles\Article;
 use App\Models\Cards\Card;
 use App\Models\Localizations\Language;
 use App\Models\Orders\Order;
 use App\Models\Rules\Rule;
 use App\User;
+use Cardmonitor\Cardmarket\Stock;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -17,6 +19,10 @@ use Tests\TestCase;
 use Tests\Traits\AttributeAssertions;
 use Tests\Traits\RelationshipAssertions;
 
+/**
+ * @runTestsInSeparateProcesses
+ * @preserveGlobalState disabled
+ */
 class ArticleTest extends TestCase
 {
     use AttributeAssertions, RelationshipAssertions;
@@ -227,9 +233,14 @@ class ArticleTest extends TestCase
      */
     public function it_gets_articles_grouped_by_cardmarket_article_id()
     {
+        $card = factory(Card::class)->create();
+
         factory(Article::class, 3)->create([
-            'user_id' => $this->user->id,
+            'card_id' => $card->id,
             'cardmarket_article_id' => 123,
+            'condition' => 'NM',
+            'unit_price' => 1.230000,
+            'user_id' => $this->user->id,
         ]);
 
         $articles = Article::stock()
@@ -366,6 +377,164 @@ class ArticleTest extends TestCase
         $this->assertEquals($amount, $result['affected']);
         $this->assertEquals(1, Article::count());
         $this->assertEquals(1, Article::first()->index);
+    }
 
+    /**
+     * @test
+     */
+    public function it_can_get_the_max_cardmarket_article_attribute()
+    {
+        $cardmarket_article_id = 1;
+
+        $model = factory(Article::class)->create([
+            'cardmarket_article_id' => $cardmarket_article_id,
+        ]);
+        $model->refresh();
+
+        $model = $model->copy();
+        $model->update([
+            'cardmarket_article_id' => null,
+        ]);
+
+        $this->assertEquals($cardmarket_article_id, $model->max_cardmarket_article_id);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_set_the_cardmarket_article_id_for_similar_articles()
+    {
+        $cardmarket_article_id = 1;
+        $different_cardmarket_article_id = 2;
+
+        $model = factory(Article::class)->create([
+            'cardmarket_article_id' => $cardmarket_article_id,
+        ]);
+        $model->refresh();
+
+        $model = $model->copy();
+        $model->update([
+            'cardmarket_article_id' => null,
+        ]);
+
+        $differentModel = factory(Article::class)->create([
+            'user_id' => $model->user_id,
+            'cardmarket_article_id' => $different_cardmarket_article_id,
+        ]);
+        $model->refresh();
+
+        $model->setCardmarketArticleIdForSimilar();
+
+        $this->assertEquals($cardmarket_article_id, $model->fresh()->cardmarket_article_id);
+        $this->assertCount(2, Article::where('cardmarket_article_id', $cardmarket_article_id)->get());
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_sync_the_amount_from_cardmarket_lt()
+    {
+        $returnValue = json_decode(file_get_contents('tests/snapshots/cardmarket/stock/article.json'), true);
+        $cardmarket_article_id = $returnValue['article']['idArticle'];
+        $cardmarket_articles_count = $returnValue['article']['count'];
+
+        $stockMock = Mockery::mock('overload:' . Stock::class);
+        $stockMock->shouldReceive('article')
+            ->with($cardmarket_article_id)
+            ->andReturn($returnValue);
+
+        $model = factory(Article::class)->create([
+            'cardmarket_article_id' => $cardmarket_article_id,
+        ]);
+        $model->refresh();
+
+        $model->syncAmount();
+
+        $articles = Article::where('cardmarket_article_id', $cardmarket_article_id)->get();
+
+        $this->assertCount($cardmarket_articles_count, $articles);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_sync_the_amount_from_cardmarket_gt()
+    {
+        $returnValue = json_decode(file_get_contents('tests/snapshots/cardmarket/stock/article.json'), true);
+        $cardmarket_article_id = $returnValue['article']['idArticle'];
+        $cardmarket_articles_count = $returnValue['article']['count'];
+
+        $stockMock = Mockery::mock('overload:' . Stock::class);
+        $stockMock->shouldReceive('article')
+            ->with($cardmarket_article_id)
+            ->andReturn($returnValue);
+
+        $model = factory(Article::class)->create([
+            'cardmarket_article_id' => $cardmarket_article_id,
+        ]);
+        $model->refresh();
+        $model->copy();
+        $model->copy();
+
+        $model->syncAmount();
+
+        $articles = Article::where('cardmarket_article_id', $cardmarket_article_id)->get();
+
+        $this->assertCount($cardmarket_articles_count, $articles);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_sync_the_amount_from_cardmarket_eq()
+    {
+        $returnValue = json_decode(file_get_contents('tests/snapshots/cardmarket/stock/article.json'), true);
+        $cardmarket_article_id = $returnValue['article']['idArticle'];
+        $cardmarket_articles_count = $returnValue['article']['count'];
+
+        $stockMock = Mockery::mock('overload:' . Stock::class);
+        $stockMock->shouldReceive('article')
+            ->with($cardmarket_article_id)
+            ->andReturn($returnValue);
+
+        $model = factory(Article::class)->create([
+            'cardmarket_article_id' => $cardmarket_article_id,
+        ]);
+        $model->refresh();
+        $model->copy();
+
+        $model->syncAmount();
+
+        $articles = Article::where('cardmarket_article_id', $cardmarket_article_id)->get();
+
+        $this->assertCount($cardmarket_articles_count, $articles);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_sync_the_amount_from_cardmarket_invalid_cardmarket_article_id()
+    {
+        $this->markTestIncomplete('No way to search for similar articles on Cardmarket');
+
+        $returnValue = json_decode(file_get_contents('tests/snapshots/cardmarket/stock/article.json'), true);
+        $cardmarket_article_id = 1;
+        $cardmarket_articles_count = $returnValue['article']['count'];
+
+        $stockMock = Mockery::mock('overload:' . Stock::class);
+        $stockMock->shouldReceive('article')
+            ->with($cardmarket_article_id)
+            ->andReturn(null);
+
+        $model = factory(Article::class)->create([
+            'cardmarket_article_id' => $cardmarket_article_id,
+        ]);
+        $model->refresh();
+
+        $model->syncAmount();
+
+        $articles = Article::where('cardmarket_article_id', $cardmarket_article_id)->get();
+
+        $this->assertCount($cardmarket_articles_count, $articles);
     }
 }
