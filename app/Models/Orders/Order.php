@@ -478,7 +478,7 @@ class Order extends Model
             'card_id' => $card->id,
             'language_id' => $cardmarketArticle['language']['idLanguage'],
             'cardmarket_article_id' => $cardmarketArticle['idArticle'],
-            'storage_id' => Content::defaultStorage($this->user_id, $card->expansion_id),
+            'storage_id' => (is_null($card->expansion_id) ? null : Content::defaultStorage($this->user_id, $card->expansion_id)),
             'condition' => Arr::get($cardmarketArticle, 'condition', ''),
             'unit_price' => $cardmarketArticle['price'],
             'unit_cost' => Arr::get($this->cardDefaultPrices, ($cardmarketArticle['product']['rarity'] ?? ''), 0.02),
