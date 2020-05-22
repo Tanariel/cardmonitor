@@ -53113,15 +53113,9 @@ var render = function() {
               [_c("i", { staticClass: "fas fa-fw fa-cloud-upload-alt" })]
             ),
             _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-secondary",
-                attrs: { type: "button", title: _vm.$t("app.actions.delete") },
-                on: { click: _vm.destroy }
-              },
-              [_c("i", { staticClass: "fas fa-fw fa-trash" })]
-            )
+            false
+              ? undefined
+              : _vm._e()
           ]
         )
       ]

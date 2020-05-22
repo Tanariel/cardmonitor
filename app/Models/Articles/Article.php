@@ -318,10 +318,12 @@ class Article extends Model
     public function syncAmount() : void
     {
         $this->setCardmarketArticleIdForSimilar();
+        $this->refresh();
 
         if (! $this->cardmarket_article_id) {
             return;
         }
+
 
         $cardmarketArticle = $this->user->cardmarketApi->stock->article($this->max_cardmarket_article_id);
         if (is_null($cardmarketArticle)) {
@@ -344,8 +346,6 @@ class Article extends Model
             ->whereNull('sold_at')
             ->where('index', '>', $cardmarket_article_count)
             ->delete();
-
-        // Karten suchen card_id, condition, language, is_foil, is_signed, is_playset, is_altered, unit_price -> cardmarket_article_id aktualisieren
     }
 
     public function setCardmarketArticleIdForSimilar($cardmarket_article_id = null)
