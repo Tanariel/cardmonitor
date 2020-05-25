@@ -19,7 +19,10 @@ use Tests\TestCase;
 use Tests\Traits\AttributeAssertions;
 use Tests\Traits\RelationshipAssertions;
 
-
+/**
+ * @runTestsInSeparateProcesses
+ * @preserveGlobalState disabled
+ */
 class ArticleTest extends TestCase
 {
     use AttributeAssertions, RelationshipAssertions;
