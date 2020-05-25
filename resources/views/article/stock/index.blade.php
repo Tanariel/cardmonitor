@@ -16,4 +16,6 @@
         :rarities="{{ json_encode($rarities) }}"
     ></article-stock-table>
 
+    @include('article.stock.import.create')
+
 @endsection

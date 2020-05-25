@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Cache;
 
 class Expansion extends Model
 {
@@ -129,6 +130,15 @@ class Expansion extends Model
         }
 
         return self::import($cardmarketExpansionId);
+    }
+
+    public static function getByAbbreviation(string $abbreviation) : self
+    {
+        $abbreviation = strtoupper($abbreviation);
+
+        return Cache::rememberForever('expansion.' . $abbreviation, function () use ($abbreviation) {
+            return self::firstWhere('abbreviation', $abbreviation);
+        });
     }
 
     public static function import(int $cardmarketExpansionId) : self

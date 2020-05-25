@@ -19,6 +19,7 @@ class Magic
             'is_altered' => ($data[11] == 'X' ? true : false),
             'is_playset' => ($data[12] == 'X' ? true : false),
             'cardmarket_comments' => $data[13],
+            'amount' => $data[14],
             'has_sync_error' => false,
             'sync_error' => null,
         ];

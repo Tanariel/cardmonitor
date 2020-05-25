@@ -119,6 +119,7 @@ class Article extends Model
         // TODO: get rarity from card
 
         $values = Transformer::transform($gameId, $row);
+        Arr::forget($values, 'amount');
 
         $values['user_id'] = $userId;
         $values['storage_id'] = Content::defaultStorage($userId, $row['expansion_id']);
@@ -521,6 +522,38 @@ class Article extends Model
     public function getLocalCardIdAttribute() : string
     {
         return $this->card_id . '-' . strtoupper($this->card->expansion->abbreviation) . '-' . strtoupper($this->language->code) . ($this->is_altered ? '-A' : '') . ($this->is_foil ? '-F' : '');
+    }
+
+    public static function localCardIdToAttributes(string $local_card_id) : array
+    {
+        if (empty($local_card_id)) {
+            return [];
+        }
+
+        $parts = explode('-', $local_card_id);
+        $language = Language::getByCode($parts[2]);
+
+        $parts_count = count($parts);
+        $is_foil = false;
+        $is_altered = false;
+
+        if ($parts_count == 5) {
+            $is_foil = true;
+            $is_altered = true;
+        }
+        elseif ($parts_count == 4 && $parts['3'] == 'F') {
+            $is_foil = true;
+        }
+        elseif ($parts_count == 4 && $parts['3'] == 'A') {
+            $is_altered = true;
+        }
+
+        return [
+            'card_id' => $parts[0],
+            'language_id' => $language->id,
+            'is_foil' => $is_foil,
+            'is_altered' => $is_altered,
+        ];
     }
 
     public function getMaxCardmarketArticleIdAttribute()

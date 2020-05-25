@@ -48,6 +48,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('article/stock', 'Articles\Stock\StockController@index')->name('article.stock.index');
     Route::put('article/stock/{article}', 'Articles\Stock\StockController@update')->name('article.stock.update');
 
+    Route::post('article/stock/import', 'Articles\Stock\ImportController@store')->name('article.stock.store');
+
     Route::resource('article', 'Articles\ArticleController');
 
     Route::resource('card', 'Cards\CardController');

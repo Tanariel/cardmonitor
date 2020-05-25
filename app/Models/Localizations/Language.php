@@ -3,6 +3,7 @@
 namespace App\Models\Localizations;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 
 class Language extends Model
 {
@@ -16,6 +17,15 @@ class Language extends Model
         'code',
         'name',
     ];
+
+    public static function getByCode(string $code) : self
+    {
+        $code = strtolower($code);
+
+        return Cache::rememberForever('language.' . $code, function () use ($code) {
+            return self::firstWhere('code', $code);
+        });
+    }
 
     public static function setup()
     {

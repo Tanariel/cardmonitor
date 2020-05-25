@@ -19,6 +19,7 @@ class Yugioh
             'is_altered' => ($data[11] == 'X' ? true : false),
             'is_playset' => false,
             'cardmarket_comments' => $data[12],
+            'amount' => $data[13],
             'has_sync_error' => false,
             'sync_error' => null,
         ];

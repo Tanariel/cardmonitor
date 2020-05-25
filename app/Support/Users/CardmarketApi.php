@@ -48,9 +48,8 @@ class CardmarketApi
         }
     }
 
-    public function syncAllArticles(int $gameId = 1)
+    public function downloadStockFile(int $userId, int $gameId = 1) : string
     {
-        $userId = $this->api->user_id;
         $filename = $userId . '-stock-' . $gameId . '.csv';
         $zippedFilename = $filename . '.gz';
 
@@ -58,10 +57,24 @@ class CardmarketApi
         $created = Storage::disk('local')->put($zippedFilename, base64_decode($data['stock']));
 
         if ($created === false) {
-            return;
+            return '';
         }
 
         shell_exec('gunzip ' . storage_path('app/' . $filename));
+
+        Storage::disk('local')->delete($zippedFilename);
+
+        return $filename;
+    }
+
+    public function syncAllArticles(int $gameId = 1)
+    {
+        $userId = $this->api->user_id;
+        $filename = $this->downloadStockFile($userId, $gameId);
+
+        if (empty($filename)) {
+            return;
+        }
 
         $expansions = Expansion::where('game_id', $gameId)->get()->keyBy('abbreviation');
 

@@ -9,6 +9,7 @@ use App\Models\Localizations\Localization;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Cache;
 use Tests\TestCase;
 use Tests\Traits\RelationshipAssertions;
 
@@ -157,5 +158,20 @@ class ExpansionTest extends TestCase
         $model = Expansion::import($cardmarketExpansionId);
 
         $this->assertEquals(1, Expansion::where('id', $cardmarketExpansionId)->count());
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_get_a_model_by_abbreviation()
+    {
+        $abbreviation = 'abc';
+        $model = factory(Expansion::class)->create([
+            'abbreviation' => strtoupper($abbreviation),
+        ]);
+
+        $expansion = Expansion::getByAbbreviation($abbreviation);
+        $this->assertEquals($model->id, $expansion->id);
+        $this->assertTrue(Cache::has('expansion.' . strtoupper($abbreviation)));
     }
 }

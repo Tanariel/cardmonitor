@@ -19,10 +19,7 @@ use Tests\TestCase;
 use Tests\Traits\AttributeAssertions;
 use Tests\Traits\RelationshipAssertions;
 
-/**
- * @runTestsInSeparateProcesses
- * @preserveGlobalState disabled
- */
+
 class ArticleTest extends TestCase
 {
     use AttributeAssertions, RelationshipAssertions;
@@ -536,5 +533,63 @@ class ArticleTest extends TestCase
         $articles = Article::where('cardmarket_article_id', $cardmarket_article_id)->get();
 
         $this->assertCount($cardmarket_articles_count, $articles);
+    }
+
+    /**
+     * @test
+     */
+    public function it_gets_the_attributes_from_the_local_card_id()
+    {
+        $model = factory(Article::class)->create([
+            'is_foil' => false,
+            'is_altered' => false,
+        ]);
+        $model->refresh();
+
+        $attributes = Article::localCardIdToAttributes($model->local_card_id);
+
+        $this->assertEquals($model->card_id, $attributes['card_id']);
+        $this->assertEquals($model->language_id, $attributes['language_id']);
+        $this->assertEquals($model->is_foil, (int) $attributes['is_foil']);
+        $this->assertEquals($model->is_altered, (int) $attributes['is_altered']);
+
+        $model = factory(Article::class)->create([
+            'is_foil' => true,
+            'is_altered' => true,
+        ]);
+        $model->refresh();
+
+        $attributes = Article::localCardIdToAttributes($model->local_card_id);
+
+        $this->assertEquals($model->card_id, $attributes['card_id']);
+        $this->assertEquals($model->language_id, $attributes['language_id']);
+        $this->assertEquals($model->is_foil, (int) $attributes['is_foil']);
+        $this->assertEquals($model->is_altered, (int) $attributes['is_altered']);
+
+        $model = factory(Article::class)->create([
+            'is_foil' => true,
+            'is_altered' => false,
+        ]);
+        $model->refresh();
+
+        $attributes = Article::localCardIdToAttributes($model->local_card_id);
+
+        $this->assertEquals($model->card_id, $attributes['card_id']);
+        $this->assertEquals($model->language_id, $attributes['language_id']);
+        $this->assertEquals($model->is_foil, (int) $attributes['is_foil']);
+        $this->assertEquals($model->is_altered, (int) $attributes['is_altered']);
+
+        $model = factory(Article::class)->create([
+            'is_foil' => false,
+            'is_altered' => true,
+        ]);
+        $model->refresh();
+
+        $attributes = Article::localCardIdToAttributes($model->local_card_id);
+
+        $this->assertEquals($model->card_id, $attributes['card_id']);
+        $this->assertEquals($model->language_id, $attributes['language_id']);
+        $this->assertEquals($model->is_foil, (int) $attributes['is_foil']);
+        $this->assertEquals($model->is_altered, (int) $attributes['is_altered']);
     }
 }

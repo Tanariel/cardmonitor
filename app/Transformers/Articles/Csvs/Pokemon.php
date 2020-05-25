@@ -19,6 +19,7 @@ class Pokemon
             'is_altered' => ($data[13] == 'X' ? true : false),
             'is_playset' => ($data[12] == 'X' ? true : false),
             'cardmarket_comments' => $data[14],
+            'amount' => $data[15],
             'has_sync_error' => false,
             'sync_error' => null,
         ];
