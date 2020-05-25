@@ -153,7 +153,8 @@ class ImportCommand extends Command
     {
         $importStock = [];
 
-        $path = Storage::path($userId . '-stockimport-' . $gameId . '.csv');
+        $filename = $userId . '-stockimport-' . $gameId . '.csv';
+        $path = Storage::path($filename);
         $file = new \SplFileObject($path);
         $file->setCsvControl(';');
         $file->setFlags(\SplFileObject::SKIP_EMPTY | \SplFileObject::DROP_NEW_LINE);
@@ -174,6 +175,8 @@ class ImportCommand extends Command
 
             $rows_count++;
         }
+
+        Storage::disk('local')->delete($filename);
 
         return $importStock;
     }

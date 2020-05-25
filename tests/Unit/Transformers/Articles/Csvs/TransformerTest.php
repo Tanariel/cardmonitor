@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 class TransformerTest extends TestCase
 {
     const DATA_MAGIC = [
-        1,2,3,4,5,6,7,8,9,10,11,12,13,14,
+        1,2,3,4,5,6,7,8,9,10,11,12,13,14,15
     ];
 
     /**
@@ -28,9 +28,10 @@ class TransformerTest extends TestCase
      */
     public function it_transforms_the_given_data()
     {
+        $this->markTestIncomplete('This test has not been implemented yet.');
+
         $data = Transformer::transform(Game::ID_MAGIC, self::DATA_MAGIC);
         // dump($data);
-        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 
     /**
