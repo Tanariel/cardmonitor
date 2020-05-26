@@ -26,7 +26,7 @@ class SyncCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Add/Update received orders from cardmarket API';
+    protected $description = 'Add/Update orders from cardmarket API';
 
     /**
      * Create a new command instance.
@@ -49,9 +49,12 @@ class SyncCommand extends Command
 
         try {
             $this->processing();
+
             $orders = Order::where('user_id', $this->user->id)->state($this->option('state'))->get();
             $orderIds = $orders->pluck('id');
+
             $syncedOrders = $this->user->cardmarketApi->syncOrders($this->option('actor'), $this->option('state'));
+
             $notSyncedOrders = $orderIds->diff($syncedOrders);
             foreach ($notSyncedOrders as $key => $orderId) {
                 $cardmarketOrder = $this->user->cardmarketApi->order->get($orderId);

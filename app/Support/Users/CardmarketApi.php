@@ -134,7 +134,7 @@ class CardmarketApi
     {
         $userId = $this->api->user_id;
         $cardmarketOrders_count = 0;
-        $orders = new Collection();
+        $orderIds = new Collection();
         $start = 1;
         do {
             $data = $this->cardmarketApi->order->find($actor, $state, $start);
@@ -143,8 +143,8 @@ class CardmarketApi
                 $cardmarketOrders_count += $data_count;
                 foreach ($data['order'] as $cardmarketOrder) {
                     $order = Order::updateOrCreateFromCardmarket($userId, $cardmarketOrder);
-                    if ($state == 'sent') {
-                        $orders->push($order);
+                    if ($state == 'paid') {
+                        $orderIds->push($order->id);
                     }
                 }
                 $start += 100;
@@ -156,7 +156,7 @@ class CardmarketApi
         }
         while (! is_null($data));
 
-        return $orders;
+        return $orderIds;
     }
 
     public function refresh()
