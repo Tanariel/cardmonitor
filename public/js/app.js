@@ -61192,7 +61192,7 @@ var render = function() {
                       staticClass: "text-right d-none d-xl-table-cell",
                       attrs: { width: "10%" }
                     },
-                    [_vm._v(_vm._s(_vm.$t("app.artice")))]
+                    [_vm._v(_vm._s(_vm.$t("app.article")))]
                   ),
                   _vm._v(" "),
                   _c(

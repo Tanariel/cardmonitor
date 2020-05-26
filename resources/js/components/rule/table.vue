@@ -49,7 +49,7 @@
                         <th class="d-none d-sm-table-cell text-overflow-ellipsis" width="15%">{{ $t('app.expansion') }}</th>
                         <th class="text-center d-none d-sm-table-cell text-overflow-ellipsis" width="10%">{{ $t('app.rarity') }}</th>
                         <th class="d-none d-sm-table-cell" width="10%">{{ $t('rule.price_base') }}</th>
-                        <th class="text-right d-none d-xl-table-cell" width="10%">{{ $t('app.artice') }}</th>
+                        <th class="text-right d-none d-xl-table-cell" width="10%">{{ $t('app.article') }}</th>
                         <th class="text-right d-none d-xl-table-cell text-overflow-ellipsis" width="10%">{{ $t('app.price') }}</th>
                         <th class="text-right d-none d-lg-table-cell text-overflow-ellipsis" width="10%">{{ $t('app.price_rule') }}</th>
                         <th class="text-right d-none d-md-table-cell text-overflow-ellipsis" width="5%">{{ $t('app.difference') }}</th>
