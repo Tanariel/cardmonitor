@@ -37,13 +37,25 @@ class Article extends Model
     const CSV_AMOUNT = [
         Game::ID_MAGIC => 14,
         Game::ID_YUGIOH => 13,
-        Game::ID_POKEMON=> 15,
+        Game::ID_POKEMON => 15,
     ];
 
     const BASE_PRICES = [
-        'price_sell' => 'Durchschnittlicher Verkaufspreis',
-        'price_low' => 'Niedrigster Preis',
-        'price_trend' => 'Trend Preis',
+        'price_sell' => 'Durchschnittlicher Verkaufspreis für non-Foil',
+        'price_low' => 'Niedrigster Preis für non-Foil',
+        'price_trend' => 'Trend Preis für non-Foil',
+        'price_german_pro' => 'Niedrigster Preis von professionellen deutschen Verkäufern',
+        'price_suggested' => 'Vorgeschlagener Preis für professionelle Händler',
+        'price_foil_sell' => 'Durchschnittlicher Verkaufspreis für Foil',
+        'price_foil_low' => 'Niedrigster Preis (Zustand EX+) für Foil',
+        'price_foil_trend' => 'Trend Preis für Foil',
+        'price_low_ex' => 'Niedrigster Preis (Zustand EX+) für non-Foil',
+        'price_avg_1' => 'Durchschnittlicher Verkaufspreis letzter Tag für non-Foil',
+        'price_avg_7' => 'Durchschnittlicher Verkaufspreis letzte 7 Tage für non-Foil',
+        'price_avg_30' => 'Durchschnittlicher Verkaufspreis letzte 30 Tage für non-Foil',
+        'price_foil_avg_1' => 'Durchschnittlicher Verkaufspreis letzter Tag für Foil',
+        'price_foil_avg_7' => 'Durchschnittlicher Verkaufspreis letzte 7 Tage für Foil',
+        'price_foil_avg_30' => 'Durchschnittlicher Verkaufspreis letzte 30 Tage für Foil',
     ];
 
     const CONDITIONS = [
@@ -657,6 +669,33 @@ class Article extends Model
         }
 
         return $query->where('articles.is_foil', $value);
+    }
+
+    public function scopeIsSigned(Builder $query, $value) : Builder
+    {
+        if (is_null($value)) {
+            return $query;
+        }
+
+        return $query->where('articles.is_signed', $value);
+    }
+
+    public function scopeIsAltered(Builder $query, $value) : Builder
+    {
+        if (is_null($value)) {
+            return $query;
+        }
+
+        return $query->where('articles.is_altered', $value);
+    }
+
+    public function scopeIsPlayset(Builder $query, $value) : Builder
+    {
+        if (is_null($value)) {
+            return $query;
+        }
+
+        return $query->where('articles.is_playset', $value);
     }
 
     public function scopeCondition(Builder $query, $value, $operator = '=') : Builder

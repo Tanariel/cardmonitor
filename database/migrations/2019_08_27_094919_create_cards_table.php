@@ -32,13 +32,18 @@ class CreateCardsTable extends Migration
             $table->decimal('price_sell', 9, 2)->default(0);
             $table->decimal('price_low', 9, 2)->default(0);
             $table->decimal('price_trend', 9, 2)->default(0);
-            $table->decimal('price_avg', 9, 2)->default(0);
             $table->decimal('price_german_pro', 9, 2)->default(0);
             $table->decimal('price_suggested', 9, 2)->default(0);
             $table->decimal('price_foil_sell', 9, 2)->default(0);
             $table->decimal('price_foil_low', 9, 2)->default(0);
             $table->decimal('price_foil_trend', 9, 2)->default(0);
             $table->decimal('price_low_ex', 9, 2)->default(0);
+            $table->decimal('price_avg_1', 9, 2)->default(0);
+            $table->decimal('price_avg_7', 9, 2)->default(0);
+            $table->decimal('price_avg_30', 9, 2)->default(0);
+            $table->decimal('price_foil_avg_1', 9, 2)->default(0);
+            $table->decimal('price_foil_avg_7', 9, 2)->default(0);
+            $table->decimal('price_foil_avg_30', 9, 2)->default(0);
 
             $table->dateTime('prices_updated_at')->nullable();
 

@@ -51730,7 +51730,7 @@ var render = function() {
                                 attrs: { disabled: _vm.form.is_foil },
                                 on: {
                                   click: function($event) {
-                                    return _vm.setPrice("avg")
+                                    return _vm.setPrice("avg_1")
                                   }
                                 }
                               },

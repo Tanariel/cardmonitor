@@ -38,12 +38,18 @@ class Card extends Model
         'price_sell' => 'decimal:2',
         'price_low' => 'decimal:2',
         'price_trend' => 'decimal:2',
-        'price_avg' => 'decimal:2',
         'price_german_pro' => 'decimal:2',
+        'price_suggested' => 'decimal:2',
         'price_foil_sell' => 'decimal:2',
         'price_foil_low' => 'decimal:2',
         'price_foil_trend' => 'decimal:2',
         'price_low_ex' => 'decimal:2',
+        'price_avg_1' => 'decimal:2',
+        'price_avg_7' => 'decimal:2',
+        'price_avg_30' => 'decimal:2',
+        'price_foil_avg_1' => 'decimal:2',
+        'price_foil_avg_7' => 'decimal:2',
+        'price_foil_avg_30' => 'decimal:2',
     ];
 
     protected $dates = [
@@ -195,16 +201,21 @@ class Card extends Model
     public static function updatePricesFromCardmarket(array $data)
     {
         return self::where('id', $data[0])->update([
-            'price_sell' => $data[1] ?: 0,
-            'price_avg' => $data[1] ?: 0,
-            'price_low' => $data[2] ?: 0,
-            'price_trend' => $data[3] ?: 0,
-            'price_german_pro' => $data[4] ?: 0,
-            'price_suggested' => $data[5] ?: 0,
-            'price_foil_sell' => $data[6] ?: 0,
-            'price_foil_low' => $data[7] ?: 0,
-            'price_foil_trend' => $data[8] ?: 0,
-            'price_low_ex' => $data[9] ?: 0,
+            'price_sell' =>Arr::get($data, 1, 0),
+            'price_low' => Arr::get($data, 2, 0),
+            'price_trend' => Arr::get($data, 3, 0),
+            'price_german_pro' => Arr::get($data, 4, 0),
+            'price_suggested' => Arr::get($data, 5, 0),
+            'price_foil_sell' => Arr::get($data, 6, 0),
+            'price_foil_low' => Arr::get($data, 7, 0),
+            'price_foil_trend' => Arr::get($data, 8, 0),
+            'price_low_ex' => Arr::get($data, 9, 0),
+            'price_avg_1' => Arr::get($data, 10, 0),
+            'price_avg_7' => Arr::get($data, 11, 0),
+            'price_avg_30' => Arr::get($data, 12, 0),
+            'price_foil_avg_1' => Arr::get($data, 13, 0),
+            'price_foil_avg_7' => Arr::get($data, 14, 0),
+            'price_foil_avg_30' => Arr::get($data, 15, 0),
             'prices_updated_at' => now(),
         ]);
     }
@@ -251,8 +262,11 @@ class Card extends Model
         $this->attributes['price_low'] = $cardMarketPriceGuide['LOW'];
         $this->attributes['price_low_ex'] = $cardMarketPriceGuide['LOWEX'];
         $this->attributes['price_foil_low'] = $cardMarketPriceGuide['LOWFOIL'];
-        $this->attributes['price_avg'] = $cardMarketPriceGuide['AVG'];
+        $this->attributes['price_avg_1'] = $cardMarketPriceGuide['AVG'];
         $this->attributes['price_trend'] = $cardMarketPriceGuide['TREND'];
+        if (Arr::has($cardMarketPriceGuide, 'TRENDFOIL')) {
+            $this->attributes['price_foil_trend'] = $cardMarketPriceGuide['TRENDFOIL'];
+        }
         $this->prices_updated_at = now();
 
         return $this;

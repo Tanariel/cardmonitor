@@ -32,6 +32,8 @@ class CreateUsersTable extends Migration
             $table->boolean('is_syncing_articles')->default(false);
             $table->boolean('is_syncing_orders')->default(false);
 
+            $table->boolean('is_sandbox_account')->default(false);
+
             $table->rememberToken();
             $table->timestamps();
         });

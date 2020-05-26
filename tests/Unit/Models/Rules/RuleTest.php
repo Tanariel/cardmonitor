@@ -96,4 +96,51 @@ class RuleTest extends TestCase
 
         $this->assertEquals($ruleExpansion->id, Rule::findForCard($this->user->id, $card)->id);
     }
+
+    /**
+     * @test
+     */
+    public function it_can_be_applied()
+    {
+        $this->markTestSkipped('Sqlite can not join on update');
+
+        $card = factory(Card::class)->create([
+            'rarity' => 'rare',
+            'price_trend' => 2.00,
+        ]);
+        $card->refresh();
+
+        $article = factory(Article::class)->create([
+            'card_id' => $card->id,
+            'user_id' => $this->user->id,
+            'unit_price' => 1.00,
+            'condition' => 'NM',
+        ]);
+        $article->refresh();
+
+        $rule = factory(Rule::class)->create([
+            'user_id' => $this->user->id,
+            'active' => true,
+            'base_price' => 'price_trend',
+            'multiplier' => 1,
+            'price_above' => 0.02,
+            'price_below' => 3.00,
+            'is_foil' => false,
+            'is_signed' => false,
+            'is_altered' => false,
+            'is_playset' => false,
+            'min_price_rare' => 0.5,
+            'condition' => 'NM',
+            'game_id' => 1,
+        ]);
+        $rule->refresh();
+
+        $rule->apply($sync = true);
+
+        $article->refresh();
+
+        $this->assertEquals($rule->id, $article->rule_id);
+        $this->assertEquals(5, $article->price_rule);
+        $this->assertEquals(5, $article->unit_price);
+    }
 }

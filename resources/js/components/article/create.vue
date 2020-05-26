@@ -192,7 +192,7 @@
                                         <button class="btn btn-secondary" @click="setPrice('low')">LOW</button>
                                         <button class="btn btn-secondary" @click="setPrice('sell')">SELL</button>
                                         <button class="btn btn-secondary" @click="setPrice('trend')">TREND</button>
-                                        <button class="btn btn-secondary" @click="setPrice('avg')" :disabled="form.is_foil">AVG</button>
+                                        <button class="btn btn-secondary" @click="setPrice('avg_1')" :disabled="form.is_foil">AVG</button>
                                         <button class="btn btn-secondary" @click="setPrice('rule')" :title="item.rule.name" v-if="item.rule.id">REGEL</button>
                                     </div>
                                     <center v-show="isLoadingPrices"><i class="fas fa-fw fa-spin fa-spinner"></i> {{ $t('article.create.loading_latest_prices') }}</center>

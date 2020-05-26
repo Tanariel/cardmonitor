@@ -101,10 +101,15 @@ class Rule extends Model
     {
         // TODO: Update Article with rule price
         $query = Article::join('cards', 'cards.id', '=', 'articles.card_id')
+            ->where('articles.user_id', $this->user_id)
             ->whereNull('articles.rule_id')
             ->whereNull('sold_at')
             ->where('articles.unit_price', '>=', $this->price_above)
-            ->where('articles.unit_price', '<=', $this->price_below);
+            ->where('articles.unit_price', '<=', $this->price_below)
+            ->isFoil($this->is_foil)
+            ->isSigned($this->is_signed)
+            ->isAltered($this->is_altered)
+            ->isPlayset($this->is_playset);
 
         if ($this->expansion_id) {
             $query->where('cards.expansion_id', $this->expansion_id);

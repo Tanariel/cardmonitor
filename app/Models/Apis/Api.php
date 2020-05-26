@@ -2,6 +2,7 @@
 
 namespace App\Models\Apis;
 
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Crypt;
 
@@ -86,5 +87,10 @@ class Api extends Model
     public function setAccessTokenSecretAttribute($value)
     {
         $this->attributes['access_token_secret'] = Crypt::encryptString($value);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }
