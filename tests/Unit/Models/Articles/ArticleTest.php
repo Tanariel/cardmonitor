@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Models\Articles;
 
-use Mockery;
 use App\Models\Articles\Article;
 use App\Models\Cards\Card;
+use App\Models\Expansions\Expansion;
 use App\Models\Localizations\Language;
 use App\Models\Orders\Order;
 use App\Models\Rules\Rule;
@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\DB;
+use Mockery;
 use Tests\TestCase;
 use Tests\Traits\AttributeAssertions;
 use Tests\Traits\RelationshipAssertions;
@@ -552,6 +553,7 @@ class ArticleTest extends TestCase
         $attributes = Article::localCardIdToAttributes($model->local_card_id);
 
         $this->assertEquals($model->card_id, $attributes['card_id']);
+        $this->assertEquals($model->card->expansion->id, $attributes['expansion_id']);
         $this->assertEquals($model->language_id, $attributes['language_id']);
         $this->assertEquals($model->is_foil, (int) $attributes['is_foil']);
         $this->assertEquals($model->is_altered, (int) $attributes['is_altered']);
@@ -565,6 +567,7 @@ class ArticleTest extends TestCase
         $attributes = Article::localCardIdToAttributes($model->local_card_id);
 
         $this->assertEquals($model->card_id, $attributes['card_id']);
+        $this->assertEquals($model->card->expansion->id, $attributes['expansion_id']);
         $this->assertEquals($model->language_id, $attributes['language_id']);
         $this->assertEquals($model->is_foil, (int) $attributes['is_foil']);
         $this->assertEquals($model->is_altered, (int) $attributes['is_altered']);
@@ -578,6 +581,7 @@ class ArticleTest extends TestCase
         $attributes = Article::localCardIdToAttributes($model->local_card_id);
 
         $this->assertEquals($model->card_id, $attributes['card_id']);
+        $this->assertEquals($model->card->expansion->id, $attributes['expansion_id']);
         $this->assertEquals($model->language_id, $attributes['language_id']);
         $this->assertEquals($model->is_foil, (int) $attributes['is_foil']);
         $this->assertEquals($model->is_altered, (int) $attributes['is_altered']);
@@ -591,6 +595,7 @@ class ArticleTest extends TestCase
         $attributes = Article::localCardIdToAttributes($model->local_card_id);
 
         $this->assertEquals($model->card_id, $attributes['card_id']);
+        $this->assertEquals($model->card->expansion->id, $attributes['expansion_id']);
         $this->assertEquals($model->language_id, $attributes['language_id']);
         $this->assertEquals($model->is_foil, (int) $attributes['is_foil']);
         $this->assertEquals($model->is_altered, (int) $attributes['is_altered']);

@@ -5,6 +5,7 @@ namespace Tests\Feature\Models\Rules;
 use App\Models\Articles\Article;
 use App\Models\Cards\Card;
 use App\Models\Expansions\Expansion;
+use App\Models\Localizations\Language;
 use App\Models\Rules\Rule;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -142,5 +143,98 @@ class RuleTest extends TestCase
         $this->assertEquals($rule->id, $article->rule_id);
         $this->assertEquals(5, $article->price_rule);
         $this->assertEquals(5, $article->unit_price);
+    }
+
+    /**
+     * @test
+     */
+    public function it_gets_its_price()
+    {
+        $card = factory(Card::class)->create([
+            'price_trend' => 10,
+        ]);
+
+        $model = factory(Rule::class)->create([
+            'multiplier' => 2,
+            'base_price' => 'price_trend',
+        ]);
+
+        $this->assertEquals(20, $model->price($card));
+    }
+
+    /**
+     * @test
+     */
+    public function it_finds_a_rule_from_attributes()
+    {
+        $base_price = 123;
+
+        $card = factory(Card::class)->create([
+            'price_trend' => $base_price,
+        ]);
+
+        $article = factory(Article::class)->create([
+            'user_id' => $this->user->id,
+            'language_id' => Language::DEFAULT_ID,
+            'condition' => 'NM',
+            'is_foil' => false,
+            'is_altered' => false,
+            'is_signed' => false,
+            'is_playset' => false,
+        ]);
+
+        $attributes = [
+            'expansion_id' => $article->card->expansion->id,
+            'language_id' => $article->language_id,
+            'condition' => $article->condition,
+            'is_foil' => $article->is_foil,
+            'is_altered' => $article->is_altered,
+            'is_signed' => $article->is_signed,
+            'is_playset' => $article->is_playset,
+            'rarity' => $article->card->rarity,
+        ];
+
+        $model = factory(Rule::class)->create([
+            'active' => false,
+            'user_id' => $this->user->id,
+            'expansion_id' => $article->card->expansion->id,
+            'condition' => $article->condition,
+            'is_foil' => $article->is_foil,
+            'is_altered' => $article->is_altered,
+            'is_signed' => $article->is_signed,
+            'is_playset' => $article->is_playset,
+            'rarity' => $article->card->rarity,
+        ]);
+        $rule = Rule::findForArticle($this->user->id, $attributes);
+
+        $this->assertEquals(null, $rule->id);
+        $this->assertEquals(0, $rule->price($card));
+
+        $model->update([
+            'active' => true,
+        ]);
+        $rule = Rule::findForArticle($this->user->id, $attributes);
+
+        $this->assertEquals($model->id, $rule->id);
+        $this->assertEquals($base_price, $rule->price($card));
+
+        $model->update([
+            'expansion_id' => null,
+            'condition' => null,
+        ]);
+
+        $rule = Rule::findForArticle($this->user->id, $attributes);
+
+        $this->assertEquals($model->id, $rule->id);
+        $this->assertEquals($base_price, $rule->price($card));
+
+        $model->update([
+            'is_foil' => true,
+        ]);
+
+        $rule = Rule::findForArticle($this->user->id, $attributes);
+
+        $this->assertEquals(null, $rule->id);
+        $this->assertEquals(0, $rule->price($card));
     }
 }

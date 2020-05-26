@@ -9,7 +9,7 @@ $factory->define(Expansion::class, function (Faker $faker) {
     return [
         'cardmarket_expansion_id' => $faker->randomNumber,
         'name' => $faker->word,
-        'abbreviation' => $faker->word,
+        'abbreviation' => strtoupper($faker->word),
         'icon' => $faker->randomNumber,
         'released_at' => $faker->date,
         'is_released' => $faker->boolean,

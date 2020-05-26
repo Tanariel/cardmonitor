@@ -543,6 +543,7 @@ class Article extends Model
         }
 
         $parts = explode('-', $local_card_id);
+        $expansion = Expansion::getByAbbreviation($parts[1]);
         $language = Language::getByCode($parts[2]);
 
         $parts_count = count($parts);
@@ -562,9 +563,12 @@ class Article extends Model
 
         return [
             'card_id' => $parts[0],
+            'expansion_id' => $expansion->id,
             'language_id' => $language->id,
             'is_foil' => $is_foil,
             'is_altered' => $is_altered,
+            'is_signed' => false,
+            'is_playset' => false,
         ];
     }
 

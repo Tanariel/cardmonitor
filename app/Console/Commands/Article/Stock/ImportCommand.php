@@ -3,6 +3,8 @@
 namespace App\Console\Commands\Article\Stock;
 
 use App\Models\Articles\Article;
+use App\Models\Cards\Card;
+use App\Models\Rules\Rule;
 use App\Transformers\Articles\Csvs\Transformer;
 use App\User;
 use Illuminate\Console\Command;
@@ -13,6 +15,7 @@ use Illuminate\Support\Facades\Storage;
 class ImportCommand extends Command
 {
     protected $cardmarketArticleIds = [];
+    protected $cards = [];
 
     /**
      * The name and signature of the console command.
@@ -171,6 +174,11 @@ class ImportCommand extends Command
             $attributes['condition'] = Arr::get($row, 1) ?: 'NM';
             $attributes['amount'] = Arr::get($row, 2);
             $attributes['unit_price'] = str_replace(',', '.', Arr::get($row, 3, 0));
+            if ($attributes['unit_price'] == 0) {
+                // $card = $this->card($attributes['card_id']);
+                // $attributes['rarity'] = $card->rarity;
+                // $attributes['unit_price'] = Rule::findForArticle($userId, $attributes)->price($card);
+            }
             $importStock[$attributes['card_id']][] = $attributes;
 
             $rows_count++;
@@ -179,6 +187,17 @@ class ImportCommand extends Command
         Storage::disk('local')->delete($filename);
 
         return $importStock;
+    }
+
+    protected function card(int $cardId) : Card
+    {
+        if (Arr::has($this->cards, $cardId)) {
+            return $this->cards[$cardId];
+        }
+
+        $this->cards[$cardId] = Card::find($cardId);
+
+        return $this->cards[$cardId];
     }
 
     protected function cardmarketStock(User $user, int $gameId) : array

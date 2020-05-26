@@ -92,6 +92,38 @@ class Rule extends Model
         return $rule;
     }
 
+    public static function findForArticle(int $userId, array $attributes) : self
+    {
+        return self::where('active', true)
+            ->where(function (Builder $query) use ($attributes) {
+                $query->whereNull('expansion_id')
+                    ->orWhere('expansion_id', $attributes['expansion_id']);
+            })
+            ->where(function (Builder $query) use ($attributes) {
+                $query->whereNull('rarity')
+                    ->orWhere('rarity', $attributes['rarity']);
+            })
+            ->where(function (Builder $query) use ($attributes) {
+                $query->whereNull('condition')
+                    ->orWhere('condition', $attributes['condition']);
+            })
+            ->where('is_foil', $attributes['is_foil'])
+            ->where('is_altered', $attributes['is_altered'])
+            ->where('is_signed', $attributes['is_signed'])
+            ->where('is_playset', $attributes['is_playset'])
+            ->orderBy('order_column', 'ASC')
+            ->firstOrNew([
+                'user_id' => $userId,
+            ], []);
+    }
+
+    public function price(Card $card) : float
+    {
+        $base_price = $this->base_price;
+
+        return (is_null($this->id) ? 0 : ($card->$base_price * $this->multiplier));
+    }
+
     public static function nextOrderColumn(int $userId)
     {
         return self::where('user_id', $userId)->max('order_column') + 1;
