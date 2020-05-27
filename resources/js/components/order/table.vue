@@ -53,7 +53,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <row :item="item" :key="item.id" :uri="uri" :selected="(selected.indexOf(item.id) == -1) ? false : true" v-for="(item, index) in items" @input="toggleSelected"></row>
+                    <row :item="item" :key="item.id" :uri="uri" :selected="(selected.indexOf(item.id) == -1) ? false : true" v-for="(item, index) in items" @input="toggleSelected" @updated="updated(index, $event)"></row>
                 </tbody>
             </table>
         </div>
@@ -243,6 +243,9 @@
                 else {
                     this.selected.splice(index, 1);
                 }
+            },
+            updated(index, item) {
+                Vue.set(this.items, index, item);
             },
             sync() {
                 var component = this;

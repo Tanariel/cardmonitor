@@ -6316,6 +6316,16 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     link: function link() {
       location.href = this.item.path;
+    },
+    send: function send(item) {
+      var component = this;
+      axios.post(item.path + '/send').then(function (response) {
+        component.$emit('updated', response.data);
+        Vue.success(component.$t('order.successes.synced'));
+      })["catch"](function (error) {
+        Vue.error(component.$t('order.errors.synced'));
+        console.log(error);
+      })["finally"](function () {});
     }
   }
 });
@@ -6563,6 +6573,9 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         this.selected.splice(index, 1);
       }
+    },
+    updated: function updated(index, item) {
+      Vue.set(this.items, index, item);
     },
     sync: function sync() {
       var component = this;
@@ -59212,6 +59225,22 @@ var render = function() {
         "div",
         { staticClass: "btn-group btn-group-sm", attrs: { role: "group" } },
         [
+          _vm.item.state == "paid"
+            ? _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary",
+                  attrs: { title: _vm.$t("app.actions.send") },
+                  on: {
+                    click: function($event) {
+                      return _vm.send(_vm.item)
+                    }
+                  }
+                },
+                [_vm._v(_vm._s(_vm.$t("app.actions.send")))]
+              )
+            : _vm._e(),
+          _vm._v(" "),
           _c(
             "button",
             {
@@ -59220,15 +59249,6 @@ var render = function() {
               on: { click: _vm.link }
             },
             [_c("i", { staticClass: "fas fa-edit" })]
-          ),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-secondary",
-              attrs: { type: "button", title: _vm.$t("app.actions.delete") }
-            },
-            [_c("i", { staticClass: "fas fa-trash" })]
           )
         ]
       )
@@ -59497,7 +59517,12 @@ var render = function() {
                       selected:
                         _vm.selected.indexOf(item.id) == -1 ? false : true
                     },
-                    on: { input: _vm.toggleSelected }
+                    on: {
+                      input: _vm.toggleSelected,
+                      updated: function($event) {
+                        return _vm.updated(index, $event)
+                      }
+                    }
                   })
                 }),
                 1

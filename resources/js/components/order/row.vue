@@ -20,8 +20,8 @@
         </td>
         <td class="align-middle text-right">
             <div class="btn-group btn-group-sm" role="group">
+                <button class="btn btn-primary":title="$t('app.actions.send')" @click="send(item)" v-if="item.state == 'paid'">{{ $t('app.actions.send') }}</button>
                 <button type="button" class="btn btn-secondary" :title="$t('app.actions.edit')" @click="link"><i class="fas fa-edit"></i></button>
-                <button type="button" class="btn btn-secondary" :title="$t('app.actions.delete')"><i class="fas fa-trash"></i></button>
             </div>
         </td>
     </tr>
@@ -47,7 +47,22 @@
         methods: {
             link () {
                 location.href = this.item.path;
-            }
+            },
+            send(item) {
+                var component = this;
+                axios.post(item.path + '/send')
+                    .then(function (response) {
+                        component.$emit('updated', response.data);
+                        Vue.success(component.$t('order.successes.synced'));
+                    })
+                    .catch(function (error) {
+                        Vue.error(component.$t('order.errors.synced'));
+                        console.log(error);
+                    })
+                    .finally ( function () {
+
+                });
+            },
         },
     };
 </script>
