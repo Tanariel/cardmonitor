@@ -162,16 +162,18 @@ class Article extends Model
         return $i;
     }
 
-    public static function updateOrCreateFromCardmarket(int $userId, array $cardmarketArticle) : self
+    public static function updateOrCreateFromCardmarketOrder(int $userId, array $cardmarketArticle) : self
     {
+        $card = Card::firstOrImport($cardmarketArticle['idProduct']);
+
         $values = [
             'user_id' => $userId,
-            'card_id' => $cardmarketOrder['idProduct'],
+            'card_id' => $card->id,
             'language_id' => $cardmarketArticle['language']['idLanguage'],
             'cardmarket_article_id' => $cardmarketArticle['idArticle'],
             'condition' => $cardmarketArticle['condition'],
             'unit_price' => $cardmarketArticle['price'],
-            'unit_cost' => \App\Models\Items\Card::defaultPrice($userId, $cardmarketArticle['product']['rarity']),
+            'unit_cost' => \App\Models\Items\Card::defaultPrice($userId, $card->rarity),
             'sold_at' => null,
             'is_in_shoppingcard' => $cardmarketArticle['inShoppingCart'] ?? false,
             'is_foil' => $cardmarketArticle['isFoil'] ?? false,
@@ -183,7 +185,7 @@ class Article extends Model
             'sync_error' => null,
         ];
 
-        $article = self::updateOrCreate(['cardmarket_article_id' => $cardmarketOrder['idArticle']], $values);
+        $article = self::updateOrCreate(['cardmarket_article_id' => $cardmarketArticle['idArticle']], $values);
 
         return $article;
     }

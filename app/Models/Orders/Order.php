@@ -404,9 +404,6 @@ class Order extends Model
 
     protected function addArticleFromCardmarket(array $cardmarketArticle)
     {
-        // Card vorhanden?
-
-
         // Article finden, wenn nicht vorhanden
         $articles = $this->articles()
             ->where('cardmarket_article_id', $cardmarketArticle['idArticle'])

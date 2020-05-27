@@ -136,9 +136,50 @@ class OrderTest extends TestCase
     /**
      * @test
      */
-    public function it_can_be_imported()
+    public function it_can_be_created_from_cardmarket()
     {
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $cardmarketOrder = json_decode(file_get_contents('tests/snapshots/cardmarket/order/get_seller_paid.json'), true);
+
+        $cards = [];
+        foreach ($cardmarketOrder['order']['article'] as $key => $cardmarketArticle) {
+            $cards[$key] = factory(\App\Models\Cards\Card::class)->create([
+                'cardmarket_product_id' => $cardmarketArticle['idProduct'],
+                'rarity' => $cardmarketArticle['product']['rarity'],
+            ]);
+        }
+
+        $articlesWithCardmarketArticleId = factory(Article::class, 2)->create([
+            'user_id' => $this->user->id,
+            'card_id' => $cards[1]->id,
+            'cardmarket_article_id' => $cardmarketOrder['order']['article'][1]['idArticle'],
+            'language_id' => $cardmarketOrder['order']['article'][1]['language']['idLanguage'],
+            'condition' => $cardmarketOrder['order']['article'][1]['condition'],
+            'unit_price' => $cardmarketOrder['order']['article'][1]['price'],
+            'is_foil' => $cardmarketOrder['order']['article'][1]['isFoil'],
+            'is_signed' => $cardmarketOrder['order']['article'][1]['isSigned'],
+            'is_altered' => $cardmarketOrder['order']['article'][1]['isAltered'],
+            'is_playset' => $cardmarketOrder['order']['article'][1]['isPlayset'],
+        ]);
+
+        $articlesWithDifferentCardmarketArticleId = factory(Article::class, 2)->create([
+            'user_id' => $this->user->id,
+            'card_id' => $cards[2]->id,
+            'cardmarket_article_id' => 1,
+            'language_id' => $cardmarketOrder['order']['article'][2]['language']['idLanguage'],
+            'condition' => $cardmarketOrder['order']['article'][2]['condition'],
+            'unit_price' => $cardmarketOrder['order']['article'][2]['price'],
+            'is_foil' => $cardmarketOrder['order']['article'][2]['isFoil'],
+            'is_signed' => $cardmarketOrder['order']['article'][2]['isSigned'],
+            'is_altered' => $cardmarketOrder['order']['article'][2]['isAltered'],
+            'is_playset' => $cardmarketOrder['order']['article'][2]['isPlayset'],
+        ]);
+
+        $order = Order::updateOrCreateFromCardmarket($this->user->id, $cardmarketOrder['order']);
+
+        $this->assertCount(1, Order::all());
+        $this->assertCount(2, CardmarketUser::all());
+        $this->assertCount(4, \App\Models\Cards\Card::all());
+        $this->assertCount(16, $order->articles);
     }
 
     /**

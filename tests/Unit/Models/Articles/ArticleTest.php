@@ -208,6 +208,25 @@ class ArticleTest extends TestCase
     /**
      * @test
      */
+    public function it_can_be_updated_or_created_from_cardmarket_order()
+    {
+        $cardmarketOrder = json_decode(file_get_contents('tests/snapshots/cardmarket/order/get_seller_paid.json'), true);
+        $cardmarketArticle = $cardmarketOrder['order']['article'][0];
+
+        factory(\App\Models\Cards\Card::class)->create([
+            'cardmarket_product_id' => $cardmarketArticle['idProduct'],
+            'rarity' => $cardmarketArticle['product']['rarity'],
+        ]);
+        $article = Article::updateOrCreateFromCardmarketOrder($this->user->id, $cardmarketArticle);
+
+        $this->assertEquals($cardmarketArticle['idProduct'], $article->card_id);
+        $this->assertEquals($cardmarketArticle['condition'], $article->condition);
+        $this->assertEquals($cardmarketArticle['price'], $article->unit_price);
+    }
+
+    /**
+     * @test
+     */
     public function it_sets_rarity_sort()
     {
         $model = new Article([

@@ -430,7 +430,7 @@
                         component.filter.searchtext = '';
                         component.item = null;
                         component.filter.shouldFocus = true;
-                        Vue.success((sync ? $t('app.successes.created_uploaded') : $t('app.successes.created')));
+                        Vue.success((sync ? component.$t('app.successes.created_uploaded') : component.$t('app.successes.created')));
                     })
                      .catch(function (error) {
                         Vue.error(component.$t('app.errors.loading'));
