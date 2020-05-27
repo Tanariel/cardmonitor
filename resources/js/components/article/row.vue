@@ -161,11 +161,8 @@
 
         methods: {
             show(event) {
-                var position = this.GetScreenCordinates(event.target);
                 this.$emit('show', {
                     src: this.item.card.imagePath,
-                    top: (position.y - 200) + 'px',
-                    left: (position.x - document.getElementById('nav').offsetLeft - 150) + 'px',
                 });
             },
             toShow() {
@@ -197,22 +194,6 @@
                         component.errors = error.response.data.errors;
                         Vue.error(component.$t('app.errors.updated'));
                 });
-            },
-            GetScreenCordinates(obj) {
-                var p = {};
-                p.x = obj.offsetLeft;
-                p.y = obj.offsetTop;
-                while (obj.offsetParent) {
-                    p.x = p.x + obj.offsetParent.offsetLeft;
-                    p.y = p.y + obj.offsetParent.offsetTop;
-                    if (obj == document.getElementsByTagName("body")[0]) {
-                        break;
-                    }
-                    else {
-                        obj = obj.offsetParent;
-                    }
-                }
-                return p;
             },
         },
     };

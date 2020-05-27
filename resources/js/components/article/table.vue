@@ -134,7 +134,7 @@
                 </li>
             </ul>
         </nav>
-        <div id="imgbox" style="position: absolute; " :style="{ top: imgbox.top, left: imgbox.left, }">
+        <div id="imgbox">
             <img :src="imgbox.src" v-show="imgbox.show">
         </div>
         <div class="modal fade" id="confirm-rule-apply" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

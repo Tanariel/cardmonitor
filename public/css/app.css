@@ -19224,6 +19224,14 @@ hr.divider {
   right: 0;
 }
 
+#imgbox {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+
 .github-corner:hover .octo-arm {
   -webkit-animation: octocat-wave 560ms ease-in-out;
           animation: octocat-wave 560ms ease-in-out;

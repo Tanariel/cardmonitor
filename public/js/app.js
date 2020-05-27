@@ -2325,12 +2325,8 @@ __webpack_require__.r(__webpack_exports__);
     keydown: function keydown(event) {// console.log(event);
     },
     showImgbox: function showImgbox(_ref) {
-      var src = _ref.src,
-          top = _ref.top,
-          left = _ref.left;
+      var src = _ref.src;
       this.imgbox.src = src;
-      this.imgbox.top = top;
-      this.imgbox.left = left;
       this.imgbox.show = true;
     },
     hideImgbox: function hideImgbox() {
@@ -2513,11 +2509,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     show: function show(event) {
-      var position = this.GetScreenCordinates(event.target);
       this.$emit('show', {
-        src: this.item.card.imagePath,
-        top: position.y - 200 + 'px',
-        left: position.x - document.getElementById('nav').offsetLeft - 150 + 'px'
+        src: this.item.card.imagePath
       });
     },
     toShow: function toShow() {
@@ -2546,24 +2539,6 @@ __webpack_require__.r(__webpack_exports__);
         component.errors = error.response.data.errors;
         Vue.error(component.$t('app.errors.updated'));
       });
-    },
-    GetScreenCordinates: function GetScreenCordinates(obj) {
-      var p = {};
-      p.x = obj.offsetLeft;
-      p.y = obj.offsetTop;
-
-      while (obj.offsetParent) {
-        p.x = p.x + obj.offsetParent.offsetLeft;
-        p.y = p.y + obj.offsetParent.offsetTop;
-
-        if (obj == document.getElementsByTagName("body")[0]) {
-          break;
-        } else {
-          obj = obj.offsetParent;
-        }
-      }
-
-      return p;
     }
   }
 });
@@ -50714,10 +50689,8 @@ var render = function() {
                                   staticClass: "fas fa-image",
                                   on: {
                                     mouseover: function($event) {
-                                      _vm.showImgbox({
-                                        src: card.imagePath,
-                                        top: $event.layerY + 100 + "px",
-                                        left: $event.layerX + 50 + "px"
+                                      return _vm.showImgbox({
+                                        src: card.imagePath
                                       })
                                     },
                                     mouseout: _vm.hideImgbox
@@ -51986,27 +51959,19 @@ var render = function() {
       )
     ]),
     _vm._v(" "),
-    _c(
-      "div",
-      {
-        staticStyle: { position: "absolute" },
-        style: { top: _vm.imgbox.top, left: _vm.imgbox.left },
-        attrs: { id: "imgbox" }
-      },
-      [
-        _c("img", {
-          directives: [
-            {
-              name: "show",
-              rawName: "v-show",
-              value: _vm.imgbox.show,
-              expression: "imgbox.show"
-            }
-          ],
-          attrs: { src: _vm.imgbox.src }
-        })
-      ]
-    )
+    _c("div", { attrs: { id: "imgbox" } }, [
+      _c("img", {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.imgbox.show,
+            expression: "imgbox.show"
+          }
+        ],
+        attrs: { src: _vm.imgbox.src }
+      })
+    ])
   ])
 }
 var staticRenderFns = []
@@ -54455,27 +54420,19 @@ var render = function() {
       )
     ]),
     _vm._v(" "),
-    _c(
-      "div",
-      {
-        staticStyle: { position: "absolute" },
-        style: { top: _vm.imgbox.top, left: _vm.imgbox.left },
-        attrs: { id: "imgbox" }
-      },
-      [
-        _c("img", {
-          directives: [
-            {
-              name: "show",
-              rawName: "v-show",
-              value: _vm.imgbox.show,
-              expression: "imgbox.show"
-            }
-          ],
-          attrs: { src: _vm.imgbox.src }
-        })
-      ]
-    ),
+    _c("div", { attrs: { id: "imgbox" } }, [
+      _c("img", {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.imgbox.show,
+            expression: "imgbox.show"
+          }
+        ],
+        attrs: { src: _vm.imgbox.src }
+      })
+    ]),
     _vm._v(" "),
     _c(
       "div",

@@ -28,7 +28,7 @@
                 <table class="table table-hover table-striped" v-else-if="cards.length">
                     <tbody>
                         <tr v-for="(card, index) in cards" @click="setItem(card, index)">
-                            <td class="align-middle d-none d-lg-table-cell text-center pointer w-icon"><i class="fas fa-image" @mouseover="showImgbox({src: card.imagePath, top: ($event.layerY + 100) + 'px', left: ($event.layerX + 50) + 'px'})" @mouseout="hideImgbox"></i></td>
+                            <td class="align-middle d-none d-lg-table-cell text-center pointer w-icon"><i class="fas fa-image" @mouseover="showImgbox({src: card.imagePath})" @mouseout="hideImgbox"></i></td>
                             <td class="align-middle pointer w-icon"><expansion-icon :expansion="card.expansion" :show-name="false"></expansion-icon></td>
                             <td class="align-middle text-center w-icon"><rarity :value="card.rarity"></rarity></td>
                             <td class="align-middle pointer">
@@ -236,7 +236,7 @@
                 </table>
             </div>
         </div>
-        <div id="imgbox" style="position: absolute;" :style="{ top: imgbox.top, left: imgbox.left, }">
+        <div id="imgbox">
             <img :src="imgbox.src" v-show="imgbox.show">
         </div>
     </div>
@@ -489,10 +489,8 @@
             keydown(event) {
                 // console.log(event);
             },
-            showImgbox({src, top, left}) {
+            showImgbox({src}) {
                 this.imgbox.src = src;
-                this.imgbox.top = top;
-                this.imgbox.left = left;
                 this.imgbox.show = true;
             },
             hideImgbox() {
