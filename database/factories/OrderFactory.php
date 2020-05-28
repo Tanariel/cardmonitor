@@ -13,7 +13,7 @@ $factory->define(Order::class, function (Faker $faker) {
         'buyer_id' => factory(CardmarketUser::class),
         'seller_id' => factory(CardmarketUser::class),
         'shipping_method_id' => 1,
-        'cardmarket_order_id' => $faker->randomNumber(),
+        'cardmarket_order_id' => $faker->unique()->randomNumber(),
         'state' => 'paid',
         'shippingmethod' => 'Standardbrief',
         'shipping_name' => $faker->name,

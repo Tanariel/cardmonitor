@@ -7,7 +7,7 @@ use Faker\Generator as Faker;
 
 $factory->define(Expansion::class, function (Faker $faker) {
     return [
-        'cardmarket_expansion_id' => $faker->randomNumber,
+        'cardmarket_expansion_id' => $faker->unique()->randomNumber,
         'name' => $faker->word,
         'abbreviation' => strtoupper($faker->word),
         'icon' => $faker->randomNumber,

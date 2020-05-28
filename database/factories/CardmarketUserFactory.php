@@ -7,7 +7,7 @@ use Faker\Generator as Faker;
 
 $factory->define(CardmarketUser::class, function (Faker $faker) {
     return [
-        'cardmarket_user_id' => $faker->randomNumber,
+        'cardmarket_user_id' => $faker->unique()->randomNumber,
         'username' => $faker->userName,
         'registered_at' => $faker->dateTime,
         'is_commercial' => $faker->boolean,
