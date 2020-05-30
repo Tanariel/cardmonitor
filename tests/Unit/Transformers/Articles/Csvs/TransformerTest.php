@@ -3,10 +3,12 @@
 namespace Tests\Unit\Transformers\Articles\Csvs;
 
 use App\Models\Games\Game;
-use App\Transformers\Articles\Csvs\Magic;
+use App\Transformers\Articles\Csvs\Mtg;
+use App\Transformers\Articles\Csvs\PCG;
 use App\Transformers\Articles\Csvs\Transformer;
-use App\Transformers\Articles\Csvs\Yugioh;
-use PHPUnit\Framework\TestCase;
+use App\Transformers\Articles\Csvs\YGO;
+use Illuminate\Support\Arr;
+use Tests\TestCase;
 
 class TransformerTest extends TestCase
 {
@@ -19,8 +21,18 @@ class TransformerTest extends TestCase
      */
     public function it_gets_the_right_transformer()
     {
-        $this->assertEquals(Magic::class, Transformer::transformer(Game::ID_MAGIC));
-        $this->assertEquals(Yugioh::class, Transformer::transformer(Game::ID_YUGIOH));
+        $cardmarketGames = json_decode(file_get_contents('tests/snapshots/cardmarket/games/get.json'), true);;
+        foreach ($cardmarketGames['game'] as $key => $cardmarketGame) {
+            $game = Game::updateOrCreate(['id' => $cardmarketGame['idGame']], [
+                'name' => $cardmarketGame['name'],
+                'abbreviation' => $cardmarketGame['abbreviation'],
+                'is_importable' => in_array($cardmarketGame['idGame'], [1,3,6]),
+            ]);
+        }
+
+        $this->assertInstanceOf(MtG::class, Transformer::transformer(Game::ID_MAGIC));
+        $this->assertInstanceOf(YGO::class, Transformer::transformer(Game::ID_YUGIOH));
+        $this->assertInstanceOf(PCG::class, Transformer::transformer(Game::ID_POKEMON));
     }
 
     /**

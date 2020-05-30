@@ -2,7 +2,7 @@
 
 namespace App\Transformers\Articles\Csvs;
 
-class Pokemon
+class YGO
 {
     public static function transform(array $data) : array
     {
@@ -14,12 +14,12 @@ class Pokemon
             'unit_price' => $data[6],
             'sold_at' => null,
             'is_in_shoppingcard' => false,
-            'is_foil' => ($data[9] == 'X' ? true : false),
-            'is_signed' => ($data[10] == 'X' ? true : false),
-            'is_altered' => ($data[13] == 'X' ? true : false),
-            'is_playset' => ($data[12] == 'X' ? true : false),
-            'cardmarket_comments' => $data[14],
-            'amount' => $data[15],
+            'is_foil' => false,
+            'is_signed' => ($data[9] == 'X' ? true : false),
+            'is_altered' => ($data[11] == 'X' ? true : false),
+            'is_playset' => false,
+            'cardmarket_comments' => $data[12],
+            'amount' => $data[13],
             'has_sync_error' => false,
             'sync_error' => null,
         ];

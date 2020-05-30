@@ -16,8 +16,12 @@ class SyncCommandTest extends TestCase
     {
         $this->markTestSkipped();
 
+        // mock json response
+
         Artisan::call('article:sync', [
             'user' => $this->user->id,
         ]);
+
+        // assert articles exist
     }
 }

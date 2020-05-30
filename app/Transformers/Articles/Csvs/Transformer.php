@@ -11,24 +11,21 @@ use Illuminate\Support\Arr;
 
 class Transformer
 {
-    const TRANSFORMERS = [
-        Game::ID_MAGIC => Magic::class,
-        Game::ID_YUGIOH => Yugioh::class,
-        Game::ID_POKEMON => Pokemon::class,
-    ];
-
     public static function transform(int $gameId, array $data) : array
     {
         $transformer = self::transformer($gameId);
         return $transformer::transform($data);
     }
 
-    public static function transformer(int $gameId) : string
+    public static function transformer(int $gameId)
     {
-        if (! Arr::has(self::TRANSFORMERS, $gameId)) {
+        $games = Game::classnames('App\Transformers\Articles\Csvs');
+        if (! Arr::has($games, $gameId)) {
             throw new \InvalidArgumentException('Game ID "' . $gameId . '" is not available. Create Transformer!');
         }
 
-        return Arr::get(self::TRANSFORMERS, $gameId);
+        $classname = Arr::get($games, $gameId);
+
+        return new $classname();
     }
 }

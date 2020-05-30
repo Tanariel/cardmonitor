@@ -26,4 +26,11 @@ class Game extends Model
            return [$item['id'] => $item['name']];
         });
     }
+
+    public static function classnames(string $namespace) : Collection
+    {
+        return self::importables()->mapWithKeys(function ($item) use ($namespace) {
+           return [$item['id'] => $namespace . '\\' . $item['abbreviation']];
+        });
+    }
 }

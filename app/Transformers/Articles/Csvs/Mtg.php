@@ -2,7 +2,7 @@
 
 namespace App\Transformers\Articles\Csvs;
 
-class Magic
+class MtG
 {
     public static function transform(array $data) : array
     {
