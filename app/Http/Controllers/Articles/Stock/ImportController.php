@@ -16,7 +16,12 @@ class ImportController extends Controller
             'game_id' => 'required|integer',
         ]);
 
-        $userId = auth()->user()->id;
+        $user = auth()->user();
+        $userId = $user->id;
+
+        $user->update([
+            'is_syncing_articles' => true,
+        ]);
 
         $filename = $attributes['file']->storeAs('', $userId . '-stockimport-' . $attributes['game_id'] . '.csv');
 
@@ -27,14 +32,14 @@ class ImportController extends Controller
             ]);
         }
 
-        Artisan::call('article:stock:import', [
+        Artisan::queue('article:stock:import', [
             'user' => $userId,
             'game' => $attributes['game_id'],
         ]);
 
         return back()->with('status', [
             'type' => 'success',
-            'text' => 'Bestand importiert.',
+            'text' => 'Bestand wird im Hintergrund importiert.',
         ]);
     }
 }
