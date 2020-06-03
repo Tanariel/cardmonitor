@@ -71,15 +71,6 @@ class CsvExporter
                 $amount++;
             }
             $collection->push($item);
-            $shippingValuesArticle = $article->only(self::ARTICLE_ATTRIBUTES);
-            $shippingValuesArticle['unit_price'] = $order->shipment_revenue;
-            $shippingValuesArticle['position_type'] = 'Versandposition';
-            $shippingValuesArticle['local_name'] = $order->shippingmethod;
-            $shippingValuesArticle['card_id'] = '';
-            $shippingValuesArticle['cardmarket_article_id'] = '';
-
-            $shippingValuesOrder = $order->only(self::ORDER_ATTRIBUTES);
-            $shippingValuesOrder['revenue'] = $order->shipment_revenue;
 
             $collection->push(self::shippingItem($buyer_values, $order, $article));
         }
@@ -103,6 +94,7 @@ class CsvExporter
         $shippingValuesArticle['card_id'] = '';
         $shippingValuesArticle['local_card_id'] = '';
         $shippingValuesArticle['cardmarket_article_id'] = '';
+        $shippingValuesArticle['amount'] = 1;
 
         $shippingValuesOrder = $order->only(self::ORDER_ATTRIBUTES);
         $shippingValuesOrder['revenue'] = $order->shipment_revenue;
