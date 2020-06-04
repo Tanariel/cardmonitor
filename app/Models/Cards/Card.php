@@ -5,6 +5,7 @@ namespace App\Models\Cards;
 use App\Models\Expansions\Expansion;
 use App\Models\Localizations\Language;
 use App\Traits\HasLocalizations;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -218,6 +219,11 @@ class Card extends Model
             'price_foil_avg_30' => $data[15] ?: 0,
             'prices_updated_at' => now(),
         ]);
+    }
+
+    public static function hasLatestPrices() : bool
+    {
+        return ((new Carbon(self::whereNotNull('prices_updated_at')->min('prices_updated_at')))->diffInHours() < 2);
     }
 
     public function download()

@@ -42,7 +42,6 @@ class Apply implements ShouldQueue
      */
     public function handle()
     {
-
         try {
             $this->processing();
             Artisan::call('rule:apply', [
@@ -55,6 +54,9 @@ class Apply implements ShouldQueue
             $this->processed();
 
             throw $e;
+        }
+        finally {
+            $this->processed();
         }
     }
 

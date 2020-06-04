@@ -3,6 +3,7 @@
 namespace App\Console\Commands\Rule;
 
 use App\Models\Articles\Article;
+use App\Models\Cards\Card;
 use App\Models\Rules\Rule;
 use App\User;
 use Illuminate\Console\Command;
@@ -47,6 +48,8 @@ class ApplyCommand extends Command
         $start = microtime(true);
         $this->user = User::findOrFail($this->argument('user'));
 
+        $this->updatePrices();
+
         $rules = Rule::where('user_id', $this->user->id)
             ->where('active', true)
             ->orderBy('order_column', 'ASC')
@@ -65,6 +68,17 @@ class ApplyCommand extends Command
             Mail::to(config('app.mail'))
                 ->queue(new \App\Mail\Rules\Applied($this->user, $runtime_in_sec));
         }
+    }
+
+    protected function updatePrices()
+    {
+        if (Card::hasLatestPrices()) {
+            return;
+        }
+
+        $this->call('card:price:sync', [
+            '--game' => 0,
+        ]);
     }
 
     protected function sync()

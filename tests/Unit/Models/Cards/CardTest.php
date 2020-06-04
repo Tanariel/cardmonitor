@@ -231,4 +231,26 @@ class CardTest extends TestCase
         $this->assertEquals(1, Card::where('id', $cardmarketProductId)->count());
         $this->assertEquals(0, Expansion::count());
     }
+
+    /**
+     * @test
+     */
+    public function it_knows_if_prices_are_to_old()
+    {
+        $model = factory(Card::class)->create([
+            'prices_updated_at' => null,
+        ]);
+
+        $model = factory(Card::class)->create([
+            'prices_updated_at' => now()->subHours(3),
+        ]);
+
+        $this->assertFalse(Card::hasLatestPrices());
+
+        $model->update([
+            'prices_updated_at' => now(),
+        ]);
+
+        $this->assertTrue(Card::hasLatestPrices());
+    }
 }
