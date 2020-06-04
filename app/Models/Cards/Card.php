@@ -223,7 +223,7 @@ class Card extends Model
 
     public static function hasLatestPrices() : bool
     {
-        return ((new Carbon(self::whereNotNull('prices_updated_at')->min('prices_updated_at')))->diffInHours() < 2);
+        return ((new Carbon(self::whereNotNull('prices_updated_at')->max('prices_updated_at')))->diffInHours() < 2);
     }
 
     public function download()
