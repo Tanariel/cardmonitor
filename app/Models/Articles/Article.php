@@ -533,18 +533,18 @@ class Article extends Model
         return $this->card->localizations()->where('language_id', $this->language_id)->first()->name;
     }
 
-    public function getLocalCardIdAttribute() : string
+    public function getSkuAttribute() : string
     {
         return $this->card_id . '-' . strtoupper($this->card->expansion->abbreviation) . '-' . strtoupper($this->language->code) . ($this->is_altered ? '-A' : '') . ($this->is_foil ? '-F' : '');
     }
 
-    public static function localCardIdToAttributes(string $local_card_id) : array
+    public static function skuToAttributes(string $sku) : array
     {
-        if (empty($local_card_id)) {
+        if (empty($sku)) {
             return [];
         }
 
-        $parts = explode('-', $local_card_id);
+        $parts = explode('-', $sku);
         $expansion = Expansion::getByAbbreviation($parts[1]);
         $language = Language::getByCode($parts[2]);
 

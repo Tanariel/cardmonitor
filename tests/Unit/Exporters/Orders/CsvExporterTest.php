@@ -65,7 +65,9 @@ class CsvExporterTest extends TestCase
 
         $this->assertCount(4, $rows);
         $this->assertEquals(array_merge(CsvExporter::BUYER_ATTRIBUTES, CsvExporter::ORDER_ATTRIBUTES, CsvExporter::ARTICLE_ATTRIBUTES), $rows[0]);
+        $this->assertEquals($article->sku, $rows[1][25]);
         $this->assertEquals('Artikel', $rows[1][30]);
+        $this->assertEquals('', $rows[2][25]);
         $this->assertEquals('Versandposition', $rows[2][30]);
 
         Storage::disk('public')->delete($path);

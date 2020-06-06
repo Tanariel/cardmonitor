@@ -54,7 +54,6 @@ class ImportCommand extends Command
         $importStock = $this->importStock($user->id, $gameId);
         $cardmarketStock = $this->cardmarketStock($user, $gameId);
 
-
         foreach ($importStock as $card_id => $articles) {
 
             $cardmarketCard = Arr::get($cardmarketStock, $card_id, []);
@@ -170,7 +169,7 @@ class ImportCommand extends Command
                 continue;
             }
 
-            $attributes = Article::localCardIdToAttributes(Arr::get($row, 0));
+            $attributes = Article::skuToAttributes(Arr::get($row, 0));
             $attributes['condition'] = Arr::get($row, 1) ?: 'NM';
             $attributes['amount'] = Arr::get($row, 2);
             $attributes['unit_price'] = str_replace(',', '.', Arr::get($row, 3, 0));

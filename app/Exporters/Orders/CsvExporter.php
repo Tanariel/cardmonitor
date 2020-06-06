@@ -40,7 +40,7 @@ class CsvExporter
     ];
     const ARTICLE_ATTRIBUTES = [
         'card_id',
-        'local_card_id',
+        'sku',
         'cardmarket_article_id',
         'local_name',
         'unit_price',
@@ -92,7 +92,7 @@ class CsvExporter
         $shippingValuesArticle['position_type'] = 'Versandposition';
         $shippingValuesArticle['local_name'] = $order->shippingmethod;
         $shippingValuesArticle['card_id'] = '';
-        $shippingValuesArticle['local_card_id'] = '';
+        $shippingValuesArticle['sku'] = '';
         $shippingValuesArticle['cardmarket_article_id'] = '';
         $shippingValuesArticle['amount'] = 1;
 

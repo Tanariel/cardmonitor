@@ -561,7 +561,7 @@ class ArticleTest extends TestCase
     /**
      * @test
      */
-    public function it_gets_the_attributes_from_the_local_card_id()
+    public function it_gets_the_attributes_from_the_sku()
     {
         $model = factory(Article::class)->create([
             'is_foil' => false,
@@ -569,7 +569,7 @@ class ArticleTest extends TestCase
         ]);
         $model->refresh();
 
-        $attributes = Article::localCardIdToAttributes($model->local_card_id);
+        $attributes = Article::skuToAttributes($model->sku);
 
         $this->assertEquals($model->card_id, $attributes['card_id']);
         $this->assertEquals($model->card->expansion->id, $attributes['expansion_id']);
@@ -583,7 +583,7 @@ class ArticleTest extends TestCase
         ]);
         $model->refresh();
 
-        $attributes = Article::localCardIdToAttributes($model->local_card_id);
+        $attributes = Article::skuToAttributes($model->sku);
 
         $this->assertEquals($model->card_id, $attributes['card_id']);
         $this->assertEquals($model->card->expansion->id, $attributes['expansion_id']);
@@ -597,7 +597,7 @@ class ArticleTest extends TestCase
         ]);
         $model->refresh();
 
-        $attributes = Article::localCardIdToAttributes($model->local_card_id);
+        $attributes = Article::skuToAttributes($model->sku);
 
         $this->assertEquals($model->card_id, $attributes['card_id']);
         $this->assertEquals($model->card->expansion->id, $attributes['expansion_id']);
@@ -611,7 +611,7 @@ class ArticleTest extends TestCase
         ]);
         $model->refresh();
 
-        $attributes = Article::localCardIdToAttributes($model->local_card_id);
+        $attributes = Article::skuToAttributes($model->sku);
 
         $this->assertEquals($model->card_id, $attributes['card_id']);
         $this->assertEquals($model->card->expansion->id, $attributes['expansion_id']);
