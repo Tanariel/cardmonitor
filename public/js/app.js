@@ -58158,8 +58158,7 @@ var render = function() {
                 },
                 [
                   _vm._v(
-                    _vm._s(_vm.$t("order.article.show.actions.next_problem")) +
-                      ")"
+                    _vm._s(_vm.$t("order.article.show.actions.next_problem"))
                   )
                 ]
               ),

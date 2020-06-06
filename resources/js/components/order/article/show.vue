@@ -35,7 +35,7 @@
                     <i class="fas fa-fw mb-3" :class="item.state_icon" :title="item.state_comments"></i> {{ item.state_comments }}
                 </div>
                 <div class="d-flex justify-content-between">
-                    <button class="btn btn-danger text-overflow-ellipsis" title="Nächste Karte (Status Problem)" @click="next(true, 1)">{{ $t('order.article.show.actions.next_problem') }})</button>
+                    <button class="btn btn-danger text-overflow-ellipsis" title="Nächste Karte (Status Problem)" @click="next(true, 1)">{{ $t('order.article.show.actions.next_problem') }}</button>
                     <button class="btn btn-light" @click="next(false)">{{ $t('order.article.show.actions.next') }}</button>
                     <button class="btn btn-primary text-overflow-ellipsis" title="Nächste Karte (Status OK)" @click="next(true, 0)">{{ $t('order.article.show.actions.next_ok') }}</button>
                 </div>
