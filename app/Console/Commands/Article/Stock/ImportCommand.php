@@ -51,6 +51,23 @@ class ImportCommand extends Command
         $user = User::find($this->argument('user'));
         $gameId = $this->argument('game');
 
+        try{
+            $this->import($user, $gameId);
+        }
+        finally {
+            $user->update([
+                'is_syncing_articles' => false,
+            ]);
+        }
+
+        $this->call('article:sync', [
+            'user' => $user->id,
+        ]);
+
+    }
+
+    protected function import(User $user, int $gameId)
+    {
         $importStock = $this->importStock($user->id, $gameId);
         $cardmarketStock = $this->cardmarketStock($user, $gameId);
 
@@ -75,11 +92,6 @@ class ImportCommand extends Command
         foreach ($this->cardmarketArticleIds as $cardmarket_article_id => $cardmarketArticle) {
             $user->cardmarketApi->stock->delete($cardmarketArticle);
         }
-
-        $this->call('article:sync', [
-            'user' => $user->id,
-        ]);
-
     }
 
     protected function addArticle(User $user, array $article) : void
