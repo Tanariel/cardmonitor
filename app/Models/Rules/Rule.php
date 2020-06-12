@@ -129,7 +129,7 @@ class Rule extends Model
         return self::where('user_id', $userId)->max('order_column') + 1;
     }
 
-    public function apply(bool $sync = false)
+    public function apply(bool $sync = false) : int
     {
         // TODO: Update Article with rule price
         $query = Article::join('cards', 'cards.id', '=', 'articles.card_id')
@@ -163,7 +163,7 @@ class Rule extends Model
             $attributes['unit_price'] = DB::raw('ROUND(cards.' . $this->base_price . ' * ' . $this->multiplier . ', 2)');
         }
 
-        $query->update($attributes);
+        return $query->update($attributes);
     }
 
     public static function reset(int $userId)

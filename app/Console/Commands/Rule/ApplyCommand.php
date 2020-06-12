@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands\Rule;
 
+use App\Mail\Rules\AppliedUser;
 use App\Models\Articles\Article;
 use App\Models\Cards\Card;
 use App\Models\Rules\Rule;
@@ -57,13 +58,21 @@ class ApplyCommand extends Command
 
         Rule::reset($this->user->id);
 
+        $results = [];
         foreach ($rules as $rule) {
-            $rule->apply($this->option('sync'));
+            $results[] = [
+                'name' => $rule->name,
+                'affected_rows' => $rule->apply($this->option('sync')),
+            ];
+
         }
 
         $runtime_in_sec = round((microtime(true) - $start), 2);
         if ($this->option('sync')) {
             $this->sync();
+
+            Mail::to($this->user->email)
+                ->queue(new \App\Mail\Rules\AppliedUser($this->user, $runtime_in_sec, $results));
 
             Mail::to(config('app.mail'))
                 ->queue(new \App\Mail\Rules\Applied($this->user, $runtime_in_sec));
