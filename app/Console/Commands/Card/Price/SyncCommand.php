@@ -69,10 +69,6 @@ class SyncCommand extends Command
             Card::updatePricesFromCardmarket($data);
             $row_count++;
         }
-
-        if (App::environment() == 'production') {
-            Storage::disk('local')->delete($this->filename);
-        }
     }
 
     protected function download(int $gameId)
@@ -80,6 +76,8 @@ class SyncCommand extends Command
         if (App::environment() != 'production') {
             return;
         }
+
+        Storage::disk('local')->delete($this->filename);
 
         $CardmarketApi = App::make('CardmarketApi');
 

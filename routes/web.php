@@ -89,6 +89,8 @@ Route::middleware(['auth'])->group(function () {
     Route::put('order/{order}/transactions/{transaction}', 'Orders\TransactionController@update');
     Route::delete('order/{order}/transactions/{transaction}', 'Orders\TransactionController@destroy');
 
+    Route::get('priceguide/{game}', 'PriceguideController@show');
+
     Route::get('rule/apply', 'Rules\ApplyController@index');
     Route::post('rule/apply', 'Rules\ApplyController@store');
     Route::put('rule/sort', 'Rules\SortController@update');
