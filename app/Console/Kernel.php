@@ -29,7 +29,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('card:price:sync')->dailyAt('03:17');
         $schedule->command('games:import', [
             '--quiet' => true
-        ])->weekly();
+        ])->dailyAt('02:15');
     }
 
     /**
