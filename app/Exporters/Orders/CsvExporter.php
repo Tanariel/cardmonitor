@@ -54,6 +54,9 @@ class CsvExporter
         $amountKey = array_search('amount', $header);
         $collection = new Collection();
         foreach ($orders as $key => $order) {
+            if ($order->isPresale()) {
+                continue;
+            }
             $buyer_values = array_values($order->buyer->only(self::BUYER_ATTRIBUTES));
             $order_values = array_values($order->only(self::ORDER_ATTRIBUTES));
             $amount = 1;

@@ -544,6 +544,17 @@ class Order extends Model
         ]);
     }
 
+    public function isPresale() : bool
+    {
+        foreach ($this->articles as $key => $article) {
+            if ($article->card->expansion->isPresale()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public function canHaveImages(Carbon $date = null)
     {
         if (is_null($this->received_at)) {

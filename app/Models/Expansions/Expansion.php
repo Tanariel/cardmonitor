@@ -149,6 +149,15 @@ class Expansion extends Model
         return self::createOrUpdateFromCardmarket($data['expansion']);
     }
 
+    public function isPresale() : bool
+    {
+        if (is_null($this->released_at)) {
+            return true;
+        }
+
+        return ($this->released_at > now()->addDay());
+    }
+
     public function setAbbreviationFromCardImagePathAttribute($value) : void
     {
         $parts = explode('/', $value);

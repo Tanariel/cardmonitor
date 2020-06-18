@@ -174,4 +174,25 @@ class ExpansionTest extends TestCase
         $this->assertEquals($model->id, $expansion->id);
         $this->assertTrue(Cache::has('expansion.' . strtoupper($abbreviation)));
     }
+
+    /**
+     * @test
+     */
+    public function it_knows_if_it_is_presale()
+    {
+        $model = factory(Expansion::class)->create([
+            'released_at' => null,
+        ]);
+        $this->assertTrue($model->isPresale());
+
+        $model->update([
+            'released_at' => now()->addDays(2),
+        ]);
+        $this->assertTrue($model->isPresale());
+
+        $model->update([
+            'released_at' => now()->addDay(),
+        ]);
+        $this->assertFalse($model->isPresale());
+    }
 }

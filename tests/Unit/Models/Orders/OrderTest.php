@@ -3,6 +3,7 @@
 namespace Tests\Unit\Models\Orders;
 
 use App\Models\Articles\Article;
+use App\Models\Expansions\Expansion;
 use App\Models\Images\Image;
 use App\Models\Items\Card;
 use App\Models\Items\Item;
@@ -215,5 +216,43 @@ class OrderTest extends TestCase
 
         $this->assertEquals(1, $model->sales()->where('item_id', $item->id)->first()->quantity);
 
+    }
+
+    /**
+     * @test
+     */
+    public function it_knows_if_it_is_presale()
+    {
+        $expansion = factory(Expansion::class)->create([
+            'released_at' => null,
+        ]);
+
+        $card = factory(\App\Models\Cards\Card::class)->create([
+            'expansion_id' => $expansion->id,
+        ]);
+
+        $model = factory(Order::class)->create([
+
+        ]);
+
+        $article = factory(Article::class)->create([
+            'user_id' => $model->user_id,
+            'card_id' => $card->id,
+        ]);
+
+        $model->articles()->attach($article->id);
+
+        $this->assertCount(1, $model->articles);
+        $this->assertTrue($model->isPresale());
+
+        $expansion->update([
+            'released_at' => now()->addDays(2),
+        ]);
+        $this->assertTrue($model->fresh()->isPresale());
+
+        $expansion->update([
+            'released_at' => now()->addDay(),
+        ]);
+        $this->assertFalse($model->fresh()->isPresale());
     }
 }
