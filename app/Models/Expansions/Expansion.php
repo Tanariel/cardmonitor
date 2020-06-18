@@ -96,7 +96,7 @@ class Expansion extends Model
             'icon' => $cardmarketExpansion['icon'],
             'is_released' => $cardmarketExpansion['isReleased'],
             'name' => $cardmarketExpansion['enName'],
-            'released_at' => ($cardmarketExpansion['isReleased'] == 'true' ? new Carbon($cardmarketExpansion['releaseDate']) : null)
+            'released_at' => (is_null($cardmarketExpansion['releaseDate']) ? null : new Carbon($cardmarketExpansion['releaseDate']))
         ];
 
         $attributes = [
