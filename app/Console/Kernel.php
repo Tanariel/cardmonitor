@@ -28,6 +28,7 @@ class Kernel extends ConsoleKernel
         // $schedule->command('user:balance:import')->daily();
         $schedule->command('card:price:sync')->dailyAt('03:17');
         $schedule->command('games:import', [
+            'game' => 0,
             '--quiet' => true
         ])->dailyAt('02:15');
     }
