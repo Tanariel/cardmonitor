@@ -101,6 +101,15 @@ class User extends Authenticatable
 
     }
 
+    public function reset()
+    {
+        $this->update([
+            'is_applying_rules' => false,
+            'is_syncing_articles' => false,
+            'is_syncing_orders' => false,
+        ]);
+    }
+
     public function withdraw(int $amount_in_cents, string $reason)
     {
         if ($this->id == 1) {
