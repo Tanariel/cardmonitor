@@ -45,7 +45,7 @@ class DropboxController extends Controller
     protected function makeFilesystem()
     {
         Storage::extend('dropbox', function ($app, $config) {
-            $client = new Client('kguFviHswBEAAAAAAAC3rNw3u_0bOmasrtAtx110fDqpBrO13nTqYycgkYHZqpG1');
+            $client = new Client(config('services.dropbox.accesstoken'));
 
             return new Filesystem(new DropboxAdapter($client));
         });

@@ -34,4 +34,8 @@ return [
         'secret' => env('SPARKPOST_SECRET'),
     ],
 
+    'dropbox' => [
+        'accesstoken' => env('DROPBOX_ACCESSTOKEN'),
+    ],
+
 ];
