@@ -32,7 +32,9 @@ class AppServiceProvider extends ServiceProvider
                 $access += $parameters['api']->accessdata;
             }
 
-            return new Api($access);
+            return new Api($access, [
+                'timeout' => 30,
+            ]);
         });
 
         $this->app->singleton('SkryfallApi', function ($app, array $parameters) {
