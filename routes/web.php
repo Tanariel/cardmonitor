@@ -49,6 +49,7 @@ Route::middleware(['auth'])->group(function () {
     Route::put('article/stock/{article}', 'Articles\Stock\StockController@update')->name('article.stock.update');
 
     Route::post('article/stock/import', 'Articles\Stock\ImportController@store')->name('article.stock.store');
+    Route::get('article/stock/import/dropbox', 'Articles\Stock\Import\DropboxController@index')->name('article.stock.import.dropbox.index');
 
     Route::resource('article', 'Articles\ArticleController');
 

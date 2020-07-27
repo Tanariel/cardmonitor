@@ -186,9 +186,9 @@ class ImportCommand extends Command
             $attributes['amount'] = Arr::get($row, 2);
             $attributes['unit_price'] = str_replace(',', '.', Arr::get($row, 3, 0));
             if ($attributes['unit_price'] == 0) {
-                // $card = $this->card($attributes['card_id']);
-                // $attributes['rarity'] = $card->rarity;
-                // $attributes['unit_price'] = Rule::findForArticle($userId, $attributes)->price($card);
+                $card = $this->card($attributes['card_id']);
+                $attributes['rarity'] = $card->rarity;
+                $attributes['unit_price'] = Rule::findForArticle($userId, $attributes)->price($card);
             }
             $importStock[$attributes['card_id']][] = $attributes;
 

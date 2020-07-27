@@ -2810,6 +2810,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -53178,6 +53179,18 @@ var render = function() {
             }
           },
           [_c("i", { staticClass: "fas fa-filter" })]
+        ),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "btn btn-secondary ml-1",
+            attrs: {
+              href: "/article/stock/import/dropbox",
+              disabled: _vm.syncing.status == 1
+            }
+          },
+          [_vm._v("Dropbox")]
         ),
         _vm._v(" "),
         _c(

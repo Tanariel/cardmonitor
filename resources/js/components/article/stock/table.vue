@@ -10,6 +10,7 @@
                 </div>
                 <button class="btn btn-secondary ml-1" @click="sync" :disabled="syncing.status == 1"><i class="fas fa-sync" :class="{'fa-spin': syncing.status == 1}"></i></button>
                 <button class="btn btn-secondary ml-1" @click="filter.show = !filter.show"><i class="fas fa-filter"></i></button>
+                <a href="/article/stock/import/dropbox" class="btn btn-secondary ml-1" :disabled="syncing.status == 1">Dropbox</a>
                 <button type="button" class="btn btn-secondary ml-1" :disabled="syncing.status == 1" data-toggle="modal" data-target="#import-stock">
                     <i class="fas fa-upload"></i>
                 </button>
