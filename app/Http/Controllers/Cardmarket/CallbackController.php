@@ -53,13 +53,11 @@ class CallbackController extends Controller
     {
         $user = auth()->user();
         $data = $user->cardmarketApi->account->logout();
-        if ($data['logout'] == 'successful') {
-            $user->api->reset();
+        $user->api->reset();
 
-            return back()->with('status', [
-                'type' => 'success',
-                'text' => 'Konto erfolgreich getrennt',
-            ]);
-        }
+        return back()->with('status', [
+            'type' => 'success',
+            'text' => 'Konto erfolgreich getrennt',
+        ]);
     }
 }
