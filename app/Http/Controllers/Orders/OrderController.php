@@ -28,6 +28,7 @@ class OrderController extends Controller
                 ->orders()
                 ->search($request->input('searchtext'))
                 ->state($request->input('state'))
+                ->presale($request->input('presale'))
                 ->with([
                     'buyer',
                     'evaluation'

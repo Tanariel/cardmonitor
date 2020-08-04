@@ -4516,7 +4516,8 @@ __webpack_require__.r(__webpack_exports__);
         timeout: null
       },
       filter: {
-        state: 'paid'
+        state: 'paid',
+        presale: 0
       },
       items: []
     };
@@ -6396,6 +6397,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -6429,6 +6443,7 @@ __webpack_require__.r(__webpack_exports__);
       },
       filter: {
         page: 1,
+        presale: null,
         searchtext: '',
         show: true,
         state: null
@@ -59313,60 +59328,119 @@ var render = function() {
     _vm.filter.show
       ? _c("form", { staticClass: "mt-1", attrs: { id: "filter" } }, [
           _c("div", { staticClass: "form-row" }, [
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", { attrs: { for: "filter-state" } }, [
-                _vm._v(_vm._s(_vm.$t("app.state")))
-              ]),
-              _vm._v(" "),
-              _c(
-                "select",
-                {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.filter.state,
-                      expression: "filter.state"
+            _c("div", { staticClass: "col-auto" }, [
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "filter-state" } }, [
+                  _vm._v(_vm._s(_vm.$t("app.state")))
+                ]),
+                _vm._v(" "),
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.filter.state,
+                        expression: "filter.state"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { id: "filter-state" },
+                    on: {
+                      change: [
+                        function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.filter,
+                            "state",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        },
+                        _vm.search
+                      ]
                     }
+                  },
+                  [
+                    _c("option", { domProps: { value: null } }, [
+                      _vm._v(_vm._s(_vm.$t("filter.all")))
+                    ]),
+                    _vm._v(" "),
+                    _vm._l(_vm.states, function(name, id) {
+                      return _c("option", { domProps: { value: id } }, [
+                        _vm._v(_vm._s(name))
+                      ])
+                    })
                   ],
-                  staticClass: "form-control",
-                  attrs: { id: "filter-state" },
-                  on: {
-                    change: [
-                      function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.$set(
-                          _vm.filter,
-                          "state",
-                          $event.target.multiple
-                            ? $$selectedVal
-                            : $$selectedVal[0]
-                        )
-                      },
-                      _vm.search
-                    ]
-                  }
-                },
-                [
-                  _c("option", { domProps: { value: null } }, [
-                    _vm._v(_vm._s(_vm.$t("filter.all")))
-                  ]),
-                  _vm._v(" "),
-                  _vm._l(_vm.states, function(name, id) {
-                    return _c("option", { domProps: { value: id } }, [
-                      _vm._v(_vm._s(name))
-                    ])
-                  })
-                ],
-                2
-              )
+                  2
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-auto" }, [
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "filter-presale" } }, [
+                  _vm._v("Presale")
+                ]),
+                _vm._v(" "),
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.filter.presale,
+                        expression: "filter.presale"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { id: "filter-presale" },
+                    on: {
+                      change: [
+                        function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.filter,
+                            "presale",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        },
+                        _vm.search
+                      ]
+                    }
+                  },
+                  [
+                    _c("option", { domProps: { value: null } }, [
+                      _vm._v(_vm._s(_vm.$t("filter.all")))
+                    ]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "0" } }, [
+                      _vm._v("Ohne Presale")
+                    ]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "1" } }, [_vm._v("Presale")])
+                  ]
+                )
+              ])
             ])
           ])
         ])

@@ -54,9 +54,9 @@ class CsvExporter
         $amountKey = array_search('amount', $header);
         $collection = new Collection();
         foreach ($orders as $key => $order) {
-            if ($order->isPresale()) {
-                continue;
-            }
+            // if ($order->isPresale()) {
+            //     continue;
+            // }
 
             if (count($order->articles) == 0) {
                 continue;

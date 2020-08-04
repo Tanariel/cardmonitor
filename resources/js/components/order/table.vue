@@ -18,12 +18,25 @@
         <form v-if="filter.show" id="filter" class="mt-1">
             <div  class="form-row">
 
-                <div class="form-group">
-                    <label for="filter-state">{{ $t('app.state') }}</label>
-                    <select class="form-control" id="filter-state" v-model="filter.state" @change="search">
-                        <option :value="null">{{ $t('filter.all') }}</option>
-                        <option :value="id" v-for="(name, id) in states">{{ name }}</option>
-                    </select>
+                <div class="col-auto">
+                    <div class="form-group">
+                        <label for="filter-state">{{ $t('app.state') }}</label>
+                        <select class="form-control" id="filter-state" v-model="filter.state" @change="search">
+                            <option :value="null">{{ $t('filter.all') }}</option>
+                            <option :value="id" v-for="(name, id) in states">{{ name }}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-auto">
+                    <div class="form-group">
+                        <label for="filter-presale">Presale</label>
+                        <select class="form-control" id="filter-presale" v-model="filter.presale" @change="search">
+                            <option :value="null">{{ $t('filter.all') }}</option>
+                            <option value="0">Ohne Presale</option>
+                            <option value="1">Presale</option>
+                        </select>
+                    </div>
                 </div>
 
             </div>
@@ -113,6 +126,7 @@
                 },
                 filter: {
                     page: 1,
+                    presale: null,
                     searchtext: '',
                     show: true,
                     state: null,

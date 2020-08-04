@@ -718,6 +718,27 @@ class Order extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function scopePresale(Builder $query, $value) : Builder
+    {
+        if (is_null($value)) {
+            return $query;
+        }
+
+        return $query->whereRaw('(
+            SELECT
+                SUM(IF(expansions.released_at > DATE_ADD(NOW(), INTERVAL 1 DAY), 1, 0)) AS is_presale
+            FROM
+                article_order
+                    LEFT JOIN articles ON (articles.id = article_order.article_id)
+                    LEFT JOIN cards ON (cards.id = articles.card_id)
+                    LEFT JOIN expansions ON (expansions.id = cards.expansion_id)
+            WHERE
+                article_order.order_id = orders.id
+            GROUP BY
+                article_order.order_id
+        ) ' . ($value == 1 ? '>' : '=') . ' 0');
+    }
+
     public function scopeSearch(Builder $query, $value) : Builder
     {
         if (! $value) {

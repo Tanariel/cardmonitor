@@ -61,6 +61,7 @@
                 },
                 filter: {
                     state: 'paid',
+                    presale: 0,
                 },
                 items: [],
             };
