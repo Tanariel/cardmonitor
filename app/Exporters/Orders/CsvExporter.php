@@ -57,6 +57,11 @@ class CsvExporter
             if ($order->isPresale()) {
                 continue;
             }
+
+            if (count($order->articles) == 0) {
+                continue;
+            }
+
             $buyer_values = array_values($order->buyer->only(self::BUYER_ATTRIBUTES));
             $order_values = array_values($order->only(self::ORDER_ATTRIBUTES));
             $amount = 1;

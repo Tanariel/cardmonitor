@@ -547,6 +547,11 @@ class Order extends Model
     public function isPresale() : bool
     {
         foreach ($this->articles as $key => $article) {
+
+            if (is_null($article->card->expansion_id)) {
+                continue;
+            }
+
             if ($article->card->expansion->isPresale()) {
                 return true;
             }
