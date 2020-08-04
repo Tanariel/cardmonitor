@@ -43,12 +43,20 @@
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
                                 <a class="dropdown-item" href="/user/settings">{{ __('app.nav.settings') }}</a>
                                 <a class="dropdown-item" href="/user/reset">Hintergrundtask zurücksetzen</a>
+                                <a class="dropdown-item" href=""
+                                    onclick="event.preventDefault();
+                                                 document.getElementById('cardmarket-account-logout').submit();">
+                                    Cardmarketkonto trennen
+                                </a>
                                 <a class="dropdown-item" href="{{ route('logout') }}"
-                                   onclick="event.preventDefault();
+                                    onclick="event.preventDefault();
                                                  document.getElementById('logout-form').submit();">
                                     {{ __('auth.logout') }}
                                 </a>
-
+                                <form id="cardmarket-account-logout" action="{{ route('cardmarket.callback.destroy') }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                </form>
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                     @csrf
                                 </form>

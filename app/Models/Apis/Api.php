@@ -61,7 +61,7 @@ class Api extends Model
 
     public function getRequestTokenAttribute()
     {
-        return is_null($this->attributes['request_token']) ? null :  Crypt::decryptString($this->attributes['request_token']);
+        return is_null($this->attributes['request_token']) ? null : Crypt::decryptString($this->attributes['request_token']);
     }
 
     public function getAccessTokenAttribute()
@@ -76,16 +76,31 @@ class Api extends Model
 
     public function setRequestTokenAttribute($value)
     {
+        if (is_null($value)) {
+            $this->attributes['request_token'] = null;
+            return;
+        }
+
         $this->attributes['request_token'] = Crypt::encryptString($value);
     }
 
     public function setAccessTokenAttribute($value)
     {
+        if (is_null($value)) {
+            $this->attributes['access_token'] = null;
+            return;
+        }
+
         $this->attributes['access_token'] = Crypt::encryptString($value);
     }
 
     public function setAccessTokenSecretAttribute($value)
     {
+        if (is_null($value)) {
+            $this->attributes['access_token_secret'] = null;
+            return;
+        }
+
         $this->attributes['access_token_secret'] = Crypt::encryptString($value);
     }
 
