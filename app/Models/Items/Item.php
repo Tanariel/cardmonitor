@@ -29,8 +29,14 @@ class Item extends Model
         'unit_cost_formatted',
     ];
 
-    protected $guarded = [
-        'id',
+    protected $fillable = [
+        'user_id',
+        'name',
+        'unit_id',
+        'unit_cost_formatted',
+        'unit_cost',
+        'type',
+        'stock',
     ];
 
     /**

@@ -30,8 +30,17 @@ class Transaction extends Model
         'at',
     ];
 
-    protected $guarded = [
-        'id',
+    protected $fillable = [
+        'at',
+        'at_formatted',
+        'item_id',
+        'order_id',
+        'quantity',
+        'quantity_formatted',
+        'type',
+        'unit_cost',
+        'unit_cost_formatted',
+        'user_id',
     ];
 
     /**

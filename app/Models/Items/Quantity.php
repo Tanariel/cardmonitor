@@ -19,10 +19,6 @@ class Quantity extends Model
         'start_formatted',
     ];
 
-    protected $guarded = [
-        'id',
-    ];
-
     protected $casts = [
         'quantity' => 'decimal:' . self::DECIMALS,
         'start' => 'integer',
@@ -31,6 +27,23 @@ class Quantity extends Model
 
     protected $dates = [
         'effective_from',
+    ];
+
+    protected $fillable = [
+        'effective_from',
+        'effective_from_formatted',
+        'end',
+        'end_formatted',
+        'item_id',
+        'quantity',
+        'quantity_formatted',
+        'start',
+        'start_formatted',
+        'user_id',
+    ];
+
+    protected $guarded = [
+        'id',
     ];
 
     /**

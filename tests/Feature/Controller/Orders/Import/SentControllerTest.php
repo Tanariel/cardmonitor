@@ -53,7 +53,7 @@ class SentControllerTest extends TestCase
         $this->assertEquals('paid', $order->state);
         $this->assertNull($order->tracking_number);
 
-        $this->assertFileNotExists($path);
+        $this->assertFileDoesNotExist($path);
         Storage::disk('local')->put($filename, "order_id;tracking_number\n" . $order->id . ";" . $tracking_number);
         $this->assertFileExists($path);
 
@@ -68,7 +68,7 @@ class SentControllerTest extends TestCase
         $this->assertEquals($tracking_number, $order->fresh()->tracking_number);
 
         Storage::disk('local')->delete($filename);
-        $this->assertFileNotExists($path);
+        $this->assertFileDoesNotExist($path);
 
         Mockery::close();
     }
