@@ -30,6 +30,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('games:import', [
             'game' => 0,
         ])->daily();
+        $schedule->command('mail:test')->dailyAt('08:17');
     }
 
     /**
