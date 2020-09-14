@@ -4499,6 +4499,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     isSyncingOrders: {
@@ -56068,7 +56069,9 @@ var render = function() {
               })
             ]),
             _vm._v(" "),
-            _vm._m(0)
+            _vm._m(0),
+            _vm._v(" "),
+            _vm._m(1)
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "card-body" }, [
@@ -56164,6 +56167,18 @@ var render = function() {
     : _vm._e()
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "ml-3" }, [
+      _c(
+        "a",
+        { staticClass: "text-body", attrs: { href: "/order/export/dropbox" } },
+        [_c("i", { staticClass: "fab fa-dropbox pointer" })]
+      )
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

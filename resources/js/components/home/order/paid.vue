@@ -5,6 +5,7 @@
                 <div class="col">{{ $t('order.home.paid.title') }}</div>
                 <div><i class="fas fa-sync pointer" @click="sync" :class="{'fa-spin': syncing.status == 1}"></i></div>
                 <div class="ml-3" ><i class="fas fa-download pointer" @click="download" :disabled="syncing.status == 1"></i></div>
+                <div class="ml-3" ><a href="/order/export/dropbox" class="text-body"><i class="fab fa-dropbox pointer"></i></a></div>
                 <div class="ml-3" ><i data-toggle="modal" data-target="#import-sent" class="fas fa-upload pointer"></i></div>
             </div>
 

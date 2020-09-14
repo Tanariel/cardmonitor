@@ -8,6 +8,7 @@ use App\Support\Csv\Csv;
 use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 use League\Flysystem\Filesystem;
 use Spatie\Dropbox\Client;
@@ -25,21 +26,17 @@ class DropboxController extends Controller
 
     public function index(Request $request)
     {
-        $userId = $request->user()->id;
-        $orders = Order::where('user_id', $userId)
-            ->with([
-                'articles',
-                'buyer',
-            ])->get();
+        $user = auth()->user();
+        $userId = $user->id;
 
-        $this->basePath = 'export/' . $userId . '/order';
-        $this->makeDirectory($this->basePath);
+        Artisan::queue('order:export:dropbox', [
+            'user' => $userId,
+        ]);
 
-        Storage::disk('dropbox')->makeDirectory('orders');
-        Storage::disk('dropbox')->delete(Storage::disk('dropbox')->allFiles('orders'));
-        Storage::disk('dropbox')->putFileAs('orders', $this->saveArticles($userId, $orders), 'articles.csv');
-        Storage::disk('dropbox')->putFileAs('orders', $this->saveByers($userId, $orders), 'buyers.csv');
-        Storage::disk('dropbox')->putFileAs('orders', $this->saveOrders($userId, $orders), 'orders.csv');
+        return back()->with('status', [
+            'type' => 'success',
+            'text' => 'Bestellungen werden im Hintergrund zu Dropbox exportiert.',
+        ]);
     }
 
     protected function makeFilesystem()
