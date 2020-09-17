@@ -19,7 +19,7 @@ class SyncCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'order:sync {user} {--actor=seller}  {--state=received}';
+    protected $signature = 'order:sync {user} {--actor=seller}  {--state=received} {--order=}';
 
     /**
      * The console command description.
@@ -46,6 +46,14 @@ class SyncCommand extends Command
     public function handle()
     {
         $this->user = User::find($this->argument('user'));
+        $order_id = $this->option('order');
+
+        if (isset($order_id)) {
+            $cardmarketOrder = $this->user->cardmarketApi->order->get($order_id);
+            dump($cardmarketOrder['order']);
+
+            return Order::updateOrCreateFromCardmarket($this->user->id, $cardmarketOrder['order'], Order::FORCE_UPDATE_OR_CREATE);
+        }
 
         try {
             $this->processing();
