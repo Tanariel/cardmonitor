@@ -77,7 +77,7 @@ class Card extends ApiModel
 
     public function getColorsStringAttribute() : string
     {
-        return implode(', ', $this->attributes['colors']);
+        return implode(', ', $this->attributes['colors'] ?? []);
     }
 
     public function getColorIdentityStringAttribute() : string
