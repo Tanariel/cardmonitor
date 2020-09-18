@@ -152,12 +152,12 @@ class Card extends ApiModel
 
     public function getImageUriLargeAttribute() : string
     {
-        return $this->image_uris['large'];
+        return $this->image_uris['large'] ?? '';
     }
 
     public function getImageUriPngAttribute() : string
     {
-        return $this->image_uris['png'];
+        return $this->image_uris['png'] ?? '';
     }
 }
 ?>
