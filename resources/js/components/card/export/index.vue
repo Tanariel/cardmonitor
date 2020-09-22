@@ -26,7 +26,7 @@
                         </center>
                     </div>
                     <div class="row mt-3 p-3" v-show="files.length > 0">
-                        <a :href="file.url" class="col text-center text-body" v-for="(file, index) in files">
+                        <a :href="file.url" class="col text-center text-body" v-for="(file, index) in files" v-if="file != null">
                             <i class="fas fa-file-csv fa-4x"></i>
                             <div>{{ file.basename }}</div>
                         </a>

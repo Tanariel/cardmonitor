@@ -54748,18 +54748,20 @@ var render = function() {
                 staticClass: "row mt-3 p-3"
               },
               _vm._l(_vm.files, function(file, index) {
-                return _c(
-                  "a",
-                  {
-                    staticClass: "col text-center text-body",
-                    attrs: { href: file.url }
-                  },
-                  [
-                    _c("i", { staticClass: "fas fa-file-csv fa-4x" }),
-                    _vm._v(" "),
-                    _c("div", [_vm._v(_vm._s(file.basename))])
-                  ]
-                )
+                return file != null
+                  ? _c(
+                      "a",
+                      {
+                        staticClass: "col text-center text-body",
+                        attrs: { href: file.url }
+                      },
+                      [
+                        _c("i", { staticClass: "fas fa-file-csv fa-4x" }),
+                        _vm._v(" "),
+                        _c("div", [_vm._v(_vm._s(file.basename))])
+                      ]
+                    )
+                  : _vm._e()
               }),
               0
             )
