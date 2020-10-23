@@ -220,6 +220,7 @@ class ArticleController extends Controller
             'card.localizations',
             'language',
             'orders',
+            'storage',
         ]);
     }
 
