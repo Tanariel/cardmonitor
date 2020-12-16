@@ -8,6 +8,7 @@ use App\Models\Expansions\Expansion;
 use App\Models\Orders\Order;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 
 class CardmarketApi
@@ -146,6 +147,10 @@ class CardmarketApi
                     if ($state == 'paid') {
                         $orderIds->push($order->id);
                     }
+                    Artisan::queue('order:sync', [
+                        'user' => $order->user_id,
+                        '--order' => $order->id,
+                    ]);
                 }
                 $start += 100;
                 if ($data_count < 100) {
