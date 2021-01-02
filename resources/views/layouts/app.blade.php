@@ -18,7 +18,10 @@
                 <a href="/storages"><li>{{ __('app.nav.storages') }}</li></a>
             </ul>
             <div class="px-3 text-white text-center"><p>Alle Daten sind von <a href="https://www.cardmarket.eu">Cardmarket</a></p></div>
-            <div class="px-3 text-white text-center"><p><a href="https://github.com/Cardmonitor/cardmonitor" target="_blank">View on Github</a></p></div>
+            <div class="d-flex justify-content-around">
+                <div class="px-3 text-white text-center"><p>by <a href="https://d15r.de" target="_blank">D15r</a></p></div>
+                <div class="px-3 text-white text-center"><p><a href="https://github.com/Cardmonitor/cardmonitor" target="_blank">Github</a></p></div>
+            </div>
             <div class="bg-secondary text-white p-2 d-flex justify-content-around">
                 <a class="text-white" href="/impressum">{{ __('app.impressum.link') }}</a>
             </div>

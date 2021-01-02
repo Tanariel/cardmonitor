@@ -44,8 +44,8 @@
         </main>
 
         <footer class="p-5 bg-dark text-white">
-            <div class="container text-center">
-                <div>Cardmonitor - made with <i class="fas fa-fw fa-heart"></i></div>
+            <div class="container text-center d-flex justify-content-between">
+                <div>Cardmonitor - made with <i class="fas fa-fw fa-heart"></i> by <a class="text-white" href="https://d15r.de" target="_blank">D15r</a></div>
                 <a class="text-white" href="/impressum">{{ __('app.impressum.link') }}</a>
             </div>
         </footer>
