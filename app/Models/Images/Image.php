@@ -4,6 +4,7 @@ namespace App\Models\Images;
 
 use App\Models\Orders\Order;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -49,5 +50,10 @@ class Image extends Model
     public function getUrlAttribute() : string
     {
         return Storage::url('images/' . $this->filename);
+    }
+
+    public function imageable() : MorphTo
+    {
+        return $this->morphTo('imageable');
     }
 }
