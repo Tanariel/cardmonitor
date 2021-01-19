@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Apis;
+namespace App\APIs;
 
 use Illuminate\Database\Eloquent\Concerns\HasAttributes;
 use Illuminate\Database\Eloquent\Concerns\HasRelationships;

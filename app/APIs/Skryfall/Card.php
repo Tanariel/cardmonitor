@@ -3,7 +3,7 @@
 namespace App\APIs\Skryfall;
 
 use App\APIs\Skryfall\CardCollection as Collection;
-use App\Apis\ApiModel;
+use App\APIs\ApiModel;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Facades\App;
 

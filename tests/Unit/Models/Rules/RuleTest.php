@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Models\Rules;
+namespace Tests\Unit\Models\Rules;
 
 use App\Models\Articles\Article;
 use App\Models\Cards\Card;

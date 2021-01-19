@@ -2,7 +2,7 @@
 
 namespace App\APIs\Skryfall;
 
-use App\Apis\ApiModel;
+use App\APIs\ApiModel;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
