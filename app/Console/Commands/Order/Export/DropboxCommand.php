@@ -4,6 +4,7 @@ namespace App\Console\Commands\Order\Export;
 
 use App\Exporters\Orders\CsvExporter;
 use App\Models\Orders\Order;
+use App\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 use League\Flysystem\Filesystem;
@@ -44,6 +45,15 @@ class DropboxCommand extends Command
     public function handle()
     {
         $userId = $this->argument('user');
+        $user = User::with(['dropbox'])->find($this->argument('user'));
+        if (is_null($user->dropbox)) {
+            $access_token = config('services.dropbox.accesstoken');
+        }
+        else {
+            $user->dropbox->refresh();
+            $access_token = $user->dropbox->token;
+        }
+
         $orders = Order::where('user_id', $userId)
             ->state('paid')
             ->with([
@@ -53,16 +63,16 @@ class DropboxCommand extends Command
             ])->get();
 
 
-        $this->basePath = $this->makeFilesystem();
+        $this->basePath = $this->makeFilesystem($access_token);
         $filename = $this->makeDirectory('export/' . $userId . '/order') . '/orders.csv';
         CsvExporter::all($userId, $orders, $filename);
         Storage::disk('dropbox')->putFileAs($this->basePath, Storage::disk('public')->path($filename), 'orders.csv');
     }
 
-    protected function makeFilesystem() : string
+    protected function makeFilesystem(string $access_token) : string
     {
-        Storage::extend('dropbox', function ($app, $config) {
-            $client = new Client(config('services.dropbox.accesstoken'));
+        Storage::extend('dropbox', function ($app, $config) use ($access_token) {
+            $client = new Client($access_token);
 
             return new Filesystem(new DropboxAdapter($client));
         });

@@ -27,6 +27,10 @@ Auth::routes();
 
 Route::middleware(['auth'])->group(function () {
 
+    Route::get('login/{provider}', [\App\Http\Controllers\ProviderController::class, 'redirectToProvider'])->name('login.provider.redirect');
+    Route::get('login/{provider}/callback', [\App\Http\Controllers\ProviderController::class, 'handleProviderCallback'])->name('login.provider.callback');
+    Route::delete('login/{provider}', [\App\Http\Controllers\ProviderController::class, 'destroy'])->name('login.provider.destroy');
+
     Route::get('/card/export', 'Cards\Export\CsvController@index')->name('card.export.csv.index');
     Route::post('/card/export', 'Cards\Export\CsvController@store')->name('card.export.csv.store');
 

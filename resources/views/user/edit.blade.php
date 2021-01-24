@@ -99,6 +99,39 @@
                         </div>
                     </div>
                 </form>
+
+                <div class="card mb-5">
+                    <div class="card-header">Verbindungen</div>
+                    <div class="card-body">
+                        <a href="{{ route('login.provider.redirect', ['provider' => 'dropbox']) }}">Mit Dropbox verknüpfen</a>
+                    </div>
+                    @if ($model->providers->count())
+                        <table class="table table-fixed table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th width="100%">Provider</th>
+                                    <th width="50"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($model->providers as $provider)
+                                    <tr>
+                                        <td>{{ $provider->provider_type }}</td>
+                                        <td>
+                                            <div class="btn-group btn-group-sm" role="group">
+                                                <button type="button" class="btn btn-secondary" title="Provider löschen" onclick="event.preventDefault(); document.getElementById('provider_{{ $provider->id }}_destroy').submit();"><i class="fas fa-trash"></i></button>
+                                            </div>
+                                            <form action="{{ route('login.provider.destroy', ['provider' => $provider->id]) }}" method="POST" id="provider_{{ $provider->id }}_destroy">
+                                                @csrf
+                                                @method('DELETE')
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    @endif
+                </div>
             </div>
 
         </div>

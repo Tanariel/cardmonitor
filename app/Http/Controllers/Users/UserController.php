@@ -64,6 +64,9 @@ class UserController extends Controller
     public function edit()
     {
         $model = auth()->user();
+        $model->load([
+            'providers',
+        ]);
 
         return view($this->baseViewPath . '.edit')
             ->with('model', $model)

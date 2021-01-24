@@ -36,6 +36,9 @@ return [
 
     'dropbox' => [
         'accesstoken' => env('DROPBOX_ACCESSTOKEN'),
+        'client_id' => env('DROPBOX_CLIENT_ID'),
+        'client_secret' => env('DROPBOX_CLIENT_SECRET'),
+        'redirect' => '/login/dropbox/callback',
     ],
 
 ];

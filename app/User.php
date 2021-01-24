@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Auth\Provider;
 use App\Models\Apis\Api;
 use App\Models\Articles\Article;
 use App\Models\Items\Item;
@@ -176,6 +177,16 @@ class User extends Authenticatable
     public function orders() : HasMany
     {
         return $this->hasMany(Order::class);
+    }
+
+    public function providers() : HasMany
+    {
+        return $this->hasMany(Provider::class, 'user_id');
+    }
+
+    public function dropbox() : HasOne
+    {
+        return $this->hasOne(Provider::class, 'user_id')->where('provider_type', 'dropbox')->take(1);
     }
 
     public function rules() : HasMany

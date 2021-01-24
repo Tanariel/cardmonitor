@@ -53206,7 +53206,7 @@ var render = function() {
               disabled: _vm.syncing.status == 1
             }
           },
-          [_vm._v("Dropbox")]
+          [_c("i", { staticClass: "fab fa-dropbox pointer" })]
         ),
         _vm._v(" "),
         _c(

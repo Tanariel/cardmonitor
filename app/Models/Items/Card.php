@@ -4,9 +4,9 @@ namespace App\Models\Items;
 
 use App\Models\Items\Item;
 use App\User;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Parental\HasParent;
 
 class Card extends Item

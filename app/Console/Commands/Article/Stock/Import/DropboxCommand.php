@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands\Article\Stock\Import;
 
+use App\User;
 use Illuminate\Console\Command;
 use Illuminate\Http\File;
 use Illuminate\Support\Facades\Storage;
@@ -53,7 +54,17 @@ class DropboxCommand extends Command
 
     protected function moveFiles() : array
     {
-        $this->makeFilesystem();
+        $userId = $this->argument('user');
+        $user = User::with(['dropbox'])->find($this->argument('user'));
+        if (is_null($user->dropbox)) {
+            $access_token = config('services.dropbox.accesstoken');
+        }
+        else {
+            $user->dropbox->refresh();
+            $access_token = $user->dropbox->token;
+        }
+
+        $this->makeFilesystem($access_token);
         $gameIds = [];
         $paths = Storage::disk('dropbox')->allFiles('articles');
         foreach ($paths as $path) {
@@ -66,10 +77,10 @@ class DropboxCommand extends Command
         return $gameIds;
     }
 
-    protected function makeFilesystem()
+    protected function makeFilesystem(string $access_token)
     {
-        Storage::extend('dropbox', function ($app, $config) {
-            $client = new Client(config('services.dropbox.accesstoken'));
+        Storage::extend('dropbox', function ($app, $config) use ($access_token) {
+            $client = new Client($access_token);
 
             return new Filesystem(new DropboxAdapter($client));
         });
