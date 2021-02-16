@@ -57,7 +57,7 @@ class CreateCommand extends Command
 
     protected function setRarities()
     {
-        $this->rarities = collect(DB::select('SELECT rarity FROM cards GROUP BY rarity'))->pluck('rarity');
+        $this->rarities = collect(DB::select('SELECT rarity FROM cards WHERE rarity IS NOT NULL GROUP BY rarity'))->pluck('rarity');
     }
 
     protected function getCardNames(int $userId) : array
