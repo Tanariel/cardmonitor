@@ -32,6 +32,7 @@
                 <div class="card">
                     <form action="contact" method="POST">
                         @csrf
+                        <x-honey/>
 
                         <div class="card-header">Kontakt</div>
                         <div class="card-body">

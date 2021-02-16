@@ -17,7 +17,7 @@ Route::get('/', 'LandingController@index');
 
 Route::view('/impressum', 'impressum');
 
-Route::post('/contact', 'ContactController@store');
+Route::post('/contact', 'ContactController@store')->middleware(['honey']);
 
 Route::get('order/{order}/images', 'Images\ImageableController@index')->name('order.images.index');
 
