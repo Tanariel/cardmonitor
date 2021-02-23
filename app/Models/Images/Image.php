@@ -33,7 +33,7 @@ class Image extends Model
             'name' => pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME),
             'extension' => $file->extension(),
             'original_name' => $file->getClientOriginalName(),
-            'size' => $file->getClientSize(),
+            'size' => $file->getSize(),
             'filename' => Str::uuid() . '.' . $file->extension(),
         ]);
 
