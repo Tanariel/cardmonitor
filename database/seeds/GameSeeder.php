@@ -18,10 +18,11 @@ class GameSeeder extends Seeder
 
         $cardmarketGames = $this->cardmarketApi->games->get();
         foreach ($cardmarketGames['game'] as $key => $cardmarketGame) {
+            $links = $cardmarketGame['links'][0] ?? [];
             $game = Game::updateOrCreate(['id' => $cardmarketGame['idGame']], [
                 'name' => $cardmarketGame['name'],
                 'abbreviation' => $cardmarketGame['abbreviation'],
-                'is_importable' => Arr::has(Expansion::GAMES, $cardmarketGame['idGame']),
+                'is_importable' => Arr::has($links, Expansion::GAMES),
             ]);
         }
     }

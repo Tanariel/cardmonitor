@@ -80,7 +80,7 @@ return [
     |
     */
 
-    'locale' => 'de',
+    'locale' => env('DEFAULT_LOCALE', 'Laravel'),
 
     'available_locales' => [
         'de',

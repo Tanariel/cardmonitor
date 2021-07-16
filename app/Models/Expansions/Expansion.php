@@ -22,6 +22,8 @@ class Expansion extends Model
 
     public $incrementing = false;
 
+    public const GAMES = "expansions";
+
     /**
      * The booting method of the model.
      *
