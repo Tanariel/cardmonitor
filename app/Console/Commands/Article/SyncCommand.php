@@ -44,6 +44,11 @@ class SyncCommand extends Command
     {
         $this->user = User::find($this->argument('user'));
 
+        if (!$this->user instanceof User) {
+            $this->error("Could not find the provided user : {$this->argument('user')}, stopping");
+            die();
+        }
+
         try {
             $this->processing();
             foreach (Game::keyValue() as $gameId => $name) {

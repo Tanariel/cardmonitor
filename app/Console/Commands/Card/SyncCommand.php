@@ -44,7 +44,13 @@ class SyncCommand extends Command
 
         $filename = $this->download();
         $row_count = 0;
-        $file = fopen(storage_path('app/' . $filename), "r");
+        try {
+            $file = fopen(storage_path('app/' . $filename), "r");
+        } catch (\Exception $e) {
+            $this->error("I couldn't find and open the file : {$filename} in the storage, perhaps you should create it ? ");
+            die();
+        }
+
         while (($data = fgetcsv($file, 2000, ";")) !== FALSE) {
             if ($row_count == 0) {
                 $row_count++;
@@ -60,11 +66,17 @@ class SyncCommand extends Command
         $filename = 'productsfile.csv';
         $zippedFilename = $filename . '.gz';
 
-        if (App::environment() == 'local') {
+        if (App::environment() == 'local' && is_file(storage_path('app/' . $filename))) {
             return $filename;
         }
 
-        $data = $this->cardmarketApi->product->csv();
+        try {
+            $data = $this->cardmarketApi->product->csv();
+        } catch (\Exception $e) {
+            $this->error("Could not get answer from cardmarket api, here is the error i got : {$e->getMessage()}");
+            die();
+        }
+
         $created = Storage::disk('local')->put($zippedFilename, base64_decode($data['productsfile']));
 
         shell_exec('gunzip ' . storage_path('app/' . $filename));

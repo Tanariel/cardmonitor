@@ -60,7 +60,13 @@ class SyncCommand extends Command
         $this->download($gameId);
 
         $row_count = 0;
-        $articlesFile = fopen(storage_path('app/' . $this->filename), "r");
+        try {
+            $articlesFile = fopen(storage_path('app/' . $this->filename), "r");
+        } catch (\Exception $e) {
+            $this->error("I couldn't find and open the file : {$this->filename} in the storage, perhaps you should create it ? ");
+            die();
+        }
+
         while (($data = fgetcsv($articlesFile, 2000, ",")) !== FALSE) {
             if ($row_count == 0) {
                 $row_count++;
@@ -73,7 +79,7 @@ class SyncCommand extends Command
 
     protected function download(int $gameId)
     {
-        if (App::environment() != 'production') {
+        if (App::environment() == 'local' && is_file(storage_path('app/' . $this->filename))) {
             return;
         }
 
@@ -83,7 +89,13 @@ class SyncCommand extends Command
 
         $zippedFilename = $this->filename . '.gz';
 
-        $data = $CardmarketApi->priceguide->csv($gameId);
+        try {
+            $data = $CardmarketApi->priceguide->csv($gameId);
+        } catch (\Exception $e) {
+            $this->error("Could not get answer from cardmarket api, here is the error i got : {$e->getMessage()}");
+            die();
+        }
+
         $created = Storage::disk('local')->put($zippedFilename, base64_decode($data['priceguidefile']));
 
         if ($created === false) {
