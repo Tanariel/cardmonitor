@@ -5,9 +5,9 @@ namespace App\Console\Commands\Games;
 use App\Models\Cards\Card;
 use App\Models\Expansions\Expansion;
 use App\Models\Games\Game;
+use Cardmonitor\Cardmarket\Api;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class ImportCommand extends Command
 {
@@ -38,6 +38,9 @@ class ImportCommand extends Command
      * @var array
      */
     protected $importableGameIds = [];
+
+    /** @var Api */
+    protected $cardmarketApi;
 
     /**
      * Create a new command instance.
@@ -72,7 +75,7 @@ class ImportCommand extends Command
         }
     }
 
-    protected function import(int $gameId) : void
+    protected function import(int $gameId): void
     {
         $this->info('Importing ' . $this->importableGames[$gameId]->name);
 
@@ -90,13 +93,12 @@ class ImportCommand extends Command
 
             try {
                 $singles = $this->cardmarketApi->expansion->singles($expansion->id);
-            }
-            catch (\Exception $e) {
+            } catch (\Exception $e) {
                 // $this->error('Expansion ' . $cardmarketExpansion['idExpansion'] . ' not available');
                 continue;
             }
 
-            foreach ($singles['single'] as $key => $single) {
+            foreach ($singles['single'] as $subKey => $single) {
                 Card::createOrUpdateFromCardmarket($single, $expansion->id);
             }
 
@@ -121,7 +123,7 @@ class ImportCommand extends Command
         ]);
     }
 
-    protected function isImportable(int $gameId) : bool
+    protected function isImportable(int $gameId): bool
     {
         return in_array($gameId, $this->importableGameIds);
     }
